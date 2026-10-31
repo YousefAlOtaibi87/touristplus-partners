@@ -6,12 +6,12 @@ const $app = document.getElementById('app');
 // ---------------------------------------------------------------- i18n
 const STR = {
   ar: {
-    partners: 'بوابة الشركاء', signIn: 'تسجيل الدخول', signInSub: 'ادخل بالإيميل وكلمة المرور اللي استلمتها من Touristplus.',
+    partners: 'بوابة الشركاء', signIn: 'تسجيل الدخول', signInSub: 'ادخل بالإيميل وكلمة المرور اللي استلمتها من TheTouristPlus.',
     email: 'الإيميل', password: 'كلمة المرور', forgot: 'نسيت كلمة المرور؟', sendReset: 'أرسل رابط إعادة التعيين',
     resetSent: 'إذا الإيميل مسجّل، بيوصلك رابط لتعيين كلمة مرور جديدة.', backToLogin: 'رجوع لتسجيل الدخول',
     newPassword: 'كلمة مرور جديدة', savePassword: 'حفظ كلمة المرور', passwordSaved: 'تم حفظ كلمة المرور.',
     badLogin: 'الإيميل أو كلمة المرور غير صحيحة.', errGeneric: 'صار خطأ، حاول مرة ثانية.',
-    notPartner: 'هذا الحساب مو حساب شريك. تواصل مع Touristplus لتفعيل حسابك.', notConfigured: 'البوابة غير مربوطة بالخادم للحين.',
+    notPartner: 'هذا الحساب مو حساب شريك. تواصل مع TheTouristPlus لتفعيل حسابك.', notConfigured: 'البوابة غير مربوطة بالخادم للحين.',
     navRequests: 'طلبات السفر', navOffers: 'عروضي', navBookings: 'الحجوزات', signOut: 'تسجيل الخروج',
     requestsTitle: 'طلبات السفر المفتوحة', requestsSub: 'اختر طلب وقدّم عرضك للمسافر.',
     search: 'ابحث بالوجهة…', allTypes: 'كل الأنواع', sortClosing: 'الأقرب إغلاقاً', sortNewest: 'الأحدث',
@@ -33,12 +33,12 @@ const STR = {
     kwd: 'د.ك', open: 'مفتوح', rfq_booked: 'محجوز', rfq_cancelled: 'ملغي', rfq_closed: 'مغلق',
   },
   en: {
-    partners: 'Partner portal', signIn: 'Sign in', signInSub: 'Use the email and password you received from Touristplus.',
+    partners: 'Partner portal', signIn: 'Sign in', signInSub: 'Use the email and password you received from TheTouristPlus.',
     email: 'Email', password: 'Password', forgot: 'Forgot password?', sendReset: 'Send reset link',
     resetSent: 'If the email is registered, you will receive a link to set a new password.', backToLogin: 'Back to sign in',
     newPassword: 'New password', savePassword: 'Save password', passwordSaved: 'Password saved.',
     badLogin: 'Incorrect email or password.', errGeneric: 'Something went wrong. Please try again.',
-    notPartner: 'This is not a partner account. Contact Touristplus to activate your account.', notConfigured: 'The portal is not connected to the server yet.',
+    notPartner: 'This is not a partner account. Contact TheTouristPlus to activate your account.', notConfigured: 'The portal is not connected to the server yet.',
     navRequests: 'Trip requests', navOffers: 'My offers', navBookings: 'Bookings', signOut: 'Sign out',
     requestsTitle: 'Open trip requests', requestsSub: 'Pick a request and send your offer to the traveler.',
     search: 'Search destination…', allTypes: 'All types', sortClosing: 'Closing soon', sortNewest: 'Newest',
@@ -107,7 +107,7 @@ function toast(msg) {
   setTimeout(() => el.remove(), 3200);
 }
 const langToggle = () => `<button class="btn ghost small" data-act="lang" type="button" lang="${state.lang === 'ar' ? 'en' : 'ar'}">${state.lang === 'ar' ? 'English' : 'العربية'}</button>`;
-const brand = () => `<div class="brand"><span class="logo">${icon.plane}</span><span><span dir="ltr">Touristplus</span><small>${t('partners')}</small></span></div>`;
+const brand = () => `<div class="brand"><span class="logo"><span class="tp" dir="ltr">T+</span></span><span><span dir="ltr" class="w"><b>TheTourist</b><i>Plus</i></span><small>${t('partners')}</small></span></div>`;
 
 // ---------------------------------------------------------------- boot
 applyLang();
