@@ -132,7 +132,7 @@ async function loadProfile() {
   const { data: p } = await sb.from('profiles').select('id, role, full_name, agency_id').eq('id', state.session.user.id).maybeSingle();
   state.profile = p;
   if (p?.agency_id) {
-    const { data: a } = await sb.from('agencies').select('*').eq('id', p.agency_id).maybeSingle();
+    const { data: a } = await sb.from('agencies').select('id, name, name_ar, license_no, phone, email, rating, reviews, verified, active').eq('id', p.agency_id).maybeSingle();
     state.agency = a;
   }
   startRealtime();
