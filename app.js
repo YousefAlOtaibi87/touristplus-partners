@@ -26,7 +26,8 @@ const STR = {
     requestClosed: 'هذا الطلب ما يستقبل عروض جديدة.', chat: 'المحادثة مع المسافر', chatHint: 'المحادثة تتفعّل بعد ما ترسل عرضك.', typeMessage: 'اكتب رسالة…', send: 'إرسال', noMessages: 'ما فيه رسائل للحين.',
     myOffersTitle: 'عروضي', noOffers: 'ما أرسلت أي عرض للحين.', destination: 'الوجهة', dates: 'التواريخ', status: 'الحالة', sentAt: 'أُرسل',
     st_pending: 'بانتظار المسافر', st_accepted: 'تم الحجز', st_declined: 'لم يُختر', st_withdrawn: 'مسحوب',
-    bookingsTitle: 'الحجوزات المؤكدة', noBookings: 'ما فيه حجوزات للحين.', bookedNotice: 'المسافر اختار عرضك! تواصل معه لإتمام الدفع وإرسال المستندات.',
+    bookingsTitle: 'الحجوزات المؤكدة', noBookings: 'ما فيه حجوزات للحين.', bookedNotice: 'المسافر اختار عرضك! بيدفع من التطبيق، وأول ما يتم الدفع يطلع لك هني. تواصل معه لإرسال المستندات.',
+    payStatus: 'الدفع', commission: 'العمولة', net: 'صافي لك', pay_paid: 'مدفوع', pay_pending: 'بانتظار الدفع', pay_failed: 'لم يتم', pay_refunded: 'مسترجع', pay_none: 'لم يدفع بعد',
     contact: 'بيانات التواصل', name: 'الاسم', phone: 'الجوال', newRequest: 'وصل طلب سفر جديد', newMessage: 'رسالة جديدة من مسافر', offerAccepted: 'مسافر حجز عرضك!',
     type_leisure: 'سياحة', type_umrah: 'عمرة', type_honeymoon: 'شهر عسل', type_business: 'عمل', type_group: 'مجموعة',
     svc_flights: 'طيران', svc_hotel: 'فندق', svc_transfers: 'توصيل', svc_tours: 'جولات', svc_visa: 'تأشيرة', svc_insurance: 'تأمين',
@@ -53,7 +54,8 @@ const STR = {
     requestClosed: 'This request is no longer accepting offers.', chat: 'Chat with traveler', chatHint: 'Chat opens after you send an offer.', typeMessage: 'Write a message…', send: 'Send', noMessages: 'No messages yet.',
     myOffersTitle: 'My offers', noOffers: 'You have not sent any offers yet.', destination: 'Destination', dates: 'Dates', status: 'Status', sentAt: 'Sent',
     st_pending: 'Awaiting traveler', st_accepted: 'Booked', st_declined: 'Not selected', st_withdrawn: 'Withdrawn',
-    bookingsTitle: 'Confirmed bookings', noBookings: 'No bookings yet.', bookedNotice: 'The traveler chose your offer! Contact them to complete payment and send documents.',
+    bookingsTitle: 'Confirmed bookings', noBookings: 'No bookings yet.', bookedNotice: 'The traveler chose your offer! They pay in the app and the payment shows here once complete. Contact them to send documents.',
+    payStatus: 'Payment', commission: 'Commission', net: 'Your net', pay_paid: 'Paid', pay_pending: 'Awaiting payment', pay_failed: 'Failed', pay_refunded: 'Refunded', pay_none: 'Not paid yet',
     contact: 'Contact details', name: 'Name', phone: 'Mobile', newRequest: 'New trip request received', newMessage: 'New message from a traveler', offerAccepted: 'A traveler booked your offer!',
     type_leisure: 'Leisure', type_umrah: 'Umrah', type_honeymoon: 'Honeymoon', type_business: 'Business', type_group: 'Group',
     svc_flights: 'Flights', svc_hotel: 'Hotel', svc_transfers: 'Transfers', svc_tours: 'Tours', svc_visa: 'Visa', svc_insurance: 'Insurance',
@@ -473,17 +475,30 @@ async function viewOffers(onlyBooked = false) {
   const key = onlyBooked ? 'bookings' : 'offers';
   if (error) return shell(key, `<p class="notice bad">${esc(t('errGeneric'))}</p>`);
   const tone = (s) => (s === 'accepted' ? 'good' : s === 'pending' ? 'accent' : '');
+  const pays = {};
+  if (onlyBooked) {
+    const { data: p } = await sb.rpc('partner_payments');
+    (p || []).forEach((r) => { if (!pays[r.offer_id] || r.status === 'paid') pays[r.offer_id] = r; });
+  }
+  const payCells = (o) => {
+    if (!onlyBooked) return '';
+    const p = pays[o.id];
+    const st = p ? p.status : 'none';
+    return `<td><span class="badge ${st === 'paid' ? 'good' : st === 'none' ? '' : 'accent'}">${esc(t('pay_' + st))}</span></td>
+      <td>${p && p.status === 'paid' ? esc(money(p.commission)) : '—'}</td>
+      <td>${p && p.status === 'paid' ? esc(money(p.partner_share)) : '—'}</td>`;
+  };
   const rows = (data || []).map((o) => `<tr class="link" tabindex="0" data-href="#/request/${o.rfq_id}">
       <td><a href="#/request/${o.rfq_id}">${esc(place(o.rfq?.destination || '—'))}</a></td>
       <td dir="ltr" style="text-align:start">${esc(o.rfq?.depart || '')} → ${esc(o.rfq?.ret || '')}</td>
       <td>${esc(o.rfq?.traveler_name || '—')}</td>
       <td>${esc(money(o.price))}</td>
-      <td><span class="badge ${tone(o.status)}">${esc(t('st_' + o.status))}</span></td>
+      <td><span class="badge ${tone(o.status)}">${esc(t('st_' + o.status))}</span></td>${payCells(o)}
       <td class="muted">${esc(fmtDate(o.created_at))}</td></tr>`).join('');
   shell(key, `
     <div class="top"><h1>${esc(onlyBooked ? t('bookingsTitle') : t('myOffersTitle'))}</h1></div>
     ${rows ? `<div class="tbl-wrap"><table>
-      <thead><tr><th scope="col">${esc(t('destination'))}</th><th scope="col">${esc(t('dates'))}</th><th scope="col">${esc(t('traveler'))}</th><th scope="col">${esc(t('price'))}</th><th scope="col">${esc(t('status'))}</th><th scope="col">${esc(t('sentAt'))}</th></tr></thead>
+      <thead><tr><th scope="col">${esc(t('destination'))}</th><th scope="col">${esc(t('dates'))}</th><th scope="col">${esc(t('traveler'))}</th><th scope="col">${esc(t('price'))}</th><th scope="col">${esc(t('status'))}</th>${onlyBooked ? `<th scope="col">${esc(t('payStatus'))}</th><th scope="col">${esc(t('commission'))}</th><th scope="col">${esc(t('net'))}</th>` : ''}<th scope="col">${esc(t('sentAt'))}</th></tr></thead>
       <tbody>${rows}</tbody></table></div>` : `<div class="card empty">${esc(onlyBooked ? t('noBookings') : t('noOffers'))}</div>`}`);
   document.querySelectorAll('tr.link').forEach((tr) => {
     tr.onclick = (e) => { if (e.target.tagName !== 'A') location.hash = tr.dataset.href; };
