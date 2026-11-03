@@ -4,7 +4,7 @@ export function installOnboarding(ctx) {
 
   Object.assign(STR.ar, {
     registerCta: 'مكتب سفريات؟ سجّل مكتبك', emailExists: 'هذا الإيميل مسجّل عندنا من قبل. سجّل دخول بنفس الإيميل وكلمة المرور، وبيطلع لك نموذج بيانات المكتب. إذا نسيت كلمة المرور استخدم «نسيت كلمة المرور؟».', resend: 'إعادة إرسال الكود', resent: 'تم إرسال كود جديد. شيّك على البريد غير المرغوب (Junk) بعد.', register: 'تسجيل مكتب جديد', registerSub: 'أنشئ حساب، بعدها تعبي بيانات مكتبك وترفق المستندات.',
-    createAccount: 'إنشاء الحساب', otpSent: 'أرسلنا كود من 6 أرقام لإيميلك. اكتبه هني:', otp: 'كود التحقق', verify: 'تأكيد', badOtp: 'الكود غير صحيح أو منتهي.',
+    createAccount: 'إنشاء الحساب', otpSent: 'أرسلنا كود التحقق لإيميلك. اكتبه هني:', otp: 'كود التحقق', verify: 'تأكيد', badOtp: 'الكود غير صحيح أو منتهي.',
     pwMin: 'كلمة المرور 8 أحرف على الأقل.', haveAccount: 'عندي حساب، تسجيل الدخول',
     appTitle: 'بيانات المكتب', appSub: 'عبّي كل البيانات وارفق المستند الخاص بكل قسم. بعد الإرسال نراجع الطلب ونفعّل حسابك.',
     secCompany: 'بيانات الشركة والرخصة', secOwner: 'صاحب الرخصة والمفوّض بالتوقيع', secContact: 'بيانات التواصل', secBank: 'الحساب البنكي (لتحويل مبالغ الحجوزات)',
@@ -21,7 +21,7 @@ export function installOnboarding(ctx) {
   });
   Object.assign(STR.en, {
     registerCta: 'Travel agency? Register your agency', emailExists: 'This email is already registered. Sign in with the same email and password and the agency form will open. If you forgot the password, use “Forgot password?”.', resend: 'Resend code', resent: 'A new code was sent. Check your Junk folder too.', register: 'Register a new agency', registerSub: 'Create an account, then fill in your agency details and attach the documents.',
-    createAccount: 'Create account', otpSent: 'We sent a 6-digit code to your email. Enter it here:', otp: 'Verification code', verify: 'Verify', badOtp: 'Invalid or expired code.',
+    createAccount: 'Create account', otpSent: 'We sent a verification code to your email. Enter it here:', otp: 'Verification code', verify: 'Verify', badOtp: 'Invalid or expired code.',
     pwMin: 'Password must be at least 8 characters.', haveAccount: 'I have an account, sign in',
     appTitle: 'Agency details', appSub: 'Fill in all details and attach the document for each section. After you submit, we review and activate your account.',
     secCompany: 'Company & license', secOwner: 'License owner & authorized signatory', secContact: 'Contact details', secBank: 'Bank account (for booking payouts)',
@@ -50,7 +50,7 @@ export function installOnboarding(ctx) {
       <p class="muted" style="margin:0">${esc(step === 'otp' ? t('otpSent') : t('registerSub'))}</p>${msg}
       <form id="su" class="row" style="flex-direction:column;align-items:stretch;gap:14px" novalidate>
         ${step === 'otp'
-          ? `<label class="f">${esc(t('otp'))}<input name="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required dir="ltr"></label>`
+          ? `<label class="f">${esc(t('otp'))}<input name="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="8" required dir="ltr"></label>`
           : `<label class="f">${esc(t('email'))}<input name="email" type="email" autocomplete="username" required dir="ltr" value="${esc(email)}"></label>
              <label class="f">${esc(t('password'))}<input name="password" type="password" minlength="8" autocomplete="new-password" required dir="ltr"></label>`}
         <button class="btn" type="submit">${esc(step === 'otp' ? t('verify') : t('createAccount'))}</button>
