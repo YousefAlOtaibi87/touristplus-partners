@@ -112,3 +112,7 @@ tr.link:hover td{background:#F8FAFC}
 input.invalid,select.invalid,textarea.invalid{border-color:var(--bad);background:var(--badSoft);outline:2px solid var(--bad);outline-offset:0}
 [data-docbox].invalid{border:2px solid var(--bad);background:var(--badSoft);border-radius:12px;padding:10px}
 [data-docbox].invalid > span{color:var(--bad)!important}
+.terms-body{line-height:1.8;font-size:14px}
+.terms-body h1{font-size:20px;margin:0 0 10px}.terms-body h2{font-size:16px;color:var(--deep);margin:18px 0 6px}
+.terms-body table{width:100%;border-collapse:collapse;margin:8px 0}.terms-body td,.terms-body th{border:1px solid var(--line);padding:6px 8px;text-align:start;vertical-align:top}
+.terms-body th{background:var(--sand)}.terms-body ol,.terms-body ul{padding-inline-start:22px}

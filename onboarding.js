@@ -1,6 +1,7 @@
 // Partner self-registration (sign up → application with documents) and admin review.
 export function installOnboarding(ctx) {
   const { sb, state, t, esc, fmtDate, shell, toast, STR, $app, brand, langToggle, route } = ctx;
+  const T = ctx.terms;
 
   Object.assign(STR.ar, {
     registerCta: 'مكتب سفريات؟ سجّل مكتبك', emailExists: 'هذا الإيميل مسجّل عندنا من قبل. سجّل دخول بنفس الإيميل وكلمة المرور، وبيطلع لك نموذج بيانات المكتب. إذا نسيت كلمة المرور استخدم «نسيت كلمة المرور؟».', resend: 'إعادة إرسال الكود', resent: 'تم إرسال كود جديد. شيّك على البريد غير المرغوب (Junk) بعد.', register: 'تسجيل مكتب جديد', registerSub: 'أنشئ حساب، بعدها تعبي بيانات مكتبك وترفق المستندات.',
@@ -98,6 +99,7 @@ export function installOnboarding(ctx) {
     if (!a) { $app.innerHTML = `<main class="auth"><div class="auth-card"><p class="notice bad">${esc(t('errGeneric'))}</p></div></main>`; return; }
     const locked = a.status === 'submitted';
     const docs = a.docs || {};
+    const termsHtml = T ? await T.termsSection(a, locked) : '';
     const docRow = (key, label) => `<div class="f" data-docbox="${key}" style="gap:6px"><span style="font-size:14px;font-weight:600;color:#3C4E50">${esc(t(label))}</span>
       ${docs[key] ? `<div class="row" style="gap:8px"><span class="badge good">✓ ${esc(t('uploaded'))}</span><button class="btn ghost small" type="button" data-view="${esc(docs[key])}">${esc(t('view'))}</button></div>` : ''}
       ${locked ? '' : `<input type="file" data-doc="${key}" accept="image/*,application/pdf">`}</div>`;
@@ -125,6 +127,7 @@ export function installOnboarding(ctx) {
         ${sec('secBank', two(f('bankName', 'bank_name', a.bank_name, 'required'), f('holder', 'account_holder', a.account_holder, 'required'))
           + f('iban', 'iban', a.iban, 'dir="ltr" placeholder="KW00XXXX0000000000000000000000" maxlength="34" required') + docRow('iban_cert', 'docIban')
           + `<p class="muted" style="margin:0;font-size:13px">${esc(t('bankNote'))}</p>`)}
+        ${termsHtml}
         <div id="missing" class="notice bad" role="alert" hidden></div>
         ${locked ? '' : `<div class="row"><button class="btn ghost" type="button" id="draft">${esc(t('saveDraft'))}</button><button class="btn accent grow" type="submit">${esc(t('submitApp'))}</button></div>`}
       </form>
@@ -152,6 +155,11 @@ export function installOnboarding(ctx) {
       }
       if (!nd.other.length) delete nd.other;
       row.docs = nd;
+      const tb = form.querySelector('[data-terms]');
+      if (tb) {
+        row.terms_signer = String(fd.get('terms_signer') || '').trim() || null;
+        row.terms_version = fd.get('terms_ok') ? Number(tb.dataset.terms) : null;
+      }
       return row;
     };
     const save = async (status, btn) => {
@@ -160,7 +168,7 @@ export function installOnboarding(ctx) {
         const row = await collect();
         const { error } = await sb.from('partner_applications').update({ ...row, status }).eq('id', a.id);
         if (error) {
-          const code = ['incomplete', 'license_expired', 'bad_iban', 'bad_paci'].find((c) => (error.message || '').includes(c));
+          const code = ['incomplete', 'license_expired', 'bad_iban', 'bad_paci', 'terms_required'].find((c) => (error.message || '').includes(c));
           if (code) {
             // keep the uploaded files / typed values as a draft, then explain what is missing
             await sb.from('partner_applications').update({ ...row, status: 'draft' }).eq('id', a.id);
@@ -191,6 +199,13 @@ export function installOnboarding(ctx) {
         const picked = box?.querySelector('input[type=file]')?.files?.length;
         if (!docs[k] && !picked) { box?.classList.add('invalid'); missing.push(t(l).replace(' *', '').split(' (')[0]); }
       });
+      const tbox = form.querySelector('[data-terms]');
+      if (tbox) {
+        const sg = tbox.querySelector('[name="terms_signer"]');
+        if (!sg.value.trim()) { sg.classList.add('invalid'); missing.push(t('termsSigner').replace(' *', '')); }
+        const ok = tbox.querySelector('[name="terms_ok"]');
+        if (!ok.checked) { ok.closest('[data-docbox]').classList.add('invalid'); missing.push(t('secTerms')); }
+      }
       const errBox = document.getElementById('missing');
       if (missing.length) {
         errBox.innerHTML = `<b>${esc(t('missingList'))}</b><ul style="margin:6px 0 0;padding-inline-start:20px">${missing.map((m) => `<li>${esc(m)}</li>`).join('')}</ul>`;
@@ -242,7 +257,7 @@ export function installOnboarding(ctx) {
           <span class="row" style="gap:8px"><span class="muted" style="font-size:13px">${a.submitted_at ? esc(fmtDate(a.submitted_at)) : ''}</span><span class="badge ${tone(a.status)}">${esc(t('ast_' + a.status))}</span></span></summary>
         <dl class="kv" style="margin-top:12px">
           ${kv('companyNameAr', a.company_name_ar)}${kv('licenseNo', a.license_no)}${kv('licenseExpiry', a.license_expiry)}${kv('ownerName', a.owner_name)}${kv('ownerCivil', a.owner_civil_id)}
-          ${kv('signatory', a.signatory_name)}${kv('phoneL', a.phone)}${kv('emailCo', a.email)}${kv('address', a.address)}${kv('paci', a.paci_no)}${kv('bankName', a.bank_name)}${kv('holder', a.account_holder)}${kv('iban', a.iban)}
+          ${kv('signatory', a.signatory_name)}${kv('phoneL', a.phone)}${kv('emailCo', a.email)}${kv('address', a.address)}${kv('paci', a.paci_no)}${kv('bankName', a.bank_name)}${kv('holder', a.account_holder)}${kv('iban', a.iban)}<dt>${esc(t('secTerms'))}</dt><dd>${a.terms_version ? esc(t('acceptedOn', { v: a.terms_version, d: a.terms_accepted_at ? fmtDate(a.terms_accepted_at) : '—', n: a.terms_signer || '—' })) : esc(t('notAccepted'))}</dd>
         </dl>
         <div class="chips">${DOCS.filter(([k]) => docs[k]).map(([k, l]) => `<button class="btn ghost small" type="button" data-view="${esc(docs[k])}">📄 ${esc(t(l).replace(' *', ''))}</button>`).join('')}
           ${(Array.isArray(docs.other) ? docs.other : []).map((pth, i) => `<button class="btn ghost small" type="button" data-view="${esc(pth)}">📄 ${esc(state.lang === 'ar' ? 'شهادة إضافية' : 'Extra certificate')} ${i + 1}</button>`).join('')}</div>

@@ -1,6 +1,7 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 import { install } from './extra.js?v=2';
-import { installOnboarding } from './onboarding.js?v=8';
+import { installOnboarding } from './onboarding.js?v=9';
+import { installTerms } from './terms.js?v=1';
 
 const CFG = window.TP_CONFIG || {};
 const $app = document.getElementById('app');
@@ -122,7 +123,8 @@ if (!CFG.SUPABASE_URL || !CFG.SUPABASE_ANON_KEY) {
 const sb = createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
 let recoveryMode = /type=(recovery|invite)/.test(location.hash);
 const X = install({ sb, state, t, esc, money, place, fmtDate, shell, toast, STR, SERVICES, TYPES, route });
-const O = installOnboarding({ sb, state, t, esc, fmtDate, shell, toast, STR, $app, brand, langToggle, route });
+const TM = installTerms({ sb, state, t, esc, fmtDate, shell, toast, STR });
+const O = installOnboarding({ sb, state, t, esc, fmtDate, shell, toast, STR, $app, brand, langToggle, route, terms: TM });
 
 sb.auth.onAuthStateChange(async (event, session) => {
   if (event === 'PASSWORD_RECOVERY') recoveryMode = true;
@@ -190,10 +192,12 @@ async function route() {
     if (view === 'partners') return X.viewPartners();
     if (view === 'allbookings') return X.viewAllBookings();
     if (view === 'apps') return O.viewApplications();
+    if (view === 'terms') return TM.viewTerms();
     return X.viewOverview();
   }
   if (!state.agency || state.profile.role !== 'agency') return O.viewApplication();
   if (view === 'packages') return X.viewPackages();
+  if (view === 'terms') return TM.viewTerms();
   if (view === 'package' && id) return X.viewPackage(id);
   if (view === 'request' && id) return viewRequest(id);
   if (view === 'offers') return viewOffers();
@@ -272,10 +276,12 @@ function shell(active, inner) {
         ${isAdmin ? `${link('overview', '#/overview', t('navOverview'))}
         ${link('partners', '#/partners', t('navPartners'))}
         ${link('allbookings', '#/allbookings', t('navAllBookings'))}
-        ${link('apps', '#/apps', t('navApps'), state.pendingApps)}` : `${link('requests', '#/requests', t('navRequests'), state.openCount)}
+        ${link('apps', '#/apps', t('navApps'), state.pendingApps)}
+        ${link('terms', '#/terms', t('navTerms'))}` : `${link('requests', '#/requests', t('navRequests'), state.openCount)}
         ${link('offers', '#/offers', t('navOffers'))}
         ${link('bookings', '#/bookings', t('navBookings'))}
-        ${link('packages', '#/packages', t('navPackages'))}`}
+        ${link('packages', '#/packages', t('navPackages'))}
+        ${link('terms', '#/terms', t('navTerms'))}`}
       </nav>
       <div class="side-foot">
         <span class="who">${esc(name)}</span>
