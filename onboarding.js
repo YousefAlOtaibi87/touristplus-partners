@@ -10,10 +10,10 @@ export function installOnboarding(ctx) {
     secCompany: 'بيانات الشركة والرخصة', secOwner: 'صاحب الرخصة والمفوّض بالتوقيع', secContact: 'بيانات التواصل', secBank: 'الحساب البنكي (لتحويل مبالغ الحجوزات)',
     companyName: 'اسم الشركة (إنجليزي) *', companyNameAr: 'اسم الشركة (عربي)', licenseNo: 'رقم الرخصة التجارية *', licenseExpiry: 'تاريخ انتهاء الرخصة *',
     docLicense: 'صورة الرخصة التجارية *', docTourism: 'ترخيص مزاولة نشاط السياحة والسفر (إن وجد)', ownerName: 'اسم صاحب الرخصة *', ownerCivil: 'الرقم المدني لصاحب الرخصة *',
-    docCivil: 'صورة البطاقة المدنية (الوجهين) *', signatory: 'اسم المفوّض بالتوقيع', docSignature: 'اعتماد التوقيع *',
-    phoneL: 'رقم الجوال *', emailCo: 'إيميل المكتب *', address: 'العنوان', bankName: 'اسم البنك *', holder: 'اسم صاحب الحساب (مطابق للرخصة) *', iban: 'رقم IBAN *', docIban: 'شهادة IBAN من البنك *',
+    docCivil: 'صورة البطاقة المدنية (الوجهين) *', signatory: 'اسم المفوّض بالتوقيع *', docSignature: 'اعتماد توقيع المفوّض *',
+    phoneL: 'رقم الجوال *', emailCo: 'إيميل المكتب *', address: 'عنوان المكتب (المحافظة، المنطقة، القطعة، الشارع، المبنى، الدور/المكتب) *', paci: 'الرقم الآلي لعنوان المكتب *', secAddress: 'عنوان المكتب', bankName: 'اسم البنك *', holder: 'اسم الشركة كما هو مسجّل في البنك *', iban: 'رقم IBAN *', docIban: 'شهادة IBAN من البنك (لازم يكون فيها اسم الشركة كما هو مسجّل في البنك) *', bankNote: 'التحويلات تتم لهذا الحساب فقط، فتأكد إن اسم الشركة ورقم IBAN مطابقين للشهادة.',
     uploaded: 'تم الرفع', replace: 'استبدال', view: 'عرض', saveDraft: 'حفظ كمسودة', submitApp: 'إرسال الطلب للمراجعة', draftSaved: 'تم حفظ المسودة.',
-    err_incomplete: 'كمّل كل الحقول المطلوبة وارفق كل المستندات (*).', err_license_expired: 'الرخصة منتهية، ارفق رخصة سارية.', err_bad_iban: 'رقم IBAN غير صحيح. لازم يبدأ بـ KW ويكون 30 خانة.',
+    err_incomplete: 'كمّل كل الحقول المطلوبة وارفق كل المستندات (*).', err_license_expired: 'الرخصة منتهية، ارفق رخصة سارية.', err_bad_iban: 'رقم IBAN غير صحيح. لازم يبدأ بـ KW ويكون 30 خانة.', err_bad_paci: 'الرقم الآلي غير صحيح، اكتبه أرقام فقط كما هو في شهادة العنوان.',
     fileTooBig: 'حجم الملف أكبر من 10MB.', underReview: 'طلبك تحت المراجعة. بيوصلك تفعيل الحساب أول ما نخلص، وتقدر تدخل من نفس الصفحة.',
     rejectedMsg: 'تم رفض الطلب: {r}. عدّل البيانات وأرسله مرة ثانية.',
     navApps: 'طلبات الانضمام', appsTitle: 'طلبات انضمام المكاتب', noApps: 'ما فيه طلبات.', approve: 'موافقة وتفعيل', reject: 'رفض', rejectReason: 'سبب الرفض',
@@ -27,10 +27,10 @@ export function installOnboarding(ctx) {
     secCompany: 'Company & license', secOwner: 'License owner & authorized signatory', secContact: 'Contact details', secBank: 'Bank account (for booking payouts)',
     companyName: 'Company name (English) *', companyNameAr: 'Company name (Arabic)', licenseNo: 'Commercial license no. *', licenseExpiry: 'License expiry date *',
     docLicense: 'Commercial license copy *', docTourism: 'Tourism & travel activity license (if any)', ownerName: 'License owner name *', ownerCivil: 'Owner civil ID no. *',
-    docCivil: 'Civil ID copy (both sides) *', signatory: 'Authorized signatory name', docSignature: 'Signature authorization *',
-    phoneL: 'Mobile *', emailCo: 'Agency email *', address: 'Address', bankName: 'Bank name *', holder: 'Account holder (as on license) *', iban: 'IBAN *', docIban: 'IBAN certificate from the bank *',
+    docCivil: 'Civil ID copy (both sides) *', signatory: 'Authorized signatory name *', docSignature: 'Signatory signature authorization *',
+    phoneL: 'Mobile *', emailCo: 'Agency email *', address: 'Office address (governorate, area, block, street, building, floor/office) *', paci: 'Office PACI number *', secAddress: 'Office address', bankName: 'Bank name *', holder: 'Company name as registered at the bank *', iban: 'IBAN *', docIban: 'IBAN certificate from the bank (must show the company name as registered at the bank) *', bankNote: 'Payouts go to this account only, so make sure the company name and IBAN match the certificate.',
     uploaded: 'Uploaded', replace: 'Replace', view: 'View', saveDraft: 'Save draft', submitApp: 'Submit for review', draftSaved: 'Draft saved.',
-    err_incomplete: 'Fill in all required fields and attach all documents (*).', err_license_expired: 'The license has expired. Attach a valid license.', err_bad_iban: 'Invalid IBAN. It must start with KW and be 30 characters.',
+    err_incomplete: 'Fill in all required fields and attach all documents (*).', err_license_expired: 'The license has expired. Attach a valid license.', err_bad_iban: 'Invalid IBAN. It must start with KW and be 30 characters.', err_bad_paci: 'Invalid PACI number. Enter digits only, as on the address certificate.',
     fileTooBig: 'File is larger than 10MB.', underReview: 'Your application is under review. Your account will be activated once we finish; sign in from this page.',
     rejectedMsg: 'Application rejected: {r}. Update your details and submit again.',
     navApps: 'Applications', appsTitle: 'Agency applications', noApps: 'No applications.', approve: 'Approve & activate', reject: 'Reject', rejectReason: 'Rejection reason',
@@ -114,9 +114,11 @@ export function installOnboarding(ctx) {
           + docRow('license', 'docLicense') + docRow('tourism', 'docTourism'))}
         ${sec('secOwner', two(f('ownerName', 'owner_name', a.owner_name, 'required'), f('ownerCivil', 'owner_civil_id', a.owner_civil_id, 'dir="ltr" inputmode="numeric" maxlength="12" required'))
           + docRow('civil_id', 'docCivil') + f('signatory', 'signatory_name', a.signatory_name) + docRow('signature', 'docSignature'))}
-        ${sec('secContact', two(f('phoneL', 'phone', a.phone, 'dir="ltr" inputmode="tel" required'), f('emailCo', 'email', a.email, 'type="email" dir="ltr" required')) + f('address', 'address', a.address))}
+        ${sec('secContact', two(f('phoneL', 'phone', a.phone, 'dir="ltr" inputmode="tel" required'), f('emailCo', 'email', a.email, 'type="email" dir="ltr" required')))}
+        ${sec('secAddress', f('address', 'address', a.address, 'required') + f('paci', 'paci_no', a.paci_no, 'dir="ltr" inputmode="numeric" maxlength="10" required'))}
         ${sec('secBank', two(f('bankName', 'bank_name', a.bank_name, 'required'), f('holder', 'account_holder', a.account_holder, 'required'))
-          + f('iban', 'iban', a.iban, 'dir="ltr" placeholder="KW00XXXX0000000000000000000000" maxlength="34" required') + docRow('iban_cert', 'docIban'))}
+          + f('iban', 'iban', a.iban, 'dir="ltr" placeholder="KW00XXXX0000000000000000000000" maxlength="34" required') + docRow('iban_cert', 'docIban')
+          + `<p class="muted" style="margin:0;font-size:13px">${esc(t('bankNote'))}</p>`)}
         ${locked ? '' : `<div class="row"><button class="btn ghost" type="button" id="draft">${esc(t('saveDraft'))}</button><button class="btn accent grow" type="submit">${esc(t('submitApp'))}</button></div>`}
       </form>
     </main>`;
@@ -127,7 +129,7 @@ export function installOnboarding(ctx) {
     const collect = async () => {
       const fd = new FormData(form);
       const row = {};
-      ['company_name', 'company_name_ar', 'license_no', 'license_expiry', 'owner_name', 'owner_civil_id', 'signatory_name', 'phone', 'email', 'address', 'bank_name', 'account_holder', 'iban']
+      ['company_name', 'company_name_ar', 'license_no', 'license_expiry', 'owner_name', 'owner_civil_id', 'signatory_name', 'phone', 'email', 'address', 'paci_no', 'bank_name', 'account_holder', 'iban']
         .forEach((k) => { const v = String(fd.get(k) || '').trim(); row[k] = v || null; });
       const nd = { ...docs };
       for (const inp of form.querySelectorAll('input[data-doc]')) {
@@ -149,7 +151,7 @@ export function installOnboarding(ctx) {
         const row = await collect();
         const { error } = await sb.from('partner_applications').update({ ...row, status }).eq('id', a.id);
         if (error) {
-          const code = ['incomplete', 'license_expired', 'bad_iban'].find((c) => (error.message || '').includes(c));
+          const code = ['incomplete', 'license_expired', 'bad_iban', 'bad_paci'].find((c) => (error.message || '').includes(c));
           if (code) {
             // keep the uploaded files / typed values as a draft, then explain what is missing
             await sb.from('partner_applications').update({ ...row, status: 'draft' }).eq('id', a.id);
@@ -189,7 +191,7 @@ export function installOnboarding(ctx) {
           <span class="row" style="gap:8px"><span class="muted" style="font-size:13px">${a.submitted_at ? esc(fmtDate(a.submitted_at)) : ''}</span><span class="badge ${tone(a.status)}">${esc(t('ast_' + a.status))}</span></span></summary>
         <dl class="kv" style="margin-top:12px">
           ${kv('companyNameAr', a.company_name_ar)}${kv('licenseNo', a.license_no)}${kv('licenseExpiry', a.license_expiry)}${kv('ownerName', a.owner_name)}${kv('ownerCivil', a.owner_civil_id)}
-          ${kv('signatory', a.signatory_name)}${kv('phoneL', a.phone)}${kv('emailCo', a.email)}${kv('address', a.address)}${kv('bankName', a.bank_name)}${kv('holder', a.account_holder)}${kv('iban', a.iban)}
+          ${kv('signatory', a.signatory_name)}${kv('phoneL', a.phone)}${kv('emailCo', a.email)}${kv('address', a.address)}${kv('paci', a.paci_no)}${kv('bankName', a.bank_name)}${kv('holder', a.account_holder)}${kv('iban', a.iban)}
         </dl>
         <div class="chips">${DOCS.filter(([k]) => docs[k]).map(([k, l]) => `<button class="btn ghost small" type="button" data-view="${esc(docs[k])}">📄 ${esc(t(l).replace(' *', ''))}</button>`).join('')}</div>
         ${a.status === 'rejected' && a.reject_reason ? `<p class="notice bad">${esc(a.reject_reason)}</p>` : ''}
