@@ -156,7 +156,7 @@ export function installOnboarding(ctx) {
           if (code) {
             // keep the uploaded files / typed values as a draft, then explain what is missing
             await sb.from('partner_applications').update({ ...row, status: 'draft' }).eq('id', a.id);
-            return viewApplication(`<p class="notice bad" role="alert">${esc(t('err_' + code))}</p>`);
+            return viewApplication(`<p class="notice bad" role="alert">${esc(t('err_' + code, { d: (row.license_expiry || '').split('-').reverse().join('/') }))}</p>`);
           }
           throw error;
         }
