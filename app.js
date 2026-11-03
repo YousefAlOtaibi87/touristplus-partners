@@ -1,7 +1,7 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 import { install } from './extra.js?v=2';
-import { installOnboarding } from './onboarding.js?v=9';
-import { installTerms } from './terms.js?v=2';
+import { installOnboarding } from './onboarding.js?v=10';
+import { installTerms } from './terms.js?v=3';
 
 const CFG = window.TP_CONFIG || {};
 const $app = document.getElementById('app');

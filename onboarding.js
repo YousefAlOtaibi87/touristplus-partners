@@ -134,8 +134,9 @@ export function installOnboarding(ctx) {
     </main>`;
 
     document.querySelectorAll('[data-view]').forEach((b) => (b.onclick = () => openDoc(b.dataset.view)));
-    if (locked) return;
     const form = document.getElementById('app-form');
+    const pad = T ? await T.mount(form, a) : null;
+    if (locked) return;
     const collect = async () => {
       const fd = new FormData(form);
       const row = {};
@@ -159,6 +160,7 @@ export function installOnboarding(ctx) {
       if (tb) {
         row.terms_signer = String(fd.get('terms_signer') || '').trim() || null;
         row.terms_version = fd.get('terms_ok') ? Number(tb.dataset.terms) : null;
+        if (pad?.has()) row.terms_signature = pad.data();
       }
       return row;
     };
@@ -204,6 +206,7 @@ export function installOnboarding(ctx) {
         const sg = tbox.querySelector('[name="terms_signer"]');
         if (!sg.value.trim()) { sg.classList.add('invalid'); missing.push(t('termsSigner').replace(' *', '')); }
         const ok = tbox.querySelector('[name="terms_ok"]');
+        if (pad && !pad.has() && !a.terms_signature) { tbox.querySelector('.sigbox').classList.add('invalid'); missing.push(t('sigMissing')); }
         if (!ok.checked) { ok.closest('[data-docbox]').classList.add('invalid'); missing.push(t('secTerms')); }
       }
       const errBox = document.getElementById('missing');
@@ -262,6 +265,9 @@ export function installOnboarding(ctx) {
         <div class="chips">${DOCS.filter(([k]) => docs[k]).map(([k, l]) => `<button class="btn ghost small" type="button" data-view="${esc(docs[k])}">📄 ${esc(t(l).replace(' *', ''))}</button>`).join('')}
           ${(Array.isArray(docs.other) ? docs.other : []).map((pth, i) => `<button class="btn ghost small" type="button" data-view="${esc(pth)}">📄 ${esc(state.lang === 'ar' ? 'شهادة إضافية' : 'Extra certificate')} ${i + 1}</button>`).join('')}</div>
         ${a.status === 'rejected' && a.reject_reason ? `<p class="notice bad">${esc(a.reject_reason)}</p>` : ''}
+        ${a.status === 'approved' && a.terms_version ? `<div class="row" style="gap:8px">${a.contract_path
+          ? `<button class="btn ghost small" type="button" data-signed="${esc(a.contract_path)}">📄 ${esc(t('signedCopy'))}</button><button class="btn ghost small" type="button" data-resign="${a.id}">${esc(t('resend'))}</button>`
+          : `<button class="btn accent small" type="button" data-resign="${a.id}">✍️ ${esc(t('pending'))}</button>`}</div>` : ''}
         ${a.status === 'submitted' ? `<div class="row" style="gap:10px;align-items:flex-end;flex-wrap:wrap" data-app="${a.id}">
           <label class="f" style="width:140px">${esc(t('rate'))}<input type="number" name="rate" min="0" max="100" step="0.1" value="10" dir="ltr"></label>
           <button class="btn accent" type="button" data-approve>${esc(t('approve'))}</button>
@@ -272,12 +278,15 @@ export function installOnboarding(ctx) {
     shell('apps', `<div class="top"><h1>${esc(t('appsTitle'))}</h1></div>
       ${(data || []).length ? `<div style="display:flex;flex-direction:column;gap:14px">${data.map(card).join('')}</div>` : `<div class="card empty">${esc(t('noApps'))}</div>`}`);
     document.querySelectorAll('[data-view]').forEach((b) => (b.onclick = () => openDoc(b.dataset.view)));
+    document.querySelectorAll('[data-signed]').forEach((b) => (b.onclick = () => T.openSigned(b.dataset.signed)));
+    document.querySelectorAll('[data-resign]').forEach((b) => (b.onclick = async () => { b.disabled = true; await T.signAndSend(b.dataset.resign); viewApplications(b.dataset.resign); }));
     document.querySelectorAll('[data-app]').forEach((box) => {
       const id = box.dataset.app;
       box.querySelector('[data-approve]').onclick = async (e) => {
         e.target.disabled = true;
         const { error: er } = await sb.rpc('admin_review_application', { p_app: id, p_approve: true, p_rate: Number(box.querySelector('[name=rate]').value || 10) });
         toast(er ? t('errGeneric') : t('approved'));
+        if (!er && T) await T.signAndSend(id);
         viewApplications(id);
       };
       box.querySelector('[data-reject]').onclick = async (e) => {
