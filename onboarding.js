@@ -13,7 +13,7 @@ export function installOnboarding(ctx) {
     docCivil: 'صورة البطاقة المدنية (الوجهين) *', signatory: 'اسم المفوّض بالتوقيع *', docSignature: 'اعتماد توقيع المفوّض *',
     phoneL: 'رقم الجوال *', emailCo: 'إيميل المكتب *', address: 'عنوان المكتب (المحافظة، المنطقة، القطعة، الشارع، المبنى، الدور/المكتب) *', paci: 'الرقم الآلي لعنوان المكتب *', secAddress: 'عنوان المكتب', bankName: 'اسم البنك *', holder: 'اسم الشركة كما هو مسجّل في البنك *', iban: 'رقم IBAN *', docIban: 'شهادة IBAN من البنك (لازم يكون فيها اسم الشركة كما هو مسجّل في البنك) *', bankNote: 'التحويلات تتم لهذا الحساب فقط، فتأكد إن اسم الشركة ورقم IBAN مطابقين للشهادة.',
     uploaded: 'تم الرفع', replace: 'استبدال', view: 'عرض', saveDraft: 'حفظ كمسودة', submitApp: 'إرسال الطلب للمراجعة', draftSaved: 'تم حفظ المسودة.',
-    err_incomplete: 'كمّل كل الحقول المطلوبة وارفق كل المستندات (*).', missingList: 'باقي هالحقول، ومعلّمة باللون الأحمر تحت:', err_license_expired: 'الرخصة منتهية، ارفق رخصة سارية.', err_bad_iban: 'رقم IBAN غير صحيح. لازم يبدأ بـ KW ويكون 30 خانة.', err_bad_paci: 'الرقم الآلي غير صحيح، اكتبه أرقام فقط كما هو في شهادة العنوان.',
+    err_incomplete: 'كمّل كل الحقول المطلوبة وارفق كل المستندات (*).', missingList: 'باقي هالحقول، ومعلّمة باللون الأحمر تحت:', err_license_expired: 'تاريخ انتهاء الرخصة المكتوب ({d}) تاريخ فات. تأكد من السنة، أو ارفق رخصة مجدّدة.', err_bad_iban: 'رقم IBAN غير صحيح. لازم يبدأ بـ KW ويكون 30 خانة.', err_bad_paci: 'الرقم الآلي غير صحيح، اكتبه أرقام فقط كما هو في شهادة العنوان.',
     fileTooBig: 'حجم الملف أكبر من 10MB.', underReview: 'طلبك تحت المراجعة. بيوصلك تفعيل الحساب أول ما نخلص، وتقدر تدخل من نفس الصفحة.',
     rejectedMsg: 'تم رفض الطلب: {r}. عدّل البيانات وأرسله مرة ثانية.',
     navApps: 'طلبات الانضمام', appsTitle: 'طلبات انضمام المكاتب', noApps: 'ما فيه طلبات.', approve: 'موافقة وتفعيل', reject: 'رفض', rejectReason: 'سبب الرفض',
@@ -30,7 +30,7 @@ export function installOnboarding(ctx) {
     docCivil: 'Civil ID copy (both sides) *', signatory: 'Authorized signatory name *', docSignature: 'Signatory signature authorization *',
     phoneL: 'Mobile *', emailCo: 'Agency email *', address: 'Office address (governorate, area, block, street, building, floor/office) *', paci: 'Office PACI number *', secAddress: 'Office address', bankName: 'Bank name *', holder: 'Company name as registered at the bank *', iban: 'IBAN *', docIban: 'IBAN certificate from the bank (must show the company name as registered at the bank) *', bankNote: 'Payouts go to this account only, so make sure the company name and IBAN match the certificate.',
     uploaded: 'Uploaded', replace: 'Replace', view: 'View', saveDraft: 'Save draft', submitApp: 'Submit for review', draftSaved: 'Draft saved.',
-    err_incomplete: 'Fill in all required fields and attach all documents (*).', missingList: 'These are still missing (marked in red below):', err_license_expired: 'The license has expired. Attach a valid license.', err_bad_iban: 'Invalid IBAN. It must start with KW and be 30 characters.', err_bad_paci: 'Invalid PACI number. Enter digits only, as on the address certificate.',
+    err_incomplete: 'Fill in all required fields and attach all documents (*).', missingList: 'These are still missing (marked in red below):', err_license_expired: 'The license expiry date entered ({d}) is in the past. Check the year, or attach a renewed license.', err_bad_iban: 'Invalid IBAN. It must start with KW and be 30 characters.', err_bad_paci: 'Invalid PACI number. Enter digits only, as on the address certificate.',
     fileTooBig: 'File is larger than 10MB.', underReview: 'Your application is under review. Your account will be activated once we finish; sign in from this page.',
     rejectedMsg: 'Application rejected: {r}. Update your details and submit again.',
     navApps: 'Applications', appsTitle: 'Agency applications', noApps: 'No applications.', approve: 'Approve & activate', reject: 'Reject', rejectReason: 'Rejection reason',
@@ -110,7 +110,7 @@ export function installOnboarding(ctx) {
       <h1>${esc(t('appTitle'))}</h1><p class="muted">${esc(t('appSub'))}</p>${banner}${msg}
       <form id="app-form" data-keep style="display:flex;flex-direction:column;gap:16px" novalidate>
         ${sec('secCompany', two(f('companyName', 'company_name', a.company_name, 'required'), f('companyNameAr', 'company_name_ar', a.company_name_ar))
-          + two(f('licenseNo', 'license_no', a.license_no, 'dir="ltr" required'), f('licenseExpiry', 'license_expiry', a.license_expiry, 'type="date" dir="ltr" required'))
+          + two(f('licenseNo', 'license_no', a.license_no, 'dir="ltr" required'), f('licenseExpiry', 'license_expiry', a.license_expiry, `type="date" dir="ltr" required min="${new Date().toISOString().slice(0, 10)}"`))
           + docRow('license', 'docLicense') + docRow('tourism', 'docTourism'))}
         ${sec('secOwner', two(f('ownerName', 'owner_name', a.owner_name, 'required'), f('ownerCivil', 'owner_civil_id', a.owner_civil_id, 'dir="ltr" inputmode="numeric" maxlength="12" required'))
           + docRow('civil_id', 'docCivil') + f('signatory', 'signatory_name', a.signatory_name) + docRow('signature', 'docSignature'))}
@@ -188,6 +188,15 @@ export function installOnboarding(ctx) {
         errBox.innerHTML = `<b>${esc(t('missingList'))}</b><ul style="margin:6px 0 0;padding-inline-start:20px">${missing.map((m) => `<li>${esc(m)}</li>`).join('')}</ul>`;
         errBox.hidden = false;
         errBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return false;
+      }
+      const exp = form.querySelector('[name="license_expiry"]');
+      if (exp.value && exp.value < new Date().toISOString().slice(0, 10)) {
+        exp.classList.add('invalid');
+        const [y, mo, d] = exp.value.split('-');
+        errBox.innerHTML = esc(t('err_license_expired', { d: `${d}/${mo}/${y}` }));
+        errBox.hidden = false;
+        exp.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return false;
       }
       errBox.hidden = true;
