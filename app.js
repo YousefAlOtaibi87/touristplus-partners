@@ -182,7 +182,7 @@ window.addEventListener('hashchange', route);
 async function route() {
   applyLang();
   if (recoveryMode && state.session) return renderReset();
-  if (!state.session) return renderLogin();
+  if (!state.session) return location.hash.startsWith('#/register') ? O.renderSignup() : renderLogin();
   if (!state.profile) return; // still loading
   const h = location.hash.replace(/^#\/?/, '');
   const [view, id] = h.split('/');
