@@ -7,11 +7,11 @@ export function installTerms(ctx) {
 
   Object.assign(STR.ar, {
     navTerms: 'الاتفاقية', termsTitle: 'اتفاقية الشراكة', termsVersion: 'النسخة {v}', termsPublished: 'نُشرت {d}',
-    termsAccept: 'قرأت اتفاقية الشراكة (النسخة {v}) وأوافق عليها نيابةً عن المكتب، وموافقتي هذي لها أثر التوقيع.',
-    termsSigner: 'اسم المفوّض اللي يوافق على الاتفاقية *', secTerms: 'اتفاقية الشراكة', err_terms_required: 'لازم توافق على اتفاقية الشراكة وتكتب اسم المفوّض قبل الإرسال.',
-    termsEdit: 'تعديل الاتفاقية', termsEditSub: 'اكتب التعديل بصيغة Markdown (## للعناوين، 1. للبنود، | للجداول). النشر يسوي نسخة جديدة، والمكاتب الجديدة توافق عليها. المكاتب الحالية تبقى موافقتها على نسختها.',
+    termsAccept: 'أقرّ بأنني اطّلعت على اتفاقية الشراكة (النسخة {v})، وأوافق عليها نيابةً عن المكتب، وأن لهذه الموافقة حجية التوقيع.',
+    termsSigner: 'اسم المفوَّض بالموافقة على الاتفاقية *', secTerms: 'اتفاقية الشراكة', err_terms_required: 'يجب الموافقة على اتفاقية الشراكة وكتابة اسم المفوَّض قبل إرسال الطلب.',
+    termsEdit: 'تعديل الاتفاقية', termsEditSub: 'اكتب التعديل بصيغة Markdown (## للعناوين، 1. للبنود، | للجداول). يُنشئ النشر نسخة جديدة توافق عليها المكاتب الجديدة، وتبقى موافقة المكاتب الحالية على نسختها.',
     preview: 'معاينة', publish: 'نشر نسخة جديدة', publishConfirm: 'تنشر النسخة {v} من الاتفاقية؟', published: 'تم نشر النسخة الجديدة.', versions: 'النسخ السابقة',
-    acceptedOn: 'وافق على النسخة {v} بتاريخ {d} · {n}', notAccepted: 'ما وافق على الاتفاقية',
+    acceptedOn: 'وافق على النسخة {v} بتاريخ {d} · {n}', notAccepted: 'لم يوافق على الاتفاقية',
   });
   Object.assign(STR.en, {
     navTerms: 'Agreement', termsTitle: 'Partnership agreement', termsVersion: 'Version {v}', termsPublished: 'Published {d}',
