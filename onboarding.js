@@ -3,7 +3,7 @@ export function installOnboarding(ctx) {
   const { sb, state, t, esc, fmtDate, shell, toast, STR, $app, brand, langToggle, route } = ctx;
 
   Object.assign(STR.ar, {
-    registerCta: 'مكتب سفريات؟ سجّل مكتبك', register: 'تسجيل مكتب جديد', registerSub: 'أنشئ حساب، بعدها تعبي بيانات مكتبك وترفق المستندات.',
+    registerCta: 'مكتب سفريات؟ سجّل مكتبك', emailExists: 'هذا الإيميل مسجّل عندنا من قبل. سجّل دخول بنفس الإيميل وكلمة المرور، وبيطلع لك نموذج بيانات المكتب. إذا نسيت كلمة المرور استخدم «نسيت كلمة المرور؟».', resend: 'إعادة إرسال الكود', resent: 'تم إرسال كود جديد. شيّك على البريد غير المرغوب (Junk) بعد.', register: 'تسجيل مكتب جديد', registerSub: 'أنشئ حساب، بعدها تعبي بيانات مكتبك وترفق المستندات.',
     createAccount: 'إنشاء الحساب', otpSent: 'أرسلنا كود من 6 أرقام لإيميلك. اكتبه هني:', otp: 'كود التحقق', verify: 'تأكيد', badOtp: 'الكود غير صحيح أو منتهي.',
     pwMin: 'كلمة المرور 8 أحرف على الأقل.', haveAccount: 'عندي حساب، تسجيل الدخول',
     appTitle: 'بيانات المكتب', appSub: 'عبّي كل البيانات وارفق المستند الخاص بكل قسم. بعد الإرسال نراجع الطلب ونفعّل حسابك.',
@@ -20,7 +20,7 @@ export function installOnboarding(ctx) {
     approved: 'تم تفعيل المكتب.', rejectedDone: 'تم رفض الطلب.', ast_draft: 'مسودة', ast_submitted: 'بانتظار المراجعة', ast_approved: 'مفعّل', ast_rejected: 'مرفوض', submittedAt: 'تاريخ الإرسال',
   });
   Object.assign(STR.en, {
-    registerCta: 'Travel agency? Register your agency', register: 'Register a new agency', registerSub: 'Create an account, then fill in your agency details and attach the documents.',
+    registerCta: 'Travel agency? Register your agency', emailExists: 'This email is already registered. Sign in with the same email and password and the agency form will open. If you forgot the password, use “Forgot password?”.', resend: 'Resend code', resent: 'A new code was sent. Check your Junk folder too.', register: 'Register a new agency', registerSub: 'Create an account, then fill in your agency details and attach the documents.',
     createAccount: 'Create account', otpSent: 'We sent a 6-digit code to your email. Enter it here:', otp: 'Verification code', verify: 'Verify', badOtp: 'Invalid or expired code.',
     pwMin: 'Password must be at least 8 characters.', haveAccount: 'I have an account, sign in',
     appTitle: 'Agency details', appSub: 'Fill in all details and attach the document for each section. After you submit, we review and activate your account.',
@@ -55,8 +55,15 @@ export function installOnboarding(ctx) {
              <label class="f">${esc(t('password'))}<input name="password" type="password" minlength="8" autocomplete="new-password" required dir="ltr"></label>`}
         <button class="btn" type="submit">${esc(step === 'otp' ? t('verify') : t('createAccount'))}</button>
       </form>
+      ${step === 'otp' ? `<button class="btn ghost small" type="button" id="resend">${esc(t('resend'))}</button>` : ''}
       <button class="btn ghost small" type="button" data-act="to-login">${esc(t('haveAccount'))}</button>
     </div></main>`;
+    const rs = document.getElementById('resend');
+    if (rs) rs.onclick = async () => {
+      rs.disabled = true;
+      const { error } = await sb.auth.resend({ type: 'signup', email });
+      renderSignup('otp', email, `<p class="notice ${error ? 'bad' : 'good'}" role="status">${esc(error ? error.message : t('resent'))}</p>`);
+    };
     document.getElementById('su').onsubmit = async (e) => {
       e.preventDefault();
       const fd = new FormData(e.target);
@@ -72,6 +79,9 @@ export function installOnboarding(ctx) {
       if (pw.length < 8) return bad(t('pwMin'));
       const { data, error } = await sb.auth.signUp({ email: em, password: pw });
       if (error) return renderSignup('form', em, `<p class="notice bad" role="alert">${esc(error.message)}</p>`);
+      if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+        return renderSignup('form', em, `<p class="notice bad" role="alert">${esc(t('emailExists'))}</p>`);
+      }
       if (!data.session) renderSignup('otp', em);
     };
   }
