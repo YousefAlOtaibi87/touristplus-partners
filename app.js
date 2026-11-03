@@ -1,5 +1,6 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 import { install } from './extra.js?v=2';
+import { installOnboarding } from './onboarding.js?v=1';
 
 const CFG = window.TP_CONFIG || {};
 const $app = document.getElementById('app');
@@ -121,6 +122,7 @@ if (!CFG.SUPABASE_URL || !CFG.SUPABASE_ANON_KEY) {
 const sb = createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
 let recoveryMode = /type=(recovery|invite)/.test(location.hash);
 const X = install({ sb, state, t, esc, money, place, fmtDate, shell, toast, STR, SERVICES, TYPES, route });
+const O = installOnboarding({ sb, state, t, esc, fmtDate, shell, toast, STR, $app, brand, langToggle, route });
 
 sb.auth.onAuthStateChange(async (event, session) => {
   if (event === 'PASSWORD_RECOVERY') recoveryMode = true;
@@ -139,6 +141,7 @@ async function loadProfile() {
     const { data: a } = await sb.from('agencies').select('id, name, name_ar, license_no, phone, email, rating, reviews, verified, active').eq('id', p.agency_id).maybeSingle();
     state.agency = a;
   }
+  if (p?.role === 'admin') { const { data: n } = await sb.rpc('admin_pending_applications'); state.pendingApps = n || 0; }
   startRealtime();
 }
 
@@ -186,9 +189,10 @@ async function route() {
   if (state.profile.role === 'admin') {
     if (view === 'partners') return X.viewPartners();
     if (view === 'allbookings') return X.viewAllBookings();
+    if (view === 'apps') return O.viewApplications();
     return X.viewOverview();
   }
-  if (!state.agency || state.profile.role !== 'agency') return renderNotPartner();
+  if (!state.agency || state.profile.role !== 'agency') return O.viewApplication();
   if (view === 'packages') return X.viewPackages();
   if (view === 'package' && id) return X.viewPackage(id);
   if (view === 'request' && id) return viewRequest(id);
@@ -212,6 +216,7 @@ function renderLogin(mode = 'login', msg = '') {
       <button class="btn" type="submit">${esc(isForgot ? t('sendReset') : t('signIn'))}</button>
     </form>
     <button class="btn ghost small" type="button" data-act="${isForgot ? 'to-login' : 'to-forgot'}">${esc(isForgot ? t('backToLogin') : t('forgot'))}</button>
+    ${isForgot ? '' : `<hr style="border:0;border-top:1px solid var(--line);width:100%"><button class="btn accent" type="button" data-act="to-register">${esc(t('registerCta'))}</button>`}
   </div></main>`;
   document.getElementById('auth-form').onsubmit = async (e) => {
     e.preventDefault();
@@ -266,7 +271,8 @@ function shell(active, inner) {
       <nav class="nav" aria-label="${esc(t('partners'))}">
         ${isAdmin ? `${link('overview', '#/overview', t('navOverview'))}
         ${link('partners', '#/partners', t('navPartners'))}
-        ${link('allbookings', '#/allbookings', t('navAllBookings'))}` : `${link('requests', '#/requests', t('navRequests'), state.openCount)}
+        ${link('allbookings', '#/allbookings', t('navAllBookings'))}
+        ${link('apps', '#/apps', t('navApps'), state.pendingApps)}` : `${link('requests', '#/requests', t('navRequests'), state.openCount)}
         ${link('offers', '#/offers', t('navOffers'))}
         ${link('bookings', '#/bookings', t('navBookings'))}
         ${link('packages', '#/packages', t('navPackages'))}`}
@@ -529,6 +535,7 @@ document.addEventListener('click', async (e) => {
   if (act === 'signout') { await sb.auth.signOut(); location.hash = ''; }
   if (act === 'to-forgot') renderLogin('forgot');
   if (act === 'to-login') renderLogin('login');
+  if (act === 'to-register') O.renderSignup();
 });
 
 // initial render
