@@ -9,7 +9,7 @@ export function installOnboarding(ctx) {
     appTitle: 'بيانات المكتب', appSub: 'عبّي كل البيانات وارفق المستند الخاص بكل قسم. بعد الإرسال نراجع الطلب ونفعّل حسابك.',
     secCompany: 'بيانات الشركة والرخصة', secOwner: 'صاحب الرخصة والمفوّض بالتوقيع', secContact: 'بيانات التواصل', secBank: 'الحساب البنكي (لتحويل مبالغ الحجوزات)',
     companyName: 'اسم الشركة (إنجليزي) *', companyNameAr: 'اسم الشركة (عربي)', licenseNo: 'رقم الرخصة التجارية *', licenseExpiry: 'تاريخ انتهاء الرخصة *',
-    docLicense: 'صورة الرخصة التجارية *', docTourism: 'ترخيص مزاولة نشاط السياحة والسفر (إن وجد)', ownerName: 'اسم صاحب الرخصة *', ownerCivil: 'الرقم المدني لصاحب الرخصة *',
+    docLicense: 'صورة الرخصة التجارية *', docTourism: 'ترخيص مزاولة نشاط السياحة والسفر *', docArticles: 'عقد التأسيس أو آخر عقد تعديل *', docOther: 'شهادات وتراخيص إضافية لنشاط السياحة والسفر (مثل IATA، عضوية اتحاد مكاتب السفر…) — تقدر ترفق أكثر من ملف', removeFile: 'حذف', ownerName: 'اسم صاحب الرخصة *', ownerCivil: 'الرقم المدني لصاحب الرخصة *',
     docCivil: 'صورة البطاقة المدنية (الوجهين) *', signatory: 'اسم المفوّض بالتوقيع *', docSignature: 'اعتماد توقيع المفوّض *',
     phoneL: 'رقم الجوال *', emailCo: 'إيميل المكتب *', address: 'عنوان المكتب (المحافظة، المنطقة، القطعة، الشارع، المبنى، الدور/المكتب) *', paci: 'الرقم الآلي لعنوان المكتب *', secAddress: 'عنوان المكتب', bankName: 'اسم البنك *', holder: 'اسم الشركة كما هو مسجّل في البنك *', iban: 'رقم IBAN *', docIban: 'شهادة IBAN من البنك (لازم يكون فيها اسم الشركة كما هو مسجّل في البنك) *', bankNote: 'التحويلات تتم لهذا الحساب فقط، فتأكد إن اسم الشركة ورقم IBAN مطابقين للشهادة.',
     uploaded: 'تم الرفع', replace: 'استبدال', view: 'عرض', saveDraft: 'حفظ كمسودة', submitApp: 'إرسال الطلب للمراجعة', draftSaved: 'تم حفظ المسودة.',
@@ -26,7 +26,7 @@ export function installOnboarding(ctx) {
     appTitle: 'Agency details', appSub: 'Fill in all details and attach the document for each section. After you submit, we review and activate your account.',
     secCompany: 'Company & license', secOwner: 'License owner & authorized signatory', secContact: 'Contact details', secBank: 'Bank account (for booking payouts)',
     companyName: 'Company name (English) *', companyNameAr: 'Company name (Arabic)', licenseNo: 'Commercial license no. *', licenseExpiry: 'License expiry date *',
-    docLicense: 'Commercial license copy *', docTourism: 'Tourism & travel activity license (if any)', ownerName: 'License owner name *', ownerCivil: 'Owner civil ID no. *',
+    docLicense: 'Commercial license copy *', docTourism: 'Tourism & travel activity license *', docArticles: 'Articles of association or latest amendment *', docOther: 'Additional tourism & travel certificates and licenses (e.g. IATA, travel agencies union membership…) — you can attach several files', removeFile: 'Remove', ownerName: 'License owner name *', ownerCivil: 'Owner civil ID no. *',
     docCivil: 'Civil ID copy (both sides) *', signatory: 'Authorized signatory name *', docSignature: 'Signatory signature authorization *',
     phoneL: 'Mobile *', emailCo: 'Agency email *', address: 'Office address (governorate, area, block, street, building, floor/office) *', paci: 'Office PACI number *', secAddress: 'Office address', bankName: 'Bank name *', holder: 'Company name as registered at the bank *', iban: 'IBAN *', docIban: 'IBAN certificate from the bank (must show the company name as registered at the bank) *', bankNote: 'Payouts go to this account only, so make sure the company name and IBAN match the certificate.',
     uploaded: 'Uploaded', replace: 'Replace', view: 'View', saveDraft: 'Save draft', submitApp: 'Submit for review', draftSaved: 'Draft saved.',
@@ -37,7 +37,7 @@ export function installOnboarding(ctx) {
     approved: 'Agency activated.', rejectedDone: 'Application rejected.', ast_draft: 'Draft', ast_submitted: 'Awaiting review', ast_approved: 'Active', ast_rejected: 'Rejected', submittedAt: 'Submitted',
   });
 
-  const DOCS = [['license', 'docLicense'], ['tourism', 'docTourism'], ['civil_id', 'docCivil'], ['signature', 'docSignature'], ['iban_cert', 'docIban']];
+  const DOCS = [['license', 'docLicense'], ['articles', 'docArticles'], ['tourism', 'docTourism'], ['civil_id', 'docCivil'], ['signature', 'docSignature'], ['iban_cert', 'docIban']];
   const f = (label, name, v, attrs = '') => `<label class="f">${esc(t(label))}<input name="${name}" value="${esc(v ?? '')}" ${attrs}></label>`;
   const two = (a, b) => `<div class="row" style="gap:12px;align-items:flex-start"><div class="grow">${a}</div><div class="grow">${b}</div></div>`;
 
@@ -101,6 +101,12 @@ export function installOnboarding(ctx) {
     const docRow = (key, label) => `<div class="f" data-docbox="${key}" style="gap:6px"><span style="font-size:14px;font-weight:600;color:#3C4E50">${esc(t(label))}</span>
       ${docs[key] ? `<div class="row" style="gap:8px"><span class="badge good">✓ ${esc(t('uploaded'))}</span><button class="btn ghost small" type="button" data-view="${esc(docs[key])}">${esc(t('view'))}</button></div>` : ''}
       ${locked ? '' : `<input type="file" data-doc="${key}" accept="image/*,application/pdf">`}</div>`;
+    const others = Array.isArray(docs.other) ? docs.other : [];
+    const otherRow = () => `<div class="f" data-docbox="other" style="gap:6px"><span style="font-size:14px;font-weight:600;color:#3C4E50">${esc(t('docOther'))}</span>
+      ${others.length ? `<div class="chips">${others.map((pth, i) => `<span class="badge good" style="display:inline-flex;gap:6px;align-items:center">✓ ${i + 1}
+        <button class="btn ghost small" type="button" data-view="${esc(pth)}">${esc(t('view'))}</button>
+        ${locked ? '' : `<button class="btn danger small" type="button" data-rm="${i}">${esc(t('removeFile'))}</button>`}</span>`).join('')}</div>` : ''}
+      ${locked ? '' : `<input type="file" data-doc="other" multiple accept="image/*,application/pdf">`}</div>`;
     const sec = (title, inner) => `<fieldset class="card" style="display:flex;flex-direction:column;gap:12px" ${locked ? 'disabled' : ''}><legend style="font-weight:800;color:var(--deep);padding:0 6px">${esc(t(title))}</legend>${inner}</fieldset>`;
     const banner = a.status === 'submitted' ? `<p class="notice info">${esc(t('underReview'))}</p>`
       : a.status === 'rejected' ? `<p class="notice bad">${esc(t('rejectedMsg', { r: a.reject_reason || '—' }))}</p>` : '';
@@ -111,7 +117,7 @@ export function installOnboarding(ctx) {
       <form id="app-form" data-keep style="display:flex;flex-direction:column;gap:16px" novalidate>
         ${sec('secCompany', two(f('companyName', 'company_name', a.company_name, 'required'), f('companyNameAr', 'company_name_ar', a.company_name_ar))
           + two(f('licenseNo', 'license_no', a.license_no, 'dir="ltr" required'), f('licenseExpiry', 'license_expiry', a.license_expiry, `type="date" dir="ltr" required min="${new Date().toISOString().slice(0, 10)}"`))
-          + docRow('license', 'docLicense') + docRow('tourism', 'docTourism'))}
+          + docRow('license', 'docLicense') + docRow('articles', 'docArticles') + docRow('tourism', 'docTourism') + otherRow())}
         ${sec('secOwner', two(f('ownerName', 'owner_name', a.owner_name, 'required'), f('ownerCivil', 'owner_civil_id', a.owner_civil_id, 'dir="ltr" inputmode="numeric" maxlength="12" required'))
           + docRow('civil_id', 'docCivil') + f('signatory', 'signatory_name', a.signatory_name) + docRow('signature', 'docSignature'))}
         ${sec('secContact', two(f('phoneL', 'phone', a.phone, 'dir="ltr" inputmode="tel" required'), f('emailCo', 'email', a.email, 'type="email" dir="ltr" required')))}
@@ -133,16 +139,18 @@ export function installOnboarding(ctx) {
       ['company_name', 'company_name_ar', 'license_no', 'license_expiry', 'owner_name', 'owner_civil_id', 'signatory_name', 'phone', 'email', 'address', 'paci_no', 'bank_name', 'account_holder', 'iban']
         .forEach((k) => { const v = String(fd.get(k) || '').trim(); row[k] = v || null; });
       const nd = { ...docs };
+      nd.other = [...others];
       for (const inp of form.querySelectorAll('input[data-doc]')) {
-        const file = inp.files?.[0];
-        if (!file) continue;
-        if (file.size > 10 * 1024 * 1024) throw new Error('fileTooBig');
-        const ext = (file.name.split('.').pop() || 'pdf').toLowerCase().replace(/[^a-z0-9]/g, '');
-        const path = `${uid}/${inp.dataset.doc}-${Date.now()}.${ext}`;
-        const up = await sb.storage.from('partner-docs').upload(path, file, { contentType: file.type });
-        if (up.error) throw up.error;
-        nd[inp.dataset.doc] = path;
+        for (const [i, file] of [...(inp.files || [])].entries()) {
+          if (file.size > 10 * 1024 * 1024) throw new Error('fileTooBig');
+          const ext = (file.name.split('.').pop() || 'pdf').toLowerCase().replace(/[^a-z0-9]/g, '');
+          const path = `${uid}/${inp.dataset.doc}-${Date.now()}-${i}.${ext}`;
+          const up = await sb.storage.from('partner-docs').upload(path, file, { contentType: file.type });
+          if (up.error) throw up.error;
+          if (inp.dataset.doc === 'other') nd.other.push(path); else nd[inp.dataset.doc] = path;
+        }
       }
+      if (!nd.other.length) delete nd.other;
       row.docs = nd;
       return row;
     };
@@ -170,7 +178,7 @@ export function installOnboarding(ctx) {
     };
     // Highlight every missing required field / document before sending.
     const REQ = ['company_name', 'license_no', 'license_expiry', 'owner_name', 'owner_civil_id', 'signatory_name', 'phone', 'email', 'address', 'paci_no', 'bank_name', 'account_holder', 'iban'];
-    const REQ_DOCS = { license: 'docLicense', civil_id: 'docCivil', signature: 'docSignature', iban_cert: 'docIban' };
+    const REQ_DOCS = { license: 'docLicense', articles: 'docArticles', tourism: 'docTourism', civil_id: 'docCivil', signature: 'docSignature', iban_cert: 'docIban' };
     const validate = () => {
       form.querySelectorAll('.invalid').forEach((el) => el.classList.remove('invalid'));
       const missing = [];
@@ -204,6 +212,12 @@ export function installOnboarding(ctx) {
     };
     form.addEventListener('input', (e) => { if (e.target.value?.trim()) e.target.classList.remove('invalid'); });
     form.addEventListener('change', (e) => { if (e.target.type === 'file' && e.target.files?.length) e.target.closest('[data-docbox]')?.classList.remove('invalid'); });
+    form.querySelectorAll('[data-rm]').forEach((b) => (b.onclick = async () => {
+      const rest = others.filter((_, i) => i !== Number(b.dataset.rm));
+      const nd = { ...docs }; if (rest.length) nd.other = rest; else delete nd.other;
+      await sb.from('partner_applications').update({ docs: nd }).eq('id', a.id);
+      viewApplication();
+    }));
     form.onsubmit = (e) => { e.preventDefault(); if (validate()) save('submitted', form.querySelector('button[type=submit]')); };
     document.getElementById('draft').onclick = (e) => save('draft', e.target);
   }
@@ -230,7 +244,8 @@ export function installOnboarding(ctx) {
           ${kv('companyNameAr', a.company_name_ar)}${kv('licenseNo', a.license_no)}${kv('licenseExpiry', a.license_expiry)}${kv('ownerName', a.owner_name)}${kv('ownerCivil', a.owner_civil_id)}
           ${kv('signatory', a.signatory_name)}${kv('phoneL', a.phone)}${kv('emailCo', a.email)}${kv('address', a.address)}${kv('paci', a.paci_no)}${kv('bankName', a.bank_name)}${kv('holder', a.account_holder)}${kv('iban', a.iban)}
         </dl>
-        <div class="chips">${DOCS.filter(([k]) => docs[k]).map(([k, l]) => `<button class="btn ghost small" type="button" data-view="${esc(docs[k])}">📄 ${esc(t(l).replace(' *', ''))}</button>`).join('')}</div>
+        <div class="chips">${DOCS.filter(([k]) => docs[k]).map(([k, l]) => `<button class="btn ghost small" type="button" data-view="${esc(docs[k])}">📄 ${esc(t(l).replace(' *', ''))}</button>`).join('')}
+          ${(Array.isArray(docs.other) ? docs.other : []).map((pth, i) => `<button class="btn ghost small" type="button" data-view="${esc(pth)}">📄 ${esc(state.lang === 'ar' ? 'شهادة إضافية' : 'Extra certificate')} ${i + 1}</button>`).join('')}</div>
         ${a.status === 'rejected' && a.reject_reason ? `<p class="notice bad">${esc(a.reject_reason)}</p>` : ''}
         ${a.status === 'submitted' ? `<div class="row" style="gap:10px;align-items:flex-end;flex-wrap:wrap" data-app="${a.id}">
           <label class="f" style="width:140px">${esc(t('rate'))}<input type="number" name="rate" min="0" max="100" step="0.1" value="10" dir="ltr"></label>
