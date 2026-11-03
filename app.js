@@ -1,4 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+import { install } from './extra.js?v=2';
 
 const CFG = window.TP_CONFIG || {};
 const $app = document.getElementById('app');
@@ -118,7 +119,8 @@ if (!CFG.SUPABASE_URL || !CFG.SUPABASE_ANON_KEY) {
   throw new Error('not configured');
 }
 const sb = createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
-let recoveryMode = location.hash.includes('type=recovery');
+let recoveryMode = /type=(recovery|invite)/.test(location.hash);
+const X = install({ sb, state, t, esc, money, place, fmtDate, shell, toast, STR, SERVICES, TYPES, route });
 
 sb.auth.onAuthStateChange(async (event, session) => {
   if (event === 'PASSWORD_RECOVERY') recoveryMode = true;
@@ -179,9 +181,16 @@ async function route() {
   if (recoveryMode && state.session) return renderReset();
   if (!state.session) return renderLogin();
   if (!state.profile) return; // still loading
-  if (!state.agency || state.profile.role !== 'agency') return renderNotPartner();
   const h = location.hash.replace(/^#\/?/, '');
   const [view, id] = h.split('/');
+  if (state.profile.role === 'admin') {
+    if (view === 'partners') return X.viewPartners();
+    if (view === 'allbookings') return X.viewAllBookings();
+    return X.viewOverview();
+  }
+  if (!state.agency || state.profile.role !== 'agency') return renderNotPartner();
+  if (view === 'packages') return X.viewPackages();
+  if (view === 'package' && id) return X.viewPackage(id);
   if (view === 'request' && id) return viewRequest(id);
   if (view === 'offers') return viewOffers();
   if (view === 'bookings') return viewBookings();
@@ -246,7 +255,8 @@ function renderNotPartner() {
 
 // ---------------------------------------------------------------- shell
 function shell(active, inner) {
-  const name = state.lang === 'ar' ? state.agency.name_ar || state.agency.name : state.agency.name;
+  const isAdmin = state.profile?.role === 'admin';
+  const name = isAdmin ? t('adminTitle') : state.lang === 'ar' ? state.agency.name_ar || state.agency.name : state.agency.name;
   const link = (key, href, label, count) =>
     `<a href="${href}" ${active === key ? 'aria-current="page"' : ''}><span>${esc(label)}</span>${count ? `<span class="count">${count}</span>` : ''}</a>`;
   $app.innerHTML = `
@@ -254,9 +264,12 @@ function shell(active, inner) {
     <aside class="side">
       ${brand()}
       <nav class="nav" aria-label="${esc(t('partners'))}">
-        ${link('requests', '#/requests', t('navRequests'), state.openCount)}
+        ${isAdmin ? `${link('overview', '#/overview', t('navOverview'))}
+        ${link('partners', '#/partners', t('navPartners'))}
+        ${link('allbookings', '#/allbookings', t('navAllBookings'))}` : `${link('requests', '#/requests', t('navRequests'), state.openCount)}
         ${link('offers', '#/offers', t('navOffers'))}
         ${link('bookings', '#/bookings', t('navBookings'))}
+        ${link('packages', '#/packages', t('navPackages'))}`}
       </nav>
       <div class="side-foot">
         <span class="who">${esc(name)}</span>

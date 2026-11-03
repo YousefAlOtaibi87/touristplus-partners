@@ -1,0 +1,193 @@
+// Packages (partners) and admin views. Loaded by app.js.
+export function install(ctx) {
+  const { sb, state, t, esc, money, place, fmtDate, shell, toast, STR, SERVICES, TYPES, route } = ctx;
+
+  Object.assign(STR.ar, {
+    navPackages: 'باقاتي', packagesTitle: 'الباقات الجاهزة', packagesSub: 'باقات بسعر ثابت يحجزها المسافر ويدفع مباشرة من التطبيق.',
+    newPackage: 'باقة جديدة', editPackage: 'تعديل الباقة', noPackages: 'ما أضفت أي باقة للحين.', pkgTitle: 'اسم الباقة', pkgDesc: 'الوصف والبرنامج',
+    pkgPrice: 'السعر للشخص (د.ك)', pkgNights: 'عدد الليالي', tripType: 'نوع الرحلة', availFrom: 'متاحة من', availTo: 'متاحة إلى', pkgImage: 'صورة الباقة',
+    active: 'فعّالة', hidden: 'مخفية', save: 'حفظ', saved: 'تم الحفظ.', del: 'حذف', delConfirm: 'تبي تحذف هذي الباقة؟', deleted: 'تم الحذف.',
+    errFields: 'كمّل الحقول المطلوبة (الاسم، الوجهة، الليالي، السعر).', perPerson: 'للشخص', uploading: 'جاري رفع الصورة…',
+    adminTitle: 'لوحة الإدارة', navOverview: 'نظرة عامة', navPartners: 'الشركاء', navAllBookings: 'كل الحجوزات',
+    st_travelers: 'المسافرين', st_partners: 'الشركاء الفعّالين', st_requests: 'طلبات السفر', st_open: 'طلبات مفتوحة', st_offers: 'العروض', st_bookings: 'الحجوزات',
+    st_packages: 'الباقات', st_paid: 'إجمالي المدفوع', st_commission: 'إجمالي العمولات',
+    verifiedL: 'موثّق', rate: 'العمولة %', supplier: 'كود المورد', sales: 'المبيعات', invite: 'إضافة شريك', inviteSub: 'بيوصل الشريك إيميل دعوة لتعيين كلمة المرور.',
+    agencyName: 'اسم الشركة (EN)', agencyNameAr: 'اسم الشركة (عربي)', license: 'رقم الترخيص', inviteSent: 'تم إرسال الدعوة للشريك.', partner: 'الشريك', bookedAt: 'تاريخ الحجز',
+  });
+  Object.assign(STR.en, {
+    navPackages: 'My packages', packagesTitle: 'Ready-made packages', packagesSub: 'Fixed-price packages travelers can book and pay for directly in the app.',
+    newPackage: 'New package', editPackage: 'Edit package', noPackages: 'You have not added any packages yet.', pkgTitle: 'Package name', pkgDesc: 'Description & itinerary',
+    pkgPrice: 'Price per person (KWD)', pkgNights: 'Nights', tripType: 'Trip type', availFrom: 'Available from', availTo: 'Available until', pkgImage: 'Package image',
+    active: 'Active', hidden: 'Hidden', save: 'Save', saved: 'Saved.', del: 'Delete', delConfirm: 'Delete this package?', deleted: 'Deleted.',
+    errFields: 'Fill in the required fields (name, destination, nights, price).', perPerson: 'per person', uploading: 'Uploading image…',
+    adminTitle: 'Admin', navOverview: 'Overview', navPartners: 'Partners', navAllBookings: 'All bookings',
+    st_travelers: 'Travelers', st_partners: 'Active partners', st_requests: 'Trip requests', st_open: 'Open requests', st_offers: 'Offers', st_bookings: 'Bookings',
+    st_packages: 'Packages', st_paid: 'Total paid', st_commission: 'Total commission',
+    verifiedL: 'Verified', rate: 'Commission %', supplier: 'Supplier code', sales: 'Sales', invite: 'Add partner', inviteSub: 'The partner receives an invitation email to set a password.',
+    agencyName: 'Company name (EN)', agencyNameAr: 'Company name (AR)', license: 'License no.', inviteSent: 'Invitation sent to the partner.', partner: 'Partner', bookedAt: 'Booked',
+  });
+
+  const field = (label, html) => `<label class="f">${esc(label)}${html}</label>`;
+
+  // ------------------------------------------------------------ partner: packages
+  async function viewPackages() {
+    const { data, error } = await sb.from('packages').select('*').eq('agency_id', state.agency.id).order('created_at', { ascending: false });
+    if (error) return shell('packages', `<p class="notice bad">${esc(t('errGeneric'))}</p>`);
+    const cards = (data || []).map((p) => `<a class="card rfq" href="#/package/${p.id}">
+      ${p.image_url ? `<img src="${esc(p.image_url)}" alt="" style="width:100%;height:150px;object-fit:cover;border-radius:12px">` : ''}
+      <div class="row between"><span class="dest">${esc(p.title)}</span><span class="badge ${p.active ? 'good' : ''}">${esc(p.active ? t('active') : t('hidden'))}</span></div>
+      <div class="muted" style="font-size:14px">${esc(place(p.destination))} · ${esc(t('type_' + p.trip_type))} · ${esc(t('nights', { n: p.nights }))}</div>
+      <div class="foot"><b>${esc(money(p.price))}</b> <span class="muted">${esc(t('perPerson'))}</span></div></a>`).join('');
+    shell('packages', `
+      <div class="top"><div><h1>${esc(t('packagesTitle'))}</h1><p class="muted" style="margin:4px 0 0">${esc(t('packagesSub'))}</p></div>
+        <a class="btn accent" href="#/package/new">+ ${esc(t('newPackage'))}</a></div>
+      ${cards ? `<div class="list">${cards}</div>` : `<div class="card empty">${esc(t('noPackages'))}</div>`}`);
+  }
+
+  async function viewPackage(id) {
+    let p = { title: '', destination: '', trip_type: 'leisure', nights: 5, price: '', includes: ['flights', 'hotel'], active: true };
+    if (id !== 'new') {
+      const { data } = await sb.from('packages').select('*').eq('id', id).maybeSingle();
+      if (!data) { location.hash = '#/packages'; return; }
+      p = data;
+    }
+    const inc = new Set(p.includes || []);
+    const rtl = state.lang === 'ar';
+    shell('packages', `
+      <a class="back" href="#/packages">${rtl ? '›' : '‹'} ${esc(t('back'))}</a>
+      <div class="top"><h1>${esc(id === 'new' ? t('newPackage') : t('editPackage'))}</h1></div>
+      <form id="pkg-form" data-keep class="card" style="display:flex;flex-direction:column;gap:14px;max-width:760px" novalidate>
+        ${field(t('pkgTitle') + ' *', `<input name="title" required maxlength="120" value="${esc(p.title)}">`)}
+        <div class="row" style="gap:12px;align-items:flex-start">
+          <div class="grow">${field(t('destination') + ' *', `<input name="destination" required value="${esc(p.destination)}" placeholder="Istanbul">`)}</div>
+          <div class="grow">${field(t('tripType'), `<select name="trip_type">${TYPES.map((x) => `<option value="${x}" ${p.trip_type === x ? 'selected' : ''}>${esc(t('type_' + x))}</option>`).join('')}</select>`)}</div>
+        </div>
+        <div class="row" style="gap:12px;align-items:flex-start">
+          <div class="grow">${field(t('pkgNights') + ' *', `<input name="nights" type="number" min="1" max="60" required value="${esc(p.nights)}" dir="ltr">`)}</div>
+          <div class="grow">${field(t('pkgPrice') + ' *', `<input name="price" type="number" min="1" step="0.001" required value="${esc(p.price)}" dir="ltr">`)}</div>
+        </div>
+        <fieldset style="border:0;padding:0;margin:0"><legend style="font-size:14px;font-weight:600;color:#3C4E50;margin-bottom:6px">${esc(t('includes'))}</legend>
+          <div class="chips">${SERVICES.map((s) => `<label class="chip ${inc.has(s) ? 'on' : ''}"><input type="checkbox" name="inc" value="${s}" ${inc.has(s) ? 'checked' : ''}> ${esc(t('svc_' + s))}</label>`).join('')}</div></fieldset>
+        <div class="row" style="gap:12px;align-items:flex-start">
+          <div class="grow">${field(t('airline'), `<input name="airline" value="${esc(p.airline || '')}" placeholder="${esc(t('airlinePh'))}">`)}</div>
+          <div class="grow">${field(t('hotel'), `<input name="hotel" value="${esc(p.hotel || '')}" placeholder="${esc(t('hotelPh'))}">`)}</div>
+          <div>${field(t('hotelStars'), `<select name="hotel_stars"><option value="">—</option>${[3, 4, 5].map((n) => `<option value="${n}" ${p.hotel_stars === n ? 'selected' : ''}>${'★'.repeat(n)}</option>`).join('')}</select>`)}</div>
+        </div>
+        <div class="row" style="gap:12px;align-items:flex-start">
+          <div class="grow">${field(t('availFrom'), `<input name="available_from" type="date" value="${esc(p.available_from || '')}" dir="ltr">`)}</div>
+          <div class="grow">${field(t('availTo'), `<input name="available_to" type="date" value="${esc(p.available_to || '')}" dir="ltr">`)}</div>
+        </div>
+        ${field(t('pkgDesc'), `<textarea name="description" placeholder="${esc(t('itineraryPh'))}">${esc(p.description || '')}</textarea>`)}
+        <div>${p.image_url ? `<img src="${esc(p.image_url)}" alt="" id="pkg-img" style="width:220px;height:130px;object-fit:cover;border-radius:12px;display:block;margin-bottom:8px">` : ''}
+          ${field(t('pkgImage'), `<input name="image" type="file" accept="image/*">`)}</div>
+        <label class="chip ${p.active ? 'on' : ''}" style="align-self:flex-start"><input type="checkbox" name="active" ${p.active ? 'checked' : ''}> ${esc(t('active'))}</label>
+        <p id="pkg-err" class="notice bad" role="alert" hidden></p>
+        <div class="row"><button class="btn accent grow" type="submit">${esc(t('save'))}</button>
+          ${id !== 'new' ? `<button class="btn danger" type="button" id="pkg-del">${esc(t('del'))}</button>` : ''}</div>
+      </form>`);
+    const form = document.getElementById('pkg-form');
+    form.querySelectorAll('.chip input').forEach((i) => (i.onchange = () => i.closest('.chip').classList.toggle('on', i.checked)));
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const f = new FormData(form);
+      const err = document.getElementById('pkg-err');
+      const row = {
+        title: String(f.get('title') || '').trim(), destination: String(f.get('destination') || '').trim(), trip_type: f.get('trip_type'),
+        nights: Number(f.get('nights')), price: Number(f.get('price')), includes: f.getAll('inc'),
+        airline: String(f.get('airline') || '').trim() || null, hotel: String(f.get('hotel') || '').trim() || null,
+        hotel_stars: f.get('hotel_stars') ? Number(f.get('hotel_stars')) : null, description: String(f.get('description') || '').trim() || null,
+        available_from: f.get('available_from') || null, available_to: f.get('available_to') || null, active: !!f.get('active'),
+      };
+      if (row.title.length < 3 || !row.destination || !(row.nights >= 1) || !(row.price > 0)) { err.textContent = t('errFields'); err.hidden = false; return; }
+      const btn = form.querySelector('button[type=submit]');
+      btn.disabled = true;
+      try {
+        const file = f.get('image');
+        if (file && file.size) {
+          toast(t('uploading'));
+          const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '');
+          const path = `${state.agency.id}/${Date.now()}.${ext}`;
+          const up = await sb.storage.from('packages').upload(path, file, { contentType: file.type, upsert: false });
+          if (up.error) throw up.error;
+          row.image_url = sb.storage.from('packages').getPublicUrl(path).data.publicUrl;
+        }
+        const res = id === 'new' ? await sb.from('packages').insert({ ...row, agency_id: state.agency.id }) : await sb.from('packages').update(row).eq('id', id);
+        if (res.error) throw res.error;
+        toast(t('saved'));
+        location.hash = '#/packages';
+      } catch (ex) {
+        console.error(ex);
+        err.textContent = t('errGeneric'); err.hidden = false; btn.disabled = false;
+      }
+    };
+    const del = document.getElementById('pkg-del');
+    if (del) del.onclick = async () => {
+      if (!confirm(t('delConfirm'))) return;
+      const { error } = await sb.from('packages').delete().eq('id', id);
+      if (error) return toast(t('errGeneric'));
+      toast(t('deleted'));
+      location.hash = '#/packages';
+    };
+  }
+
+  // ------------------------------------------------------------ admin
+  async function viewOverview() {
+    const { data: o, error } = await sb.rpc('admin_overview');
+    if (error) return shell('overview', `<p class="notice bad">${esc(t('errGeneric'))}</p>`);
+    const tile = (k, v) => `<div class="card" style="display:flex;flex-direction:column;gap:4px"><span class="muted" style="font-size:14px">${esc(t(k))}</span><b style="font-size:26px;color:var(--deep)">${esc(v)}</b></div>`;
+    shell('overview', `<div class="top"><h1>${esc(t('adminTitle'))}</h1></div>
+      <div class="list">${tile('st_paid', money(o.paid_total))}${tile('st_commission', money(o.commission_total))}${tile('st_bookings', o.bookings)}
+      ${tile('st_requests', o.requests)}${tile('st_open', o.open_requests)}${tile('st_offers', o.offers)}${tile('st_travelers', o.travelers)}${tile('st_partners', o.partners)}${tile('st_packages', o.packages)}</div>`);
+  }
+
+  async function viewPartners() {
+    const { data, error } = await sb.rpc('admin_agencies');
+    if (error) return shell('partners', `<p class="notice bad">${esc(t('errGeneric'))}</p>`);
+    const rows = (data || []).map((a) => `<tr data-id="${a.id}">
+      <td><b>${esc(state.lang === 'ar' ? a.name_ar || a.name : a.name)}</b><div class="muted" style="font-size:12px" dir="ltr">${esc(a.email || '')}</div></td>
+      <td><input type="checkbox" data-k="active" ${a.active ? 'checked' : ''} aria-label="${esc(t('active'))}" style="width:auto"></td>
+      <td><input type="checkbox" data-k="verified" ${a.verified ? 'checked' : ''} aria-label="${esc(t('verifiedL'))}" style="width:auto"></td>
+      <td><input type="number" data-k="rate" min="0" max="100" step="0.1" value="${esc(a.commission_rate)}" style="width:90px" dir="ltr"></td>
+      <td><input type="number" data-k="supplier" value="${esc(a.mf_supplier_code ?? '')}" style="width:110px" dir="ltr"></td>
+      <td>${esc(a.bookings)} · ${esc(money(a.paid_total))}</td><td>${esc(money(a.commission_total))}</td>
+      <td><button class="btn small" type="button" data-save>${esc(t('save'))}</button></td></tr>`).join('');
+    shell('partners', `<div class="top"><h1>${esc(t('navPartners'))}</h1></div>
+      <div class="tbl-wrap"><table><thead><tr><th>${esc(t('partner'))}</th><th>${esc(t('active'))}</th><th>${esc(t('verifiedL'))}</th><th>${esc(t('rate'))}</th><th>${esc(t('supplier'))}</th><th>${esc(t('sales'))}</th><th>${esc(t('commission'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
+      <form id="invite" data-keep class="card" style="display:flex;flex-direction:column;gap:12px;max-width:760px;margin-top:20px" novalidate>
+        <h2>${esc(t('invite'))}</h2><p class="muted" style="margin:0">${esc(t('inviteSub'))}</p>
+        <div class="row" style="gap:12px;align-items:flex-start"><div class="grow">${field(t('agencyName'), '<input name="name" required>')}</div><div class="grow">${field(t('agencyNameAr'), '<input name="name_ar">')}</div></div>
+        <div class="row" style="gap:12px;align-items:flex-start"><div class="grow">${field(t('email'), '<input name="email" type="email" required dir="ltr">')}</div><div class="grow">${field(t('phone'), '<input name="phone" dir="ltr">')}</div></div>
+        <div class="row" style="gap:12px;align-items:flex-start"><div class="grow">${field(t('license'), '<input name="license" dir="ltr">')}</div><div class="grow">${field(t('rate'), '<input name="rate" type="number" min="0" max="100" step="0.1" value="10" dir="ltr">')}</div></div>
+        <button class="btn accent" type="submit">${esc(t('invite'))}</button></form>`);
+    document.querySelectorAll('[data-save]').forEach((b) => (b.onclick = async () => {
+      const tr = b.closest('tr');
+      const v = (k) => tr.querySelector(`[data-k=${k}]`);
+      const sup = v('supplier').value.trim();
+      const { error: e2 } = await sb.rpc('admin_update_agency', { p_agency: tr.dataset.id, p_active: v('active').checked, p_verified: v('verified').checked, p_rate: Number(v('rate').value || 0), p_supplier_code: sup ? Number(sup) : null });
+      toast(e2 ? t('errGeneric') : t('saved'));
+    }));
+    document.getElementById('invite').onsubmit = async (e) => {
+      e.preventDefault();
+      const f = Object.fromEntries(new FormData(e.target));
+      if (!f.name || !f.email) return toast(t('errFields'));
+      const btn = e.target.querySelector('button'); btn.disabled = true;
+      const { data: r, error: e3 } = await sb.functions.invoke('admin-invite', { body: { ...f, rate: Number(f.rate || 0) } });
+      btn.disabled = false;
+      if (e3 || r?.error) return toast(r?.error || t('errGeneric'));
+      toast(t('inviteSent'));
+      viewPartners();
+    };
+  }
+
+  async function viewAllBookings() {
+    const { data, error } = await sb.rpc('admin_bookings');
+    if (error) return shell('allbookings', `<p class="notice bad">${esc(t('errGeneric'))}</p>`);
+    const rows = (data || []).map((b) => `<tr><td>${esc(place(b.destination))}</td><td dir="ltr" style="text-align:start">${esc(b.depart)}</td><td>${esc(b.traveler_name || '—')}</td><td>${esc(b.agency_name)}</td>
+      <td>${esc(money(b.price))}</td><td><span class="badge ${b.payment_status === 'paid' ? 'good' : b.payment_status === 'none' ? '' : 'accent'}">${esc(t('pay_' + b.payment_status))}</span></td>
+      <td>${b.commission != null ? esc(money(b.commission)) : '—'}</td><td class="muted">${esc(fmtDate(b.booked_at))}</td></tr>`).join('');
+    shell('allbookings', `<div class="top"><h1>${esc(t('navAllBookings'))}</h1></div>
+      ${rows ? `<div class="tbl-wrap"><table><thead><tr><th>${esc(t('destination'))}</th><th>${esc(t('depart'))}</th><th>${esc(t('traveler'))}</th><th>${esc(t('partner'))}</th><th>${esc(t('price'))}</th><th>${esc(t('payStatus'))}</th><th>${esc(t('commission'))}</th><th>${esc(t('bookedAt'))}</th></tr></thead><tbody>${rows}</tbody></table></div>` : `<div class="card empty">${esc(t('noBookings'))}</div>`}`);
+  }
+
+  return { viewPackages, viewPackage, viewOverview, viewPartners, viewAllBookings };
+}
