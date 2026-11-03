@@ -42,7 +42,7 @@ h2{margin:0;font-size:19px}
 .btn{border:0;border-radius:12px;padding:11px 18px;font-weight:700;cursor:pointer;background:var(--deep);color:#fff;min-height:44px}
 .btn:hover{filter:brightness(1.08)}
 .btn:disabled{opacity:.5;cursor:default}
-.btn.accent{background:var(--accent);color:var(--deep)}
+.btn.accent{background:var(--accent);color:#fff}
 .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--deep)}
 .btn.danger{background:transparent;border:1px solid var(--badSoft);color:var(--bad)}
 .btn.small{padding:7px 12px;min-height:36px;font-size:14px}
@@ -109,3 +109,6 @@ tr.link:hover td{background:#F8FAFC}
   .side-foot{margin:0;border:0;padding:0;flex-direction:row;order:2}
   .side-foot .who{display:none}
 }
+input.invalid,select.invalid,textarea.invalid{border-color:var(--bad);background:var(--badSoft);outline:2px solid var(--bad);outline-offset:0}
+[data-docbox].invalid{border:2px solid var(--bad);background:var(--badSoft);border-radius:12px;padding:10px}
+[data-docbox].invalid > span{color:var(--bad)!important}

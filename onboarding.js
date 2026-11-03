@@ -13,7 +13,7 @@ export function installOnboarding(ctx) {
     docCivil: 'صورة البطاقة المدنية (الوجهين) *', signatory: 'اسم المفوّض بالتوقيع *', docSignature: 'اعتماد توقيع المفوّض *',
     phoneL: 'رقم الجوال *', emailCo: 'إيميل المكتب *', address: 'عنوان المكتب (المحافظة، المنطقة، القطعة، الشارع، المبنى، الدور/المكتب) *', paci: 'الرقم الآلي لعنوان المكتب *', secAddress: 'عنوان المكتب', bankName: 'اسم البنك *', holder: 'اسم الشركة كما هو مسجّل في البنك *', iban: 'رقم IBAN *', docIban: 'شهادة IBAN من البنك (لازم يكون فيها اسم الشركة كما هو مسجّل في البنك) *', bankNote: 'التحويلات تتم لهذا الحساب فقط، فتأكد إن اسم الشركة ورقم IBAN مطابقين للشهادة.',
     uploaded: 'تم الرفع', replace: 'استبدال', view: 'عرض', saveDraft: 'حفظ كمسودة', submitApp: 'إرسال الطلب للمراجعة', draftSaved: 'تم حفظ المسودة.',
-    err_incomplete: 'كمّل كل الحقول المطلوبة وارفق كل المستندات (*).', err_license_expired: 'الرخصة منتهية، ارفق رخصة سارية.', err_bad_iban: 'رقم IBAN غير صحيح. لازم يبدأ بـ KW ويكون 30 خانة.', err_bad_paci: 'الرقم الآلي غير صحيح، اكتبه أرقام فقط كما هو في شهادة العنوان.',
+    err_incomplete: 'كمّل كل الحقول المطلوبة وارفق كل المستندات (*).', missingList: 'باقي هالحقول، ومعلّمة باللون الأحمر تحت:', err_license_expired: 'الرخصة منتهية، ارفق رخصة سارية.', err_bad_iban: 'رقم IBAN غير صحيح. لازم يبدأ بـ KW ويكون 30 خانة.', err_bad_paci: 'الرقم الآلي غير صحيح، اكتبه أرقام فقط كما هو في شهادة العنوان.',
     fileTooBig: 'حجم الملف أكبر من 10MB.', underReview: 'طلبك تحت المراجعة. بيوصلك تفعيل الحساب أول ما نخلص، وتقدر تدخل من نفس الصفحة.',
     rejectedMsg: 'تم رفض الطلب: {r}. عدّل البيانات وأرسله مرة ثانية.',
     navApps: 'طلبات الانضمام', appsTitle: 'طلبات انضمام المكاتب', noApps: 'ما فيه طلبات.', approve: 'موافقة وتفعيل', reject: 'رفض', rejectReason: 'سبب الرفض',
@@ -30,7 +30,7 @@ export function installOnboarding(ctx) {
     docCivil: 'Civil ID copy (both sides) *', signatory: 'Authorized signatory name *', docSignature: 'Signatory signature authorization *',
     phoneL: 'Mobile *', emailCo: 'Agency email *', address: 'Office address (governorate, area, block, street, building, floor/office) *', paci: 'Office PACI number *', secAddress: 'Office address', bankName: 'Bank name *', holder: 'Company name as registered at the bank *', iban: 'IBAN *', docIban: 'IBAN certificate from the bank (must show the company name as registered at the bank) *', bankNote: 'Payouts go to this account only, so make sure the company name and IBAN match the certificate.',
     uploaded: 'Uploaded', replace: 'Replace', view: 'View', saveDraft: 'Save draft', submitApp: 'Submit for review', draftSaved: 'Draft saved.',
-    err_incomplete: 'Fill in all required fields and attach all documents (*).', err_license_expired: 'The license has expired. Attach a valid license.', err_bad_iban: 'Invalid IBAN. It must start with KW and be 30 characters.', err_bad_paci: 'Invalid PACI number. Enter digits only, as on the address certificate.',
+    err_incomplete: 'Fill in all required fields and attach all documents (*).', missingList: 'These are still missing (marked in red below):', err_license_expired: 'The license has expired. Attach a valid license.', err_bad_iban: 'Invalid IBAN. It must start with KW and be 30 characters.', err_bad_paci: 'Invalid PACI number. Enter digits only, as on the address certificate.',
     fileTooBig: 'File is larger than 10MB.', underReview: 'Your application is under review. Your account will be activated once we finish; sign in from this page.',
     rejectedMsg: 'Application rejected: {r}. Update your details and submit again.',
     navApps: 'Applications', appsTitle: 'Agency applications', noApps: 'No applications.', approve: 'Approve & activate', reject: 'Reject', rejectReason: 'Rejection reason',
@@ -98,7 +98,7 @@ export function installOnboarding(ctx) {
     if (!a) { $app.innerHTML = `<main class="auth"><div class="auth-card"><p class="notice bad">${esc(t('errGeneric'))}</p></div></main>`; return; }
     const locked = a.status === 'submitted';
     const docs = a.docs || {};
-    const docRow = (key, label) => `<div class="f" style="gap:6px"><span style="font-size:14px;font-weight:600;color:#3C4E50">${esc(t(label))}</span>
+    const docRow = (key, label) => `<div class="f" data-docbox="${key}" style="gap:6px"><span style="font-size:14px;font-weight:600;color:#3C4E50">${esc(t(label))}</span>
       ${docs[key] ? `<div class="row" style="gap:8px"><span class="badge good">✓ ${esc(t('uploaded'))}</span><button class="btn ghost small" type="button" data-view="${esc(docs[key])}">${esc(t('view'))}</button></div>` : ''}
       ${locked ? '' : `<input type="file" data-doc="${key}" accept="image/*,application/pdf">`}</div>`;
     const sec = (title, inner) => `<fieldset class="card" style="display:flex;flex-direction:column;gap:12px" ${locked ? 'disabled' : ''}><legend style="font-weight:800;color:var(--deep);padding:0 6px">${esc(t(title))}</legend>${inner}</fieldset>`;
@@ -119,6 +119,7 @@ export function installOnboarding(ctx) {
         ${sec('secBank', two(f('bankName', 'bank_name', a.bank_name, 'required'), f('holder', 'account_holder', a.account_holder, 'required'))
           + f('iban', 'iban', a.iban, 'dir="ltr" placeholder="KW00XXXX0000000000000000000000" maxlength="34" required') + docRow('iban_cert', 'docIban')
           + `<p class="muted" style="margin:0;font-size:13px">${esc(t('bankNote'))}</p>`)}
+        <div id="missing" class="notice bad" role="alert" hidden></div>
         ${locked ? '' : `<div class="row"><button class="btn ghost" type="button" id="draft">${esc(t('saveDraft'))}</button><button class="btn accent grow" type="submit">${esc(t('submitApp'))}</button></div>`}
       </form>
     </main>`;
@@ -167,7 +168,34 @@ export function installOnboarding(ctx) {
         btn.disabled = false;
       }
     };
-    form.onsubmit = (e) => { e.preventDefault(); save('submitted', form.querySelector('button[type=submit]')); };
+    // Highlight every missing required field / document before sending.
+    const REQ = ['company_name', 'license_no', 'license_expiry', 'owner_name', 'owner_civil_id', 'signatory_name', 'phone', 'email', 'address', 'paci_no', 'bank_name', 'account_holder', 'iban'];
+    const REQ_DOCS = { license: 'docLicense', civil_id: 'docCivil', signature: 'docSignature', iban_cert: 'docIban' };
+    const validate = () => {
+      form.querySelectorAll('.invalid').forEach((el) => el.classList.remove('invalid'));
+      const missing = [];
+      REQ.forEach((n) => {
+        const inp = form.querySelector(`[name="${n}"]`);
+        if (inp && !inp.value.trim()) { inp.classList.add('invalid'); missing.push(inp.closest('label')?.firstChild?.textContent?.replace(' *', '').trim() || n); }
+      });
+      Object.entries(REQ_DOCS).forEach(([k, l]) => {
+        const box = form.querySelector(`[data-docbox="${k}"]`);
+        const picked = box?.querySelector('input[type=file]')?.files?.length;
+        if (!docs[k] && !picked) { box?.classList.add('invalid'); missing.push(t(l).replace(' *', '').split(' (')[0]); }
+      });
+      const errBox = document.getElementById('missing');
+      if (missing.length) {
+        errBox.innerHTML = `<b>${esc(t('missingList'))}</b><ul style="margin:6px 0 0;padding-inline-start:20px">${missing.map((m) => `<li>${esc(m)}</li>`).join('')}</ul>`;
+        errBox.hidden = false;
+        errBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return false;
+      }
+      errBox.hidden = true;
+      return true;
+    };
+    form.addEventListener('input', (e) => { if (e.target.value?.trim()) e.target.classList.remove('invalid'); });
+    form.addEventListener('change', (e) => { if (e.target.type === 'file' && e.target.files?.length) e.target.closest('[data-docbox]')?.classList.remove('invalid'); });
+    form.onsubmit = (e) => { e.preventDefault(); if (validate()) save('submitted', form.querySelector('button[type=submit]')); };
     document.getElementById('draft').onclick = (e) => save('draft', e.target);
   }
 
