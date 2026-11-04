@@ -1,6 +1,6 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=3';
-import { installOnboarding } from './onboarding.js?v=13';
+import { install } from './extra.js?v=4';
+import { installOnboarding } from './onboarding.js?v=14';
 import { installTerms } from './terms.js?v=5';
 
 const CFG = window.TP_CONFIG || {};
@@ -195,6 +195,7 @@ async function route() {
     if (view === 'partners') return X.viewPartners();
     if (view === 'allbookings') return X.viewAllBookings();
     if (view === 'apps') return O.viewApplications();
+    if (view === 'company' && id) return O.viewCompany(id);
     if (view === 'terms') return TM.viewTerms();
     return X.viewOverview();
   }

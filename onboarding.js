@@ -18,6 +18,7 @@ export function installOnboarding(ctx) {
     fileTooBig: 'حجم الملف أكبر من 10MB.', underReview: 'طلبك تحت المراجعة. بيوصلك تفعيل الحساب أول ما نخلص، وتقدر تدخل من نفس الصفحة.',
     rejectedMsg: 'تم رفض الطلب: {r}. عدّل البيانات وأرسله مرة ثانية.',
     navApps: 'طلبات الانضمام', appsTitle: 'طلبات انضمام المكاتب', noApps: 'ما فيه طلبات.', approve: 'موافقة وتفعيل', reject: 'رفض', rejectReason: 'سبب الرفض',
+    contractStatus: 'حالة الاتفاقية', stSubmitted: 'إرسال طلب الانضمام', stAgencySigned: 'توقيع المكتب', stPlatformSigned: 'توقيع المنصة', stSent: 'إرسال النسخة الموقّعة للمكتب', waitAgency: 'بانتظار توقيع المكتب على الاتفاقية.', companyData: 'بيانات الشركة', documents: 'المستندات', extraCert: 'شهادة إضافية', openCompany: 'صفحة الشركة',
     approved: 'تم تفعيل المكتب.', rejectedDone: 'تم رفض الطلب.', ast_draft: 'مسودة', ast_submitted: 'بانتظار المراجعة', ast_approved: 'مفعّل', ast_rejected: 'مرفوض', submittedAt: 'تاريخ الإرسال',
   });
   Object.assign(STR.en, {
@@ -35,6 +36,7 @@ export function installOnboarding(ctx) {
     fileTooBig: 'File is larger than 10MB.', underReview: 'Your application is under review. Your account will be activated once we finish; sign in from this page.',
     rejectedMsg: 'Application rejected: {r}. Update your details and submit again.',
     navApps: 'Applications', appsTitle: 'Agency applications', noApps: 'No applications.', approve: 'Approve & activate', reject: 'Reject', rejectReason: 'Rejection reason',
+    contractStatus: 'Agreement status', stSubmitted: 'Application submitted', stAgencySigned: 'Agency signature', stPlatformSigned: 'Platform signature', stSent: 'Signed copy sent to agency', waitAgency: 'Waiting for the agency to sign the agreement.', companyData: 'Company details', documents: 'Documents', extraCert: 'Extra certificate', openCompany: 'Company page',
     approved: 'Agency activated.', rejectedDone: 'Application rejected.', ast_draft: 'Draft', ast_submitted: 'Awaiting review', ast_approved: 'Active', ast_rejected: 'Rejected', submittedAt: 'Submitted',
   });
 
@@ -256,7 +258,7 @@ export function installOnboarding(ctx) {
       const docs = a.docs || {};
       const open = a.id === openId || (!openId && a.status === 'submitted');
       return `<details class="card" ${open ? 'open' : ''} style="display:flex;flex-direction:column;gap:12px">
-        <summary class="row between" style="cursor:pointer;list-style:none"><b>${esc(a.company_name || '—')}</b>
+        <summary class="row between" style="cursor:pointer;list-style:none"><a href="#/company/${a.id}" style="font-weight:800" onclick="event.stopPropagation()">${esc(a.company_name_ar || a.company_name || '—')} ↗</a>
           <span class="row" style="gap:8px"><span class="muted" style="font-size:13px">${a.submitted_at ? esc(fmtDate(a.submitted_at)) : ''}</span><span class="badge ${tone(a.status)}">${esc(t('ast_' + a.status))}</span></span></summary>
         <dl class="kv" style="margin-top:12px">
           ${kv('companyNameAr', a.company_name_ar)}${kv('licenseNo', a.license_no)}${kv('licenseExpiry', a.license_expiry)}${kv('ownerName', a.owner_name)}${kv('ownerCivil', a.owner_civil_id)}
@@ -304,5 +306,72 @@ export function installOnboarding(ctx) {
     });
   }
 
-  return { renderSignup, viewApplication, viewApplications };
+
+  // ------------------------------------------------------------ admin: one page per company
+  async function viewCompany(appId) {
+    const { data: a } = await sb.from('partner_applications').select('*').eq('id', appId).maybeSingle();
+    if (!a) return shell('apps', `<div class="card empty">—</div>`);
+    const tone = (s) => (s === 'approved' ? 'good' : s === 'submitted' ? 'accent' : s === 'rejected' ? 'bad' : '');
+    const kv = (k, v) => `<dt>${esc(t(k)).replace(' *', '')}</dt><dd>${esc(v || '—')}</dd>`;
+    const docs = a.docs || {};
+    const agencySigned = !!(a.terms_signature && a.terms_accepted_at);
+    const platformSigned = !!a.platform_signed_at && !!a.contract_path;
+    const step = (ok, label, sub) => `<div class="row" style="gap:10px;align-items:flex-start"><span class="badge ${ok ? 'good' : ''}" style="min-width:28px;text-align:center">${ok ? '✓' : '…'}</span><div><b>${esc(label)}</b>${sub ? `<div class="muted" style="font-size:13px">${esc(sub)}</div>` : ''}</div></div>`;
+    let contractBox = '';
+    if (T && a.terms_version) {
+      const [{ data: terms }, { data: ps }] = await Promise.all([
+        sb.from('partner_terms').select('*').eq('version', a.terms_version).maybeSingle(),
+        sb.from('platform_settings').select('*').eq('id', 1).maybeSingle(),
+      ]);
+      contractBox = `<div style="max-height:70vh;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fff">${T.contractHTML(a, ps || {}, terms, { platformSig: platformSigned })}</div>`;
+    }
+    shell('apps', `
+      <a class="back" href="#/apps">${state.lang === 'ar' ? '›' : '‹'} ${esc(t('back'))}</a>
+      <div class="top"><div><h1>${esc(a.company_name_ar || a.company_name || '—')}</h1>
+        <p class="muted" style="margin:4px 0 0" dir="ltr">${esc(a.company_name || '')} · ${esc(a.email || '')}</p></div>
+        <span class="badge ${tone(a.status)}">${esc(t('ast_' + a.status))}</span></div>
+      <div class="detail">
+        <section class="col">
+          <div class="card" style="display:flex;flex-direction:column;gap:12px"><h2>${esc(t('contractStatus'))}</h2>
+            ${step(a.status !== 'draft', t('stSubmitted'), a.submitted_at ? fmtDate(a.submitted_at) : '')}
+            ${step(agencySigned, t('stAgencySigned'), agencySigned ? `${a.terms_signer || ''} · ${fmtDate(a.terms_accepted_at)}` : '')}
+            ${step(platformSigned, t('stPlatformSigned'), platformSigned ? `${a.platform_signer || ''} · ${fmtDate(a.platform_signed_at)}` : '')}
+            ${step(!!a.contract_sent_at, t('stSent'), a.contract_sent_at ? fmtDate(a.contract_sent_at) : '')}
+            <div class="row" style="gap:8px;flex-wrap:wrap">
+              ${agencySigned && !platformSigned && a.status !== 'rejected' ? `<label class="f" style="width:140px">${esc(t('rate'))}<input type="number" id="c-rate" min="0" max="100" step="0.1" value="${esc(a.commission_rate ?? 10)}" dir="ltr"></label>
+                <button class="btn accent" type="button" id="c-sign">✍️ ${esc(t('reviewSign'))}</button>` : ''}
+              ${platformSigned ? `<button class="btn" type="button" id="c-pdf">📄 ${esc(t('signedCopy'))}</button><button class="btn ghost" type="button" id="c-resend">${esc(t('resend'))}</button>` : ''}
+            </div>
+            ${!agencySigned ? `<p class="notice info" style="margin:0">${esc(t('waitAgency'))}</p>` : ''}
+          </div>
+          <div class="card"><h2 style="margin-bottom:8px">${esc(t('companyData'))}</h2><dl class="kv">
+            ${kv('licenseNo', a.license_no)}${kv('licenseExpiry', a.license_expiry)}${kv('ownerName', a.owner_name)}${kv('ownerCivil', a.owner_civil_id)}
+            ${kv('signatory', a.signatory_name)}${kv('phoneL', a.phone)}${kv('address', a.address)}${kv('paci', a.paci_no)}
+            ${kv('bankName', a.bank_name)}${kv('holder', a.account_holder)}${kv('iban', a.iban)}</dl></div>
+          <div class="card"><h2 style="margin-bottom:8px">${esc(t('documents'))}</h2><div class="chips">
+            ${DOCS.filter(([k]) => docs[k]).map(([k, l]) => `<button class="btn ghost small" type="button" data-view="${esc(docs[k])}">📄 ${esc(t(l).replace(' *', '').split(' (')[0])}</button>`).join('')}
+            ${(Array.isArray(docs.other) ? docs.other : []).map((p, i) => `<button class="btn ghost small" type="button" data-view="${esc(p)}">📄 ${esc(t('extraCert'))} ${i + 1}</button>`).join('')}</div></div>
+        </section>
+        <section class="col"><div class="card"><h2 style="margin-bottom:8px">${esc(t('secTerms'))}</h2>${contractBox || `<p class="muted">${esc(t('notAccepted'))}</p>`}</div></section>
+      </div>`);
+    document.querySelectorAll('[data-view]').forEach((b) => (b.onclick = () => openDoc(b.dataset.view)));
+    const rateVal = () => Number(document.getElementById('c-rate')?.value || a.commission_rate || 10);
+    document.getElementById('c-sign')?.addEventListener('click', () => {
+      const approve = a.status === 'approved' ? async () => true : async () => {
+        const { error: er } = await sb.rpc('admin_review_application', { p_app: a.id, p_approve: true, p_rate: rateVal() });
+        toast(er ? (String(er.message).includes('agency_not_signed') ? t('agencyNotSigned') : t('errGeneric')) : t('approved'));
+        return !er;
+      };
+      T.openSignDialog(a.id, rateVal(), approve, () => viewCompany(a.id));
+    });
+    document.getElementById('c-pdf')?.addEventListener('click', () => T.openSigned(a.contract_path));
+    document.getElementById('c-resend')?.addEventListener('click', async (e) => {
+      e.target.disabled = true;
+      const { data: r, error } = await sb.functions.invoke('send-contract', { body: { app_id: a.id } });
+      toast(!error && r?.ok ? t('sent') : t('sentNoMail'));
+      viewCompany(a.id);
+    });
+  }
+
+  return { renderSignup, viewApplication, viewApplications, viewCompany };
 }

@@ -144,9 +144,11 @@ export function install(ctx) {
 
   async function viewPartners() {
     const { data, error } = await sb.rpc('admin_agencies');
+    const { data: apps } = await sb.from('partner_applications').select('id, agency_id').not('agency_id', 'is', null);
+    const appOf = Object.fromEntries((apps || []).map((x) => [x.agency_id, x.id]));
     if (error) return shell('partners', `<p class="notice bad">${esc(t('errGeneric'))}</p>`);
     const rows = (data || []).map((a) => `<tr data-id="${a.id}">
-      <td><b>${esc(state.lang === 'ar' ? a.name_ar || a.name : a.name)}</b><div class="muted" style="font-size:12px" dir="ltr">${esc(a.email || '')}</div></td>
+      <td>${appOf[a.id] ? `<a href="#/company/${appOf[a.id]}" style="font-weight:800">${esc(state.lang === 'ar' ? a.name_ar || a.name : a.name)} ↗</a>` : `<b>${esc(state.lang === 'ar' ? a.name_ar || a.name : a.name)}</b>`}<div class="muted" style="font-size:12px" dir="ltr">${esc(a.email || '')}</div></td>
       <td><input type="checkbox" data-k="active" ${a.active ? 'checked' : ''} aria-label="${esc(t('active'))}" style="width:auto"></td>
       <td><input type="checkbox" data-k="verified" ${a.verified ? 'checked' : ''} aria-label="${esc(t('verifiedL'))}" style="width:auto"></td>
       <td><input type="number" data-k="rate" min="0" max="100" step="0.1" value="${esc(a.commission_rate)}" style="width:90px" dir="ltr"></td>
