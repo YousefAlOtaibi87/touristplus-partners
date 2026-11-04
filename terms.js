@@ -19,7 +19,7 @@ export function installTerms(ctx) {
     saveSettings: 'حفظ بيانات المنصة', settingsSaved: 'تم حفظ بيانات المنصة.', needPlatformSig: 'أكمل بيانات المنصة وتوقيعها من صفحة «الاتفاقية» قبل الموافقة.',
     sigTitle: 'التوقيعات', party1: 'الطرف الأول: المنصة', party2: 'الطرف الثاني: المكتب', signedAt: 'تاريخ التوقيع', signer: 'الموقّع',
     signedCopy: 'النسخة الموقّعة من الاتفاقية', download: 'تحميل PDF', pending: 'بانتظار توقيع المنصة', sending: 'جاري توقيع الاتفاقية وإرسالها…',
-    sent: 'تم توقيع الاتفاقية وإرسال نسخة للمكتب.', sentNoMail: 'تم توقيع الاتفاقية وحفظها، والمكتب يستطيع تحميلها من البوابة. لم يُرسل البريد لأن خدمة الإرسال غير مفعّلة.',
+    sent: 'تم إرسال إشعار توقيع الاتفاقية للمكتب بالبريد.', sentNoMail: 'لم يُرسل الإشعار بالبريد. الاتفاقية محفوظة ويستطيع المكتب تحميلها من البوابة.',
     resendNotice: 'إعادة إرسال إشعار التوقيع', docNo: 'رقم الاتفاقية', signDlgTitle: 'مراجعة الاتفاقية وتوقيع المنصة', signDlgSub: 'وقّع المكتب على الاتفاقية. راجعها ثم وقّع بصفتك الطرف الأول لاعتمادها وتفعيل المكتب.', close: 'إغلاق', useSavedSig: 'استخدام التوقيع المحفوظ', platformConfirm: 'أقرّ بصفتي المفوَّض بالتوقيع عن المنصة بمراجعة الاتفاقية والموافقة عليها، وأن لهذا التوقيع الإلكتروني حجية التوقيع.', signApprove: 'توقيع الاتفاقية واعتماد المكتب', sigRequired: 'ارسم توقيعك أولاً.', confirmRequired: 'أشّر على الإقرار قبل التوقيع.', reviewSign: 'مراجعة الاتفاقية والتوقيع', agencyNotSigned: 'لا يمكن توقيع المنصة قبل توقيع المكتب على الاتفاقية.',
   });
   Object.assign(STR.en, {
@@ -36,7 +36,7 @@ export function installTerms(ctx) {
     saveSettings: 'Save platform details', settingsSaved: 'Platform details saved.', needPlatformSig: 'Complete the platform details and signature on the Agreement page before approving.',
     sigTitle: 'Signatures', party1: 'First party: Platform', party2: 'Second party: Agency', signedAt: 'Signed on', signer: 'Signatory',
     signedCopy: 'Signed copy of the agreement', download: 'Download PDF', pending: 'Awaiting platform signature', sending: 'Signing and sending the agreement…',
-    sent: 'Agreement signed and a copy sent to the agency.', sentNoMail: 'Agreement signed and saved; the agency can download it from the portal. Email was not sent because the mail service is not set up.',
+    sent: 'Signing notice emailed to the agency.', sentNoMail: 'The notice email was not sent. The agreement is saved and the agency can download it from the portal.',
     resendNotice: 'Resend signing notice', docNo: 'Agreement no.', signDlgTitle: 'Review agreement & platform signature', signDlgSub: 'The agency has signed. Review the agreement, then sign as the first party to approve and activate the agency.', close: 'Close', useSavedSig: 'Use saved signature', platformConfirm: 'As the platform’s authorized signatory, I confirm I reviewed and accept this agreement; this electronic signature has the effect of a signature.', signApprove: 'Sign agreement & approve agency', sigRequired: 'Draw your signature first.', confirmRequired: 'Tick the confirmation before signing.', reviewSign: 'Review agreement & sign', agencyNotSigned: 'The platform cannot sign before the agency has signed the agreement.',
   });
 
