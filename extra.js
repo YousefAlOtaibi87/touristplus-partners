@@ -12,6 +12,7 @@ export function install(ctx) {
     st_travelers: 'المسافرين', st_partners: 'الشركاء الفعّالين', st_requests: 'طلبات السفر', st_open: 'طلبات مفتوحة', st_offers: 'العروض', st_bookings: 'الحجوزات',
     st_packages: 'الباقات', st_paid: 'إجمالي المدفوع', st_commission: 'إجمالي العمولات',
     verifiedL: 'موثّق', rate: 'العمولة %', supplier: 'كود المورد', sales: 'المبيعات', invite: 'إضافة شريك', inviteSub: 'بيوصل الشريك إيميل دعوة لتعيين كلمة المرور.',
+    pkgCol: 'الباقات', pkgUntil: 'حتى تاريخ', pkgLockedTitle: 'الباقات الجاهزة — اشتراك إضافي', pkgLockedSub: 'خاصية نشر الباقات الجاهزة متاحة للشركاء المشتركين في الباقة الإضافية. للاشتراك، تواصل مع إدارة TheTouristPlus على info@thetouristplus.com.',
     agencyName: 'اسم الشركة (EN)', agencyNameAr: 'اسم الشركة (عربي)', license: 'رقم الترخيص', inviteSent: 'تم إرسال الدعوة للشريك.', partner: 'الشريك', bookedAt: 'تاريخ الحجز',
   });
   Object.assign(STR.en, {
@@ -24,6 +25,7 @@ export function install(ctx) {
     st_travelers: 'Travelers', st_partners: 'Active partners', st_requests: 'Trip requests', st_open: 'Open requests', st_offers: 'Offers', st_bookings: 'Bookings',
     st_packages: 'Packages', st_paid: 'Total paid', st_commission: 'Total commission',
     verifiedL: 'Verified', rate: 'Commission %', supplier: 'Supplier code', sales: 'Sales', invite: 'Add partner', inviteSub: 'The partner receives an invitation email to set a password.',
+    pkgCol: 'Packages', pkgUntil: 'Until', pkgLockedTitle: 'Ready-made packages — add-on subscription', pkgLockedSub: 'Publishing ready-made packages is available to partners subscribed to the add-on. To subscribe, contact TheTouristPlus at info@thetouristplus.com.',
     agencyName: 'Company name (EN)', agencyNameAr: 'Company name (AR)', license: 'License no.', inviteSent: 'Invitation sent to the partner.', partner: 'Partner', bookedAt: 'Booked',
   });
 
@@ -149,10 +151,11 @@ export function install(ctx) {
       <td><input type="checkbox" data-k="verified" ${a.verified ? 'checked' : ''} aria-label="${esc(t('verifiedL'))}" style="width:auto"></td>
       <td><input type="number" data-k="rate" min="0" max="100" step="0.1" value="${esc(a.commission_rate)}" style="width:90px" dir="ltr"></td>
       <td><input type="number" data-k="supplier" value="${esc(a.mf_supplier_code ?? '')}" style="width:110px" dir="ltr"></td>
+      <td><input type="checkbox" data-k="pkg" ${a.packages_enabled ? 'checked' : ''} aria-label="${esc(t('pkgCol'))}" style="width:auto"> <input type="date" data-k="pkgUntil" value="${esc(a.packages_until || '')}" title="${esc(t('pkgUntil'))}" style="width:140px" dir="ltr"></td>
       <td>${esc(a.bookings)} · ${esc(money(a.paid_total))}</td><td>${esc(money(a.commission_total))}</td>
       <td><button class="btn small" type="button" data-save>${esc(t('save'))}</button></td></tr>`).join('');
     shell('partners', `<div class="top"><h1>${esc(t('navPartners'))}</h1></div>
-      <div class="tbl-wrap"><table><thead><tr><th>${esc(t('partner'))}</th><th>${esc(t('active'))}</th><th>${esc(t('verifiedL'))}</th><th>${esc(t('rate'))}</th><th>${esc(t('supplier'))}</th><th>${esc(t('sales'))}</th><th>${esc(t('commission'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
+      <div class="tbl-wrap"><table><thead><tr><th>${esc(t('partner'))}</th><th>${esc(t('active'))}</th><th>${esc(t('verifiedL'))}</th><th>${esc(t('rate'))}</th><th>${esc(t('supplier'))}</th><th>${esc(t('pkgCol'))}</th><th>${esc(t('sales'))}</th><th>${esc(t('commission'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
       <form id="invite" data-keep class="card" style="display:flex;flex-direction:column;gap:12px;max-width:760px;margin-top:20px" novalidate>
         <h2>${esc(t('invite'))}</h2><p class="muted" style="margin:0">${esc(t('inviteSub'))}</p>
         <div class="row" style="gap:12px;align-items:flex-start"><div class="grow">${field(t('agencyName'), '<input name="name" required>')}</div><div class="grow">${field(t('agencyNameAr'), '<input name="name_ar">')}</div></div>
@@ -164,7 +167,8 @@ export function install(ctx) {
       const v = (k) => tr.querySelector(`[data-k=${k}]`);
       const sup = v('supplier').value.trim();
       const { error: e2 } = await sb.rpc('admin_update_agency', { p_agency: tr.dataset.id, p_active: v('active').checked, p_verified: v('verified').checked, p_rate: Number(v('rate').value || 0), p_supplier_code: sup ? Number(sup) : null });
-      toast(e2 ? t('errGeneric') : t('saved'));
+      const { error: e4 } = await sb.rpc('admin_set_packages', { p_agency: tr.dataset.id, p_enabled: v('pkg').checked, p_until: v('pkgUntil').value || null });
+      toast(e2 || e4 ? t('errGeneric') : t('saved'));
     }));
     document.getElementById('invite').onsubmit = async (e) => {
       e.preventDefault();
@@ -189,5 +193,9 @@ export function install(ctx) {
       ${rows ? `<div class="tbl-wrap"><table><thead><tr><th>${esc(t('destination'))}</th><th>${esc(t('depart'))}</th><th>${esc(t('traveler'))}</th><th>${esc(t('partner'))}</th><th>${esc(t('price'))}</th><th>${esc(t('payStatus'))}</th><th>${esc(t('commission'))}</th><th>${esc(t('bookedAt'))}</th></tr></thead><tbody>${rows}</tbody></table></div>` : `<div class="card empty">${esc(t('noBookings'))}</div>`}`);
   }
 
-  return { viewPackages, viewPackage, viewOverview, viewPartners, viewAllBookings };
+  function viewPackagesLocked() {
+    shell('packages', `<div class="top"><h1>${esc(t('pkgLockedTitle'))}</h1></div><div class="card"><p style="margin:0">${esc(t('pkgLockedSub'))}</p></div>`);
+  }
+
+  return { viewPackagesLocked, viewPackages, viewPackage, viewOverview, viewPartners, viewAllBookings };
 }

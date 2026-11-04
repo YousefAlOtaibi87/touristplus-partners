@@ -1,5 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=2';
+import { install } from './extra.js?v=3';
 import { installOnboarding } from './onboarding.js?v=10';
 import { installTerms } from './terms.js?v=3';
 
@@ -144,6 +144,7 @@ async function loadProfile() {
     state.agency = a;
   }
   if (p?.role === 'admin') { const { data: n } = await sb.rpc('admin_pending_applications'); state.pendingApps = n || 0; }
+  if (p?.role === 'agency') { const { data: on } = await sb.rpc('my_packages_on'); state.packagesOn = !!on; }
   startRealtime();
 }
 
@@ -196,6 +197,7 @@ async function route() {
     return X.viewOverview();
   }
   if (!state.agency || state.profile.role !== 'agency') return O.viewApplication();
+  if ((view === 'packages' || view === 'package') && !state.packagesOn) return X.viewPackagesLocked();
   if (view === 'packages') return X.viewPackages();
   if (view === 'terms') return TM.viewTerms();
   if (view === 'package' && id) return X.viewPackage(id);
@@ -280,7 +282,7 @@ function shell(active, inner) {
         ${link('terms', '#/terms', t('navTerms'))}` : `${link('requests', '#/requests', t('navRequests'), state.openCount)}
         ${link('offers', '#/offers', t('navOffers'))}
         ${link('bookings', '#/bookings', t('navBookings'))}
-        ${link('packages', '#/packages', t('navPackages'))}
+        ${state.packagesOn ? link('packages', '#/packages', t('navPackages')) : ''}
         ${link('terms', '#/terms', t('navTerms'))}`}
       </nav>
       <div class="side-foot">
