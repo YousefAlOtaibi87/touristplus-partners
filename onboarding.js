@@ -4,6 +4,8 @@ export function installOnboarding(ctx) {
   const T = ctx.terms;
 
   Object.assign(STR.ar, {
+    delTitle: 'حذف المكتب من النظام', delWarn: 'الحذف نهائي ولا يمكن التراجع عنه: يُحذف طلب الانضمام والمستندات والعروض والباقات، ويفقد حساب المكتب صلاحية بوابة الشركاء. إذا كانت هناك اتفاقية موقّعة تُنزَّل نسخة منها تلقائياً قبل الحذف. لا يمكن حذف مكتب لديه حجوزات مدفوعة — استخدم «ملغاة» بدلاً من ذلك.',
+    delReason: 'سبب الحذف *', delConfirm: 'للتأكيد اكتب اسم الشركة كما هو:', delBtn: '🗑️ حذف المكتب نهائياً', delNameMismatch: 'اسم الشركة غير مطابق.', delPaid: 'لا يمكن حذف هذا المكتب لأن لديه حجوزات مدفوعة. غيّر حالته إلى «ملغاة».', delDone: 'تم حذف المكتب من النظام.',
     stStatus: 'حالة الشركة', st_active: 'مفعّلة', st_suspended: 'موقوفة', st_cancelled: 'ملغاة', stChange: 'تغيير الحالة', stNew: 'الحالة الجديدة', stReasonType: 'سبب التغيير',
     rt_violation: 'مخالفة لبنود الاتفاقية', rt_platform: 'لمصلحة المنصة', rt_owner_request: 'بطلب من صاحب المكتب', rt_other: 'سبب آخر', stReason: 'تفاصيل السبب', stSave: 'حفظ الحالة', stSaved: 'تم تحديث حالة الشركة.',
     stReasonReq: 'اختر سبب التغيير، واكتب التفاصيل إذا كان السبب «سبب آخر».', stHistory: 'سجل الحالات', stNoHistory: 'لا توجد تغييرات سابقة.', stConfirmCancel: 'إلغاء الشركة يسحب عروضها المفتوحة ويوقف حسابها. هل أنت متأكد؟',
@@ -27,6 +29,8 @@ export function installOnboarding(ctx) {
     approved: 'تم تفعيل المكتب.', rejectedDone: 'تم رفض الطلب.', ast_draft: 'مسودة', ast_submitted: 'بانتظار المراجعة', ast_approved: 'مفعّل', ast_rejected: 'مرفوض', submittedAt: 'تاريخ الإرسال',
   });
   Object.assign(STR.en, {
+    delTitle: 'Delete agency from the system', delWarn: 'Deletion is permanent: the application, documents, offers and packages are removed and the agency login loses partner access. A copy of any signed agreement is downloaded automatically first. Agencies with paid bookings cannot be deleted — set them to Cancelled instead.',
+    delReason: 'Reason for deletion *', delConfirm: 'To confirm, type the company name exactly:', delBtn: '🗑️ Delete agency permanently', delNameMismatch: 'Company name does not match.', delPaid: 'This agency has paid bookings and cannot be deleted. Set it to Cancelled.', delDone: 'Agency deleted from the system.',
     stStatus: 'Company status', st_active: 'Active', st_suspended: 'Suspended', st_cancelled: 'Cancelled', stChange: 'Change status', stNew: 'New status', stReasonType: 'Reason',
     rt_violation: 'Breach of the agreement', rt_platform: 'In the platform\'s interest', rt_owner_request: 'Requested by the agency owner', rt_other: 'Other', stReason: 'Details', stSave: 'Save status', stSaved: 'Company status updated.',
     stReasonReq: 'Choose a reason, and add details when the reason is "Other".', stHistory: 'Status history', stNoHistory: 'No previous changes.', stConfirmCancel: 'Cancelling withdraws the company\'s open offers and disables its account. Continue?',
@@ -412,7 +416,12 @@ export function installOnboarding(ctx) {
             ${DOCS.filter(([k]) => docs[k]).map(([k, l]) => `<button class="btn ghost small" type="button" data-view="${esc(docs[k])}">📄 ${esc(t(l).replace(' *', '').split(' (')[0])}</button>`).join('')}
             ${(Array.isArray(docs.other) ? docs.other : []).map((p, i) => `<button class="btn ghost small" type="button" data-view="${esc(p)}">📄 ${esc(t('extraCert'))} ${i + 1}</button>`).join('')}</div></div>
         </section>
-        <section class="col"><div class="card"><h2 style="margin-bottom:8px">${esc(t('secTerms'))}</h2>${contractBox || `<p class="muted">${esc(t('notAccepted'))}</p>`}</div></section>
+        <section class="col"><div class="card"><h2 style="margin-bottom:8px">${esc(t('secTerms'))}</h2>${contractBox || `<p class="muted">${esc(t('notAccepted'))}</p>`}</div>
+          <div class="card" style="display:flex;flex-direction:column;gap:10px;border-color:#e5a5a5"><h2 style="color:#b42318">${esc(t('delTitle'))}</h2>
+            <p class="muted" style="margin:0;font-size:13px">${esc(t('delWarn'))}</p>
+            <label class="f">${esc(t('delReason'))}<input id="del-reason"></label>
+            <label class="f">${esc(t('delConfirm'))} <b>${esc(a.company_name_ar || a.company_name || '')}</b><input id="del-name" autocomplete="off"></label>
+            <button class="btn danger" type="button" id="del-go">${esc(t('delBtn'))}</button></div></section>
       </div>`);
     document.querySelectorAll('[data-view]').forEach((b) => (b.onclick = () => openDoc(b.dataset.view)));
     const rateVal = () => Number(document.getElementById('c-rate')?.value || a.commission_rate || 10);
@@ -425,6 +434,31 @@ export function installOnboarding(ctx) {
       T.openSignDialog(a.id, rateVal(), approve, () => viewCompany(a.id));
     });
     document.getElementById('c-pdf')?.addEventListener('click', () => T.openSigned(a.contract_path));
+    document.getElementById('del-go').addEventListener('click', async (e) => {
+      const reason = document.getElementById('del-reason').value.trim();
+      const typed = document.getElementById('del-name').value.trim();
+      if (!reason) { toast(t('stReasonReq')); return document.getElementById('del-reason').focus(); }
+      if (typed !== String(a.company_name_ar || a.company_name || '').trim()) return toast(t('delNameMismatch'));
+      e.target.disabled = true;
+      try {
+        if (a.contract_path) {
+          const { data: blob } = await sb.storage.from('partner-docs').download(a.contract_path);
+          if (blob) {
+            const url = URL.createObjectURL(blob);
+            const ln = Object.assign(document.createElement('a'), { href: url, download: `Agreement-${(a.company_name || a.id).replace(/[^\w\u0600-\u06FF-]+/g, '_')}-${a.license_no || ''}.pdf` });
+            document.body.appendChild(ln); ln.click(); ln.remove(); setTimeout(() => URL.revokeObjectURL(url), 30000);
+          }
+        }
+        const { error: er } = await sb.rpc('admin_delete_agency', { p_app: a.id, p_reason: reason });
+        if (er) { toast(String(er.message).includes('has_paid_bookings') ? t('delPaid') : t('errGeneric')); e.target.disabled = false; return; }
+        const paths = new Set([a.contract_path, ...Object.values(a.docs || {}).flat()].filter((x) => typeof x === 'string' && x));
+        const { data: files } = await sb.storage.from('partner-docs').list(a.user_id, { limit: 1000 });
+        (files || []).forEach((f) => f.id && paths.add(`${a.user_id}/${f.name}`));
+        if (paths.size) await sb.storage.from('partner-docs').remove([...paths]);
+        toast(t('delDone'));
+        location.hash = '#/apps';
+      } catch (err) { console.error(err); toast(t('errGeneric')); e.target.disabled = false; }
+    });
     const stSel = document.getElementById('st-new');
     const lockReason = () => {
       const on = stSel.value !== 'active';
