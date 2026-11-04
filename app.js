@@ -15,6 +15,9 @@ const STR = {
     newPassword: 'كلمة مرور جديدة', savePassword: 'حفظ كلمة المرور', passwordSaved: 'تم حفظ كلمة المرور.',
     badLogin: 'الإيميل أو كلمة المرور غير صحيحة.', errGeneric: 'صار خطأ، حاول مرة ثانية.',
     notPartner: 'هذا الحساب مو حساب شريك. تواصل مع TheTouristPlus لتفعيل حسابك.', notConfigured: 'البوابة غير مربوطة بالخادم للحين.',
+    childAges: 'أعمار الأطفال', ageInfant: 'رضيع ({n})', ageYears: '{n} سنوات', prefsL: 'تفضيلات المسافر',
+    pref_central: 'فندق في وسط المدينة', pref_breakfast: 'إفطار مشمول', pref_direct: 'طيران مباشر', pref_connecting: 'غرف متصلة', pref_view: 'إطلالة بحر / جبل',
+    pref_pool: 'مسبح أو فيلا', pref_flexible: 'مرونة بالتواريخ ±2 يوم', pref_driver: 'سيارة مع سائق', pref_access: 'احتياجات خاصة',
     navRequests: 'طلبات السفر', navOffers: 'عروض الأسعار', navBookings: 'الحجوزات', signOut: 'تسجيل الخروج',
     requestsTitle: 'طلبات السفر المفتوحة', requestsSub: 'اختر طلب وقدّم عرضك للمسافر.',
     search: 'ابحث بالوجهة…', allTypes: 'كل الأنواع', sortClosing: 'الأقرب إغلاقاً', sortNewest: 'الأحدث',
@@ -33,7 +36,7 @@ const STR = {
     contactAfterPay: 'تظهر بيانات المسافر وجوازات السفر هنا فور إتمام الدفع.', passports: 'بيانات جوازات السفر', paxName: 'الاسم كما في الجواز', passportNo: 'رقم الجواز', nationality: 'الجنسية', birth: 'تاريخ الميلاد', expiry: 'انتهاء الجواز', viewCopy: 'عرض النسخة',
     payStatus: 'الدفع', commission: 'العمولة', net: 'صافي لك', pay_paid: 'مدفوع', pay_pending: 'بانتظار الدفع', pay_failed: 'لم يتم', pay_refunded: 'مسترجع', pay_none: 'لم يدفع بعد',
     contact: 'بيانات التواصل', name: 'الاسم', phone: 'الجوال', newRequest: 'وصل طلب سفر جديد', newMessage: 'رسالة جديدة من مسافر', offerAccepted: 'مسافر حجز عرضك!',
-    type_leisure: 'سياحة', type_umrah: 'عمرة', type_honeymoon: 'شهر عسل', type_business: 'عمل', type_group: 'مجموعة',
+    type_leisure: 'سياحة', type_family: 'عائلية', type_umrah: 'عمرة', type_honeymoon: 'شهر عسل', type_business: 'عمل', type_group: 'مجموعة',
     svc_flights: 'طيران', svc_hotel: 'فندق', svc_transfers: 'توصيل', svc_tours: 'جولات', svc_visa: 'تأشيرة', svc_insurance: 'تأمين',
     kwd: 'د.ك', open: 'مفتوح', rfq_booked: 'محجوز', rfq_cancelled: 'ملغي', rfq_closed: 'مغلق',
   },
@@ -44,6 +47,9 @@ const STR = {
     newPassword: 'New password', savePassword: 'Save password', passwordSaved: 'Password saved.',
     badLogin: 'Incorrect email or password.', errGeneric: 'Something went wrong. Please try again.',
     notPartner: 'This is not a partner account. Contact TheTouristPlus to activate your account.', notConfigured: 'The portal is not connected to the server yet.',
+    childAges: 'Children’s ages', ageInfant: 'infant ({n})', ageYears: '{n} yrs', prefsL: 'Traveler preferences',
+    pref_central: 'Central hotel', pref_breakfast: 'Breakfast included', pref_direct: 'Direct flights', pref_connecting: 'Connecting rooms', pref_view: 'Sea / mountain view',
+    pref_pool: 'Pool or villa', pref_flexible: 'Flexible dates ±2 days', pref_driver: 'Car with driver', pref_access: 'Accessibility needs',
     navRequests: 'Trip requests', navOffers: 'My quotes', navBookings: 'Bookings', signOut: 'Sign out',
     requestsTitle: 'Open trip requests', requestsSub: 'Pick a request and send your offer to the traveler.',
     search: 'Search destination…', allTypes: 'All types', sortClosing: 'Closing soon', sortNewest: 'Newest',
@@ -62,14 +68,14 @@ const STR = {
     contactAfterPay: 'Traveler details and passports appear here once payment is complete.', passports: 'Passport details', paxName: 'Name as in passport', passportNo: 'Passport no.', nationality: 'Nationality', birth: 'Date of birth', expiry: 'Passport expiry', viewCopy: 'View copy',
     payStatus: 'Payment', commission: 'Commission', net: 'Your net', pay_paid: 'Paid', pay_pending: 'Awaiting payment', pay_failed: 'Failed', pay_refunded: 'Refunded', pay_none: 'Not paid yet',
     contact: 'Contact details', name: 'Name', phone: 'Mobile', newRequest: 'New trip request received', newMessage: 'New message from a traveler', offerAccepted: 'A traveler booked your offer!',
-    type_leisure: 'Leisure', type_umrah: 'Umrah', type_honeymoon: 'Honeymoon', type_business: 'Business', type_group: 'Group',
+    type_leisure: 'Leisure', type_family: 'Family', type_umrah: 'Umrah', type_honeymoon: 'Honeymoon', type_business: 'Business', type_group: 'Group',
     svc_flights: 'Flights', svc_hotel: 'Hotel', svc_transfers: 'Transfers', svc_tours: 'Tours', svc_visa: 'Visa', svc_insurance: 'Insurance',
     kwd: 'KWD', open: 'Open', rfq_booked: 'Booked', rfq_cancelled: 'Cancelled', rfq_closed: 'Closed',
   },
 };
 const PLACES = { Istanbul: 'إسطنبول', London: 'لندن', Makkah: 'مكة المكرمة', Paris: 'باريس', Bali: 'بالي', Tbilisi: 'تبليسي', Dubai: 'دبي', Baku: 'باكو', Trabzon: 'طرابزون', Cairo: 'القاهرة' };
 const SERVICES = ['flights', 'hotel', 'transfers', 'tours', 'visa', 'insurance'];
-const TYPES = ['leisure', 'umrah', 'honeymoon', 'business', 'group'];
+const TYPES = ['leisure', 'family', 'honeymoon', 'business', 'group'];
 
 const state = {
   lang: localStorage.getItem('tp.lang') === 'en' ? 'en' : 'ar',
@@ -379,6 +385,8 @@ async function viewRequest(id) {
     <dt>${esc(t('depart'))}</dt><dd dir="ltr" style="text-align:start">${esc(r.depart)}</dd>
     <dt>${esc(t('ret'))}</dt><dd dir="ltr" style="text-align:start">${esc(r.ret)} · ${esc(t('nights', { n: nights(r.depart, r.ret) }))}</dd>
     <dt>${esc(t('travelersL'))}</dt><dd>${esc(t('travelers', { a: r.adults, c: r.children }))}</dd>
+    ${r.children_ages?.length ? `<dt>${esc(t('childAges'))}</dt><dd>${r.children_ages.map((a) => esc(a < 2 ? t('ageInfant', { n: a }) : t('ageYears', { n: a }))).join('، ')}</dd>` : ''}
+    ${r.prefs?.length ? `<dt>${esc(t('prefsL'))}</dt><dd><div class="chips">${r.prefs.map((p) => `<span class="badge accent">${esc(t('pref_' + p))}</span>`).join('')}</div></dd>` : ''}
     <dt>${esc(t('hotelStars'))}</dt><dd>${r.hotel_stars ? '★'.repeat(r.hotel_stars) : esc(t('any'))}</dd>
     ${r.budget_min || r.budget_max ? `<dt>${esc(t('budget'))}</dt><dd>${r.budget_min ? esc(money(r.budget_min)) : '—'} – ${r.budget_max ? esc(money(r.budget_max)) : '—'}</dd>` : ''}
     <dt>${esc(t('traveler'))}</dt><dd>${esc(r.traveler_name || '—')}</dd>
