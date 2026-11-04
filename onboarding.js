@@ -425,6 +425,12 @@ export function installOnboarding(ctx) {
       T.openSignDialog(a.id, rateVal(), approve, () => viewCompany(a.id));
     });
     document.getElementById('c-pdf')?.addEventListener('click', () => T.openSigned(a.contract_path));
+    const stSel = document.getElementById('st-new');
+    const lockReason = () => {
+      const on = stSel.value !== 'active';
+      ['st-rt', 'st-reason'].forEach((id) => { const el = document.getElementById(id); el.disabled = !on; if (!on) el.value = ''; el.closest('label').style.opacity = on ? '' : '.5'; });
+    };
+    if (stSel) { stSel.addEventListener('change', lockReason); lockReason(); }
     document.getElementById('st-save')?.addEventListener('click', async (e) => {
       const st = document.getElementById('st-new').value, rt = document.getElementById('st-rt').value, rs = document.getElementById('st-reason').value.trim();
       if (st !== 'active' && (!rt || (rt === 'other' && !rs))) return toast(t('stReasonReq'));
