@@ -149,7 +149,7 @@ export function install(ctx) {
     if (error) return shell('partners', `<p class="notice bad">${esc(t('errGeneric'))}</p>`);
     const rows = (data || []).map((a) => `<tr data-id="${a.id}">
       <td>${appOf[a.id] ? `<a href="#/company/${appOf[a.id]}" style="font-weight:800">${esc(state.lang === 'ar' ? a.name_ar || a.name : a.name)} ↗</a>` : `<b>${esc(state.lang === 'ar' ? a.name_ar || a.name : a.name)}</b>`}<div class="muted" style="font-size:12px" dir="ltr">${esc(a.email || '')}</div></td>
-      <td><input type="checkbox" data-k="active" ${a.active ? 'checked' : ''} aria-label="${esc(t('active'))}" style="width:auto"></td>
+      <td><input type="checkbox" data-k="active" ${a.active ? 'checked' : ''} hidden><span class="badge ${a.status === 'cancelled' ? 'bad' : a.status === 'suspended' ? 'accent' : 'good'}" title="${esc(a.status_reason || '')}">${esc(t('st_' + (a.status || 'active')))}</span></td>
       <td><input type="checkbox" data-k="verified" ${a.verified ? 'checked' : ''} aria-label="${esc(t('verifiedL'))}" style="width:auto"></td>
       <td><input type="number" data-k="rate" min="0" max="100" step="0.1" value="${esc(a.commission_rate)}" style="width:90px" dir="ltr"></td>
       <td><input type="number" data-k="supplier" value="${esc(a.mf_supplier_code ?? '')}" style="width:110px" dir="ltr"></td>

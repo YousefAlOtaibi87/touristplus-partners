@@ -4,6 +4,11 @@ export function installOnboarding(ctx) {
   const T = ctx.terms;
 
   Object.assign(STR.ar, {
+    stStatus: 'حالة الشركة', st_active: 'مفعّلة', st_suspended: 'موقوفة', st_cancelled: 'ملغاة', stChange: 'تغيير الحالة', stNew: 'الحالة الجديدة', stReasonType: 'سبب التغيير',
+    rt_violation: 'مخالفة لبنود الاتفاقية', rt_platform: 'لمصلحة المنصة', rt_owner_request: 'بطلب من صاحب المكتب', rt_other: 'سبب آخر', stReason: 'تفاصيل السبب', stSave: 'حفظ الحالة', stSaved: 'تم تحديث حالة الشركة.',
+    stReasonReq: 'اختر سبب التغيير، واكتب التفاصيل إذا كان السبب «سبب آخر».', stHistory: 'سجل الحالات', stNoHistory: 'لا توجد تغييرات سابقة.', stConfirmCancel: 'إلغاء الشركة يسحب عروضها المفتوحة ويوقف حسابها. هل أنت متأكد؟',
+    stNotLinked: 'تظهر أدوات الحالة بعد اعتماد الشركة.', dlAll: '⬇️ تنزيل جميع الاتفاقيات (ZIP)', dlBusy: 'جارٍ تجهيز الملف…', dlNone: 'لا توجد اتفاقيات موقّعة بعد.',
+    agSuspended: 'حساب مكتبكم موقوف حالياً، ولا يمكن إرسال عروض جديدة.', agCancelled: 'تم إلغاء حساب مكتبكم في المنصة.', agReason: 'السبب:', agContact: 'للاستفسار تواصلوا مع إدارة المنصة.',
     registerCta: 'مكتب سفريات؟ سجّل مكتبك', emailExists: 'هذا الإيميل مسجّل عندنا من قبل. سجّل دخول بنفس الإيميل وكلمة المرور، وبيطلع لك نموذج بيانات المكتب. إذا نسيت كلمة المرور استخدم «نسيت كلمة المرور؟».', resend: 'إعادة إرسال الكود', resent: 'تم إرسال كود جديد. شيّك على البريد غير المرغوب (Junk) بعد.', register: 'تسجيل مكتب جديد', registerSub: 'أنشئ حساب، بعدها تعبي بيانات مكتبك وترفق المستندات.',
     createAccount: 'إنشاء الحساب', otpSent: 'أرسلنا كود التحقق لإيميلك. اكتبه هني:', otp: 'كود التحقق', verify: 'تأكيد', badOtp: 'الكود غير صحيح أو منتهي.',
     pwMin: 'كلمة المرور 8 أحرف على الأقل.', haveAccount: 'عندي حساب، تسجيل الدخول',
@@ -18,10 +23,15 @@ export function installOnboarding(ctx) {
     fileTooBig: 'حجم الملف أكبر من 10MB.', underReview: 'طلبك تحت المراجعة. بيوصلك تفعيل الحساب أول ما نخلص، وتقدر تدخل من نفس الصفحة.',
     rejectedMsg: 'تم رفض الطلب: {r}. عدّل البيانات وأرسله مرة ثانية.',
     navApps: 'طلبات الانضمام', appsTitle: 'طلبات انضمام المكاتب', noApps: 'ما فيه طلبات.', approve: 'موافقة وتفعيل', reject: 'رفض', rejectReason: 'سبب الرفض',
-    contractStatus: 'حالة الاتفاقية', stSubmitted: 'إرسال طلب الانضمام', stAgencySigned: 'توقيع المكتب', stPlatformSigned: 'توقيع المنصة', stSent: 'إرسال النسخة الموقّعة للمكتب', waitAgency: 'بانتظار توقيع المكتب على الاتفاقية.', companyData: 'بيانات الشركة', documents: 'المستندات', extraCert: 'شهادة إضافية', openCompany: 'صفحة الشركة',
+    contractStatus: 'حالة الاتفاقية', stSubmitted: 'إرسال طلب الانضمام', stAgencySigned: 'توقيع المكتب', stPlatformSigned: 'توقيع المنصة', stSent: 'إشعار المكتب بتوقيع الاتفاقية', waitAgency: 'بانتظار توقيع المكتب على الاتفاقية.', companyData: 'بيانات الشركة', documents: 'المستندات', extraCert: 'شهادة إضافية', openCompany: 'صفحة الشركة',
     approved: 'تم تفعيل المكتب.', rejectedDone: 'تم رفض الطلب.', ast_draft: 'مسودة', ast_submitted: 'بانتظار المراجعة', ast_approved: 'مفعّل', ast_rejected: 'مرفوض', submittedAt: 'تاريخ الإرسال',
   });
   Object.assign(STR.en, {
+    stStatus: 'Company status', st_active: 'Active', st_suspended: 'Suspended', st_cancelled: 'Cancelled', stChange: 'Change status', stNew: 'New status', stReasonType: 'Reason',
+    rt_violation: 'Breach of the agreement', rt_platform: 'In the platform\'s interest', rt_owner_request: 'Requested by the agency owner', rt_other: 'Other', stReason: 'Details', stSave: 'Save status', stSaved: 'Company status updated.',
+    stReasonReq: 'Choose a reason, and add details when the reason is "Other".', stHistory: 'Status history', stNoHistory: 'No previous changes.', stConfirmCancel: 'Cancelling withdraws the company\'s open offers and disables its account. Continue?',
+    stNotLinked: 'Status controls appear once the company is approved.', dlAll: '⬇️ Download all agreements (ZIP)', dlBusy: 'Preparing the file…', dlNone: 'No signed agreements yet.',
+    agSuspended: 'Your agency account is currently suspended; new offers cannot be sent.', agCancelled: 'Your agency account has been cancelled on the platform.', agReason: 'Reason:', agContact: 'Please contact the platform administration for details.',
     registerCta: 'Travel agency? Register your agency', emailExists: 'This email is already registered. Sign in with the same email and password and the agency form will open. If you forgot the password, use “Forgot password?”.', resend: 'Resend code', resent: 'A new code was sent. Check your Junk folder too.', register: 'Register a new agency', registerSub: 'Create an account, then fill in your agency details and attach the documents.',
     createAccount: 'Create account', otpSent: 'We sent a verification code to your email. Enter it here:', otp: 'Verification code', verify: 'Verify', badOtp: 'Invalid or expired code.',
     pwMin: 'Password must be at least 8 characters.', haveAccount: 'I have an account, sign in',
@@ -36,7 +46,7 @@ export function installOnboarding(ctx) {
     fileTooBig: 'File is larger than 10MB.', underReview: 'Your application is under review. Your account will be activated once we finish; sign in from this page.',
     rejectedMsg: 'Application rejected: {r}. Update your details and submit again.',
     navApps: 'Applications', appsTitle: 'Agency applications', noApps: 'No applications.', approve: 'Approve & activate', reject: 'Reject', rejectReason: 'Rejection reason',
-    contractStatus: 'Agreement status', stSubmitted: 'Application submitted', stAgencySigned: 'Agency signature', stPlatformSigned: 'Platform signature', stSent: 'Signed copy sent to agency', waitAgency: 'Waiting for the agency to sign the agreement.', companyData: 'Company details', documents: 'Documents', extraCert: 'Extra certificate', openCompany: 'Company page',
+    contractStatus: 'Agreement status', stSubmitted: 'Application submitted', stAgencySigned: 'Agency signature', stPlatformSigned: 'Platform signature', stSent: 'Agency notified of signing', waitAgency: 'Waiting for the agency to sign the agreement.', companyData: 'Company details', documents: 'Documents', extraCert: 'Extra certificate', openCompany: 'Company page',
     approved: 'Agency activated.', rejectedDone: 'Application rejected.', ast_draft: 'Draft', ast_submitted: 'Awaiting review', ast_approved: 'Active', ast_rejected: 'Rejected', submittedAt: 'Submitted',
   });
 
@@ -278,10 +288,11 @@ export function installOnboarding(ctx) {
           <button class="btn danger" type="button" data-reject>${esc(t('reject'))}</button></div>` : ''}
       </details>`;
     };
-    shell('apps', `<div class="top"><h1>${esc(t('appsTitle'))}</h1></div>
+    shell('apps', `<div class="top"><h1>${esc(t('appsTitle'))}</h1><button class="btn" type="button" id="dl-all">${esc(t('dlAll'))}</button></div>
       ${(data || []).length ? `<div style="display:flex;flex-direction:column;gap:14px">${data.map(card).join('')}</div>` : `<div class="card empty">${esc(t('noApps'))}</div>`}`);
     document.querySelectorAll('[data-view]').forEach((b) => (b.onclick = () => openDoc(b.dataset.view)));
     document.querySelectorAll('[data-signed]').forEach((b) => (b.onclick = () => T.openSigned(b.dataset.signed)));
+    document.getElementById('dl-all').onclick = (e) => downloadAll(e.target);
     document.querySelectorAll('[data-signnow]').forEach((b) => (b.onclick = () => T.openSignDialog(b.dataset.signnow, Number(b.dataset.rate || 10), async () => true, () => viewApplications(b.dataset.signnow))));
     document.querySelectorAll('[data-resign]').forEach((b) => (b.onclick = async () => { b.disabled = true; await T.signAndSend(b.dataset.resign); viewApplications(b.dataset.resign); }));
     document.querySelectorAll('[data-app]').forEach((box) => {
@@ -307,6 +318,33 @@ export function installOnboarding(ctx) {
   }
 
 
+  // ------------------------------------------------------------ admin: download every signed agreement as one ZIP
+  async function downloadAll(btn) {
+    const { data: list } = await sb.from('partner_applications').select('id, company_name, company_name_ar, license_no, email, terms_version, terms_signer, terms_accepted_at, platform_signer, platform_signed_at, commission_rate, contract_path').not('contract_path', 'is', null).order('platform_signed_at');
+    if (!list?.length) return toast(t('dlNone'));
+    const label = btn.textContent; btn.disabled = true; btn.textContent = t('dlBusy');
+    try {
+      const { default: JSZip } = await import('https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm');
+      const zip = new JSZip();
+      const safe = (x) => String(x || '').replace(/[\\/:*?"<>|]+/g, '-').trim().slice(0, 80);
+      const rows = [['company', 'company_ar', 'license_no', 'email', 'version', 'agency_signer', 'agency_signed_at', 'platform_signer', 'platform_signed_at', 'commission', 'file']];
+      for (const a of list) {
+        const { data: blob, error } = await sb.storage.from('partner-docs').download(a.contract_path);
+        if (error || !blob) continue;
+        const name = `${safe(a.company_name || a.company_name_ar || a.id)}_${safe(a.license_no)}_v${a.terms_version || 1}.pdf`;
+        zip.file(name, blob);
+        rows.push([a.company_name, a.company_name_ar, a.license_no, a.email, a.terms_version, a.terms_signer, a.terms_accepted_at, a.platform_signer, a.platform_signed_at, a.commission_rate, name]);
+      }
+      zip.file('index.csv', '\ufeff' + rows.map((r) => r.map((v) => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',')).join('\r\n'));
+      const out = await zip.generateAsync({ type: 'blob' });
+      const url = URL.createObjectURL(out);
+      const link = Object.assign(document.createElement('a'), { href: url, download: `TheTouristPlus-Agreements-${new Date().toISOString().slice(0, 10)}.zip` });
+      document.body.appendChild(link); link.click(); link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 30000);
+    } catch (err) { console.error(err); toast(t('errGeneric')); }
+    btn.disabled = false; btn.textContent = label;
+  }
+
   // ------------------------------------------------------------ admin: one page per company
   async function viewCompany(appId) {
     const { data: a } = await sb.from('partner_applications').select('*').eq('id', appId).maybeSingle();
@@ -317,6 +355,27 @@ export function installOnboarding(ctx) {
     const agencySigned = !!(a.terms_signature && a.terms_accepted_at);
     const platformSigned = !!a.platform_signed_at && !!a.contract_path;
     const step = (ok, label, sub) => `<div class="row" style="gap:10px;align-items:flex-start"><span class="badge ${ok ? 'good' : ''}" style="min-width:28px;text-align:center">${ok ? '✓' : '…'}</span><div><b>${esc(label)}</b>${sub ? `<div class="muted" style="font-size:13px">${esc(sub)}</div>` : ''}</div></div>`;
+    let statusBox = `<div class="card"><h2>${esc(t('stStatus'))}</h2><p class="muted" style="margin:6px 0 0">${esc(t('stNotLinked'))}</p></div>`;
+    if (a.agency_id) {
+      const [{ data: ag }, { data: log }] = await Promise.all([
+        sb.from('agencies').select('id, status, status_reason_type, status_reason, status_changed_at').eq('id', a.agency_id).maybeSingle(),
+        sb.rpc('admin_agency_status_log', { p_agency: a.agency_id }),
+      ]);
+      const cur = ag?.status || 'active';
+      const stTone = (x) => (x === 'active' ? 'good' : x === 'suspended' ? 'accent' : 'bad');
+      const RT = ['violation', 'platform', 'owner_request', 'other'];
+      statusBox = `<div class="card" style="display:flex;flex-direction:column;gap:12px">
+        <div class="row between"><h2>${esc(t('stStatus'))}</h2><span class="badge ${stTone(cur)}">${esc(t('st_' + cur))}</span></div>
+        ${cur !== 'active' && (ag?.status_reason_type || ag?.status_reason) ? `<p class="notice ${cur === 'cancelled' ? 'bad' : 'info'}" style="margin:0">${esc(ag.status_reason_type ? t('rt_' + ag.status_reason_type) : '')}${ag.status_reason ? ' — ' + esc(ag.status_reason) : ''}</p>` : ''}
+        <div class="row" style="gap:10px;flex-wrap:wrap;align-items:flex-end">
+          <label class="f" style="width:150px">${esc(t('stNew'))}<select id="st-new">${['active', 'suspended', 'cancelled'].map((x) => `<option value="${x}" ${x === cur ? 'selected' : ''}>${esc(t('st_' + x))}</option>`).join('')}</select></label>
+          <label class="f" style="width:210px">${esc(t('stReasonType'))}<select id="st-rt"><option value="">—</option>${RT.map((x) => `<option value="${x}">${esc(t('rt_' + x))}</option>`).join('')}</select></label>
+          <label class="f grow">${esc(t('stReason'))}<input id="st-reason"></label>
+          <button class="btn accent" type="button" id="st-save">${esc(t('stSave'))}</button></div>
+        <details><summary style="cursor:pointer;font-weight:700">${esc(t('stHistory'))} (${(log || []).length})</summary>
+          ${(log || []).length ? `<div class="tbl-wrap" style="margin-top:8px"><table><tbody>${log.map((l) => `<tr><td style="white-space:nowrap">${esc(fmtDate(l.changed_at))}</td><td>${esc(t('st_' + (l.old_status || 'active')))} ← ${esc(t('st_' + l.new_status))}</td><td>${esc(l.reason_type ? t('rt_' + l.reason_type) : '—')}${l.reason ? ' — ' + esc(l.reason) : ''}</td></tr>`).join('')}</tbody></table></div>` : `<p class="muted">${esc(t('stNoHistory'))}</p>`}
+        </details></div>`;
+    }
     let contractBox = '';
     if (T && a.terms_version) {
       const [{ data: terms }, { data: ps }] = await Promise.all([
@@ -332,6 +391,7 @@ export function installOnboarding(ctx) {
         <span class="badge ${tone(a.status)}">${esc(t('ast_' + a.status))}</span></div>
       <div class="detail">
         <section class="col">
+          ${statusBox}
           <div class="card" style="display:flex;flex-direction:column;gap:12px"><h2>${esc(t('contractStatus'))}</h2>
             ${step(a.status !== 'draft', t('stSubmitted'), a.submitted_at ? fmtDate(a.submitted_at) : '')}
             ${step(agencySigned, t('stAgencySigned'), agencySigned ? `${a.terms_signer || ''} · ${fmtDate(a.terms_accepted_at)}` : '')}
@@ -365,6 +425,15 @@ export function installOnboarding(ctx) {
       T.openSignDialog(a.id, rateVal(), approve, () => viewCompany(a.id));
     });
     document.getElementById('c-pdf')?.addEventListener('click', () => T.openSigned(a.contract_path));
+    document.getElementById('st-save')?.addEventListener('click', async (e) => {
+      const st = document.getElementById('st-new').value, rt = document.getElementById('st-rt').value, rs = document.getElementById('st-reason').value.trim();
+      if (st !== 'active' && (!rt || (rt === 'other' && !rs))) return toast(t('stReasonReq'));
+      if (st === 'cancelled' && !confirm(t('stConfirmCancel'))) return;
+      e.target.disabled = true;
+      const { error: er } = await sb.rpc('admin_set_agency_status', { p_agency: a.agency_id, p_status: st, p_reason_type: rt || null, p_reason: rs || null });
+      toast(er ? (String(er.message).includes('reason_required') ? t('stReasonReq') : t('errGeneric')) : t('stSaved'));
+      viewCompany(a.id);
+    });
     document.getElementById('c-resend')?.addEventListener('click', async (e) => {
       e.target.disabled = true;
       const { data: r, error } = await sb.functions.invoke('send-contract', { body: { app_id: a.id } });

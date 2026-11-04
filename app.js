@@ -1,6 +1,6 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=4';
-import { installOnboarding } from './onboarding.js?v=14';
+import { install } from './extra.js?v=5';
+import { installOnboarding } from './onboarding.js?v=15';
 import { installTerms } from './terms.js?v=5';
 
 const CFG = window.TP_CONFIG || {};
@@ -142,7 +142,7 @@ async function loadProfile() {
   const { data: p } = await sb.from('profiles').select('id, role, full_name, agency_id').eq('id', state.session.user.id).maybeSingle();
   state.profile = p;
   if (p?.agency_id) {
-    const { data: a } = await sb.from('agencies').select('id, name, name_ar, license_no, phone, email, rating, reviews, verified, active').eq('id', p.agency_id).maybeSingle();
+    const { data: a } = await sb.from('agencies').select('id, name, name_ar, license_no, phone, email, rating, reviews, verified, active, status, status_reason_type, status_reason').eq('id', p.agency_id).maybeSingle();
     state.agency = a;
   }
   if (p?.role === 'admin') { const { data: n } = await sb.rpc('admin_pending_applications'); state.pendingApps = n || 0; }
@@ -268,6 +268,12 @@ function renderNotPartner() {
 }
 
 // ---------------------------------------------------------------- shell
+function agencyBanner() {
+  const a = state.agency;
+  if (!a || state.profile?.role === 'admin' || !a.status || a.status === 'active') return '';
+  const why = [a.status_reason_type ? t('rt_' + a.status_reason_type) : '', a.status_reason || ''].filter(Boolean).join(' — ');
+  return `<div class="notice ${a.status === 'cancelled' ? 'bad' : 'info'}" style="margin-bottom:16px"><b>${esc(t(a.status === 'cancelled' ? 'agCancelled' : 'agSuspended'))}</b>${why ? `<div>${esc(t('agReason'))} ${esc(why)}</div>` : ''}<div class="muted">${esc(t('agContact'))}</div></div>`;
+}
 function shell(active, inner) {
   const isAdmin = state.profile?.role === 'admin';
   const name = isAdmin ? t('adminTitle') : state.lang === 'ar' ? state.agency.name_ar || state.agency.name : state.agency.name;
@@ -294,7 +300,7 @@ function shell(active, inner) {
         <button class="btn ghost small" data-act="signout" type="button">${esc(t('signOut'))}</button>
       </div>
     </aside>
-    <main class="main">${inner}</main>
+    <main class="main">${agencyBanner()}${inner}</main>
   </div>`;
 }
 
