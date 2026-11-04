@@ -20,7 +20,7 @@ export function installTerms(ctx) {
     sigTitle: 'التوقيعات', party1: 'الطرف الأول: المنصة', party2: 'الطرف الثاني: المكتب', signedAt: 'تاريخ التوقيع', signer: 'الموقّع',
     signedCopy: 'النسخة الموقّعة من الاتفاقية', download: 'تحميل PDF', pending: 'بانتظار توقيع المنصة', sending: 'جاري توقيع الاتفاقية وإرسالها…',
     sent: 'تم توقيع الاتفاقية وإرسال نسخة للمكتب.', sentNoMail: 'تم توقيع الاتفاقية وحفظها، والمكتب يستطيع تحميلها من البوابة. لم يُرسل البريد لأن خدمة الإرسال غير مفعّلة.',
-    resend: 'إعادة إرسال النسخة', docNo: 'رقم الاتفاقية',
+    resend: 'إعادة إرسال النسخة', docNo: 'رقم الاتفاقية', agencyNotSigned: 'لا يمكن توقيع المنصة قبل توقيع المكتب على الاتفاقية.',
   });
   Object.assign(STR.en, {
     navTerms: 'Agreement', termsTitle: 'Partnership agreement', termsVersion: 'Version {v}', termsPublished: 'Published {d}',
@@ -37,7 +37,7 @@ export function installTerms(ctx) {
     sigTitle: 'Signatures', party1: 'First party: Platform', party2: 'Second party: Agency', signedAt: 'Signed on', signer: 'Signatory',
     signedCopy: 'Signed copy of the agreement', download: 'Download PDF', pending: 'Awaiting platform signature', sending: 'Signing and sending the agreement…',
     sent: 'Agreement signed and a copy sent to the agency.', sentNoMail: 'Agreement signed and saved; the agency can download it from the portal. Email was not sent because the mail service is not set up.',
-    resend: 'Resend copy', docNo: 'Agreement no.',
+    resend: 'Resend copy', docNo: 'Agreement no.', agencyNotSigned: 'The platform cannot sign before the agency has signed the agreement.',
   });
 
   const md = (s) => DOMPurify.sanitize(marked.parse(s || ''));
@@ -214,7 +214,7 @@ export function installTerms(ctx) {
     const ps = await getSettings();
     if (!ps.signature || !ps.company_name || !ps.signatory_name) { toast(t('needPlatformSig')); return false; }
     const { data: a0 } = await sb.from('partner_applications').select('*').eq('id', appId).maybeSingle();
-    if (!a0?.terms_version) return false;
+    if (!a0?.terms_version || !a0?.terms_signature || !a0?.terms_accepted_at) { toast(t('agencyNotSigned')); return false; }
     const now = new Date().toISOString();
     const a = { ...a0, platform_signed_at: now };
     const { data: terms } = await sb.from('partner_terms').select('*').eq('version', a.terms_version).maybeSingle();
