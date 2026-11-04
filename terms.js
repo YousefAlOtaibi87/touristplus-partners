@@ -20,7 +20,7 @@ export function installTerms(ctx) {
     sigTitle: 'التوقيعات', party1: 'الطرف الأول: المنصة', party2: 'الطرف الثاني: المكتب', signedAt: 'تاريخ التوقيع', signer: 'الموقّع',
     signedCopy: 'النسخة الموقّعة من الاتفاقية', download: 'تحميل PDF', pending: 'بانتظار توقيع المنصة', sending: 'جاري توقيع الاتفاقية وإرسالها…',
     sent: 'تم توقيع الاتفاقية وإرسال نسخة للمكتب.', sentNoMail: 'تم توقيع الاتفاقية وحفظها، والمكتب يستطيع تحميلها من البوابة. لم يُرسل البريد لأن خدمة الإرسال غير مفعّلة.',
-    resend: 'إعادة إرسال النسخة', docNo: 'رقم الاتفاقية', agencyNotSigned: 'لا يمكن توقيع المنصة قبل توقيع المكتب على الاتفاقية.',
+    resend: 'إعادة إرسال النسخة', docNo: 'رقم الاتفاقية', signDlgTitle: 'مراجعة الاتفاقية وتوقيع المنصة', signDlgSub: 'وقّع المكتب على الاتفاقية. راجعها ثم وقّع بصفتك الطرف الأول لاعتمادها وتفعيل المكتب.', close: 'إغلاق', useSavedSig: 'استخدام التوقيع المحفوظ', platformConfirm: 'أقرّ بصفتي المفوَّض بالتوقيع عن المنصة بمراجعة الاتفاقية والموافقة عليها، وأن لهذا التوقيع الإلكتروني حجية التوقيع.', signApprove: 'توقيع الاتفاقية واعتماد المكتب', sigRequired: 'ارسم توقيعك أولاً.', confirmRequired: 'أشّر على الإقرار قبل التوقيع.', reviewSign: 'مراجعة الاتفاقية والتوقيع', agencyNotSigned: 'لا يمكن توقيع المنصة قبل توقيع المكتب على الاتفاقية.',
   });
   Object.assign(STR.en, {
     navTerms: 'Agreement', termsTitle: 'Partnership agreement', termsVersion: 'Version {v}', termsPublished: 'Published {d}',
@@ -37,7 +37,7 @@ export function installTerms(ctx) {
     sigTitle: 'Signatures', party1: 'First party: Platform', party2: 'Second party: Agency', signedAt: 'Signed on', signer: 'Signatory',
     signedCopy: 'Signed copy of the agreement', download: 'Download PDF', pending: 'Awaiting platform signature', sending: 'Signing and sending the agreement…',
     sent: 'Agreement signed and a copy sent to the agency.', sentNoMail: 'Agreement signed and saved; the agency can download it from the portal. Email was not sent because the mail service is not set up.',
-    resend: 'Resend copy', docNo: 'Agreement no.', agencyNotSigned: 'The platform cannot sign before the agency has signed the agreement.',
+    resend: 'Resend copy', docNo: 'Agreement no.', signDlgTitle: 'Review agreement & platform signature', signDlgSub: 'The agency has signed. Review the agreement, then sign as the first party to approve and activate the agency.', close: 'Close', useSavedSig: 'Use saved signature', platformConfirm: 'As the platform’s authorized signatory, I confirm I reviewed and accept this agreement; this electronic signature has the effect of a signature.', signApprove: 'Sign agreement & approve agency', sigRequired: 'Draw your signature first.', confirmRequired: 'Tick the confirmation before signing.', reviewSign: 'Review agreement & sign', agencyNotSigned: 'The platform cannot sign before the agency has signed the agreement.',
   });
 
   const md = (s) => DOMPurify.sanitize(marked.parse(s || ''));
@@ -62,6 +62,7 @@ export function installTerms(ctx) {
     const ratio = window.devicePixelRatio || 1;
     const size = () => { const w = c.clientWidth; c.width = w * ratio; c.height = 160 * ratio; const g = c.getContext('2d'); g.scale(ratio, ratio); g.lineWidth = 2.2; g.lineCap = 'round'; g.lineJoin = 'round'; g.strokeStyle = '#0B3D91'; };
     size();
+    c.addEventListener('padresize', size);
     let drawing = false, dirty = false, last = null;
     const pos = (e) => { const r = c.getBoundingClientRect(); const p = e.touches ? e.touches[0] : e; return { x: p.clientX - r.left, y: p.clientY - r.top }; };
     const start = (e) => { if (el.closest('[disabled]')) return; drawing = true; last = pos(e); e.preventDefault(); };
@@ -209,9 +210,10 @@ export function installTerms(ctx) {
   }
 
   // Called right after the admin approves an application: platform signs, PDF is stored and emailed.
-  async function signAndSend(appId) {
+  async function signAndSend(appId, sigOverride) {
     toast(t('sending'));
-    const ps = await getSettings();
+    const ps = { ...(await getSettings()) };
+    if (sigOverride) ps.signature = sigOverride;
     if (!ps.signature || !ps.company_name || !ps.signatory_name) { toast(t('needPlatformSig')); return false; }
     const { data: a0 } = await sb.from('partner_applications').select('*').eq('id', appId).maybeSingle();
     if (!a0?.terms_version || !a0?.terms_signature || !a0?.terms_accepted_at) { toast(t('agencyNotSigned')); return false; }
@@ -226,6 +228,47 @@ export function installTerms(ctx) {
     const { data: r, error } = await sb.functions.invoke('send-contract', { body: { app_id: appId } });
     toast(!error && r?.ok ? t('sent') : t('sentNoMail'));
     return true;
+  }
+
+  // Admin reviews the agency-signed contract and signs it as the platform.
+  async function openSignDialog(appId, rate, approve, onDone) {
+    const ps = await getSettings();
+    const { data: a0 } = await sb.from('partner_applications').select('*').eq('id', appId).maybeSingle();
+    if (!a0?.terms_signature || !a0?.terms_accepted_at) { toast(t('agencyNotSigned')); return; }
+    const { data: terms } = await sb.from('partner_terms').select('*').eq('version', a0.terms_version).maybeSingle();
+    const a = { ...a0, commission_rate: rate };
+    const ov = document.createElement('div');
+    ov.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:999;display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:24px 12px';
+    ov.innerHTML = `<div class="card" role="dialog" aria-modal="true" style="max-width:860px;width:100%;display:flex;flex-direction:column;gap:14px">
+      <div class="row between"><h2 style="margin:0">${esc(t('signDlgTitle'))}</h2><button class="btn ghost small" type="button" data-x>${esc(t('close'))}</button></div>
+      <p class="muted" style="margin:0">${esc(t('signDlgSub'))}</p>
+      <div style="max-height:48vh;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fff">${contractHTML(a, ps, terms, { platformSig: false })}</div>
+      <div class="f" style="gap:4px"><b>${esc(t('party1'))}</b><span class="muted">${esc(ps.company_name || '—')} · ${esc(t('signer'))}: ${esc(ps.signatory_name || '—')}${ps.signatory_title ? ' — ' + esc(ps.signatory_title) : ''}</span></div>
+      ${ps.signature ? `<label class="chip on" style="align-self:flex-start"><input type="checkbox" data-saved checked> ${esc(t('useSavedSig'))}</label><img src="${ps.signature}" alt="" data-savedimg style="max-height:80px;align-self:flex-start">` : ''}
+      <div data-padwrap ${ps.signature ? 'hidden' : ''}>${padHtml('signHere')}</div>
+      <label class="chip" data-docbox="pconfirm" style="align-self:stretch;border-radius:12px;white-space:normal;line-height:1.6"><input type="checkbox" data-confirm> ${esc(t('platformConfirm'))}</label>
+      <p class="notice bad" data-err hidden></p>
+      <button class="btn accent" type="button" data-sign>✍️ ${esc(t('signApprove'))}</button></div>`;
+    document.body.appendChild(ov);
+    const close = () => ov.remove();
+    ov.querySelector('[data-x]').onclick = close;
+    const padWrap = ov.querySelector('[data-padwrap]');
+    const pad = sigPad(padWrap.querySelector('.sigbox'));
+    const saved = ov.querySelector('[data-saved]');
+    if (saved) saved.onchange = () => { padWrap.hidden = saved.checked; ov.querySelector('[data-savedimg]').hidden = !saved.checked; if (!saved.checked) pad.canvas.dispatchEvent(new Event('padresize')); };
+    ov.querySelector('[data-sign]').onclick = async (e) => {
+      const err = ov.querySelector('[data-err]');
+      const useSaved = saved?.checked && ps.signature;
+      const sig = useSaved ? ps.signature : pad.data();
+      if (!sig) { err.textContent = t('sigRequired'); err.hidden = false; return; }
+      if (!ov.querySelector('[data-confirm]').checked) { err.textContent = t('confirmRequired'); err.hidden = false; return; }
+      if (!ps.company_name || !ps.signatory_name) { err.textContent = t('needPlatformSig'); err.hidden = false; return; }
+      e.target.disabled = true;
+      if (!useSaved) await sb.from('platform_settings').update({ signature: sig, updated_at: new Date().toISOString() }).eq('id', 1);
+      const ok = await approve();
+      if (ok) await signAndSend(appId, sig);
+      close(); onDone?.();
+    };
   }
 
   async function openSigned(path) {
@@ -298,5 +341,5 @@ export function installTerms(ctx) {
     };
   }
 
-  return { termsSection, mount, viewTerms, signAndSend, openSigned, contractHTML, pdfBlob };
+  return { termsSection, mount, viewTerms, signAndSend, openSigned, openSignDialog, contractHTML, pdfBlob };
 }

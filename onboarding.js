@@ -270,7 +270,7 @@ export function installOnboarding(ctx) {
           : `<button class="btn accent small" type="button" data-resign="${a.id}">✍️ ${esc(t('pending'))}</button>`}</div>` : ''}
         ${a.status === 'submitted' ? `<div class="row" style="gap:10px;align-items:flex-end;flex-wrap:wrap" data-app="${a.id}">
           <label class="f" style="width:140px">${esc(t('rate'))}<input type="number" name="rate" min="0" max="100" step="0.1" value="10" dir="ltr"></label>
-          <button class="btn accent" type="button" data-approve>${esc(t('approve'))}</button>
+          <button class="btn accent" type="button" data-approve>✍️ ${esc(t('reviewSign'))}</button>
           <label class="f grow">${esc(t('rejectReason'))}<input name="reason"></label>
           <button class="btn danger" type="button" data-reject>${esc(t('reject'))}</button></div>` : ''}
       </details>`;
@@ -282,12 +282,14 @@ export function installOnboarding(ctx) {
     document.querySelectorAll('[data-resign]').forEach((b) => (b.onclick = async () => { b.disabled = true; await T.signAndSend(b.dataset.resign); viewApplications(b.dataset.resign); }));
     document.querySelectorAll('[data-app]').forEach((box) => {
       const id = box.dataset.app;
-      box.querySelector('[data-approve]').onclick = async (e) => {
-        e.target.disabled = true;
-        const { error: er } = await sb.rpc('admin_review_application', { p_app: id, p_approve: true, p_rate: Number(box.querySelector('[name=rate]').value || 10) });
-        toast(er ? (String(er.message).includes('agency_not_signed') ? t('agencyNotSigned') : t('errGeneric')) : t('approved'));
-        if (!er && T) await T.signAndSend(id);
-        viewApplications(id);
+      box.querySelector('[data-approve]').onclick = async () => {
+        const rate = Number(box.querySelector('[name=rate]').value || 10);
+        const approve = async () => {
+          const { error: er } = await sb.rpc('admin_review_application', { p_app: id, p_approve: true, p_rate: rate });
+          toast(er ? (String(er.message).includes('agency_not_signed') ? t('agencyNotSigned') : t('errGeneric')) : t('approved'));
+          return !er;
+        };
+        await T.openSignDialog(id, rate, approve, () => viewApplications(id));
       };
       box.querySelector('[data-reject]').onclick = async (e) => {
         const reason = box.querySelector('[name=reason]').value.trim();
