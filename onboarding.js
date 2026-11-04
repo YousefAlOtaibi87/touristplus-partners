@@ -260,14 +260,15 @@ export function installOnboarding(ctx) {
           <span class="row" style="gap:8px"><span class="muted" style="font-size:13px">${a.submitted_at ? esc(fmtDate(a.submitted_at)) : ''}</span><span class="badge ${tone(a.status)}">${esc(t('ast_' + a.status))}</span></span></summary>
         <dl class="kv" style="margin-top:12px">
           ${kv('companyNameAr', a.company_name_ar)}${kv('licenseNo', a.license_no)}${kv('licenseExpiry', a.license_expiry)}${kv('ownerName', a.owner_name)}${kv('ownerCivil', a.owner_civil_id)}
-          ${kv('signatory', a.signatory_name)}${kv('phoneL', a.phone)}${kv('emailCo', a.email)}${kv('address', a.address)}${kv('paci', a.paci_no)}${kv('bankName', a.bank_name)}${kv('holder', a.account_holder)}${kv('iban', a.iban)}<dt>${esc(t('secTerms'))}</dt><dd>${a.terms_version ? esc(t('acceptedOn', { v: a.terms_version, d: a.terms_accepted_at ? fmtDate(a.terms_accepted_at) : '—', n: a.terms_signer || '—' })) : esc(t('notAccepted'))}</dd>
+          ${kv('signatory', a.signatory_name)}${kv('phoneL', a.phone)}${kv('emailCo', a.email)}${kv('address', a.address)}${kv('paci', a.paci_no)}${kv('bankName', a.bank_name)}${kv('holder', a.account_holder)}${kv('iban', a.iban)}<dt>${esc(t('secTerms'))}</dt><dd>${a.terms_version ? esc(t('acceptedOn', { v: a.terms_version, d: a.terms_accepted_at ? fmtDate(a.terms_accepted_at) : '—', n: a.terms_signer || '—' })) : esc(t('notAccepted'))}
+            ${a.terms_signature ? `<div><img src="${a.terms_signature}" alt="" style="max-height:70px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px;margin-top:6px"></div>` : ''}</dd>
         </dl>
         <div class="chips">${DOCS.filter(([k]) => docs[k]).map(([k, l]) => `<button class="btn ghost small" type="button" data-view="${esc(docs[k])}">📄 ${esc(t(l).replace(' *', ''))}</button>`).join('')}
           ${(Array.isArray(docs.other) ? docs.other : []).map((pth, i) => `<button class="btn ghost small" type="button" data-view="${esc(pth)}">📄 ${esc(state.lang === 'ar' ? 'شهادة إضافية' : 'Extra certificate')} ${i + 1}</button>`).join('')}</div>
         ${a.status === 'rejected' && a.reject_reason ? `<p class="notice bad">${esc(a.reject_reason)}</p>` : ''}
         ${a.status === 'approved' && a.terms_version ? `<div class="row" style="gap:8px">${a.contract_path
           ? `<button class="btn ghost small" type="button" data-signed="${esc(a.contract_path)}">📄 ${esc(t('signedCopy'))}</button><button class="btn ghost small" type="button" data-resign="${a.id}">${esc(t('resend'))}</button>`
-          : `<button class="btn accent small" type="button" data-resign="${a.id}">✍️ ${esc(t('pending'))}</button>`}</div>` : ''}
+          : `<button class="btn accent small" type="button" data-signnow="${a.id}" data-rate="${esc(a.commission_rate ?? 10)}">✍️ ${esc(t('reviewSign'))}</button>`}</div>` : ''}
         ${a.status === 'submitted' ? `<div class="row" style="gap:10px;align-items:flex-end;flex-wrap:wrap" data-app="${a.id}">
           <label class="f" style="width:140px">${esc(t('rate'))}<input type="number" name="rate" min="0" max="100" step="0.1" value="10" dir="ltr"></label>
           <button class="btn accent" type="button" data-approve>✍️ ${esc(t('reviewSign'))}</button>
@@ -279,6 +280,7 @@ export function installOnboarding(ctx) {
       ${(data || []).length ? `<div style="display:flex;flex-direction:column;gap:14px">${data.map(card).join('')}</div>` : `<div class="card empty">${esc(t('noApps'))}</div>`}`);
     document.querySelectorAll('[data-view]').forEach((b) => (b.onclick = () => openDoc(b.dataset.view)));
     document.querySelectorAll('[data-signed]').forEach((b) => (b.onclick = () => T.openSigned(b.dataset.signed)));
+    document.querySelectorAll('[data-signnow]').forEach((b) => (b.onclick = () => T.openSignDialog(b.dataset.signnow, Number(b.dataset.rate || 10), async () => true, () => viewApplications(b.dataset.signnow))));
     document.querySelectorAll('[data-resign]').forEach((b) => (b.onclick = async () => { b.disabled = true; await T.signAndSend(b.dataset.resign); viewApplications(b.dataset.resign); }));
     document.querySelectorAll('[data-app]').forEach((box) => {
       const id = box.dataset.app;
