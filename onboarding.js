@@ -285,7 +285,7 @@ export function installOnboarding(ctx) {
       box.querySelector('[data-approve]').onclick = async (e) => {
         e.target.disabled = true;
         const { error: er } = await sb.rpc('admin_review_application', { p_app: id, p_approve: true, p_rate: Number(box.querySelector('[name=rate]').value || 10) });
-        toast(er ? t('errGeneric') : t('approved'));
+        toast(er ? (String(er.message).includes('agency_not_signed') ? t('agencyNotSigned') : t('errGeneric')) : t('approved'));
         if (!er && T) await T.signAndSend(id);
         viewApplications(id);
       };
