@@ -1,7 +1,7 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=5';
+import { install } from './extra.js?v=6';
 import { installOnboarding } from './onboarding.js?v=19';
-import { installTerms } from './terms.js?v=7';
+import { installTerms } from './terms.js?v=8';
 
 const CFG = window.TP_CONFIG || {};
 const $app = document.getElementById('app');
@@ -15,7 +15,7 @@ const STR = {
     newPassword: 'كلمة مرور جديدة', savePassword: 'حفظ كلمة المرور', passwordSaved: 'تم حفظ كلمة المرور.',
     badLogin: 'الإيميل أو كلمة المرور غير صحيحة.', errGeneric: 'صار خطأ، حاول مرة ثانية.',
     notPartner: 'هذا الحساب مو حساب شريك. تواصل مع TheTouristPlus لتفعيل حسابك.', notConfigured: 'البوابة غير مربوطة بالخادم للحين.',
-    navRequests: 'طلبات السفر', navOffers: 'عروضي', navBookings: 'الحجوزات', signOut: 'تسجيل الخروج',
+    navRequests: 'طلبات السفر', navOffers: 'عروض الأسعار', navBookings: 'الحجوزات', signOut: 'تسجيل الخروج',
     requestsTitle: 'طلبات السفر المفتوحة', requestsSub: 'اختر طلب وقدّم عرضك للمسافر.',
     search: 'ابحث بالوجهة…', allTypes: 'كل الأنواع', sortClosing: 'الأقرب إغلاقاً', sortNewest: 'الأحدث',
     onlyNew: 'بدون عرض مني', noRequests: 'ما فيه طلبات مفتوحة حالياً. الطلبات الجديدة تطلع هنا تلقائياً.',
@@ -44,7 +44,7 @@ const STR = {
     newPassword: 'New password', savePassword: 'Save password', passwordSaved: 'Password saved.',
     badLogin: 'Incorrect email or password.', errGeneric: 'Something went wrong. Please try again.',
     notPartner: 'This is not a partner account. Contact TheTouristPlus to activate your account.', notConfigured: 'The portal is not connected to the server yet.',
-    navRequests: 'Trip requests', navOffers: 'My offers', navBookings: 'Bookings', signOut: 'Sign out',
+    navRequests: 'Trip requests', navOffers: 'My quotes', navBookings: 'Bookings', signOut: 'Sign out',
     requestsTitle: 'Open trip requests', requestsSub: 'Pick a request and send your offer to the traveler.',
     search: 'Search destination…', allTypes: 'All types', sortClosing: 'Closing soon', sortNewest: 'Newest',
     onlyNew: 'Not offered yet', noRequests: 'No open requests right now. New requests appear here automatically.',
@@ -124,8 +124,8 @@ if (!CFG.SUPABASE_URL || !CFG.SUPABASE_ANON_KEY) {
 }
 const sb = createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
 let recoveryMode = /type=(recovery|invite)/.test(location.hash);
-const X = install({ sb, state, t, esc, money, place, fmtDate, shell, toast, STR, SERVICES, TYPES, route });
 const TM = installTerms({ sb, state, t, esc, fmtDate, shell, toast, STR });
+const X = install({ sb, state, t, esc, money, place, fmtDate, shell, toast, STR, SERVICES, TYPES, route, terms: TM });
 const O = installOnboarding({ sb, state, t, esc, fmtDate, shell, toast, STR, $app, brand, langToggle, route, terms: TM });
 
 sb.auth.onAuthStateChange(async (event, session) => {
@@ -146,7 +146,6 @@ async function loadProfile() {
     state.agency = a;
   }
   if (p?.role === 'admin') { const { data: n } = await sb.rpc('admin_pending_applications'); state.pendingApps = n || 0; }
-  if (p?.role === 'agency') { const { data: on } = await sb.rpc('my_packages_on'); state.packagesOn = !!on; }
   startRealtime();
 }
 
@@ -189,18 +188,18 @@ async function route() {
   if (recoveryMode && state.session) return renderReset();
   if (!state.session) return location.hash.startsWith('#/register') ? O.renderSignup() : renderLogin();
   if (!state.profile) return; // still loading
-  const h = location.hash.replace(/^#\/?/, '');
+  const h = location.hash.replace(/^#\/?/, '').split('?')[0];
   const [view, id] = h.split('/');
   if (state.profile.role === 'admin') {
     if (view === 'partners') return X.viewPartners();
     if (view === 'allbookings') return X.viewAllBookings();
     if (view === 'apps') return O.viewApplications();
+    if (view === 'promos') return X.viewPromos();
     if (view === 'company' && id) return O.viewCompany(id);
     if (view === 'terms') return TM.viewTerms();
     return X.viewOverview();
   }
   if (!state.agency || state.profile.role !== 'agency') return O.viewApplication();
-  if ((view === 'packages' || view === 'package') && !state.packagesOn) return X.viewPackagesLocked();
   if (view === 'packages') return X.viewPackages();
   if (view === 'terms') return TM.viewTerms();
   if (view === 'package' && id) return X.viewPackage(id);
@@ -288,10 +287,11 @@ function shell(active, inner) {
         ${link('partners', '#/partners', t('navPartners'))}
         ${link('allbookings', '#/allbookings', t('navAllBookings'))}
         ${link('apps', '#/apps', t('navApps'), state.pendingApps)}
+        ${link('promos', '#/promos', t('navPromos'))}
         ${link('terms', '#/terms', t('navTerms'))}` : `${link('requests', '#/requests', t('navRequests'), state.openCount)}
         ${link('offers', '#/offers', t('navOffers'))}
         ${link('bookings', '#/bookings', t('navBookings'))}
-        ${state.packagesOn ? link('packages', '#/packages', t('navPackages')) : ''}
+        ${link('packages', '#/packages', t('navPackages'))}
         ${link('terms', '#/terms', t('navTerms'))}`}
       </nav>
       <div class="side-foot">

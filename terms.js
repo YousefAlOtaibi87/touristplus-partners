@@ -6,6 +6,9 @@ export function installTerms(ctx) {
   const { sb, state, t, esc, fmtDate, shell, toast, STR } = ctx;
 
   Object.assign(STR.ar, {
+    accTitle: 'الاتفاقية المحدّثة — الإصدار {v}', accSub: 'أُضيفت إلى الاتفاقية المادة (8 مكرر) الخاصة بالعروض الخاصة والإعلان في التطبيق: رسوم إعلان 10 د.ك لكل عرض لمدة 30 يوماً، وعمولة 4% من كل حجز يتم عن طريق العروض الخاصة. راجع الاتفاقية ووقّع عليها لتتمكن من نشر العروض.',
+    accSigner: 'اسم المفوَّض بالتوقيع', accConfirm: 'أقرّ بصفتي المفوَّض بالتوقيع عن المكتب بالاطلاع على الاتفاقية المحدّثة والموافقة عليها، وأن لهذا التوقيع الإلكتروني حجية التوقيع.', accBtn: 'توقيع الاتفاقية المحدّثة', accDone: 'تم توقيع الاتفاقية المحدّثة.',
+    accBanner: 'صدر الإصدار {v} من الاتفاقية ويتضمّن أحكام العروض الخاصة. يلزم توقيعه قبل نشر أي عرض.', accReview: 'مراجعة وتوقيع', accSigned: 'وقّعتم على الإصدار {v} من الاتفاقية.',
     navTerms: 'الاتفاقية', termsTitle: 'اتفاقية الشراكة', termsVersion: 'النسخة {v}', termsPublished: 'نُشرت {d}',
     termsAccept: 'أقرّ بأنني اطّلعت على اتفاقية الشراكة (النسخة {v})، وأوافق عليها نيابةً عن المكتب، وأن لهذا التوقيع الإلكتروني حجية التوقيع.',
     termsSigner: 'اسم المفوَّض بالتوقيع على الاتفاقية *', secTerms: 'اتفاقية الشراكة والتوقيع الإلكتروني', err_terms_required: 'يجب الموافقة على اتفاقية الشراكة وكتابة اسم المفوَّض والتوقيع قبل إرسال الطلب.',
@@ -23,6 +26,9 @@ export function installTerms(ctx) {
     resendNotice: 'إعادة إرسال إشعار التوقيع', docNo: 'رقم الاتفاقية', signDlgTitle: 'مراجعة الاتفاقية وتوقيع المنصة', signDlgSub: 'وقّع المكتب على الاتفاقية. راجعها ثم وقّع بصفتك الطرف الأول لاعتمادها وتفعيل المكتب.', close: 'إغلاق', useSavedSig: 'استخدام التوقيع المحفوظ', platformConfirm: 'أقرّ بصفتي المفوَّض بالتوقيع عن المنصة بمراجعة الاتفاقية والموافقة عليها، وأن لهذا التوقيع الإلكتروني حجية التوقيع.', signApprove: 'توقيع الاتفاقية واعتماد المكتب', sigRequired: 'ارسم توقيعك أولاً.', confirmRequired: 'أشّر على الإقرار قبل التوقيع.', reviewSign: 'مراجعة الاتفاقية والتوقيع', agencyNotSigned: 'لا يمكن توقيع المنصة قبل توقيع المكتب على الاتفاقية.',
   });
   Object.assign(STR.en, {
+    accTitle: 'Updated agreement — version {v}', accSub: 'Article 8 bis (special offers & in-app advertising) was added: a 10 KWD listing fee per offer for 30 days, and 4% commission on every booking made through special offers. Review and sign to publish offers.',
+    accSigner: 'Authorized signatory', accConfirm: 'As the agency’s authorized signatory, I have read and accept the updated agreement; this electronic signature has the effect of a signature.', accBtn: 'Sign the updated agreement', accDone: 'Updated agreement signed.',
+    accBanner: 'Version {v} of the agreement adds the special-offers terms. Sign it before publishing any offer.', accReview: 'Review & sign', accSigned: 'You signed version {v} of the agreement.',
     navTerms: 'Agreement', termsTitle: 'Partnership agreement', termsVersion: 'Version {v}', termsPublished: 'Published {d}',
     termsAccept: 'I confirm I have read the partnership agreement (version {v}) and accept it on behalf of the agency; this electronic signature has the effect of a signature.',
     termsSigner: 'Name of the authorized signatory *', secTerms: 'Partnership agreement & e-signature', err_terms_required: 'You must accept the agreement, enter the signatory name and sign before submitting.',
@@ -277,6 +283,45 @@ export function installTerms(ctx) {
     window.open(data.signedUrl, '_blank', 'noopener');
   }
 
+  // ---------- Newer agreement version for an already-approved agency
+  async function latestTermsStatus() {
+    const [terms, { data: mine }] = await Promise.all([latest(), sb.rpc('agency_terms_version', { p_agency: state.agency?.id })]);
+    return { terms, mine: Number(mine || 0), needs: !!terms && Number(mine || 0) < terms.version };
+  }
+  async function openAcceptDialog(onDone) {
+    const ps = await getSettings();
+    const { terms } = await latestTermsStatus();
+    const { data: a } = await sb.from('partner_applications').select('*').eq('user_id', state.session.user.id).maybeSingle();
+    const doc = { ...(a || {}), id: a?.id || state.agency.id, terms_signer: null, terms_signature: null, terms_accepted_at: null, platform_signed_at: new Date().toISOString() };
+    const ov = document.createElement('div');
+    ov.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:999;display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:24px 12px';
+    ov.innerHTML = `<div class="card" role="dialog" aria-modal="true" style="max-width:860px;width:100%;display:flex;flex-direction:column;gap:14px">
+      <div class="row between"><h2 style="margin:0">${esc(t('accTitle', { v: terms.version }))}</h2><button class="btn ghost small" type="button" data-x>${esc(t('close'))}</button></div>
+      <p class="notice info" style="margin:0">${esc(t('accSub'))}</p>
+      <div style="max-height:48vh;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fff">${contractHTML(doc, ps, terms, { platformSig: true })}</div>
+      <label class="f">${esc(t('accSigner'))}<input data-signer value="${esc(a?.signatory_name || '')}"></label>
+      ${padHtml('signHere')}
+      <label class="chip" style="align-self:stretch;border-radius:12px;white-space:normal;line-height:1.6"><input type="checkbox" data-confirm> ${esc(t('accConfirm'))}</label>
+      <p class="notice bad" data-err hidden></p>
+      <button class="btn accent" type="button" data-sign>✍️ ${esc(t('accBtn'))}</button></div>`;
+    document.body.appendChild(ov);
+    const close = () => ov.remove();
+    ov.querySelector('[data-x]').onclick = close;
+    const pad = sigPad(ov.querySelector('.sigbox'));
+    ov.querySelector('[data-sign]').onclick = async (e) => {
+      const err = ov.querySelector('[data-err]');
+      const signer = ov.querySelector('[data-signer]').value.trim();
+      const sig = pad.data();
+      if (!signer || !sig) { err.textContent = t('sigRequired'); err.hidden = false; return; }
+      if (!ov.querySelector('[data-confirm]').checked) { err.textContent = t('confirmRequired'); err.hidden = false; return; }
+      e.target.disabled = true;
+      const { error } = await sb.rpc('accept_terms_version', { p_version: terms.version, p_signer: signer, p_signature: sig });
+      if (error) { err.textContent = t('errGeneric'); err.hidden = false; e.target.disabled = false; return; }
+      toast(t('accDone'));
+      close(); onDone?.(true);
+    };
+  }
+
   // ---------- Agreement page
   async function viewTerms() {
     const isAdmin = state.profile?.role === 'admin';
@@ -287,8 +332,18 @@ export function installTerms(ctx) {
       if (!terms) return shell('terms', `<div class="card empty">—</div>`);
       shell('terms', `<div class="top"><div><h1>${esc(t('termsTitle'))}</h1><p class="muted" style="margin:4px 0 0">${esc(t('termsVersion', { v: terms.version }))}</p></div>
         ${a?.contract_path ? `<button class="btn accent" type="button" id="dl">${esc(t('download'))}</button>` : ''}</div>
+        <div id="acc-box"></div>
         <div class="card">${a ? contractHTML(a, ps, terms, { platformSig: !!a.platform_signed_at }) : md(terms.body)}</div>`);
       document.getElementById('dl')?.addEventListener('click', () => openSigned(a.contract_path));
+      if (state.agency) {
+        const st = await latestTermsStatus();
+        if (st.needs) {
+          document.getElementById('acc-box').innerHTML = `<div class="notice info" style="margin-bottom:16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap"><span>${esc(t('accBanner', { v: st.terms.version }))}</span><button class="btn accent small" type="button" id="acc-open">✍️ ${esc(t('accReview'))}</button></div>`;
+          document.getElementById('acc-open').onclick = () => openAcceptDialog(() => viewTerms());
+        } else if (st.mine > (a?.terms_version || 0)) {
+          document.getElementById('acc-box').innerHTML = `<p class="notice good" style="margin-bottom:16px">${esc(t('accSigned', { v: st.mine }))}</p>`;
+        }
+      }
       return;
     }
     const { data: all } = await sb.from('partner_terms').select('*').order('version', { ascending: false });
@@ -341,5 +396,5 @@ export function installTerms(ctx) {
     };
   }
 
-  return { termsSection, mount, viewTerms, signAndSend, openSigned, openSignDialog, contractHTML, pdfBlob };
+  return { termsSection, mount, viewTerms, signAndSend, openSigned, openSignDialog, contractHTML, pdfBlob, latestTermsStatus, openAcceptDialog };
 }

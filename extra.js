@@ -1,49 +1,122 @@
-// Packages (partners) and admin views. Loaded by app.js.
+// Special offers (partners) and admin views. Loaded by app.js.
 export function install(ctx) {
   const { sb, state, t, esc, money, place, fmtDate, shell, toast, STR, SERVICES, TYPES, route } = ctx;
 
   Object.assign(STR.ar, {
-    navPackages: 'باقاتي', packagesTitle: 'الباقات الجاهزة', packagesSub: 'باقات بسعر ثابت يحجزها المسافر ويدفع مباشرة من التطبيق.',
-    newPackage: 'باقة جديدة', editPackage: 'تعديل الباقة', noPackages: 'ما أضفت أي باقة للحين.', pkgTitle: 'اسم الباقة', pkgDesc: 'الوصف والبرنامج',
-    pkgPrice: 'السعر للشخص (د.ك)', pkgNights: 'عدد الليالي', tripType: 'نوع الرحلة', availFrom: 'متاحة من', availTo: 'متاحة إلى', pkgImage: 'صورة الباقة',
-    active: 'فعّالة', hidden: 'مخفية', save: 'حفظ', saved: 'تم الحفظ.', del: 'حذف', delConfirm: 'تبي تحذف هذي الباقة؟', deleted: 'تم الحذف.',
+    promoHow: 'طريقة النشر', promoHow1: 'أضف العرض واحفظه.', promoHow2: 'اضغط «نشر العرض» وادفع رسوم الإعلان {fee} د.ك لمدة {days} يوماً عن طريق MyFatoorah.', promoHow3: 'يظهر العرض فوراً في التطبيق، ويتوقف تلقائياً بنهاية المدة ويمكنك تجديده.',
+    promoHow4: 'عمولة المنصة {rate}% من كل حجز يتم عن طريق العروض الخاصة. هوية مكتبكم وبيانات التواصل تبقى مخفية عن المسافر حتى يدفع.',
+    liveUntil: 'منشور حتى {d}', notLive: 'غير منشور', stoppedByAdmin: 'موقوف من الإدارة', publishBtn: '📣 نشر العرض — {fee} د.ك / {days} يوماً', renewBtn: '🔁 تجديد {days} يوماً — {fee} د.ك',
+    payOpening: 'جاري فتح صفحة الدفع…', promoPaid: 'تم الدفع ونُشر العرض في التطبيق.', promoFailed: 'لم يكتمل الدفع، ولم يُنشر العرض.', needSave: 'احفظ العرض أولاً.', bookingsN: '{n} حجز',
+    navPromos: 'العروض الخاصة', promosTitle: 'العروض الخاصة والإعلانات', promosSub: 'كل عرض منشور برسوم إعلان شهرية، وعمولة العروض الخاصة تُحتسب تلقائياً على حجوزاتها.', colOffer: 'العرض', colFee: 'الرسوم', colPaid: 'تاريخ الدفع', colEnds: 'ينتهي', colLive: 'الحالة', stopBtn: 'إيقاف', resumeBtn: 'إعادة تفعيل', stopNote: 'سبب الإيقاف (يظهر للمكتب)', noPromos: 'لا توجد عروض منشورة بعد.', pay_pending: 'بانتظار الدفع', pay_failed: 'فشل الدفع', pay_paid: 'مدفوع', pay_refunded: 'مسترد',
+    navPackages: 'العروض الخاصة', packagesTitle: 'العروض الخاصة', packagesSub: 'عروض بسعر ثابت تظهر للمسافرين في قسم «العروض» وفي شريط الإعلانات بالتطبيق، ويحجزونها ويدفعون مباشرة من التطبيق.',
+    newPackage: 'عرض جديد', editPackage: 'تعديل العرض', noPackages: 'ما أضفت أي عرض للحين.', pkgTitle: 'اسم العرض', pkgDesc: 'الوصف والبرنامج',
+    pkgPrice: 'السعر للشخص (د.ك)', pkgNights: 'عدد الليالي', tripType: 'نوع الرحلة', availFrom: 'متاحة من', availTo: 'متاحة إلى', pkgImage: 'صورة العرض (تظهر في شريط الإعلانات)',
+    active: 'فعّالة', hidden: 'مخفية', save: 'حفظ', saved: 'تم الحفظ.', del: 'حذف', delConfirm: 'تبي تحذف هذا العرض؟', deleted: 'تم الحذف.',
     errFields: 'كمّل الحقول المطلوبة (الاسم، الوجهة، الليالي، السعر).', perPerson: 'للشخص', uploading: 'جاري رفع الصورة…',
     adminTitle: 'لوحة الإدارة', navOverview: 'نظرة عامة', navPartners: 'الشركاء', navAllBookings: 'كل الحجوزات',
     st_travelers: 'المسافرين', st_partners: 'الشركاء الفعّالين', st_requests: 'طلبات السفر', st_open: 'طلبات مفتوحة', st_offers: 'العروض', st_bookings: 'الحجوزات',
-    st_packages: 'الباقات', st_paid: 'إجمالي المدفوع', st_commission: 'إجمالي العمولات',
+    st_packages: 'العروض الخاصة', st_paid: 'إجمالي المدفوع', st_commission: 'إجمالي العمولات',
     verifiedL: 'موثّق', rate: 'العمولة %', supplier: 'كود المورد', sales: 'المبيعات', invite: 'إضافة شريك', inviteSub: 'بيوصل الشريك إيميل دعوة لتعيين كلمة المرور.',
-    pkgCol: 'الباقات', pkgUntil: 'حتى تاريخ', pkgLockedTitle: 'الباقات الجاهزة — اشتراك إضافي', pkgLockedSub: 'خاصية نشر الباقات الجاهزة متاحة للشركاء المشتركين في الباقة الإضافية. للاشتراك، تواصل مع إدارة TheTouristPlus على info@thetouristplus.com.',
+    pkgCol: 'العروض', pkgUntil: 'حتى تاريخ', pkgLockedTitle: 'الباقات الجاهزة — اشتراك إضافي', pkgLockedSub: 'خاصية نشر الباقات الجاهزة متاحة للشركاء المشتركين في الباقة الإضافية. للاشتراك، تواصل مع إدارة TheTouristPlus على info@thetouristplus.com.',
     agencyName: 'اسم الشركة (EN)', agencyNameAr: 'اسم الشركة (عربي)', license: 'رقم الترخيص', inviteSent: 'تم إرسال الدعوة للشريك.', partner: 'الشريك', bookedAt: 'تاريخ الحجز',
   });
   Object.assign(STR.en, {
-    navPackages: 'My packages', packagesTitle: 'Ready-made packages', packagesSub: 'Fixed-price packages travelers can book and pay for directly in the app.',
-    newPackage: 'New package', editPackage: 'Edit package', noPackages: 'You have not added any packages yet.', pkgTitle: 'Package name', pkgDesc: 'Description & itinerary',
-    pkgPrice: 'Price per person (KWD)', pkgNights: 'Nights', tripType: 'Trip type', availFrom: 'Available from', availTo: 'Available until', pkgImage: 'Package image',
-    active: 'Active', hidden: 'Hidden', save: 'Save', saved: 'Saved.', del: 'Delete', delConfirm: 'Delete this package?', deleted: 'Deleted.',
+    promoHow: 'How publishing works', promoHow1: 'Add the offer and save it.', promoHow2: 'Tap “Publish” and pay the {fee} KWD listing fee for {days} days via MyFatoorah.', promoHow3: 'The offer goes live in the app at once, stops automatically at the end of the period, and can be renewed.',
+    promoHow4: 'Platform commission is {rate}% on every booking made through special offers. Your identity and contact details stay hidden from travelers until they pay.',
+    liveUntil: 'Live until {d}', notLive: 'Not published', stoppedByAdmin: 'Stopped by admin', publishBtn: '📣 Publish — {fee} KWD / {days} days', renewBtn: '🔁 Renew {days} days — {fee} KWD',
+    payOpening: 'Opening payment page…', promoPaid: 'Paid — your offer is live in the app.', promoFailed: 'Payment was not completed; the offer is not published.', needSave: 'Save the offer first.', bookingsN: '{n} bookings',
+    navPromos: 'Special offers', promosTitle: 'Special offers & ads', promosSub: 'Each live offer carries a monthly listing fee; the special-offers commission is applied to its bookings automatically.', colOffer: 'Offer', colFee: 'Fee', colPaid: 'Paid', colEnds: 'Ends', colLive: 'Status', stopBtn: 'Stop', resumeBtn: 'Resume', stopNote: 'Reason (shown to the agency)', noPromos: 'No published offers yet.', pay_pending: 'Awaiting payment', pay_failed: 'Failed', pay_paid: 'Paid', pay_refunded: 'Refunded',
+    navPackages: 'Special offers', packagesTitle: 'Special offers', packagesSub: 'Fixed-price offers shown to travelers in the app’s Offers section and the home banner; they book and pay in the app.',
+    newPackage: 'New offer', editPackage: 'Edit offer', noPackages: 'You have not added any offers yet.', pkgTitle: 'Offer name', pkgDesc: 'Description & itinerary',
+    pkgPrice: 'Price per person (KWD)', pkgNights: 'Nights', tripType: 'Trip type', availFrom: 'Available from', availTo: 'Available until', pkgImage: 'Offer image (shown in the banner)',
+    active: 'Active', hidden: 'Hidden', save: 'Save', saved: 'Saved.', del: 'Delete', delConfirm: 'Delete this offer?', deleted: 'Deleted.',
     errFields: 'Fill in the required fields (name, destination, nights, price).', perPerson: 'per person', uploading: 'Uploading image…',
     adminTitle: 'Admin', navOverview: 'Overview', navPartners: 'Partners', navAllBookings: 'All bookings',
     st_travelers: 'Travelers', st_partners: 'Active partners', st_requests: 'Trip requests', st_open: 'Open requests', st_offers: 'Offers', st_bookings: 'Bookings',
-    st_packages: 'Packages', st_paid: 'Total paid', st_commission: 'Total commission',
+    st_packages: 'Special offers', st_paid: 'Total paid', st_commission: 'Total commission',
     verifiedL: 'Verified', rate: 'Commission %', supplier: 'Supplier code', sales: 'Sales', invite: 'Add partner', inviteSub: 'The partner receives an invitation email to set a password.',
-    pkgCol: 'Packages', pkgUntil: 'Until', pkgLockedTitle: 'Ready-made packages — add-on subscription', pkgLockedSub: 'Publishing ready-made packages is available to partners subscribed to the add-on. To subscribe, contact TheTouristPlus at info@thetouristplus.com.',
+    pkgCol: 'Offers', pkgUntil: 'Until', pkgLockedTitle: 'Ready-made packages — add-on subscription', pkgLockedSub: 'Publishing ready-made packages is available to partners subscribed to the add-on. To subscribe, contact TheTouristPlus at info@thetouristplus.com.',
     agencyName: 'Company name (EN)', agencyNameAr: 'Company name (AR)', license: 'License no.', inviteSent: 'Invitation sent to the partner.', partner: 'Partner', bookedAt: 'Booked',
   });
 
   const field = (label, html) => `<label class="f">${esc(label)}${html}</label>`;
 
   // ------------------------------------------------------------ partner: packages
+  async function promoSettings() {
+    const { data } = await sb.from('platform_settings').select('promo_fee, promo_days, promo_commission, promo_terms_version').eq('id', 1).maybeSingle();
+    return { fee: Number(data?.promo_fee ?? 10), days: Number(data?.promo_days ?? 30), rate: Number(data?.promo_commission ?? 4) };
+  }
+  const isLive = (p) => p.active && p.review_status !== 'rejected' && p.featured_until && Date.parse(p.featured_until) >= Date.now();
+
+  async function startPromo(pkgId, btn) {
+    const T = ctx.terms;
+    if (T?.latestTermsStatus) {
+      const st = await T.latestTermsStatus();
+      if (st.needs) return T.openAcceptDialog(() => startPromo(pkgId, btn));
+    }
+    if (btn) btn.disabled = true;
+    toast(t('payOpening'));
+    const { data, error } = await sb.functions.invoke('promo-pay', { body: { package_id: pkgId } });
+    if (error || !data?.url) { if (btn) btn.disabled = false; return toast(t('errGeneric')); }
+    location.href = data.url;
+  }
+
   async function viewPackages() {
-    const { data, error } = await sb.from('packages').select('*').eq('agency_id', state.agency.id).order('created_at', { ascending: false });
+    const q = new URLSearchParams(location.hash.split('?')[1] || '');
+    if (q.get('promo') === 'paid') toast(t('promoPaid')); else if (q.get('promo') === 'failed') toast(t('promoFailed'));
+    const [{ data, error }, ps] = await Promise.all([
+      sb.from('packages').select('*').eq('agency_id', state.agency.id).order('created_at', { ascending: false }),
+      promoSettings(),
+    ]);
     if (error) return shell('packages', `<p class="notice bad">${esc(t('errGeneric'))}</p>`);
-    const cards = (data || []).map((p) => `<a class="card rfq" href="#/package/${p.id}">
-      ${p.image_url ? `<img src="${esc(p.image_url)}" alt="" style="width:100%;height:150px;object-fit:cover;border-radius:12px">` : ''}
-      <div class="row between"><span class="dest">${esc(p.title)}</span><span class="badge ${p.active ? 'good' : ''}">${esc(p.active ? t('active') : t('hidden'))}</span></div>
-      <div class="muted" style="font-size:14px">${esc(place(p.destination))} · ${esc(t('type_' + p.trip_type))} · ${esc(t('nights', { n: p.nights }))}</div>
-      <div class="foot"><b>${esc(money(p.price))}</b> <span class="muted">${esc(t('perPerson'))}</span></div></a>`).join('');
+    const ids = (data || []).map((p) => p.id);
+    const { data: bk } = ids.length ? await sb.from('offers').select('source_package').in('source_package', ids) : { data: [] };
+    const nBk = (id) => (bk || []).filter((x) => x.source_package === id).length;
+    const status = (p) => p.review_status === 'rejected'
+      ? `<span class="badge bad" title="${esc(p.review_note || '')}">${esc(t('stoppedByAdmin'))}</span>`
+      : isLive(p) ? `<span class="badge good">${esc(t('liveUntil', { d: fmtDate(p.featured_until) }))}</span>` : `<span class="badge">${esc(t('notLive'))}</span>`;
+    const cards = (data || []).map((p) => `<div class="card rfq offer-card">
+      <a href="#/package/${p.id}" style="color:inherit;text-decoration:none;display:flex;flex-direction:column;gap:8px">
+        ${p.image_url ? `<img src="${esc(p.image_url)}" alt="" style="width:100%;height:150px;object-fit:cover;border-radius:12px">` : `<div class="offer-cover"><span>⚡ ${esc(place(p.destination))}</span></div>`}
+        <div class="row between"><span class="dest">${esc(p.title)}</span>${status(p)}</div>
+        <div class="muted" style="font-size:14px">${esc(place(p.destination))} · ${esc(t('type_' + p.trip_type))} · ${esc(t('nights', { n: p.nights }))}</div>
+        <div class="foot"><span><b>${esc(money(p.price))}</b> <span class="muted">${esc(t('perPerson'))}</span></span><span class="muted">${esc(t('bookingsN', { n: nBk(p.id) }))}</span></div>
+      </a>
+      ${p.review_status === 'rejected' ? (p.review_note ? `<p class="notice bad" style="margin:0">${esc(p.review_note)}</p>` : '')
+        : `<button class="btn ${isLive(p) ? 'ghost' : 'accent'}" type="button" data-promo="${p.id}" ${p.active ? '' : 'disabled'}>${esc(t(isLive(p) ? 'renewBtn' : 'publishBtn', { fee: ps.fee, days: ps.days }))}</button>`}
+    </div>`).join('');
     shell('packages', `
       <div class="top"><div><h1>${esc(t('packagesTitle'))}</h1><p class="muted" style="margin:4px 0 0">${esc(t('packagesSub'))}</p></div>
         <a class="btn accent" href="#/package/new">+ ${esc(t('newPackage'))}</a></div>
+      <div class="card promo-how"><h2>${esc(t('promoHow'))}</h2>
+        <ol><li>${esc(t('promoHow1'))}</li><li>${esc(t('promoHow2', ps))}</li><li>${esc(t('promoHow3'))}</li></ol>
+        <p class="muted" style="margin:0">${esc(t('promoHow4', ps))}</p></div>
       ${cards ? `<div class="list">${cards}</div>` : `<div class="card empty">${esc(t('noPackages'))}</div>`}`);
+    document.querySelectorAll('[data-promo]').forEach((b) => (b.onclick = () => startPromo(b.dataset.promo, b)));
+  }
+
+  // ------------------------------------------------------------ admin: special offers
+  async function viewPromos() {
+    const { data, error } = await sb.rpc('admin_promotions');
+    if (error) return shell('promos', `<p class="notice bad">${esc(t('errGeneric'))}</p>`);
+    const rows = (data || []).map((r) => `<tr>
+      <td><b>${esc(r.title)}</b><div class="muted" style="font-size:12px">${esc(r.agency)}</div></td>
+      <td>${esc(money(r.amount))}</td><td><span class="badge ${r.status === 'paid' ? 'good' : r.status === 'pending' ? 'accent' : ''}">${esc(t('pay_' + r.status))}</span></td>
+      <td class="muted">${r.paid_at ? esc(fmtDate(r.paid_at)) : '—'}</td><td class="muted">${r.ends_at ? esc(fmtDate(r.ends_at)) : '—'}</td>
+      <td>${r.review_status === 'rejected' ? `<span class="badge bad">${esc(t('stoppedByAdmin'))}</span>` : r.live ? `<span class="badge good">${esc(t('active'))}</span>` : `<span class="badge">${esc(t('notLive'))}</span>`}</td>
+      <td>${esc(r.bookings)}</td>
+      <td>${r.review_status === 'rejected' ? `<button class="btn small" type="button" data-resume="${r.package_id}">${esc(t('resumeBtn'))}</button>` : `<button class="btn danger small" type="button" data-stop="${r.package_id}">${esc(t('stopBtn'))}</button>`}</td></tr>`).join('');
+    shell('promos', `<div class="top"><div><h1>${esc(t('promosTitle'))}</h1><p class="muted" style="margin:4px 0 0">${esc(t('promosSub'))}</p></div></div>
+      ${rows ? `<div class="tbl-wrap"><table><thead><tr><th>${esc(t('colOffer'))}</th><th>${esc(t('colFee'))}</th><th>${esc(t('payStatus'))}</th><th>${esc(t('colPaid'))}</th><th>${esc(t('colEnds'))}</th><th>${esc(t('colLive'))}</th><th>${esc(t('st_bookings'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>` : `<div class="card empty">${esc(t('noPromos'))}</div>`}`);
+    document.querySelectorAll('[data-stop]').forEach((b) => (b.onclick = async () => {
+      const note = prompt(t('stopNote')) || '';
+      const { error: e } = await sb.rpc('admin_review_package', { p_package: b.dataset.stop, p_approve: false, p_note: note });
+      toast(e ? t('errGeneric') : t('saved')); viewPromos();
+    }));
+    document.querySelectorAll('[data-resume]').forEach((b) => (b.onclick = async () => {
+      const { error: e } = await sb.rpc('admin_review_package', { p_package: b.dataset.resume, p_approve: true });
+      toast(e ? t('errGeneric') : t('saved')); viewPromos();
+    }));
   }
 
   async function viewPackage(id) {
@@ -153,11 +226,10 @@ export function install(ctx) {
       <td><input type="checkbox" data-k="verified" ${a.verified ? 'checked' : ''} aria-label="${esc(t('verifiedL'))}" style="width:auto"></td>
       <td><input type="number" data-k="rate" min="0" max="100" step="0.1" value="${esc(a.commission_rate)}" style="width:90px" dir="ltr"></td>
       <td><input type="number" data-k="supplier" value="${esc(a.mf_supplier_code ?? '')}" style="width:110px" dir="ltr"></td>
-      <td><input type="checkbox" data-k="pkg" ${a.packages_enabled ? 'checked' : ''} aria-label="${esc(t('pkgCol'))}" style="width:auto"> <input type="date" data-k="pkgUntil" value="${esc(a.packages_until || '')}" title="${esc(t('pkgUntil'))}" style="width:140px" dir="ltr"></td>
       <td>${esc(a.bookings)} · ${esc(money(a.paid_total))}</td><td>${esc(money(a.commission_total))}</td>
       <td><button class="btn small" type="button" data-save>${esc(t('save'))}</button></td></tr>`).join('');
     shell('partners', `<div class="top"><h1>${esc(t('navPartners'))}</h1></div>
-      <div class="tbl-wrap"><table><thead><tr><th>${esc(t('partner'))}</th><th>${esc(t('active'))}</th><th>${esc(t('verifiedL'))}</th><th>${esc(t('rate'))}</th><th>${esc(t('supplier'))}</th><th>${esc(t('pkgCol'))}</th><th>${esc(t('sales'))}</th><th>${esc(t('commission'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
+      <div class="tbl-wrap"><table><thead><tr><th>${esc(t('partner'))}</th><th>${esc(t('active'))}</th><th>${esc(t('verifiedL'))}</th><th>${esc(t('rate'))}</th><th>${esc(t('supplier'))}</th><th>${esc(t('sales'))}</th><th>${esc(t('commission'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
       <form id="invite" data-keep class="card" style="display:flex;flex-direction:column;gap:12px;max-width:760px;margin-top:20px" novalidate>
         <h2>${esc(t('invite'))}</h2><p class="muted" style="margin:0">${esc(t('inviteSub'))}</p>
         <div class="row" style="gap:12px;align-items:flex-start"><div class="grow">${field(t('agencyName'), '<input name="name" required>')}</div><div class="grow">${field(t('agencyNameAr'), '<input name="name_ar">')}</div></div>
@@ -169,7 +241,7 @@ export function install(ctx) {
       const v = (k) => tr.querySelector(`[data-k=${k}]`);
       const sup = v('supplier').value.trim();
       const { error: e2 } = await sb.rpc('admin_update_agency', { p_agency: tr.dataset.id, p_active: v('active').checked, p_verified: v('verified').checked, p_rate: Number(v('rate').value || 0), p_supplier_code: sup ? Number(sup) : null });
-      const { error: e4 } = await sb.rpc('admin_set_packages', { p_agency: tr.dataset.id, p_enabled: v('pkg').checked, p_until: v('pkgUntil').value || null });
+      const e4 = null;
       toast(e2 || e4 ? t('errGeneric') : t('saved'));
     }));
     document.getElementById('invite').onsubmit = async (e) => {
@@ -199,5 +271,5 @@ export function install(ctx) {
     shell('packages', `<div class="top"><h1>${esc(t('pkgLockedTitle'))}</h1></div><div class="card"><p style="margin:0">${esc(t('pkgLockedSub'))}</p></div>`);
   }
 
-  return { viewPackagesLocked, viewPackages, viewPackage, viewOverview, viewPartners, viewAllBookings };
+  return { viewPackagesLocked, viewPackages, viewPackage, viewOverview, viewPartners, viewAllBookings, viewPromos, startPromo };
 }

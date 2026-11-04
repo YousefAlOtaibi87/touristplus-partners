@@ -1,5 +1,5 @@
 :root{
-  --ink:#0F172A; --deep:#0B3D91; --teal:#14509F; --sand:#F1F5F9; --card:#fff; --line:#E2E8F0;
+  --ink:#0F172A; --deep:#0B3D91; --teal:#14509F; --sand:#F3F6FB; --card:#fff; --line:#E3E9F3;
   --muted:#64748B; --accent:#C0392B; --accentSoft:#FBEAE8; --accentInk:#8E2A20; --salmon:#E8A598;
   --good:#256F47; --goodSoft:#E3F2EA; --bad:#A63D32; --badSoft:#F7E3E0;
 }
@@ -19,7 +19,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 
 /* layout */
 .shell{display:flex;flex-wrap:wrap;min-height:100vh}
-.side{flex:1 1 220px;max-width:260px;background:var(--deep);color:#fff;padding:20px 14px;display:flex;flex-direction:column;gap:6px}
+.side{flex:1 1 220px;max-width:260px;background:linear-gradient(180deg,var(--deep),#082C6C);color:#fff;padding:20px 14px;display:flex;flex-direction:column;gap:6px}
 .side .brand{color:#fff;margin:0 8px 18px}
 .side .brand small{color:#9DB5E0}
 .brand .w b{color:var(--deep)}.brand .w i{font-style:normal;color:var(--accent)}.side .brand .w b{color:#fff}.side .brand .w i{color:var(--salmon)}
@@ -42,7 +42,7 @@ h2{margin:0;font-size:19px}
 .btn{border:0;border-radius:12px;padding:11px 18px;font-weight:700;cursor:pointer;background:var(--deep);color:#fff;min-height:44px}
 .btn:hover{filter:brightness(1.08)}
 .btn:disabled{opacity:.5;cursor:default}
-.btn.accent{background:var(--accent);color:#fff}
+.btn.accent{background:var(--accent);color:#fff;box-shadow:0 6px 14px rgba(192,57,43,.25)}
 .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--deep)}
 .btn.danger{background:transparent;border:1px solid var(--badSoft);color:var(--bad)}
 .btn.small{padding:7px 12px;min-height:36px;font-size:14px}
@@ -55,7 +55,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--teal);outline-of
 .chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 13px;font-weight:600;font-size:14px;cursor:pointer}
 .chip input{width:auto;margin:0}
 .chip.on{background:var(--deep);border-color:var(--deep);color:#fff}
-.badge{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700;background:var(--sand);color:var(--muted);white-space:nowrap}
+.badge{display:inline-block;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;background:#E8EFFB;color:var(--deep);white-space:nowrap}
 .badge.accent{background:var(--accentSoft);color:var(--accentInk)}
 .badge.good{background:var(--goodSoft);color:var(--good)}
 .badge.bad{background:var(--badSoft);color:var(--bad)}
@@ -65,7 +65,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--teal);outline-of
 .notice.info{background:var(--accentSoft);color:var(--accentInk)}
 
 /* cards */
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+.card{background:var(--card);border:1px solid #EEF2F8;border-radius:20px;padding:18px;box-shadow:0 6px 18px rgba(11,61,145,.06)}
 .list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
 .rfq{display:flex;flex-direction:column;gap:10px;text-decoration:none;color:inherit;transition:border-color .15s, transform .15s}
 .rfq:hover{border-color:var(--teal);transform:translateY(-1px)}
@@ -116,3 +116,11 @@ input.invalid,select.invalid,textarea.invalid{border-color:var(--bad);background
 .terms-body h1{font-size:20px;margin:0 0 10px}.terms-body h2{font-size:16px;color:var(--deep);margin:18px 0 6px}
 .terms-body table{width:100%;border-collapse:collapse;margin:8px 0}.terms-body td,.terms-body th{border:1px solid var(--line);padding:6px 8px;text-align:start;vertical-align:top;white-space:normal}
 .terms-body th{background:var(--sand)}.terms-body ol,.terms-body ul{padding-inline-start:22px}
+
+/* special offers */
+.offer-card{display:flex;flex-direction:column;gap:10px}
+.offer-cover{height:120px;border-radius:14px;background:linear-gradient(135deg,var(--deep),#1F5FC4);position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:12px 14px}
+.offer-cover::after{content:'';position:absolute;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.08);top:-60px;inset-inline-end:-40px}
+.offer-cover span{color:#fff;font-weight:800;font-size:16px;position:relative}
+.promo-how{margin-bottom:18px;border-inline-start:4px solid var(--accent)}
+.promo-how h2{margin:0 0 6px}.promo-how ol{margin:0 0 8px;padding-inline-start:20px;line-height:1.9}
