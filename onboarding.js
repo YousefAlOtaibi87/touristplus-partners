@@ -279,7 +279,7 @@ export function installOnboarding(ctx) {
           ${(Array.isArray(docs.other) ? docs.other : []).map((pth, i) => `<button class="btn ghost small" type="button" data-view="${esc(pth)}">📄 ${esc(state.lang === 'ar' ? 'شهادة إضافية' : 'Extra certificate')} ${i + 1}</button>`).join('')}</div>
         ${a.status === 'rejected' && a.reject_reason ? `<p class="notice bad">${esc(a.reject_reason)}</p>` : ''}
         ${a.status === 'approved' && a.terms_version ? `<div class="row" style="gap:8px">${a.contract_path
-          ? `<button class="btn ghost small" type="button" data-signed="${esc(a.contract_path)}">📄 ${esc(t('signedCopy'))}</button><button class="btn ghost small" type="button" data-resign="${a.id}">${esc(t('resend'))}</button>`
+          ? `<button class="btn ghost small" type="button" data-signed="${esc(a.contract_path)}">📄 ${esc(t('signedCopy'))}</button><button class="btn ghost small" type="button" data-resign="${a.id}">✉️ ${esc(t('resendNotice'))}</button>`
           : `<button class="btn accent small" type="button" data-signnow="${a.id}" data-rate="${esc(a.commission_rate ?? 10)}">✍️ ${esc(t('reviewSign'))}</button>`}</div>` : ''}
         ${a.status === 'submitted' ? `<div class="row" style="gap:10px;align-items:flex-end;flex-wrap:wrap" data-app="${a.id}">
           <label class="f" style="width:140px">${esc(t('rate'))}<input type="number" name="rate" min="0" max="100" step="0.1" value="10" dir="ltr"></label>
@@ -294,7 +294,7 @@ export function installOnboarding(ctx) {
     document.querySelectorAll('[data-signed]').forEach((b) => (b.onclick = () => T.openSigned(b.dataset.signed)));
     document.getElementById('dl-all').onclick = (e) => downloadAll(e.target);
     document.querySelectorAll('[data-signnow]').forEach((b) => (b.onclick = () => T.openSignDialog(b.dataset.signnow, Number(b.dataset.rate || 10), async () => true, () => viewApplications(b.dataset.signnow))));
-    document.querySelectorAll('[data-resign]').forEach((b) => (b.onclick = async () => { b.disabled = true; await T.signAndSend(b.dataset.resign); viewApplications(b.dataset.resign); }));
+    document.querySelectorAll('[data-resign]').forEach((b) => (b.onclick = async () => { b.disabled = true; const { data: r, error } = await sb.functions.invoke('send-contract', { body: { app_id: b.dataset.resign } }); toast(!error && r?.ok ? t('sent') : t('sentNoMail')); viewApplications(b.dataset.resign); }));
     document.querySelectorAll('[data-app]').forEach((box) => {
       const id = box.dataset.app;
       box.querySelector('[data-approve]').onclick = async () => {
@@ -400,7 +400,7 @@ export function installOnboarding(ctx) {
             <div class="row" style="gap:8px;flex-wrap:wrap">
               ${agencySigned && !platformSigned && a.status !== 'rejected' ? `<label class="f" style="width:140px">${esc(t('rate'))}<input type="number" id="c-rate" min="0" max="100" step="0.1" value="${esc(a.commission_rate ?? 10)}" dir="ltr"></label>
                 <button class="btn accent" type="button" id="c-sign">✍️ ${esc(t('reviewSign'))}</button>` : ''}
-              ${platformSigned ? `<button class="btn" type="button" id="c-pdf">📄 ${esc(t('signedCopy'))}</button><button class="btn ghost" type="button" id="c-resend">${esc(t('resend'))}</button>` : ''}
+              ${platformSigned ? `<button class="btn" type="button" id="c-pdf">📄 ${esc(t('signedCopy'))}</button><button class="btn ghost" type="button" id="c-resend">✉️ ${esc(t('resendNotice'))}</button>` : ''}
             </div>
             ${!agencySigned ? `<p class="notice info" style="margin:0">${esc(t('waitAgency'))}</p>` : ''}
           </div>
