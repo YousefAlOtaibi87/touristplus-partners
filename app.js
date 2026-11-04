@@ -1,5 +1,6 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 import { install } from './extra.js?v=6';
+import { AIRLINES } from './airlines.js?v=1';
 import { installOnboarding } from './onboarding.js?v=19';
 import { installTerms } from './terms.js?v=8';
 
@@ -18,6 +19,7 @@ const STR = {
     childAges: 'أعمار الأطفال', ageInfant: 'رضيع ({n})', ageYears: '{n} سنوات', prefsL: 'تفضيلات المسافر',
     pref_central: 'فندق في وسط المدينة', pref_breakfast: 'إفطار مشمول', pref_direct: 'طيران مباشر', pref_connecting: 'غرف متصلة', pref_view: 'إطلالة بحر / جبل',
     pref_pool: 'مسبح أو فيلا', pref_flexible: 'مرونة بالتواريخ ±2 يوم', pref_driver: 'سيارة مع سائق', pref_access: 'احتياجات خاصة',
+    flightPrefs: 'الطيران المطلوب', cabinL: 'درجة المقعد', cabin_economy: 'سياحية', cabin_premium: 'سياحية مميزة', cabin_business: 'رجال الأعمال', cabin_first: 'الأولى',
     navRequests: 'طلبات السفر', navOffers: 'عروض الأسعار', navBookings: 'الحجوزات', signOut: 'تسجيل الخروج',
     requestsTitle: 'طلبات السفر المفتوحة', requestsSub: 'اختر طلب وقدّم عرضك للمسافر.',
     search: 'ابحث بالوجهة…', allTypes: 'كل الأنواع', sortClosing: 'الأقرب إغلاقاً', sortNewest: 'الأحدث',
@@ -50,6 +52,7 @@ const STR = {
     childAges: 'Children’s ages', ageInfant: 'infant ({n})', ageYears: '{n} yrs', prefsL: 'Traveler preferences',
     pref_central: 'Central hotel', pref_breakfast: 'Breakfast included', pref_direct: 'Direct flights', pref_connecting: 'Connecting rooms', pref_view: 'Sea / mountain view',
     pref_pool: 'Pool or villa', pref_flexible: 'Flexible dates ±2 days', pref_driver: 'Car with driver', pref_access: 'Accessibility needs',
+    flightPrefs: 'Requested flights', cabinL: 'Cabin', cabin_economy: 'Economy', cabin_premium: 'Premium Economy', cabin_business: 'Business', cabin_first: 'First',
     navRequests: 'Trip requests', navOffers: 'My quotes', navBookings: 'Bookings', signOut: 'Sign out',
     requestsTitle: 'Open trip requests', requestsSub: 'Pick a request and send your offer to the traveler.',
     search: 'Search destination…', allTypes: 'All types', sortClosing: 'Closing soon', sortNewest: 'Newest',
@@ -76,6 +79,9 @@ const STR = {
 const PLACES = { Istanbul: 'إسطنبول', London: 'لندن', Makkah: 'مكة المكرمة', Paris: 'باريس', Bali: 'بالي', Tbilisi: 'تبليسي', Dubai: 'دبي', Baku: 'باكو', Trabzon: 'طرابزون', Cairo: 'القاهرة' };
 const SERVICES = ['flights', 'hotel', 'transfers', 'tours', 'visa', 'insurance'];
 const TYPES = ['leisure', 'family', 'honeymoon', 'business', 'group'];
+const CABIN_KEYS = { E: 'economy', P: 'premium', B: 'business', F: 'first' };
+const airlineName = (code) => { const a = AIRLINES.find((x) => x[0] === code); return a ? (state.lang === 'ar' ? a[2] : a[1]) : code; };
+const airlineCabins = (name) => { const a = AIRLINES.find((x) => x[1] === name || x[2] === name || x[0] === name); return a ? a[3].split('').map((c) => CABIN_KEYS[c]) : Object.values(CABIN_KEYS); };
 
 const state = {
   lang: localStorage.getItem('tp.lang') === 'en' ? 'en' : 'ar',
@@ -385,6 +391,7 @@ async function viewRequest(id) {
     <dt>${esc(t('depart'))}</dt><dd dir="ltr" style="text-align:start">${esc(r.depart)}</dd>
     <dt>${esc(t('ret'))}</dt><dd dir="ltr" style="text-align:start">${esc(r.ret)} · ${esc(t('nights', { n: nights(r.depart, r.ret) }))}</dd>
     <dt>${esc(t('travelersL'))}</dt><dd>${esc(t('travelers', { a: r.adults, c: r.children }))}</dd>
+    ${r.airlines?.length || r.cabin ? `<dt>${esc(t('flightPrefs'))}</dt><dd>${esc([(r.airlines || []).map(airlineName).join('، '), r.cabin ? t('cabin_' + r.cabin) : ''].filter(Boolean).join(' · '))}</dd>` : ''}
     ${r.children_ages?.length ? `<dt>${esc(t('childAges'))}</dt><dd>${r.children_ages.map((a) => esc(a < 2 ? t('ageInfant', { n: a }) : t('ageYears', { n: a }))).join('، ')}</dd>` : ''}
     ${r.prefs?.length ? `<dt>${esc(t('prefsL'))}</dt><dd><div class="chips">${r.prefs.map((p) => `<span class="badge accent">${esc(t('pref_' + p))}</span>`).join('')}</div></dd>` : ''}
     <dt>${esc(t('hotelStars'))}</dt><dd>${r.hotel_stars ? '★'.repeat(r.hotel_stars) : esc(t('any'))}</dd>
@@ -395,7 +402,9 @@ async function viewRequest(id) {
   const form = editable ? `
     <form id="offer-form" data-keep class="row" style="flex-direction:column;align-items:stretch;gap:14px" novalidate>
       <label class="f">${esc(t('price'))}<input name="price" type="number" min="1" step="0.001" inputmode="decimal" required value="${live ? esc(live.price) : ''}" dir="ltr"></label>
-      ${r.services.includes('flights') ? `<label class="f">${esc(t('airline'))}<input name="airline" placeholder="${esc(t('airlinePh'))}" value="${esc(live?.airline || '')}"></label>` : ''}
+      ${r.services.includes('flights') ? `<div class="row" style="gap:12px;align-items:flex-start"><label class="f grow">${esc(t('airline'))}<input name="airline" list="airline-list" autocomplete="off" placeholder="${esc(t('airlinePh'))}" value="${esc(live?.airline || (r.airlines?.length === 1 ? airlineName(r.airlines[0]) : ''))}"></label>
+        <label class="f" style="min-width:170px">${esc(t('cabinL'))}<select name="cabin">${Object.values(CABIN_KEYS).map((c) => `<option value="${c}" ${(live?.cabin || r.cabin || 'economy') === c ? 'selected' : ''}>${esc(t('cabin_' + c))}</option>`).join('')}</select></label></div>
+        <datalist id="airline-list">${AIRLINES.map((a) => `<option value="${esc(state.lang === 'ar' ? a[2] : a[1])}">${esc(a[0])} · ${esc(state.lang === 'ar' ? a[1] : a[2])}</option>`).join('')}</datalist>` : ''}
       ${r.services.includes('hotel') ? `<label class="f">${esc(t('hotel'))}<input name="hotel" placeholder="${esc(t('hotelPh'))}" value="${esc(live?.hotel || '')}"></label>
         <fieldset style="border:0;padding:0;margin:0"><legend class="f" style="font-size:14px;font-weight:600;color:#3C4E50;margin-bottom:6px">${esc(t('hotelStars'))}</legend>
         <div class="chips">${[3, 4, 5].map((n) => `<label class="chip ${stars === n ? 'on' : ''}"><input type="radio" name="stars" value="${n}" ${stars === n ? 'checked' : ''}> ${'★'.repeat(n)}</label>`).join('')}</div></fieldset>` : ''}
@@ -412,7 +421,7 @@ async function viewRequest(id) {
 
   const offerView = live && !editable ? `<dl class="kv">
       <dt>${esc(t('price'))}</dt><dd>${esc(money(live.price))}</dd>
-      ${live.airline ? `<dt>${esc(t('airline'))}</dt><dd>${esc(live.airline)}</dd>` : ''}
+      ${live.airline ? `<dt>${esc(t('airline'))}</dt><dd>${esc(live.airline)}${live.cabin ? ' · ' + esc(t('cabin_' + live.cabin)) : ''}</dd>` : ''}
       ${live.hotel ? `<dt>${esc(t('hotel'))}</dt><dd>${esc(live.hotel)} ${live.hotel_stars ? '★'.repeat(live.hotel_stars) : ''}</dd>` : ''}
       <dt>${esc(t('status'))}</dt><dd><span class="badge ${live.status === 'accepted' ? 'good' : ''}">${esc(t('st_' + live.status))}</span></dd>
     </dl>${live.itinerary ? `<div class="notes">${esc(live.itinerary)}</div>` : ''}` : '';
@@ -448,6 +457,13 @@ async function viewRequest(id) {
   }));
 
   const of = document.getElementById('offer-form');
+  // Cabin choices follow what the typed airline usually sells.
+  const alIn = of?.querySelector('[name=airline]'), cabSel = of?.querySelector('[name=cabin]');
+  if (alIn && cabSel) {
+    const sync = () => { const ok = airlineCabins(alIn.value.trim()); const cur = cabSel.value;
+      cabSel.innerHTML = ok.map((c) => `<option value="${c}">${esc(t('cabin_' + c))}</option>`).join(''); cabSel.value = ok.includes(cur) ? cur : ok[0]; };
+    alIn.addEventListener('input', sync); sync();
+  }
   if (of) of.onsubmit = async (e) => {
     e.preventDefault();
     const fd = new FormData(of);
@@ -455,7 +471,7 @@ async function viewRequest(id) {
     const err = document.getElementById('offer-err');
     if (!price || price <= 0) { err.textContent = t('errPrice'); err.hidden = false; return; }
     const row = {
-      price, airline: String(fd.get('airline') || '') || null, hotel: String(fd.get('hotel') || '') || null,
+      price, airline: String(fd.get('airline') || '') || null, cabin: fd.get('cabin') || null, hotel: String(fd.get('hotel') || '') || null,
       hotel_stars: fd.get('stars') ? Number(fd.get('stars')) : null, includes: fd.getAll('inc').map(String),
       itinerary: String(fd.get('itinerary') || '') || null,
       valid_until: new Date(Date.now() + Number(fd.get('valid') || 3) * 86400000).toISOString(),
