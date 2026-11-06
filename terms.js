@@ -18,6 +18,7 @@ export function installTerms(ctx) {
     preview: 'معاينة', publish: 'نشر نسخة جديدة', publishConfirm: 'هل تريد نشر النسخة {v} من الاتفاقية؟', published: 'تم نشر النسخة الجديدة.', versions: 'النسخ السابقة',
     acceptedOn: 'وقّع على النسخة {v} بتاريخ {d} · {n}', notAccepted: 'لم يوقّع على الاتفاقية',
     platformSec: 'بيانات المنصة وتوقيعها', platformSub: 'تظهر هذه البيانات في الاتفاقية بصفة الطرف الأول. توقيع المنصة لا يظهر على أي اتفاقية إلا بعد توقيع المكتب ثم توقيعك أنت عند الاعتماد.',
+    agSignTitle: 'اتفاقية الشراكة', agSignIntro: 'تمت الموافقة المبدئية على طلب انضمامكم. راجعوا الاتفاقية ووقّعوها بصفتكم الطرف الثاني، وبعدها توقّع المنصة بصفتها الطرف الأول، وتسري الاتفاقية ويتفعّل حسابكم من تاريخ توقيع المنصة.', agSignedWait: 'وقّعتم الاتفاقية بتاريخ {d}، وهي الحين بانتظار توقيع المنصة. بيوصلكم إشعار بالبريد أول ما تتفعّل.', agSignBtn: '✍️ توقيع الاتفاقية وإرسالها للمنصة', agSignDone: 'تم توقيع الاتفاقية وإرسالها للمنصة.', pendingAgency: 'بانتظار توقيع المكتب',
     savedSig: 'التوقيع المحفوظ', noSavedSig: 'لا يوجد توقيع محفوظ — ستوقّع يدوياً على كل اتفاقية عند اعتماد المكتب.', editSigHint: 'لتعديل التوقيع: ارسم توقيعاً جديداً في المربع ثم اضغط «حفظ بيانات المنصة».', delSig: '🗑️ حذف التوقيع المحفوظ', delSigConfirm: 'حذف توقيع المنصة المحفوظ؟ ستحتاج لرسم توقيعك عند اعتماد كل مكتب.', sigDeleted: 'تم حذف التوقيع المحفوظ.', rememberSig: 'حفظ هذا التوقيع لاستخدامه في الاتفاقيات القادمة',
     pName: 'اسم الشركة المالكة للمنصة (كما في الرخصة)', pLicense: 'رقم الرخصة التجارية', pAddress: 'العنوان', pSignatory: 'اسم المفوَّض بالتوقيع', pTitle: 'الصفة', pEmail: 'البريد الإلكتروني للمراسلات',
     saveSettings: 'حفظ بيانات المنصة', settingsSaved: 'تم حفظ بيانات المنصة.', needPlatformSig: 'أكمل بيانات المنصة (اسم الشركة والمفوَّض بالتوقيع) من صفحة «الاتفاقية» قبل الموافقة.',
@@ -39,6 +40,7 @@ export function installTerms(ctx) {
     preview: 'Preview', publish: 'Publish new version', publishConfirm: 'Publish version {v} of the agreement?', published: 'New version published.', versions: 'Previous versions',
     acceptedOn: 'Signed version {v} on {d} · {n}', notAccepted: 'Has not signed the agreement',
     platformSec: 'Platform details & signature', platformSub: 'Shown in the agreement as the first party. The platform signature appears on an agreement only after the agency signs and you then sign when approving.',
+    agSignTitle: 'Partnership agreement', agSignIntro: 'Your application has been pre-approved. Review the agreement and sign it as the second party; the platform then signs as the first party, and the agreement takes effect and your account is activated from the date the platform signs.', agSignedWait: 'You signed the agreement on {d}; it is now awaiting the platform’s signature. You will be emailed once it is activated.', agSignBtn: '✍️ Sign and send to the platform', agSignDone: 'Agreement signed and sent to the platform.', pendingAgency: 'Awaiting the agency’s signature',
     savedSig: 'Saved signature', noSavedSig: 'No saved signature — you will sign each agreement by hand when approving the agency.', editSigHint: 'To change the signature: draw a new one in the box, then tap “Save platform details”.', delSig: '🗑️ Delete saved signature', delSigConfirm: 'Delete the saved platform signature? You will need to draw it when approving each agency.', sigDeleted: 'Saved signature deleted.', rememberSig: 'Save this signature for future agreements',
     pName: 'Company owning the platform (as on license)', pLicense: 'Commercial license no.', pAddress: 'Address', pSignatory: 'Authorized signatory', pTitle: 'Title', pEmail: 'Correspondence email',
     saveSettings: 'Save platform details', settingsSaved: 'Platform details saved.', needPlatformSig: 'Complete the platform details (company and signatory) on the Agreement page before approving.',
@@ -118,10 +120,10 @@ export function installTerms(ctx) {
 
   // ---------- the signed document (used on screen and for the PDF)
   function contractHTML(a, ps, terms, opts = {}) {
-    const sigCell = (title, name, img, date, extra = '') => `<td style="width:50%;vertical-align:top;padding:12px;border:1px solid #E2E8F0">
+    const sigCell = (title, name, img, date, extra = '', pend = t('pending')) => `<td style="width:50%;vertical-align:top;padding:12px;border:1px solid #E2E8F0">
       <div style="font-weight:800;color:#0B3D91;margin-bottom:6px">${esc(title)}</div>
       <div>${esc(t('signer'))}: ${esc(name || '—')}${extra}</div>
-      <div style="height:90px;display:flex;align-items:center">${img ? `<img src="${img}" alt="" style="max-height:86px;max-width:100%">` : `<span style="color:#94A3B8">${esc(t('pending'))}</span>`}</div>
+      <div style="height:90px;display:flex;align-items:center">${img ? `<img src="${img}" alt="" style="max-height:86px;max-width:100%">` : `<span style="color:#94A3B8">${esc(pend)}</span>`}</div>
       <div style="color:#64748B;font-size:12px">${esc(t('signedAt'))}: ${date ? esc(new Date(date).toLocaleString('ar-KW')) : '—'}</div></td>`;
     return `<div dir="rtl" class="terms-body contract-doc" style="font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;color:#0F172A;line-height:1.8;font-size:14px">
       <style>.contract-doc table{width:100%;table-layout:fixed;border-collapse:collapse;margin:8px 0}.contract-doc td,.contract-doc th{border:1px solid #E2E8F0;padding:6px 8px;text-align:start;vertical-align:top;overflow-wrap:anywhere;white-space:normal}
@@ -134,7 +136,7 @@ export function installTerms(ctx) {
       <div><h2>${esc(t('sigTitle'))}</h2>
       <table><tr>
         ${sigCell(t('party1'), ps.signatory_name, opts.platformSig ? ps.signature : null, a.platform_signed_at, ps.signatory_title ? ` — ${esc(ps.signatory_title)}` : '')}
-        ${sigCell(t('party2'), a.terms_signer, a.terms_signature, a.terms_accepted_at)}
+        ${sigCell(t('party2'), a.terms_signer, a.terms_signature, a.terms_accepted_at, '', t('pendingAgency'))}
       </tr></table></div></div>`;
   }
 
@@ -296,6 +298,37 @@ export function installTerms(ctx) {
     };
   }
 
+  // Agency (second party) signs first, after the platform's pre-approval.
+  async function agencySignBox(el, a, onDone) {
+    const ps = await getSettings();
+    const signed = !!(a.terms_accepted_at && a.terms_signature);
+    const terms = signed ? (await sb.from('partner_terms').select('*').eq('version', a.terms_version).maybeSingle()).data : await latest();
+    const base = await founderOf({ ...a, platform_signed_at: null });
+    const doc = () => contractHTML(base, ps, terms, { platformSig: false });
+    el.innerHTML = `<p class="notice ${signed ? 'good' : 'info'}">${esc(signed ? t('agSignedWait', { d: fmtDate(a.terms_accepted_at) }) : t('agSignIntro'))}</p>
+      <div class="card" data-doc style="margin-bottom:16px">${doc()}</div>
+      ${signed ? '' : `<div class="card" style="display:flex;flex-direction:column;gap:12px">
+        <label class="f">${esc(t('accSigner'))}<input data-signer value="${esc(a.signatory_name || '')}"></label>
+        ${padHtml('signHere')}
+        <label class="chip" style="align-self:stretch;border-radius:12px;white-space:normal;line-height:1.6"><input type="checkbox" data-confirm> ${esc(t('termsAccept', { v: terms.version }))}</label>
+        <p class="notice bad" data-err hidden></p>
+        <button class="btn accent" type="button" data-sign>${esc(t('agSignBtn'))}</button></div>`}`;
+    if (signed) return;
+    const pad = sigPad(el.querySelector('.sigbox'));
+    el.querySelector('[data-sign]').onclick = async (e) => {
+      const err = el.querySelector('[data-err]');
+      const signer = el.querySelector('[data-signer]').value.trim();
+      const sig = pad.data();
+      if (!signer || !sig) { err.textContent = t('sigRequired'); err.hidden = false; return; }
+      if (!el.querySelector('[data-confirm]').checked) { err.textContent = t('confirmRequired'); err.hidden = false; return; }
+      e.target.disabled = true;
+      const { error } = await sb.rpc('agency_sign_contract', { p_signer: signer, p_signature: sig });
+      if (error) { err.textContent = t('errGeneric'); err.hidden = false; e.target.disabled = false; return; }
+      toast(t('agSignDone'));
+      onDone?.();
+    };
+  }
+
   async function openSigned(path) {
     const { data, error } = await sb.storage.from('partner-docs').createSignedUrl(path, 300);
     if (error) return toast(t('errGeneric'));
@@ -425,5 +458,5 @@ export function installTerms(ctx) {
     };
   }
 
-  return { founderOf, termsSection, mount, viewTerms, signAndSend, openSigned, openSignDialog, contractHTML, pdfBlob, latestTermsStatus, openAcceptDialog };
+  return { founderOf, agencySignBox, termsSection, mount, viewTerms, signAndSend, openSigned, openSignDialog, contractHTML, pdfBlob, latestTermsStatus, openAcceptDialog };
 }
