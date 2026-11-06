@@ -17,9 +17,10 @@ export function installTerms(ctx) {
     termsEdit: 'نص الاتفاقية', termsEditSub: 'اكتب التعديل بصيغة Markdown. الرموز بين {{ }} تُستبدل تلقائياً ببيانات الطرفين. يُنشئ النشر نسخة جديدة توافق عليها المكاتب الجديدة، وتبقى موافقة المكاتب الحالية على نسختها.',
     preview: 'معاينة', publish: 'نشر نسخة جديدة', publishConfirm: 'هل تريد نشر النسخة {v} من الاتفاقية؟', published: 'تم نشر النسخة الجديدة.', versions: 'النسخ السابقة',
     acceptedOn: 'وقّع على النسخة {v} بتاريخ {d} · {n}', notAccepted: 'لم يوقّع على الاتفاقية',
-    platformSec: 'بيانات المنصة وتوقيعها', platformSub: 'تظهر هذه البيانات في الاتفاقية بصفة الطرف الأول، ويُستخدم التوقيع تلقائياً عند الموافقة على أي مكتب.',
+    platformSec: 'بيانات المنصة وتوقيعها', platformSub: 'تظهر هذه البيانات في الاتفاقية بصفة الطرف الأول. توقيع المنصة لا يظهر على أي اتفاقية إلا بعد توقيع المكتب ثم توقيعك أنت عند الاعتماد.',
+    savedSig: 'التوقيع المحفوظ', noSavedSig: 'لا يوجد توقيع محفوظ — ستوقّع يدوياً على كل اتفاقية عند اعتماد المكتب.', editSigHint: 'لتعديل التوقيع: ارسم توقيعاً جديداً في المربع ثم اضغط «حفظ بيانات المنصة».', delSig: '🗑️ حذف التوقيع المحفوظ', delSigConfirm: 'حذف توقيع المنصة المحفوظ؟ ستحتاج لرسم توقيعك عند اعتماد كل مكتب.', sigDeleted: 'تم حذف التوقيع المحفوظ.', rememberSig: 'حفظ هذا التوقيع لاستخدامه في الاتفاقيات القادمة',
     pName: 'اسم الشركة المالكة للمنصة (كما في الرخصة)', pLicense: 'رقم الرخصة التجارية', pAddress: 'العنوان', pSignatory: 'اسم المفوَّض بالتوقيع', pTitle: 'الصفة', pEmail: 'البريد الإلكتروني للمراسلات',
-    saveSettings: 'حفظ بيانات المنصة', settingsSaved: 'تم حفظ بيانات المنصة.', needPlatformSig: 'أكمل بيانات المنصة وتوقيعها من صفحة «الاتفاقية» قبل الموافقة.',
+    saveSettings: 'حفظ بيانات المنصة', settingsSaved: 'تم حفظ بيانات المنصة.', needPlatformSig: 'أكمل بيانات المنصة (اسم الشركة والمفوَّض بالتوقيع) من صفحة «الاتفاقية» قبل الموافقة.',
     sigTitle: 'التوقيعات', party1: 'الطرف الأول: المنصة', party2: 'الطرف الثاني: المكتب', signedAt: 'تاريخ التوقيع', signer: 'الموقّع',
     signedCopy: 'النسخة الموقّعة من الاتفاقية', download: 'تحميل PDF', pending: 'بانتظار توقيع المنصة', sending: 'جاري توقيع الاتفاقية وإرسالها…',
     sent: 'تم إرسال إشعار توقيع الاتفاقية للمكتب بالبريد.', sentNoMail: 'لم يُرسل الإشعار بالبريد. الاتفاقية محفوظة ويستطيع المكتب تحميلها من البوابة.',
@@ -37,9 +38,10 @@ export function installTerms(ctx) {
     termsEdit: 'Agreement text', termsEditSub: 'Write changes in Markdown. Tokens in {{ }} are replaced with both parties’ details. Publishing creates a new version for new agencies; existing agencies keep their signed version.',
     preview: 'Preview', publish: 'Publish new version', publishConfirm: 'Publish version {v} of the agreement?', published: 'New version published.', versions: 'Previous versions',
     acceptedOn: 'Signed version {v} on {d} · {n}', notAccepted: 'Has not signed the agreement',
-    platformSec: 'Platform details & signature', platformSub: 'Shown in the agreement as the first party; the signature is applied automatically when you approve an agency.',
+    platformSec: 'Platform details & signature', platformSub: 'Shown in the agreement as the first party. The platform signature appears on an agreement only after the agency signs and you then sign when approving.',
+    savedSig: 'Saved signature', noSavedSig: 'No saved signature — you will sign each agreement by hand when approving the agency.', editSigHint: 'To change the signature: draw a new one in the box, then tap “Save platform details”.', delSig: '🗑️ Delete saved signature', delSigConfirm: 'Delete the saved platform signature? You will need to draw it when approving each agency.', sigDeleted: 'Saved signature deleted.', rememberSig: 'Save this signature for future agreements',
     pName: 'Company owning the platform (as on license)', pLicense: 'Commercial license no.', pAddress: 'Address', pSignatory: 'Authorized signatory', pTitle: 'Title', pEmail: 'Correspondence email',
-    saveSettings: 'Save platform details', settingsSaved: 'Platform details saved.', needPlatformSig: 'Complete the platform details and signature on the Agreement page before approving.',
+    saveSettings: 'Save platform details', settingsSaved: 'Platform details saved.', needPlatformSig: 'Complete the platform details (company and signatory) on the Agreement page before approving.',
     sigTitle: 'Signatures', party1: 'First party: Platform', party2: 'Second party: Agency', signedAt: 'Signed on', signer: 'Signatory',
     signedCopy: 'Signed copy of the agreement', download: 'Download PDF', pending: 'Awaiting platform signature', sending: 'Signing and sending the agreement…',
     sent: 'Signing notice emailed to the agency.', sentNoMail: 'The notice email was not sent. The agreement is saved and the agency can download it from the portal.',
@@ -267,7 +269,8 @@ export function installTerms(ctx) {
       <div style="max-height:48vh;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fff">${contractHTML(a, ps, terms, { platformSig: false })}</div>
       <div class="f" style="gap:4px"><b>${esc(t('party1'))}</b><span class="muted">${esc(ps.company_name || '—')} · ${esc(t('signer'))}: ${esc(ps.signatory_name || '—')}${ps.signatory_title ? ' — ' + esc(ps.signatory_title) : ''}</span></div>
       ${ps.signature ? `<label class="chip on" style="align-self:flex-start"><input type="checkbox" data-saved checked> ${esc(t('useSavedSig'))}</label><img src="${ps.signature}" alt="" data-savedimg style="max-height:80px;align-self:flex-start">` : ''}
-      <div data-padwrap ${ps.signature ? 'hidden' : ''}>${padHtml('signHere')}</div>
+      <div data-padwrap ${ps.signature ? 'hidden' : ''}>${padHtml('signHere')}
+        <label class="chip" style="align-self:flex-start;margin-top:6px"><input type="checkbox" data-remember> ${esc(t('rememberSig'))}</label></div>
       <label class="chip" data-docbox="pconfirm" style="align-self:stretch;border-radius:12px;white-space:normal;line-height:1.6"><input type="checkbox" data-confirm> ${esc(t('platformConfirm'))}</label>
       <p class="notice bad" data-err hidden></p>
       <button class="btn accent" type="button" data-sign>✍️ ${esc(t('signApprove'))}</button></div>`;
@@ -286,7 +289,7 @@ export function installTerms(ctx) {
       if (!ov.querySelector('[data-confirm]').checked) { err.textContent = t('confirmRequired'); err.hidden = false; return; }
       if (!ps.company_name || !ps.signatory_name) { err.textContent = t('needPlatformSig'); err.hidden = false; return; }
       e.target.disabled = true;
-      if (!useSaved) await sb.from('platform_settings').update({ signature: sig, updated_at: new Date().toISOString() }).eq('id', 1);
+      if (!useSaved && ov.querySelector('[data-remember]')?.checked) await sb.from('platform_settings').update({ signature: sig, updated_at: new Date().toISOString() }).eq('id', 1);
       const ok = await approve();
       if (ok) await signAndSend(appId, sig);
       close(); onDone?.();
@@ -308,13 +311,13 @@ export function installTerms(ctx) {
     const ps = await getSettings();
     const { terms } = await latestTermsStatus();
     const { data: a } = await sb.from('partner_applications').select('*').eq('user_id', state.session.user.id).maybeSingle();
-    const doc = { ...(a || {}), id: a?.id || state.agency.id, terms_signer: null, terms_signature: null, terms_accepted_at: null, platform_signed_at: new Date().toISOString(), founder_no: state.agency?.founder_no ?? null };
+    const doc = { ...(a || {}), id: a?.id || state.agency.id, terms_signer: null, terms_signature: null, terms_accepted_at: null, platform_signed_at: null, founder_no: state.agency?.founder_no ?? null };
     const ov = document.createElement('div');
     ov.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:999;display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:24px 12px';
     ov.innerHTML = `<div class="card" role="dialog" aria-modal="true" style="max-width:860px;width:100%;display:flex;flex-direction:column;gap:14px">
       <div class="row between"><h2 style="margin:0">${esc(t('accTitle', { v: terms.version }))}</h2><button class="btn ghost small" type="button" data-x>${esc(t('close'))}</button></div>
       <p class="notice info" style="margin:0">${esc(t('accSub'))}</p>
-      <div style="max-height:48vh;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fff">${contractHTML(doc, ps, terms, { platformSig: true })}</div>
+      <div style="max-height:48vh;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fff">${contractHTML(doc, ps, terms, { platformSig: false })}</div>
       <label class="f">${esc(t('accSigner'))}<input data-signer value="${esc(a?.signatory_name || '')}"></label>
       ${padHtml('signHere')}
       <label class="chip" style="align-self:stretch;border-radius:12px;white-space:normal;line-height:1.6"><input type="checkbox" data-confirm> ${esc(t('accConfirm'))}</label>
@@ -374,7 +377,10 @@ export function installTerms(ctx) {
         <div class="row" style="gap:12px;align-items:flex-start"><div class="grow">${f('pName', 'company_name', ps.company_name)}</div><div class="grow">${f('pLicense', 'license_no', ps.license_no)}</div></div>
         ${f('pAddress', 'address', ps.address)}
         <div class="row" style="gap:12px;align-items:flex-start"><div class="grow">${f('pSignatory', 'signatory_name', ps.signatory_name)}</div><div class="grow">${f('pTitle', 'signatory_title', ps.signatory_title)}</div><div class="grow">${f('pEmail', 'email', ps.email)}</div></div>
-        ${ps.signature ? `<img src="${ps.signature}" alt="" style="max-height:90px;align-self:flex-start">` : ''}
+        <div class="f" style="gap:6px"><b>${esc(t('savedSig'))}</b>
+          ${ps.signature ? `<img src="${ps.signature}" alt="" style="max-height:90px;align-self:flex-start;border:1px solid var(--line);border-radius:10px;padding:4px;background:#fff">
+          <button class="btn danger small" type="button" id="sig-del" style="align-self:flex-start">${esc(t('delSig'))}</button>` : `<span class="muted" style="font-size:13px">${esc(t('noSavedSig'))}</span>`}
+          <span class="muted" style="font-size:13px">${esc(t('editSigHint'))}</span></div>
         ${padHtml('signHere')}
         <button class="btn" type="submit">${esc(t('saveSettings'))}</button>
       </form>
@@ -388,6 +394,12 @@ export function installTerms(ctx) {
         <section class="col"><div class="card"><h2 style="margin-bottom:8px">${esc(t('preview'))}</h2><div id="terms-prev"></div></div></section>
       </div>` : ''}`);
     const pad = sigPad(document.querySelector('#ps-form .sigbox'));
+    document.getElementById('sig-del')?.addEventListener('click', async () => {
+      if (!confirm(t('delSigConfirm'))) return;
+      const { error } = await sb.from('platform_settings').update({ signature: null, updated_at: new Date().toISOString() }).eq('id', 1);
+      toast(error ? t('errGeneric') : t('sigDeleted'));
+      viewTerms();
+    });
     document.getElementById('ps-form').onsubmit = async (e) => {
       e.preventDefault();
       const row = Object.fromEntries(new FormData(e.target)); delete row.terms_ok;
@@ -400,7 +412,7 @@ export function installTerms(ctx) {
     };
     if (!cur) return;
     const src = document.getElementById('terms-src');
-    const prev = () => { document.getElementById('terms-prev').innerHTML = contractHTML({ ...sample, terms_accepted_at: null }, ps, { body: src.value, version: cur.version }, { platformSig: true }); };
+    const prev = () => { document.getElementById('terms-prev').innerHTML = contractHTML({ ...sample, terms_accepted_at: null }, ps, { body: src.value, version: cur.version }, { platformSig: false }); };
     prev(); src.oninput = prev;
     document.getElementById('terms-pub').onclick = async (e) => {
       const next = cur.version + 1;
