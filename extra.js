@@ -49,7 +49,7 @@ export function install(ctx) {
   async function promoSettings() {
     const { data } = await sb.from('platform_settings').select('promo_fee, promo_days, promo_plans, promo_commission, promo_terms_version, founders_limit').eq('id', 1).maybeSingle();
     const plans = Array.isArray(data?.promo_plans) && data.promo_plans.length ? data.promo_plans
-      : [{ key: 'month', days: Number(data?.promo_days ?? 30), fee: Number(data?.promo_fee ?? 10) }];
+      : [{ key: 'month', days: Number(data?.promo_days ?? 30), fee: Number(data?.promo_fee ?? 15) }];
     const ps = { plans, rate: Number(data?.promo_commission ?? 4), foundersLimit: Number(data?.founders_limit ?? 10) };
     ps.plans.forEach((p) => { p.label = STR[state.lang]?.['plan_' + p.key] ? t('plan_' + p.key) : t('planDays', { n: p.days }); });
     ps.plansText = ps.plans.map((p) => `${p.label} ${money(p.fee)}`).join(' · ');

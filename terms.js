@@ -6,7 +6,7 @@ export function installTerms(ctx) {
   const { sb, state, t, esc, fmtDate, shell, toast, STR } = ctx;
 
   Object.assign(STR.ar, {
-    accTitle: 'الاتفاقية المحدّثة — الإصدار {v}', accSub: 'حُدّثت المادة (8 مكرر) الخاصة بالعروض الخاصة والإعلان في التطبيق: رسوم الإعلان لكل عرض أسبوعي (7 أيام) 7 د.ك، أو شهري (30 يوماً) 10 د.ك، أو فصلي (90 يوماً) 50 د.ك، وعمولة 4% من كل حجز يتم عن طريق العروض الخاصة، مع الملحق رقم (2) لأول 10 مكاتب (الشركاء المؤسسون). راجع الاتفاقية ووقّع عليها لتتمكن من نشر العروض.',
+    accTitle: 'الاتفاقية المحدّثة — الإصدار {v}', accSub: 'حُدّثت المادة (8 مكرر) الخاصة بالعروض الخاصة والإعلان في التطبيق: رسوم الإعلان لكل عرض أسبوعي (7 أيام) 7 د.ك، أو شهري (30 يوماً) 15 د.ك، أو فصلي (90 يوماً) 50 د.ك، وعمولة 4% من كل حجز يتم عن طريق العروض الخاصة، مع الملحق رقم (2) لأول 10 مكاتب (الشركاء المؤسسون). راجع الاتفاقية ووقّع عليها لتتمكن من نشر العروض.',
     accSigner: 'اسم المفوَّض بالتوقيع', accConfirm: 'أقرّ بصفتي المفوَّض بالتوقيع عن المكتب بالاطلاع على الاتفاقية المحدّثة والموافقة عليها، وأن لهذا التوقيع الإلكتروني حجية التوقيع.', accBtn: 'توقيع الاتفاقية المحدّثة', accDone: 'تم توقيع الاتفاقية المحدّثة.',
     accBanner: 'صدر الإصدار {v} من الاتفاقية ويتضمّن أحكام العروض الخاصة. يلزم توقيعه قبل نشر أي عرض.', accReview: 'مراجعة وتوقيع', accSigned: 'وقّعتم على الإصدار {v} من الاتفاقية.',
     navTerms: 'الاتفاقية', termsTitle: 'اتفاقية الشراكة', termsVersion: 'النسخة {v}', termsPublished: 'نُشرت {d}',
@@ -26,7 +26,7 @@ export function installTerms(ctx) {
     resendNotice: 'إعادة إرسال إشعار التوقيع', docNo: 'رقم الاتفاقية', signDlgTitle: 'مراجعة الاتفاقية وتوقيع المنصة', signDlgSub: 'وقّع المكتب على الاتفاقية. راجعها ثم وقّع بصفتك الطرف الأول لاعتمادها وتفعيل المكتب.', close: 'إغلاق', useSavedSig: 'استخدام التوقيع المحفوظ', platformConfirm: 'أقرّ بصفتي المفوَّض بالتوقيع عن المنصة بمراجعة الاتفاقية والموافقة عليها، وأن لهذا التوقيع الإلكتروني حجية التوقيع.', signApprove: 'توقيع الاتفاقية واعتماد المكتب', sigRequired: 'ارسم توقيعك أولاً.', confirmRequired: 'أشّر على الإقرار قبل التوقيع.', reviewSign: 'مراجعة الاتفاقية والتوقيع', agencyNotSigned: 'لا يمكن توقيع المنصة قبل توقيع المكتب على الاتفاقية.',
   });
   Object.assign(STR.en, {
-    accTitle: 'Updated agreement — version {v}', accSub: 'Article 8 bis (special offers & in-app advertising) was updated: listing fee per offer of 7 KWD weekly (7 days), 10 KWD monthly (30 days) or 50 KWD quarterly (90 days), and 4% commission on every booking made through special offers, plus annex 2 for the first 10 agencies (founding partners). Review and sign to publish offers.',
+    accTitle: 'Updated agreement — version {v}', accSub: 'Article 8 bis (special offers & in-app advertising) was updated: listing fee per offer of 7 KWD weekly (7 days), 15 KWD monthly (30 days) or 50 KWD quarterly (90 days), and 4% commission on every booking made through special offers, plus annex 2 for the first 10 agencies (founding partners). Review and sign to publish offers.',
     accSigner: 'Authorized signatory', accConfirm: 'As the agency’s authorized signatory, I have read and accept the updated agreement; this electronic signature has the effect of a signature.', accBtn: 'Sign the updated agreement', accDone: 'Updated agreement signed.',
     accBanner: 'Version {v} of the agreement adds the special-offers terms. Sign it before publishing any offer.', accReview: 'Review & sign', accSigned: 'You signed version {v} of the agreement.',
     navTerms: 'Agreement', termsTitle: 'Partnership agreement', termsVersion: 'Version {v}', termsPublished: 'Published {d}',
