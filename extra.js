@@ -9,6 +9,7 @@ export function install(ctx) {
     founderBanner: '🎉 أنتم الشريك المؤسس رقم {n} من 10: نشر عروضكم الخاصة بدون رسوم إعلان وبدون عمولة العروض الخاصة حتى {d} (الملحق رقم 2 من الاتفاقية).', founderBtn: '📣 نشر مجاني حتى {d}', founderDone: 'نُشر العرض مجاناً حتى {d}.',
     foundersTitle: 'الشركاء المؤسسون: {n} من {max}', foundersSub: 'أول 10 مكاتب تُفعَّل: بدون رسوم إعلان وبدون عمولة العروض الخاصة لمدة 3 أشهر من التفعيل.', founderRemove: 'إلغاء صفة المؤسس', founderRemoveConfirm: 'إلغاء صفة الشريك المؤسس عن هذا المكتب وتحرير مقعده؟', noFounders: 'لم ينضم أي شريك مؤسس بعد.', founderNo: 'رقم', founderEnds: 'ينتهي العرض',
     payOpening: 'جاري فتح صفحة الدفع…', promoPaid: 'تم الدفع ونُشر العرض في التطبيق.', promoFailed: 'لم يكتمل الدفع، ولم يُنشر العرض.', needSave: 'احفظ العرض أولاً.', bookingsN: '{n} حجز',
+    navPush: 'الإشعارات', pushTitle: 'إشعارات المسافرين', pushSub: 'إشعار يوصل لكل المسافرين اللي فعّلوا الإشعارات في التطبيق. يُرسل بين 10 الصبح و10 الليل بتوقيت الكويت، وبحد أقصى إشعار تسويقي واحد لكل مسافر كل 20 ساعة.', pushDevices: 'أجهزة مسجّلة', pushOptIn: 'مفعّلين إشعارات العروض', pushTitleAr: 'العنوان (عربي) *', pushBodyAr: 'النص (عربي) *', pushTitleEn: 'العنوان (إنجليزي)', pushBodyEn: 'النص (إنجليزي)', pushTarget: 'يفتح عند الضغط', tgtHome: 'الصفحة الرئيسية', tgtOffers: 'العروض الخاصة', tgtNew: 'طلب رحلة جديدة', pushSend: '📣 إرسال الإشعار', pushConfirm: 'إرسال هذا الإشعار لكل المسافرين؟', pushQueued: 'تم وضع الإشعار في قائمة الإرسال.', pushRecent: 'آخر الإشعارات العامة', pushNone: 'ما في إشعارات بعد.', pushAuto: 'تلقائياً يوصل للمسافر: عرض سعر جديد، عرض قرب ينتهي، تأكيد الحجز، عرض خاص جديد، وتذكير للي ما طلب رحلة.', pushNotReady: 'الإشعارات ما تفعّلت بعد في قاعدة البيانات.', ps_pending: 'بالانتظار', ps_sent: 'أُرسل', ps_skipped: 'لم يُرسل', kind_promo: 'عرض خاص', kind_broadcast: 'إشعار عام', pushSentTo: 'وصل لـ {n} جهاز',
     navPromos: 'العروض الخاصة', promosTitle: 'العروض الخاصة والإعلانات', promosSub: 'كل عرض منشور برسوم إعلان حسب مدته (أسبوعي أو شهري أو فصلي)، وعمولة العروض الخاصة تُحتسب تلقائياً على حجوزاتها، ويُعفى الشركاء المؤسسون منهما لأول 3 أشهر.', colOffer: 'العرض', colFee: 'الرسوم', colPaid: 'تاريخ الدفع', colEnds: 'ينتهي', colLive: 'الحالة', stopBtn: 'إيقاف', resumeBtn: 'إعادة تفعيل', stopNote: 'سبب الإيقاف (يظهر للمكتب)', noPromos: 'لا توجد عروض منشورة بعد.', pay_pending: 'بانتظار الدفع', pay_failed: 'فشل الدفع', pay_paid: 'مدفوع', pay_refunded: 'مسترد',
     navPackages: 'العروض الخاصة', packagesTitle: 'العروض الخاصة', packagesSub: 'عروض بسعر ثابت تظهر للمسافرين في قسم «العروض» وفي شريط الإعلانات بالتطبيق، ويحجزونها ويدفعون مباشرة من التطبيق.',
     newPackage: 'عرض جديد', editPackage: 'تعديل العرض', noPackages: 'ما أضفت أي عرض للحين.', pkgTitle: 'اسم العرض', pkgDesc: 'الوصف والبرنامج',
@@ -29,6 +30,7 @@ export function install(ctx) {
     founderBanner: '🎉 You are founding partner no. {n} of 10: publish your special offers with no listing fees and no special-offers commission until {d} (agreement annex 2).', founderBtn: '📣 Publish free until {d}', founderDone: 'Offer published free until {d}.',
     foundersTitle: 'Founding partners: {n} of {max}', foundersSub: 'The first 10 activated agencies: no listing fees and no special-offers commission for 3 months from activation.', founderRemove: 'Remove founder status', founderRemoveConfirm: 'Remove founding-partner status from this agency and free its seat?', noFounders: 'No founding partners yet.', founderNo: 'No.', founderEnds: 'Offer ends',
     payOpening: 'Opening payment page…', promoPaid: 'Paid — your offer is live in the app.', promoFailed: 'Payment was not completed; the offer is not published.', needSave: 'Save the offer first.', bookingsN: '{n} bookings',
+    navPush: 'Notifications', pushTitle: 'Traveler notifications', pushSub: 'Reaches every traveler who allowed notifications in the app. Sent between 10:00 and 22:00 Kuwait time, at most one marketing notification per traveler every 20 hours.', pushDevices: 'Registered devices', pushOptIn: 'Opted in to offers', pushTitleAr: 'Title (Arabic) *', pushBodyAr: 'Text (Arabic) *', pushTitleEn: 'Title (English)', pushBodyEn: 'Text (English)', pushTarget: 'Opens on tap', tgtHome: 'Home', tgtOffers: 'Special offers', tgtNew: 'New trip request', pushSend: '📣 Send notification', pushConfirm: 'Send this notification to all travelers?', pushQueued: 'Notification queued for sending.', pushRecent: 'Recent broadcast notifications', pushNone: 'No notifications yet.', pushAuto: 'Sent automatically to the traveler: new price offer, offer about to expire, booking confirmed, new special offer, and a reminder for those who have not requested a trip.', pushNotReady: 'Notifications are not enabled in the database yet.', ps_pending: 'Queued', ps_sent: 'Sent', ps_skipped: 'Not sent', kind_promo: 'Special offer', kind_broadcast: 'Broadcast', pushSentTo: 'Reached {n} devices',
     navPromos: 'Special offers', promosTitle: 'Special offers & ads', promosSub: 'Each live offer carries a listing fee by period (weekly, monthly or quarterly); the special-offers commission is applied to its bookings automatically. Founding partners are exempt from both for their first 3 months.', colOffer: 'Offer', colFee: 'Fee', colPaid: 'Paid', colEnds: 'Ends', colLive: 'Status', stopBtn: 'Stop', resumeBtn: 'Resume', stopNote: 'Reason (shown to the agency)', noPromos: 'No published offers yet.', pay_pending: 'Awaiting payment', pay_failed: 'Failed', pay_paid: 'Paid', pay_refunded: 'Refunded',
     navPackages: 'Special offers', packagesTitle: 'Special offers', packagesSub: 'Fixed-price offers shown to travelers in the app’s Offers section and the home banner; they book and pay in the app.',
     newPackage: 'New offer', editPackage: 'Edit offer', noPackages: 'You have not added any offers yet.', pkgTitle: 'Offer name', pkgDesc: 'Description & itinerary',
@@ -312,5 +314,38 @@ export function install(ctx) {
     shell('packages', `<div class="top"><h1>${esc(t('pkgLockedTitle'))}</h1></div><div class="card"><p style="margin:0">${esc(t('pkgLockedSub'))}</p></div>`);
   }
 
-  return { viewPackagesLocked, viewPackages, viewPackage, viewOverview, viewPartners, viewAllBookings, viewPromos, startPromo };
+  // ---------- admin: traveler push notifications
+  async function viewPush() {
+    const { data, error } = await sb.rpc('admin_push_overview');
+    if (error) return shell('push', `<div class="top"><h1>${esc(t('pushTitle'))}</h1></div><p class="notice info">${esc(t('pushNotReady'))}</p>`);
+    const rows = data?.recent || [];
+    shell('push', `<div class="top"><div><h1>${esc(t('pushTitle'))}</h1><p class="muted" style="margin:4px 0 0">${esc(t('pushSub'))}</p></div></div>
+      <div class="row" style="gap:12px;margin-bottom:16px;flex-wrap:wrap">
+        <div class="card grow"><div class="muted" style="font-size:13px">${esc(t('pushDevices'))}</div><b style="font-size:26px">${esc(data.devices ?? 0)}</b></div>
+        <div class="card grow"><div class="muted" style="font-size:13px">${esc(t('pushOptIn'))}</div><b style="font-size:26px">${esc(data.opted_in ?? 0)}</b></div></div>
+      <form class="card" id="push-form" style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px">
+        <div class="row" style="gap:12px;align-items:flex-start"><label class="f grow">${esc(t('pushTitleAr'))}<input name="ta" maxlength="60" required></label>
+          <label class="f grow">${esc(t('pushTitleEn'))}<input name="te" maxlength="60" dir="ltr"></label></div>
+        <div class="row" style="gap:12px;align-items:flex-start"><label class="f grow">${esc(t('pushBodyAr'))}<textarea name="ba" rows="3" maxlength="180" required></textarea></label>
+          <label class="f grow">${esc(t('pushBodyEn'))}<textarea name="be" rows="3" maxlength="180" dir="ltr"></textarea></label></div>
+        <label class="f" style="max-width:260px">${esc(t('pushTarget'))}<select name="route"><option value="/">${esc(t('tgtHome'))}</option><option value="/packages">${esc(t('tgtOffers'))}</option><option value="/new">${esc(t('tgtNew'))}</option></select></label>
+        <button class="btn accent" type="submit" style="align-self:flex-start">${esc(t('pushSend'))}</button>
+        <p class="muted" style="margin:0;font-size:13px">${esc(t('pushAuto'))}</p></form>
+      <div class="card"><h2 style="margin-bottom:8px">${esc(t('pushRecent'))}</h2>
+        ${rows.length ? `<div class="tbl-wrap"><table><tbody>${rows.map((r) => `<tr><td style="white-space:nowrap">${esc(fmtDate(r.created_at))}</td><td>${esc(t('kind_' + r.kind) || r.kind)}</td>
+          <td><b>${esc(r.title_ar)}</b><div class="muted" style="font-size:13px">${esc(r.body_ar)}</div></td>
+          <td><span class="badge ${r.status === 'sent' ? 'good' : ''}">${esc(t('ps_' + r.status))}</span>${r.status === 'sent' ? `<div class="muted" style="font-size:12px">${esc(t('pushSentTo', { n: r.sent_count }))}</div>` : ''}</td></tr>`).join('')}</tbody></table></div>`
+          : `<p class="muted">${esc(t('pushNone'))}</p>`}</div>`);
+    document.getElementById('push-form').onsubmit = async (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      if (!confirm(t('pushConfirm'))) return;
+      const btn = e.target.querySelector('button'); btn.disabled = true;
+      const { error: er } = await sb.rpc('admin_push_broadcast', { p_title_ar: fd.get('ta'), p_body_ar: fd.get('ba'), p_title_en: fd.get('te'), p_body_en: fd.get('be'), p_route: fd.get('route') });
+      toast(er ? t('errGeneric') : t('pushQueued'));
+      viewPush();
+    };
+  }
+
+  return { viewPush, viewPackagesLocked, viewPackages, viewPackage, viewOverview, viewPartners, viewAllBookings, viewPromos, startPromo };
 }

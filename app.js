@@ -1,5 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=7';
+import { install } from './extra.js?v=8';
 import { AIRLINES } from './airlines.js?v=1';
 import { installOnboarding } from './onboarding.js?v=21';
 import { installTerms } from './terms.js?v=10';
@@ -207,6 +207,7 @@ async function route() {
     if (view === 'allbookings') return X.viewAllBookings();
     if (view === 'apps') return O.viewApplications();
     if (view === 'promos') return X.viewPromos();
+    if (view === 'push') return X.viewPush();
     if (view === 'company' && id) return O.viewCompany(id);
     if (view === 'terms') return TM.viewTerms();
     return X.viewOverview();
@@ -300,6 +301,7 @@ function shell(active, inner) {
         ${link('allbookings', '#/allbookings', t('navAllBookings'))}
         ${link('apps', '#/apps', t('navApps'), state.pendingApps)}
         ${link('promos', '#/promos', t('navPromos'))}
+        ${link('push', '#/push', t('navPush'))}
         ${link('terms', '#/terms', t('navTerms'))}` : `${link('requests', '#/requests', t('navRequests'), state.openCount)}
         ${link('offers', '#/offers', t('navOffers'))}
         ${link('bookings', '#/bookings', t('navBookings'))}
