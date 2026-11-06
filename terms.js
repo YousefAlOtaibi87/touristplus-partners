@@ -6,7 +6,7 @@ export function installTerms(ctx) {
   const { sb, state, t, esc, fmtDate, shell, toast, STR } = ctx;
 
   Object.assign(STR.ar, {
-    accTitle: 'الاتفاقية المحدّثة — الإصدار {v}', accSub: 'أُضيفت إلى الاتفاقية المادة (8 مكرر) الخاصة بالعروض الخاصة والإعلان في التطبيق: رسوم إعلان 10 د.ك لكل عرض لمدة 30 يوماً، وعمولة 4% من كل حجز يتم عن طريق العروض الخاصة. راجع الاتفاقية ووقّع عليها لتتمكن من نشر العروض.',
+    accTitle: 'الاتفاقية المحدّثة — الإصدار {v}', accSub: 'حُدّثت المادة (8 مكرر) الخاصة بالعروض الخاصة والإعلان في التطبيق: رسوم الإعلان لكل عرض أسبوعي (7 أيام) 7 د.ك، أو شهري (30 يوماً) 10 د.ك، أو فصلي (90 يوماً) 50 د.ك، وعمولة 4% من كل حجز يتم عن طريق العروض الخاصة، مع الملحق رقم (2) لأول 10 مكاتب (الشركاء المؤسسون). راجع الاتفاقية ووقّع عليها لتتمكن من نشر العروض.',
     accSigner: 'اسم المفوَّض بالتوقيع', accConfirm: 'أقرّ بصفتي المفوَّض بالتوقيع عن المكتب بالاطلاع على الاتفاقية المحدّثة والموافقة عليها، وأن لهذا التوقيع الإلكتروني حجية التوقيع.', accBtn: 'توقيع الاتفاقية المحدّثة', accDone: 'تم توقيع الاتفاقية المحدّثة.',
     accBanner: 'صدر الإصدار {v} من الاتفاقية ويتضمّن أحكام العروض الخاصة. يلزم توقيعه قبل نشر أي عرض.', accReview: 'مراجعة وتوقيع', accSigned: 'وقّعتم على الإصدار {v} من الاتفاقية.',
     navTerms: 'الاتفاقية', termsTitle: 'اتفاقية الشراكة', termsVersion: 'النسخة {v}', termsPublished: 'نُشرت {d}',
@@ -26,7 +26,7 @@ export function installTerms(ctx) {
     resendNotice: 'إعادة إرسال إشعار التوقيع', docNo: 'رقم الاتفاقية', signDlgTitle: 'مراجعة الاتفاقية وتوقيع المنصة', signDlgSub: 'وقّع المكتب على الاتفاقية. راجعها ثم وقّع بصفتك الطرف الأول لاعتمادها وتفعيل المكتب.', close: 'إغلاق', useSavedSig: 'استخدام التوقيع المحفوظ', platformConfirm: 'أقرّ بصفتي المفوَّض بالتوقيع عن المنصة بمراجعة الاتفاقية والموافقة عليها، وأن لهذا التوقيع الإلكتروني حجية التوقيع.', signApprove: 'توقيع الاتفاقية واعتماد المكتب', sigRequired: 'ارسم توقيعك أولاً.', confirmRequired: 'أشّر على الإقرار قبل التوقيع.', reviewSign: 'مراجعة الاتفاقية والتوقيع', agencyNotSigned: 'لا يمكن توقيع المنصة قبل توقيع المكتب على الاتفاقية.',
   });
   Object.assign(STR.en, {
-    accTitle: 'Updated agreement — version {v}', accSub: 'Article 8 bis (special offers & in-app advertising) was added: a 10 KWD listing fee per offer for 30 days, and 4% commission on every booking made through special offers. Review and sign to publish offers.',
+    accTitle: 'Updated agreement — version {v}', accSub: 'Article 8 bis (special offers & in-app advertising) was updated: listing fee per offer of 7 KWD weekly (7 days), 10 KWD monthly (30 days) or 50 KWD quarterly (90 days), and 4% commission on every booking made through special offers, plus annex 2 for the first 10 agencies (founding partners). Review and sign to publish offers.',
     accSigner: 'Authorized signatory', accConfirm: 'As the agency’s authorized signatory, I have read and accept the updated agreement; this electronic signature has the effect of a signature.', accBtn: 'Sign the updated agreement', accDone: 'Updated agreement signed.',
     accBanner: 'Version {v} of the agreement adds the special-offers terms. Sign it before publishing any offer.', accReview: 'Review & sign', accSigned: 'You signed version {v} of the agreement.',
     navTerms: 'Agreement', termsTitle: 'Partnership agreement', termsVersion: 'Version {v}', termsPublished: 'Published {d}',
@@ -51,13 +51,28 @@ export function installTerms(ctx) {
   const getSettings = async () => (await sb.from('platform_settings').select('*').eq('id', 1).maybeSingle()).data || {};
   const blank = (v) => (v && String(v).trim() ? String(v).trim() : '……………');
 
+  // Founding-partner annex (annex 2) is shown only to founders; 'pending' = seat still open at application time.
+  async function founderOf(a) {
+    if (!a || a.founder_no !== undefined) return a;
+    const agencyId = a.agency_id || null;
+    if (agencyId) {
+      const { data } = await sb.from('agencies').select('founder_no').eq('id', agencyId).maybeSingle();
+      return { ...a, founder_no: data?.founder_no ?? null };
+    }
+    const { data: left } = await sb.rpc('founder_slots_left');
+    return { ...a, founder_no: Number(left) > 0 ? 'pending' : null };
+  }
+
   // Replace {{tokens}} with both parties' details.
   function fill(body, a, ps, version) {
+    const founder = a.founder_no !== undefined && a.founder_no !== null && a.founder_no !== false;
+    body = (body || '').replace(/<!--founders-->([\s\S]*?)<!--\/founders-->/g, (_, inner) => (founder ? inner : ''));
     const map = {
       platform_name: ps.company_name, platform_license: ps.license_no, platform_address: ps.address, platform_signatory: ps.signatory_name,
       agency_name: a.company_name_ar ? `${a.company_name_ar} (${a.company_name || ''})` : a.company_name, agency_license: a.license_no,
       agency_address: a.address, agency_paci: a.paci_no, agency_signatory: a.terms_signer || a.signatory_name,
       agency_bank: a.bank_name, agency_iban: a.iban, commission: a.commission_rate ?? '……', version,
+      founder_no: founder && a.founder_no !== 'pending' ? a.founder_no : '……',
     };
     return (body || '').replace(/\{\{(\w+)\}\}/g, (_, k) => (k in map ? blank(map[k]).replace(/[|*_[\]]/g, ' ') : `{{${k}}}`));
   }
@@ -140,11 +155,12 @@ export function installTerms(ctx) {
   async function mount(form, app) {
     const box = form.querySelector('[data-terms]');
     if (!box) return null;
-    const [v, ps] = [await latest(), await getSettings()];
+    const [v, ps, f] = [await latest(), await getSettings(), await founderOf({ agency_id: app.agency_id })];
     const live = box.querySelector('.terms-live');
     const read = () => {
       const fd = new FormData(form); const a = { ...app };
       ['company_name', 'company_name_ar', 'license_no', 'address', 'paci_no', 'bank_name', 'iban', 'terms_signer', 'signatory_name'].forEach((k) => { if (fd.has(k)) a[k] = String(fd.get(k) || '').trim(); });
+      a.founder_no = f.founder_no;
       return a;
     };
     const render = () => { live.innerHTML = md(fill(v.body, read(), ps, v.version)); };
@@ -224,7 +240,7 @@ export function installTerms(ctx) {
     const { data: a0 } = await sb.from('partner_applications').select('*').eq('id', appId).maybeSingle();
     if (!a0?.terms_version || !a0?.terms_signature || !a0?.terms_accepted_at) { toast(t('agencyNotSigned')); return false; }
     const now = new Date().toISOString();
-    const a = { ...a0, platform_signed_at: now };
+    const a = await founderOf({ ...a0, platform_signed_at: now });
     const { data: terms } = await sb.from('partner_terms').select('*').eq('version', a.terms_version).maybeSingle();
     const blob = await pdfBlob(contractHTML(a, ps, terms, { platformSig: true }));
     const path = `${a.user_id}/agreement-v${terms.version}-signed-${Date.now()}.pdf`;
@@ -242,7 +258,7 @@ export function installTerms(ctx) {
     const { data: a0 } = await sb.from('partner_applications').select('*').eq('id', appId).maybeSingle();
     if (!a0?.terms_signature || !a0?.terms_accepted_at) { toast(t('agencyNotSigned')); return; }
     const { data: terms } = await sb.from('partner_terms').select('*').eq('version', a0.terms_version).maybeSingle();
-    const a = { ...a0, commission_rate: rate };
+    const a = await founderOf({ ...a0, commission_rate: rate });
     const ov = document.createElement('div');
     ov.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:999;display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:24px 12px';
     ov.innerHTML = `<div class="card" role="dialog" aria-modal="true" style="max-width:860px;width:100%;display:flex;flex-direction:column;gap:14px">
@@ -292,7 +308,7 @@ export function installTerms(ctx) {
     const ps = await getSettings();
     const { terms } = await latestTermsStatus();
     const { data: a } = await sb.from('partner_applications').select('*').eq('user_id', state.session.user.id).maybeSingle();
-    const doc = { ...(a || {}), id: a?.id || state.agency.id, terms_signer: null, terms_signature: null, terms_accepted_at: null, platform_signed_at: new Date().toISOString() };
+    const doc = { ...(a || {}), id: a?.id || state.agency.id, terms_signer: null, terms_signature: null, terms_accepted_at: null, platform_signed_at: new Date().toISOString(), founder_no: state.agency?.founder_no ?? null };
     const ov = document.createElement('div');
     ov.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:999;display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:24px 12px';
     ov.innerHTML = `<div class="card" role="dialog" aria-modal="true" style="max-width:860px;width:100%;display:flex;flex-direction:column;gap:14px">
@@ -327,7 +343,8 @@ export function installTerms(ctx) {
     const isAdmin = state.profile?.role === 'admin';
     const ps = await getSettings();
     if (!isAdmin) {
-      const { data: a } = await sb.from('partner_applications').select('*').eq('user_id', state.session.user.id).maybeSingle();
+      const { data: a0 } = await sb.from('partner_applications').select('*').eq('user_id', state.session.user.id).maybeSingle();
+      const a = a0 ? await founderOf(a0) : a0;
       const terms = a?.terms_version ? (await sb.from('partner_terms').select('*').eq('version', a.terms_version).maybeSingle()).data : await latest();
       if (!terms) return shell('terms', `<div class="card empty">—</div>`);
       shell('terms', `<div class="top"><div><h1>${esc(t('termsTitle'))}</h1><p class="muted" style="margin:4px 0 0">${esc(t('termsVersion', { v: terms.version }))}</p></div>
@@ -349,7 +366,7 @@ export function installTerms(ctx) {
     const { data: all } = await sb.from('partner_terms').select('*').order('version', { ascending: false });
     const cur = (all || [])[0];
     const sample = { id: 'sample', company_name: 'Sample Travel Co.', company_name_ar: 'شركة نموذجية للسفر', license_no: '1234/2024', address: 'الكويت، شرق', paci_no: '12345678',
-      terms_signer: 'اسم المفوَّض', bank_name: 'بنك الكويت الوطني', iban: 'KW00NBOK0000000000000000000000', commission_rate: 10 };
+      terms_signer: 'اسم المفوَّض', bank_name: 'بنك الكويت الوطني', iban: 'KW00NBOK0000000000000000000000', commission_rate: 10, founder_no: 1 };
     const f = (k, n, v) => `<label class="f">${esc(t(k))}<input name="${n}" value="${esc(v || '')}"></label>`;
     shell('terms', `<div class="top"><div><h1>${esc(t('termsTitle'))}</h1><p class="muted" style="margin:4px 0 0">${cur ? `${esc(t('termsVersion', { v: cur.version }))} · ${esc(t('termsPublished', { d: fmtDate(cur.published_at) }))}` : ''}</p></div></div>
       <form id="ps-form" class="card" style="display:flex;flex-direction:column;gap:12px;margin-bottom:18px">
@@ -396,5 +413,5 @@ export function installTerms(ctx) {
     };
   }
 
-  return { termsSection, mount, viewTerms, signAndSend, openSigned, openSignDialog, contractHTML, pdfBlob, latestTermsStatus, openAcceptDialog };
+  return { founderOf, termsSection, mount, viewTerms, signAndSend, openSigned, openSignDialog, contractHTML, pdfBlob, latestTermsStatus, openAcceptDialog };
 }

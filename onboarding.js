@@ -4,7 +4,7 @@ export function installOnboarding(ctx) {
   const T = ctx.terms;
 
   Object.assign(STR.ar, {
-    delShort: 'حذف المكتب', delTitle: 'حذف المكتب من النظام', delWarn: 'الحذف نهائي ولا يمكن التراجع عنه: يُحذف طلب الانضمام والمستندات والعروض والباقات، ويفقد حساب المكتب صلاحية بوابة الشركاء. إذا كانت هناك اتفاقية موقّعة تُنزَّل نسخة منها تلقائياً قبل الحذف. لا يمكن حذف مكتب لديه حجوزات مدفوعة — استخدم «ملغاة» بدلاً من ذلك.',
+    delShort: 'حذف المكتب', delTitle: 'حذف المكتب من النظام', delWarn: 'الحذف نهائي ولا يمكن التراجع عنه: يُحذف طلب الانضمام والمستندات والعروض والعروض الخاصة، ويفقد حساب المكتب صلاحية بوابة الشركاء. إذا كانت هناك اتفاقية موقّعة تُنزَّل نسخة منها تلقائياً قبل الحذف. لا يمكن حذف مكتب لديه حجوزات مدفوعة — استخدم «ملغاة» بدلاً من ذلك.',
     delReason: 'سبب الحذف *', delConfirm: 'للتأكيد اكتب اسم الشركة كما هو:', delBtn: '🗑️ حذف المكتب نهائياً', delNameMismatch: 'اسم الشركة غير مطابق.', delPaid: 'لا يمكن حذف هذا المكتب لأن لديه حجوزات مدفوعة. غيّر حالته إلى «ملغاة».', delDone: 'تم حذف المكتب من النظام.',
     stStatus: 'حالة الشركة', st_active: 'مفعّلة', st_suspended: 'موقوفة', st_cancelled: 'ملغاة', stChange: 'تغيير الحالة', stNew: 'الحالة الجديدة', stReasonType: 'سبب التغيير',
     rt_violation: 'مخالفة لبنود الاتفاقية', rt_platform: 'لمصلحة المنصة', rt_owner_request: 'بطلب من صاحب المكتب', rt_other: 'سبب آخر', stReason: 'تفاصيل السبب', stSave: 'حفظ الحالة', stSaved: 'تم تحديث حالة الشركة.',
@@ -386,7 +386,8 @@ export function installOnboarding(ctx) {
         sb.from('partner_terms').select('*').eq('version', a.terms_version).maybeSingle(),
         sb.from('platform_settings').select('*').eq('id', 1).maybeSingle(),
       ]);
-      contractBox = `<div style="max-height:70vh;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fff">${T.contractHTML(a, ps || {}, terms, { platformSig: platformSigned })}</div>`;
+      const af = T.founderOf ? await T.founderOf(a) : a;
+      contractBox = `<div style="max-height:70vh;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fff">${T.contractHTML(af, ps || {}, terms, { platformSig: platformSigned })}</div>`;
     }
     shell('apps', `
       <a class="back" href="#/apps">${state.lang === 'ar' ? '›' : '‹'} ${esc(t('back'))}</a>
