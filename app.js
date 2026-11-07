@@ -1,7 +1,7 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=10';
+import { install } from './extra.js?v=11';
 import { AIRLINES } from './airlines.js?v=1';
-import { installOnboarding } from './onboarding.js?v=22';
+import { installOnboarding } from './onboarding.js?v=23';
 import { installTerms } from './terms.js?v=10';
 
 const CFG = window.TP_CONFIG || {};
@@ -154,8 +154,10 @@ async function loadProfile() {
   const { data: p } = await sb.from('profiles').select('id, role, full_name, agency_id').eq('id', state.session.user.id).maybeSingle();
   state.profile = p;
   if (p?.agency_id) {
-    const { data: a } = await sb.from('agencies').select('id, name, name_ar, license_no, phone, email, rating, reviews, verified, active, status, status_reason_type, status_reason, founder_no, activated_at, code').eq('id', p.agency_id).maybeSingle();
+    const { data: a } = await sb.from('agencies').select('id, name, name_ar, license_no, phone, email, rating, reviews, verified, active, status, status_reason_type, status_reason, founder_no, activated_at').eq('id', p.agency_id).maybeSingle();
+    if (a) { const { data: cd } = await sb.from('agencies').select('code').eq('id', p.agency_id).maybeSingle(); if (cd) a.code = cd.code; }
     state.agency = a;
+    if (a) try { sessionStorage.removeItem('ttp_reload'); } catch {}
   }
   if (p?.role === 'admin') { const { data: n } = await sb.rpc('admin_pending_applications'); state.pendingApps = n || 0; }
   startRealtime();

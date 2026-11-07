@@ -113,7 +113,7 @@ export function installOnboarding(ctx) {
       const ins = await sb.from('partner_applications').insert({ email: state.session.user.email }).select('*').single();
       a = ins.data;
     }
-    if (a?.status === 'approved') { location.reload(); return; }
+    if (a?.status === 'approved') { let n = 0; try { n = Number(sessionStorage.getItem('ttp_reload') || 0); sessionStorage.setItem('ttp_reload', String(n + 1)); } catch {} if (n < 2) { location.reload(); return; } }
     if (!a) { $app.innerHTML = `<main class="auth"><div class="auth-card"><p class="notice bad">${esc(t('errGeneric'))}</p></div></main>`; return; }
     if (a.status === 'contract' && T?.agencySignBox) {
       $app.innerHTML = `<main class="main" style="max-width:900px;margin:0 auto;padding:24px 16px 60px">

@@ -261,11 +261,11 @@ export function install(ctx) {
   async function viewPartners() {
     const { data, error } = await sb.rpc('admin_agencies');
     const [{ data: apps }, { data: codes }] = await Promise.all([
-      sb.from('partner_applications').select('id, agency_id').not('agency_id', 'is', null),
-      sb.from('agencies').select('id, code'),
+      sb.from('partner_applications').select('id, agency_id, code').not('agency_id', 'is', null),
+      Promise.resolve({ data: [] }),
     ]);
     const appOf = Object.fromEntries((apps || []).map((x) => [x.agency_id, x.id]));
-    const codeOf = Object.fromEntries((codes || []).map((x) => [x.id, x.code]));
+    const codeOf = Object.fromEntries((apps || []).map((x) => [x.agency_id, x.code]));
     if (error) return shell('partners', `<p class="notice bad">${esc(t('errGeneric'))}</p>`);
     const rows = (data || []).map((a) => `<tr data-id="${a.id}" data-q="${esc([codeOf[a.id], a.name, a.name_ar, a.email, a.license_no].filter(Boolean).join(' ').toLowerCase())}">
       <td>${codeOf[a.id] ? `<span class="badge" dir="ltr" style="margin-inline-end:6px">${esc(codeOf[a.id])}</span>` : ''}${appOf[a.id] ? `<a href="#/company/${appOf[a.id]}" style="font-weight:800">${esc(state.lang === 'ar' ? a.name_ar || a.name : a.name)} ↗</a>` : `<b>${esc(state.lang === 'ar' ? a.name_ar || a.name : a.name)}</b>`}<div class="muted" style="font-size:12px" dir="ltr">${esc(a.email || '')}</div></td>
