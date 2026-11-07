@@ -10,7 +10,7 @@ export function installEsim(ctx) {
     esSync: '🔄 تحديث الباقات من المورّد', esSynced: 'تم تحديث {n} باقة.', esBalance: 'رصيد المورّد', esCheckBal: 'عرض الرصيد',
     esPackages: 'الباقات', esActive: 'فعّالة', esCountries: 'دولة مغطاة', esOrders: 'الطلبات', esRevenue: 'مبيعات', esLastSync: 'آخر تحديث',
     esSearch: 'ابحث برمز الدولة (TR, GB…) أو اسم الباقة', esCols: ['الباقة', 'الدول', 'الأيام', 'البيانات', 'التكلفة $', 'سعر البيع د.ك', 'سعر يدوي', 'فعّالة'],
-    esUnlimited: 'غير محدودة', esSim: 'محاكاة طلب المسافر', esSimSub: 'جرّب مثل ما بيشوفها المسافر: اختر الدول والمدة.',
+    esUnlimited: 'مفتوح ∞', esUnlOnly: 'باقات إنترنت مفتوح فقط', esUnlNote: 'الباقة المفتوحة: بيانات غير محدودة طوال المدة (قد تنخفض السرعة بعد حد يومي حسب سياسة المورّد).', esAllPk: 'كل الباقات', esUnlPk: 'المفتوحة فقط', esSim: 'محاكاة طلب المسافر', esSimSub: 'جرّب مثل ما بيشوفها المسافر: اختر الدول والمدة.',
     esPickCountries: 'الدول اللي بيزورها', esDays: 'عدد الأيام', esMinGb: 'أقل بيانات (GB) — اختياري', esQuote: 'احسب السعر',
     esSingle: 'شريحة وحدة تغطي كل الدول', esCombo: 'شريحة لكل دولة ({n} رموز QR)', esNone: 'ما في باقة تغطي هذا الاختيار.', esUncovered: 'دول ما لها باقات: {c}',
     esTestBuy: 'طلب تجريبي', esTestDone: 'تم إنشاء طلب تجريبي.', esRealConfirm: 'المورّد الحالي حقيقي وبيخصم من رصيدك. متأكد؟',
@@ -27,7 +27,7 @@ export function installEsim(ctx) {
     esSync: '🔄 Sync packages from supplier', esSynced: '{n} packages synced.', esBalance: 'Supplier balance', esCheckBal: 'Show balance',
     esPackages: 'Packages', esActive: 'Active', esCountries: 'Countries covered', esOrders: 'Orders', esRevenue: 'Sales', esLastSync: 'Last sync',
     esSearch: 'Search by country code (TR, GB…) or package name', esCols: ['Package', 'Countries', 'Days', 'Data', 'Cost $', 'Price KWD', 'Manual price', 'Active'],
-    esUnlimited: 'Unlimited', esSim: 'Traveler quote simulator', esSimSub: 'Try it the way the traveler will: pick countries and days.',
+    esUnlimited: 'Unlimited ∞', esUnlOnly: 'Unlimited data plans only', esUnlNote: 'Unlimited plan: unlimited data for the whole period (speed may drop after a daily cap, per the supplier’s fair-use policy).', esAllPk: 'All packages', esUnlPk: 'Unlimited only', esSim: 'Traveler quote simulator', esSimSub: 'Try it the way the traveler will: pick countries and days.',
     esPickCountries: 'Countries visited', esDays: 'Days', esMinGb: 'Minimum data (GB) — optional', esQuote: 'Get price',
     esSingle: 'One eSIM covering all countries', esCombo: 'One eSIM per country ({n} QR codes)', esNone: 'No package covers this selection.', esUncovered: 'Countries without packages: {c}',
     esTestBuy: 'Test order', esTestDone: 'Test order created.', esRealConfirm: 'The current supplier is real and will charge your balance. Sure?',
@@ -61,7 +61,7 @@ export function installEsim(ctx) {
     const all = [...new Set((pkgs || []).filter((p) => p.active).flatMap((p) => p.countries))].sort((a, b) => cname(a).localeCompare(cname(b)));
     const tile = (k, v) => `<div class="card" style="display:flex;flex-direction:column;gap:4px"><span class="muted" style="font-size:14px">${esc(t(k))}</span><b style="font-size:24px;color:var(--deep)">${esc(v)}</b></div>`;
     const cols = t('esCols');
-    const pkgRow = (p) => `<tr data-pkg="${esc(p.package_code)}" data-q="${esc([p.package_code, p.name, ...p.countries, ...p.countries.map(cname)].join(' ').toLowerCase())}">
+    const pkgRow = (p) => `<tr data-pkg="${esc(p.package_code)}" data-unl="${p.data_gb == null ? 1 : ''}" data-q="${esc([p.package_code, p.name, ...p.countries, ...p.countries.map(cname)].join(' ').toLowerCase())}">
       <td><b>${esc(p.name)}</b><div class="muted" style="font-size:12px" dir="ltr">${esc(p.package_code)}</div></td>
       <td style="max-width:260px">${p.countries.length > 4 ? `${esc(p.countries.slice(0, 4).map(cname).join('، '))} +${p.countries.length - 4}` : esc(p.countries.map(cname).join('، '))}</td>
       <td>${p.days}</td><td>${p.data_gb == null ? esc(t('esUnlimited')) : `${Number(p.data_gb)} GB`}</td>
@@ -82,11 +82,14 @@ export function installEsim(ctx) {
           <label class="f">${esc(t('esPickCountries'))}<select id="sim-c" multiple size="8">${all.map((c) => `<option value="${c}">${esc(cname(c))} (${c})</option>`).join('')}</select></label>
           <div class="row" style="gap:12px"><label class="f" style="width:140px">${esc(t('esDays'))}<input id="sim-d" type="number" min="1" max="365" value="7" dir="ltr"></label>
             <label class="f" style="width:200px">${esc(t('esMinGb'))}<input id="sim-g" type="number" min="0" step="0.5" dir="ltr"></label></div>
+          <label class="row" style="gap:8px"><input type="checkbox" id="sim-u" style="width:auto"> <b>${esc(t('esUnlOnly'))}</b></label>
+          <p class="muted" style="margin:0;font-size:12px">${esc(t('esUnlNote'))}</p>
           <button class="btn accent" type="button" id="sim-go">${esc(t('esQuote'))}</button>
           <div id="sim-out"></div></div>
         <div class="card" style="display:flex;flex-direction:column;gap:10px"><div class="row between"><h2>${esc(t('esPackages'))}</h2>
             <span class="muted" style="font-size:13px">${esc(t('esLastSync'))}: ${o.last_sync ? esc(fmtDate(o.last_sync)) : '—'}</span></div>
-          <input id="pkg-q" type="search" placeholder="${esc(t('esSearch'))}">
+          <div class="row" style="gap:8px;flex-wrap:wrap"><input id="pkg-q" type="search" placeholder="${esc(t('esSearch'))}" class="grow">
+            <label class="chip"><input type="checkbox" id="pkg-unl"> ${esc(t('esUnlPk'))}</label></div>
           ${(pkgs || []).length ? `<div class="tbl-wrap" style="max-height:520px;overflow:auto"><table><thead><tr>${cols.map((c) => `<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${pkgs.map(pkgRow).join('')}</tbody></table></div>` : `<p class="muted">${esc(t('esNoPkgs'))}</p>`}</div>
         <div class="card"><h2 style="margin-bottom:10px">${esc(t('esOrders'))}</h2>
           ${(orders || []).length ? `<div class="tbl-wrap"><table><thead><tr>${t('esOrderCols').map((c) => `<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${orders.map(ordRow).join('')}</tbody></table></div>` : `<p class="muted">${esc(t('esNoOrders'))}</p>`}</div>
@@ -107,7 +110,9 @@ export function installEsim(ctx) {
       </aside></div>
       <div id="qr-ov" style="position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:999;display:none;align-items:center;justify-content:center;padding:16px"><div class="card" id="qr-box" style="max-width:420px;width:100%;display:flex;flex-direction:column;gap:10px;align-items:center"></div></div>`);
 
-    document.getElementById('pkg-q')?.addEventListener('input', (e) => { const q = e.target.value.trim().toLowerCase(); document.querySelectorAll('tr[data-q]').forEach((r) => (r.hidden = !!q && !r.dataset.q.includes(q))); });
+    const pf = () => { const q = (document.getElementById('pkg-q')?.value || '').trim().toLowerCase(); const u = document.getElementById('pkg-unl')?.checked;
+      document.querySelectorAll('tr[data-q]').forEach((r) => (r.hidden = (!!q && !r.dataset.q.includes(q)) || (u && !r.dataset.unl))); };
+    document.getElementById('pkg-q')?.addEventListener('input', pf); document.getElementById('pkg-unl')?.addEventListener('change', pf);
     document.querySelectorAll('tr[data-pkg]').forEach((tr) => {
       const save = async () => {
         const ov = tr.querySelector('[data-ov]').value.trim();
@@ -138,9 +143,10 @@ export function installEsim(ctx) {
       const cs = [...document.getElementById('sim-c').selectedOptions].map((x) => x.value);
       const days = Number(document.getElementById('sim-d').value || 0);
       const g = document.getElementById('sim-g').value;
+      const unl = document.getElementById('sim-u').checked;
       const out = document.getElementById('sim-out');
       if (!cs.length || !days) return;
-      const { data: q, error } = await sb.rpc('esim_quote', { p_countries: cs, p_days: days, p_min_gb: g ? Number(g) : null });
+      const { data: q, error } = await sb.rpc('esim_quote', { p_countries: cs, p_days: days, p_min_gb: g ? Number(g) : null, p_unlimited: unl });
       if (error) { out.innerHTML = `<p class="notice bad">${esc(error.message)}</p>`; return; }
       const line = (p) => `${esc(p.name)} · ${p.days} ${state.lang === 'ar' ? 'يوم' : 'days'} · ${p.data_gb == null ? esc(t('esUnlimited')) : p.data_gb + ' GB'} — <b>${esc(kwd(p.price_kwd))}</b> <span class="muted" dir="ltr">($${Number(p.cost_usd).toFixed(2)})</span>`;
       out.innerHTML = `${q.uncovered?.length ? `<p class="notice bad">${esc(t('esUncovered', { c: q.uncovered.map(cname).join('، ') }))}</p>` : ''}
@@ -151,7 +157,7 @@ export function installEsim(ctx) {
         const real = s.provider !== 'mock';
         if (real && !confirm(t('esRealConfirm'))) return;
         b.disabled = true;
-        try { await call({ action: 'test_order', countries: cs, days, min_gb: g ? Number(g) : null, option: b.dataset.buy, package_code: b.dataset.code, confirm_real: real }); toast(t('esTestDone')); viewEsim(); }
+        try { await call({ action: 'test_order', countries: cs, days, min_gb: g ? Number(g) : null, unlimited: unl, option: b.dataset.buy, package_code: b.dataset.code, confirm_real: real }); toast(t('esTestDone')); viewEsim(); }
         catch (ex) { toast(ex.message); b.disabled = false; }
       }));
     };

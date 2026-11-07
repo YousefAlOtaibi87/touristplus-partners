@@ -3,7 +3,7 @@ import { install } from './extra.js?v=11';
 import { AIRLINES } from './airlines.js?v=1';
 import { installOnboarding } from './onboarding.js?v=23';
 import { installTerms } from './terms.js?v=10';
-import { installEsim } from './esim.js?v=2';
+import { installEsim } from './esim.js?v=3';
 
 const CFG = window.TP_CONFIG || {};
 const $app = document.getElementById('app');
