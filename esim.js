@@ -105,7 +105,7 @@ export function installEsim(ctx) {
           <div class="row between"><span>${esc(t('esBalance'))}: <b id="es-bal">—</b></span><button class="btn ghost small" type="button" id="es-balbtn">${esc(t('esCheckBal'))}</button></div>
           <p class="muted" style="margin:0;font-size:12px">${esc(t('esAppNote'))}</p></div>
       </aside></div>
-      <div id="qr-ov" hidden style="position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px"><div class="card" id="qr-box" style="max-width:420px;width:100%;display:flex;flex-direction:column;gap:10px;align-items:center"></div></div>`);
+      <div id="qr-ov" style="position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:999;display:none;align-items:center;justify-content:center;padding:16px"><div class="card" id="qr-box" style="max-width:420px;width:100%;display:flex;flex-direction:column;gap:10px;align-items:center"></div></div>`);
 
     document.getElementById('pkg-q')?.addEventListener('input', (e) => { const q = e.target.value.trim().toLowerCase(); document.querySelectorAll('tr[data-q]').forEach((r) => (r.hidden = !!q && !r.dataset.q.includes(q))); });
     document.querySelectorAll('tr[data-pkg]').forEach((tr) => {
@@ -157,7 +157,7 @@ export function installEsim(ctx) {
     };
     document.querySelectorAll('[data-prov]').forEach((b) => (b.onclick = async () => { b.disabled = true; try { await call({ action: 'provision', order_id: b.dataset.prov }); } catch (ex) { toast(ex.message); } viewEsim(); }));
     const qov = document.getElementById('qr-ov');
-    qov.onclick = (e) => { if (e.target === qov) qov.hidden = true; };
+    qov.onclick = (e) => { if (e.target === qov) qov.style.display = 'none'; };
     document.querySelectorAll('[data-qr]').forEach((b) => (b.onclick = async () => {
       const { data: ps } = await sb.from('esim_profiles').select('*').eq('order_id', b.dataset.qr).order('created_at');
       const box = document.getElementById('qr-box');
@@ -165,8 +165,8 @@ export function installEsim(ctx) {
         <b>${esc((p.countries || []).map(cname).join('، '))}</b><br>${p.lpa ? `<img src="${await qr(p.lpa)}" alt="QR" style="width:220px;height:220px">` : p.qr_url ? `<img src="${esc(p.qr_url)}" alt="QR" style="width:220px">` : '—'}
         <div class="muted" style="font-size:12px;text-align:start" dir="ltr">ICCID: ${esc(p.iccid || '—')}<br>${esc(t('esSmdp'))}: ${esc(p.smdp || '—')}<br>${esc(t('esCode'))}: ${esc(p.activation_code || '—')}</div></div>`));
       box.innerHTML = `<div class="row between" style="width:100%"><h2 style="margin:0">${esc(t('esQrTitle'))}</h2><button class="btn ghost small" type="button" id="qr-x">✕</button></div>${parts.join('')}`;
-      document.getElementById('qr-x').onclick = () => (qov.hidden = true);
-      qov.hidden = false;
+      document.getElementById('qr-x').onclick = () => (qov.style.display = 'none');
+      qov.style.display = 'flex';
     }));
   }
   return { viewEsim };
