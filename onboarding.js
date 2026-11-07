@@ -7,7 +7,7 @@ export function installOnboarding(ctx) {
     delShort: 'حذف المكتب', delTitle: 'حذف المكتب من النظام', delWarn: 'الحذف نهائي ولا يمكن التراجع عنه: يُحذف طلب الانضمام والمستندات والعروض والعروض الخاصة، ويفقد حساب المكتب صلاحية بوابة الشركاء. إذا كانت هناك اتفاقية موقّعة تُنزَّل نسخة منها تلقائياً قبل الحذف. لا يمكن حذف مكتب لديه حجوزات مدفوعة — استخدم «ملغاة» بدلاً من ذلك.',
     delReason: 'سبب الحذف *', delConfirm: 'للتأكيد اكتب اسم الشركة كما هو:', delBtn: '🗑️ حذف المكتب نهائياً', delNameMismatch: 'اسم الشركة غير مطابق.', delPaid: 'لا يمكن حذف هذا المكتب لأن لديه حجوزات مدفوعة. غيّر حالته إلى «ملغاة».', delDone: 'تم حذف المكتب من النظام.',
     stStatus: 'حالة الشركة', st_active: 'مفعّلة', st_suspended: 'موقوفة', st_cancelled: 'ملغاة', stChange: 'تغيير الحالة', stNew: 'الحالة الجديدة', stReasonType: 'سبب التغيير',
-    rt_violation: 'مخالفة لبنود الاتفاقية', rt_platform: 'لمصلحة المنصة', rt_owner_request: 'بطلب من صاحب المكتب', rt_other: 'سبب آخر', stReason: 'تفاصيل السبب', stSave: 'حفظ الحالة', stSaved: 'تم تحديث حالة الشركة.',
+    rt_violation: 'مخالفة لبنود الاتفاقية', rt_platform: 'لمصلحة المنصة', rt_owner_request: 'بطلب من صاحب المكتب', rt_other: 'سبب آخر', rt_documents: 'انتهاء صلاحية مستندات المكتب', navDocs: 'مستنداتي', expTourism: 'تاريخ انتهاء ترخيص وزارة السياحة *', expCivil: 'تاريخ انتهاء البطاقة المدنية *', expSignature: 'تاريخ انتهاء اعتماد التوقيع', err_doc_expired: 'أحد المستندات منتهي الصلاحية. جدّده قبل الإرسال.', docsTitle: 'مستنداتي وتراخيصي', docsSub: 'تنبيهك يبدأ قبل 6 أشهر من انتهاء أي مستند. إذا انتهى ترخيص ولم يُجدَّد خلال 3 أشهر يوقَف الحساب مؤقتاً حتى التجديد. ارفع هنا أي تجديد أو تعديل على مستنداتك.', dk_license: 'الرخصة التجارية', dk_tourism: 'ترخيص وزارة السياحة', dk_civil_id: 'البطاقة المدنية للمالك', dk_signature: 'اعتماد التوقيع', dk_articles: 'عقد التأسيس / التعديلات', dk_iban_cert: 'شهادة الآيبان', dk_other: 'مستند آخر / تعديل', dExpires: 'ينتهي في {d}', dLeft: 'باقي {n} يوم', dExpired: 'منتهي منذ {n} يوم', dPending: 'تجديد بانتظار المراجعة', dOk: 'ساري', dSoon: 'قارب على الانتهاء', dUpload: 'رفع تجديد / تعديل', dKind: 'نوع المستند', dFile: 'الملف (PDF أو صورة، حد أقصى 10MB)', dNewExpiry: 'تاريخ الانتهاء الجديد', dNote: 'ملاحظة (اختياري)', dSend: 'إرسال للمراجعة', dSent: 'تم إرسال المستند للمراجعة.', dHistory: 'المستندات المرفوعة', rs_pending: 'بانتظار المراجعة', rs_approved: 'معتمد', rs_rejected: 'مرفوض', dBanner: 'لديك مستند ينتهي خلال {n} يوم — ابدأ التجديد الآن.', dBannerExpired: 'لديك مستند منتهي الصلاحية — ارفع التجديد لتجنب إيقاف الحساب.', dGo: 'مستنداتي', renewalsTitle: 'تجديدات المستندات', rvApprove: 'اعتماد', rvReject: 'رفض', rvDone: 'تمت المراجعة.', noRenewals: 'لا توجد تجديدات.', agCode: 'كود المكتب', searchApps: 'ابحث بالاسم أو كود المكتب (مثال TP1001)', docExpiries: 'صلاحية المستندات', needExpiry: 'اختر تاريخ الانتهاء الجديد لهذا المستند.', stReason: 'تفاصيل السبب', stSave: 'حفظ الحالة', stSaved: 'تم تحديث حالة الشركة.',
     stReasonReq: 'اختر سبب التغيير، واكتب التفاصيل إذا كان السبب «سبب آخر».', stHistory: 'سجل الحالات', stNoHistory: 'لا توجد تغييرات سابقة.', stConfirmCancel: 'إلغاء الشركة يسحب عروضها المفتوحة ويوقف حسابها. هل أنت متأكد؟',
     stNotLinked: 'تظهر أدوات الحالة بعد اعتماد الشركة.', dlAll: '⬇️ تنزيل جميع الاتفاقيات (ZIP)', dlBusy: 'جارٍ تجهيز الملف…', dlNone: 'لا توجد اتفاقيات موقّعة بعد.',
     agSuspended: 'حساب مكتبكم موقوف حالياً، ولا يمكن إرسال عروض جديدة.', agCancelled: 'تم إلغاء حساب مكتبكم في المنصة.', agReason: 'السبب:', agContact: 'للاستفسار تواصلوا مع إدارة المنصة.',
@@ -33,7 +33,7 @@ export function installOnboarding(ctx) {
     delShort: 'Delete agency', delTitle: 'Delete agency from the system', delWarn: 'Deletion is permanent: the application, documents, offers and packages are removed and the agency login loses partner access. A copy of any signed agreement is downloaded automatically first. Agencies with paid bookings cannot be deleted — set them to Cancelled instead.',
     delReason: 'Reason for deletion *', delConfirm: 'To confirm, type the company name exactly:', delBtn: '🗑️ Delete agency permanently', delNameMismatch: 'Company name does not match.', delPaid: 'This agency has paid bookings and cannot be deleted. Set it to Cancelled.', delDone: 'Agency deleted from the system.',
     stStatus: 'Company status', st_active: 'Active', st_suspended: 'Suspended', st_cancelled: 'Cancelled', stChange: 'Change status', stNew: 'New status', stReasonType: 'Reason',
-    rt_violation: 'Breach of the agreement', rt_platform: 'In the platform\'s interest', rt_owner_request: 'Requested by the agency owner', rt_other: 'Other', stReason: 'Details', stSave: 'Save status', stSaved: 'Company status updated.',
+    rt_violation: 'Breach of the agreement', rt_platform: 'In the platform\'s interest', rt_owner_request: 'Requested by the agency owner', rt_other: 'Other', rt_documents: 'Agency documents expired', navDocs: 'My documents', expTourism: 'Ministry of Tourism license expiry *', expCivil: 'Civil ID expiry *', expSignature: 'Signature authorization expiry', err_doc_expired: 'One of the documents has expired. Renew it before submitting.', docsTitle: 'My documents & licenses', docsSub: 'You are alerted 6 months before any document expires. If a license expires and is not renewed within 3 months, the account is suspended until it is renewed. Upload any renewal or amendment here.', dk_license: 'Commercial license', dk_tourism: 'Ministry of Tourism license', dk_civil_id: 'Owner civil ID', dk_signature: 'Signature authorization', dk_articles: 'Articles / amendments', dk_iban_cert: 'IBAN certificate', dk_other: 'Other document / amendment', dExpires: 'Expires {d}', dLeft: '{n} days left', dExpired: 'Expired {n} days ago', dPending: 'Renewal awaiting review', dOk: 'Valid', dSoon: 'Expiring soon', dUpload: 'Upload a renewal / amendment', dKind: 'Document type', dFile: 'File (PDF or image, max 10MB)', dNewExpiry: 'New expiry date', dNote: 'Note (optional)', dSend: 'Send for review', dSent: 'Document sent for review.', dHistory: 'Uploaded documents', rs_pending: 'Awaiting review', rs_approved: 'Approved', rs_rejected: 'Rejected', dBanner: 'A document expires in {n} days — start the renewal now.', dBannerExpired: 'A document has expired — upload the renewal to avoid suspension.', dGo: 'My documents', renewalsTitle: 'Document renewals', rvApprove: 'Approve', rvReject: 'Reject', rvDone: 'Reviewed.', noRenewals: 'No renewals.', agCode: 'Agency code', searchApps: 'Search by name or agency code (e.g. TP1001)', docExpiries: 'Document validity', needExpiry: 'Pick the new expiry date for this document.', stReason: 'Details', stSave: 'Save status', stSaved: 'Company status updated.',
     stReasonReq: 'Choose a reason, and add details when the reason is "Other".', stHistory: 'Status history', stNoHistory: 'No previous changes.', stConfirmCancel: 'Cancelling withdraws the company\'s open offers and disables its account. Continue?',
     stNotLinked: 'Status controls appear once the company is approved.', dlAll: '⬇️ Download all agreements (ZIP)', dlBusy: 'Preparing the file…', dlNone: 'No signed agreements yet.',
     agSuspended: 'Your agency account is currently suspended; new offers cannot be sent.', agCancelled: 'Your agency account has been cancelled on the platform.', agReason: 'Reason:', agContact: 'Please contact the platform administration for details.',
@@ -143,9 +143,11 @@ export function installOnboarding(ctx) {
       <form id="app-form" data-keep style="display:flex;flex-direction:column;gap:16px" novalidate>
         ${sec('secCompany', two(f('companyName', 'company_name', a.company_name, 'required'), f('companyNameAr', 'company_name_ar', a.company_name_ar))
           + two(f('licenseNo', 'license_no', a.license_no, 'dir="ltr" required'), f('licenseExpiry', 'license_expiry', a.license_expiry, `type="date" dir="ltr" required min="${new Date().toISOString().slice(0, 10)}"`))
-          + docRow('license', 'docLicense') + docRow('articles', 'docArticles') + docRow('tourism', 'docTourism') + otherRow())}
+          + docRow('license', 'docLicense') + docRow('articles', 'docArticles') + docRow('tourism', 'docTourism')
+          + f('expTourism', 'exp_tourism', (a.doc_expiry || {}).tourism, `type="date" dir="ltr" required min="${new Date().toISOString().slice(0, 10)}"`) + otherRow())}
         ${sec('secOwner', two(f('ownerName', 'owner_name', a.owner_name, 'required'), f('ownerCivil', 'owner_civil_id', a.owner_civil_id, 'dir="ltr" inputmode="numeric" maxlength="12" required'))
-          + docRow('civil_id', 'docCivil') + f('signatory', 'signatory_name', a.signatory_name) + docRow('signature', 'docSignature'))}
+          + docRow('civil_id', 'docCivil') + f('expCivil', 'exp_civil_id', (a.doc_expiry || {}).civil_id, `type="date" dir="ltr" required min="${new Date().toISOString().slice(0, 10)}"`)
+          + f('signatory', 'signatory_name', a.signatory_name) + docRow('signature', 'docSignature') + f('expSignature', 'exp_signature', (a.doc_expiry || {}).signature, `type="date" dir="ltr" min="${new Date().toISOString().slice(0, 10)}"`))}
         ${sec('secContact', two(f('phoneL', 'phone', a.phone, 'dir="ltr" inputmode="tel" required'), f('emailCo', 'email', a.email, 'type="email" dir="ltr" required')))}
         ${sec('secAddress', f('address', 'address', a.address, 'required') + f('paci', 'paci_no', a.paci_no, 'dir="ltr" inputmode="numeric" maxlength="10" required'))}
         ${sec('secBank', two(f('bankName', 'bank_name', a.bank_name, 'required'), f('holder', 'account_holder', a.account_holder, 'required'))
@@ -178,6 +180,9 @@ export function installOnboarding(ctx) {
       }
       if (!nd.other.length) delete nd.other;
       row.docs = nd;
+      const de = {};
+      ['tourism', 'civil_id', 'signature'].forEach((k) => { const v = String(fd.get('exp_' + k) || '').trim(); if (v) de[k] = v; });
+      row.doc_expiry = de;
       return row;
     };
     const save = async (status, btn) => {
@@ -203,7 +208,7 @@ export function installOnboarding(ctx) {
       }
     };
     // Highlight every missing required field / document before sending.
-    const REQ = ['company_name', 'license_no', 'license_expiry', 'owner_name', 'owner_civil_id', 'signatory_name', 'phone', 'email', 'address', 'paci_no', 'bank_name', 'account_holder', 'iban'];
+    const REQ = ['company_name', 'license_no', 'license_expiry', 'exp_tourism', 'exp_civil_id', 'owner_name', 'owner_civil_id', 'signatory_name', 'phone', 'email', 'address', 'paci_no', 'bank_name', 'account_holder', 'iban'];
     const REQ_DOCS = { license: 'docLicense', articles: 'docArticles', tourism: 'docTourism', civil_id: 'docCivil', signature: 'docSignature', iban_cert: 'docIban' };
     const validate = () => {
       form.querySelectorAll('.invalid').forEach((el) => el.classList.remove('invalid'));
@@ -224,8 +229,11 @@ export function installOnboarding(ctx) {
         errBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return false;
       }
+      const today = new Date().toISOString().slice(0, 10);
+      const oldDoc = ['exp_tourism', 'exp_civil_id', 'exp_signature'].map((n) => form.querySelector(`[name="${n}"]`)).find((el) => el?.value && el.value < today);
+      if (oldDoc) { oldDoc.classList.add('invalid'); errBox.textContent = t('err_doc_expired'); errBox.hidden = false; oldDoc.scrollIntoView({ behavior: 'smooth', block: 'center' }); return false; }
       const exp = form.querySelector('[name="license_expiry"]');
-      if (exp.value && exp.value < new Date().toISOString().slice(0, 10)) {
+      if (exp.value && exp.value < today) {
         exp.classList.add('invalid');
         const [y, mo, d] = exp.value.split('-');
         errBox.innerHTML = esc(t('err_license_expired', { d: `${d}/${mo}/${y}` }));
@@ -264,8 +272,8 @@ export function installOnboarding(ctx) {
     const card = (a) => {
       const docs = a.docs || {};
       const open = a.id === openId || (!openId && (a.status === 'submitted' || (a.status === 'contract' && a.terms_accepted_at)));
-      return `<details class="card" ${open ? 'open' : ''} style="display:flex;flex-direction:column;gap:12px">
-        <summary class="row between" style="cursor:pointer;list-style:none"><a href="#/company/${a.id}" style="font-weight:800" onclick="event.stopPropagation()">${esc(a.company_name_ar || a.company_name || '—')} ↗</a>
+      return `<details class="card" data-q="${esc([a.code, a.company_name, a.company_name_ar, a.license_no].filter(Boolean).join(' ').toLowerCase())}" ${open ? 'open' : ''} style="display:flex;flex-direction:column;gap:12px">
+        <summary class="row between" style="cursor:pointer;list-style:none"><span><a href="#/company/${a.id}" style="font-weight:800" onclick="event.stopPropagation()">${esc(a.company_name_ar || a.company_name || '—')} ↗</a>${a.code ? ` <span class="badge" dir="ltr">${esc(a.code)}</span>` : ''}</span>
           <span class="row" style="gap:8px"><span class="muted" style="font-size:13px">${a.submitted_at ? esc(fmtDate(a.submitted_at)) : ''}</span><span class="badge ${tone(a.status)}">${esc(stLabel(a))}</span></span></summary>
         <dl class="kv" style="margin-top:12px">
           ${kv('companyNameAr', a.company_name_ar)}${kv('licenseNo', a.license_no)}${kv('licenseExpiry', a.license_expiry)}${kv('ownerName', a.owner_name)}${kv('ownerCivil', a.owner_civil_id)}
@@ -288,7 +296,9 @@ export function installOnboarding(ctx) {
       </details>`;
     };
     shell('apps', `<div class="top"><h1>${esc(t('appsTitle'))}</h1><button class="btn" type="button" id="dl-all">${esc(t('dlAll'))}</button></div>
-      ${(data || []).length ? `<div style="display:flex;flex-direction:column;gap:14px">${data.map(card).join('')}</div>` : `<div class="card empty">${esc(t('noApps'))}</div>`}`);
+      ${(data || []).length ? `<input id="app-q" type="search" placeholder="${esc(t('searchApps'))}" style="margin-bottom:14px;width:100%">
+      <div style="display:flex;flex-direction:column;gap:14px">${data.map(card).join('')}</div>` : `<div class="card empty">${esc(t('noApps'))}</div>`}`);
+    document.getElementById('app-q')?.addEventListener('input', (e) => { const q = e.target.value.trim().toLowerCase(); document.querySelectorAll('details[data-q]').forEach((d) => (d.hidden = !!q && !d.dataset.q.includes(q))); });
     document.querySelectorAll('[data-view]').forEach((b) => (b.onclick = () => openDoc(b.dataset.view)));
     document.querySelectorAll('[data-signed]').forEach((b) => (b.onclick = () => T.openSigned(b.dataset.signed)));
     document.getElementById('dl-all').onclick = (e) => downloadAll(e.target);
@@ -377,7 +387,7 @@ export function installOnboarding(ctx) {
       ]);
       const cur = ag?.status || 'active';
       const stTone = (x) => (x === 'active' ? 'good' : x === 'suspended' ? 'accent' : 'bad');
-      const RT = ['violation', 'platform', 'owner_request', 'other'];
+      const RT = ['violation', 'platform', 'owner_request', 'documents', 'other'];
       statusBox = `<div class="card" style="display:flex;flex-direction:column;gap:12px">
         <div class="row between"><h2>${esc(t('stStatus'))}</h2><span class="badge ${stTone(cur)}">${esc(t('st_' + cur))}</span></div>
         ${cur !== 'active' && (ag?.status_reason_type || ag?.status_reason) ? `<p class="notice ${cur === 'cancelled' ? 'bad' : 'info'}" style="margin:0">${esc(ag.status_reason_type ? t('rt_' + ag.status_reason_type) : '')}${ag.status_reason ? ' — ' + esc(ag.status_reason) : ''}</p>` : ''}
@@ -431,12 +441,14 @@ export function installOnboarding(ctx) {
             ${!agencySigned && a.status === 'contract' ? `<p class="notice info" style="margin:0">${esc(t('waitAgency'))}</p>` : ''}
           </div>
           <div class="card"><h2 style="margin-bottom:8px">${esc(t('companyData'))}</h2><dl class="kv">
+            ${kv('agCode', a.code)}${kv('expTourism', (a.doc_expiry || {}).tourism)}${kv('expCivil', (a.doc_expiry || {}).civil_id)}${kv('expSignature', (a.doc_expiry || {}).signature)}
             ${kv('licenseNo', a.license_no)}${kv('licenseExpiry', a.license_expiry)}${kv('ownerName', a.owner_name)}${kv('ownerCivil', a.owner_civil_id)}
             ${kv('signatory', a.signatory_name)}${kv('phoneL', a.phone)}${kv('address', a.address)}${kv('paci', a.paci_no)}
             ${kv('bankName', a.bank_name)}${kv('holder', a.account_holder)}${kv('iban', a.iban)}</dl></div>
           <div class="card"><h2 style="margin-bottom:8px">${esc(t('documents'))}</h2><div class="chips">
             ${DOCS.filter(([k]) => docs[k]).map(([k, l]) => `<button class="btn ghost small" type="button" data-view="${esc(docs[k])}">📄 ${esc(t(l).replace(' *', '').split(' (')[0])}</button>`).join('')}
             ${(Array.isArray(docs.other) ? docs.other : []).map((p, i) => `<button class="btn ghost small" type="button" data-view="${esc(p)}">📄 ${esc(t('extraCert'))} ${i + 1}</button>`).join('')}</div></div>
+          ${a.agency_id ? `<div class="card" id="renewals"><h2 style="margin-bottom:8px">${esc(t('renewalsTitle'))}</h2><div class="muted">…</div></div>` : ''}
         </section>
         <section class="col"><div class="card"><h2 style="margin-bottom:8px">${esc(t('secTerms'))}</h2>${contractBox || `<p class="muted">${esc(t('notAccepted'))}</p>`}</div></section>
       </div>`);
@@ -503,7 +515,96 @@ export function installOnboarding(ctx) {
       toast(!error && r?.ok ? t('sent') : t('sentNoMail'));
       viewCompany(a.id);
     });
+    const rbox = document.getElementById('renewals');
+    if (rbox) {
+      const [{ data: rn }, { data: st }] = await Promise.all([
+        sb.from('agency_doc_renewals').select('*').eq('agency_id', a.agency_id).order('created_at', { ascending: false }),
+        sb.rpc('agency_docs_status', { p_agency: a.agency_id }),
+      ]);
+      rbox.innerHTML = `<h2 style="margin-bottom:8px">${esc(t('renewalsTitle'))}</h2>${docStatusList(st || [])}
+        ${(rn || []).length ? `<div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">${rn.map((d) => `<div class="row between" style="gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:8px">
+          <span><b>${esc(t('dk_' + d.kind))}</b> <span class="muted" style="font-size:13px">${esc(fmtDate(d.created_at))}${d.expiry ? ' · ' + esc(t('dExpires', { d: d.expiry })) : ''}${d.note ? ' · ' + esc(d.note) : ''}</span></span>
+          <span class="row" style="gap:6px"><button class="btn ghost small" type="button" data-view="${esc(d.path)}">📄</button>
+          ${d.status === 'pending' ? `<button class="btn accent small" type="button" data-rv="${d.id}" data-ok="1">${esc(t('rvApprove'))}</button><button class="btn danger small" type="button" data-rv="${d.id}">${esc(t('rvReject'))}</button>` : `<span class="badge ${d.status === 'approved' ? 'good' : 'bad'}">${esc(t('rs_' + d.status))}</span>`}</span></div>`).join('')}</div>` : `<p class="muted" style="margin:8px 0 0">${esc(t('noRenewals'))}</p>`}`;
+      rbox.querySelectorAll('[data-view]').forEach((b) => (b.onclick = () => openDoc(b.dataset.view)));
+      rbox.querySelectorAll('[data-rv]').forEach((b) => (b.onclick = async () => {
+        const ok = !!b.dataset.ok;
+        const note = ok ? null : prompt(state.lang === 'ar' ? 'سبب الرفض (يظهر للمكتب):' : 'Reason (shown to the agency):');
+        if (!ok && note === null) return;
+        b.disabled = true;
+        const { error } = await sb.rpc('admin_review_renewal', { p_id: b.dataset.rv, p_approve: ok, p_note: note });
+        toast(error ? t('errGeneric') : t('rvDone'));
+        viewCompany(a.id);
+      }));
+    }
   }
 
-  return { renderSignup, viewApplication, viewApplications, viewCompany };
+  // ------------------------------------------------------------ documents & renewals (agency)
+  function docStatusList(rows) {
+    if (!rows.length) return '';
+    return `<div style="display:flex;flex-direction:column;gap:8px">${rows.map((d) => {
+      const tone = d.days_left < 0 ? 'bad' : d.days_left <= 183 ? 'accent' : 'good';
+      const lbl = d.days_left < 0 ? t('dExpired', { n: -d.days_left }) : d.days_left <= 183 ? t('dLeft', { n: d.days_left }) : t('dOk');
+      return `<div class="row between" style="gap:8px;flex-wrap:wrap"><span><b>${esc(t('dk_' + d.kind))}</b> <span class="muted" style="font-size:13px" dir="ltr">${esc(d.expiry)}</span></span>
+        <span class="row" style="gap:6px">${d.pending_renewal ? `<span class="badge">${esc(t('dPending'))}</span>` : ''}<span class="badge ${tone}">${esc(lbl)}</span></span></div>`;
+    }).join('')}</div>`;
+  }
+  let docCache = { at: 0, rows: [] };
+  async function docsBanner() {
+    if (Date.now() - docCache.at > 5 * 60000) {
+      const { data } = await sb.rpc('agency_docs_status', {});
+      docCache = { at: Date.now(), rows: data || [] };
+    }
+    const due = docCache.rows.filter((d) => d.days_left <= 183 && !d.pending_renewal);
+    if (!due.length) return '';
+    const min = Math.min(...due.map((d) => d.days_left));
+    return `<div class="notice ${min < 0 ? 'bad' : 'info'}" style="margin-bottom:16px;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+      <b>${esc(min < 0 ? t('dBannerExpired') : t('dBanner', { n: min }))}</b><a class="btn small" href="#/documents">${esc(t('dGo'))}</a></div>`;
+  }
+  async function viewDocuments() {
+    const [{ data: st }, { data: rn }] = await Promise.all([
+      sb.rpc('agency_docs_status', {}),
+      sb.from('agency_doc_renewals').select('*').order('created_at', { ascending: false }),
+    ]);
+    docCache = { at: Date.now(), rows: st || [] };
+    const KINDS = ['license', 'tourism', 'civil_id', 'signature', 'articles', 'iban_cert', 'other'];
+    const NEEDS_EXP = ['license', 'tourism', 'civil_id', 'signature'];
+    shell('documents', `<div class="top"><div><h1>${esc(t('docsTitle'))}</h1><p class="muted" style="margin:4px 0 0">${esc(t('docsSub'))}</p></div>
+      ${state.agency?.code ? `<span class="badge" dir="ltr">${esc(state.agency.code)}</span>` : ''}</div>
+      <div class="detail"><section class="col">
+        <div class="card"><h2 style="margin-bottom:10px">${esc(t('docExpiries'))}</h2>${docStatusList(st || []) || '<p class="muted">—</p>'}</div>
+        <div class="card"><h2 style="margin-bottom:10px">${esc(t('dHistory'))}</h2>${(rn || []).length ? `<div style="display:flex;flex-direction:column;gap:8px">${rn.map((d) => `<div class="row between" style="gap:8px;flex-wrap:wrap"><span><b>${esc(t('dk_' + d.kind))}</b> <span class="muted" style="font-size:13px">${esc(fmtDate(d.created_at))}</span>${d.review_note ? `<div class="muted" style="font-size:13px">${esc(d.review_note)}</div>` : ''}</span><span class="badge ${d.status === 'approved' ? 'good' : d.status === 'rejected' ? 'bad' : ''}">${esc(t('rs_' + d.status))}</span></div>`).join('')}</div>` : `<p class="muted">${esc(t('noRenewals'))}</p>`}</div>
+      </section><aside class="col">
+        <form class="card" id="doc-form" data-keep style="display:flex;flex-direction:column;gap:12px" novalidate><h2>${esc(t('dUpload'))}</h2>
+          <label class="f">${esc(t('dKind'))}<select name="kind">${KINDS.map((k) => `<option value="${k}">${esc(t('dk_' + k))}</option>`).join('')}</select></label>
+          <label class="f">${esc(t('dFile'))}<input name="file" type="file" accept="application/pdf,image/*" required></label>
+          <label class="f" id="exp-wrap">${esc(t('dNewExpiry'))}<input name="expiry" type="date" dir="ltr" min="${new Date().toISOString().slice(0, 10)}"></label>
+          <label class="f">${esc(t('dNote'))}<input name="note" maxlength="200"></label>
+          <p id="doc-err" class="notice bad" hidden></p>
+          <button class="btn accent" type="submit">${esc(t('dSend'))}</button></form>
+      </aside></div>`);
+    const form = document.getElementById('doc-form');
+    const sync = () => { document.getElementById('exp-wrap').hidden = !NEEDS_EXP.includes(form.kind.value); };
+    form.kind.onchange = sync; sync();
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const err = document.getElementById('doc-err'); err.hidden = true;
+      const file = form.file.files?.[0];
+      const kind = form.kind.value;
+      if (!file) { err.textContent = t('missingList'); err.hidden = false; return; }
+      if (file.size > 10 * 1024 * 1024) { err.textContent = t('fileTooBig'); err.hidden = false; return; }
+      if (NEEDS_EXP.includes(kind) && !form.expiry.value) { err.textContent = t('needExpiry'); err.hidden = false; return; }
+      const btn = form.querySelector('[type=submit]'); btn.disabled = true;
+      const ext = (file.name.split('.').pop() || 'pdf').toLowerCase().replace(/[^a-z0-9]/g, '');
+      const path = `${state.session.user.id}/renew-${kind}-${Date.now()}.${ext}`;
+      const up = await sb.storage.from('partner-docs').upload(path, file, { contentType: file.type });
+      if (up.error) { toast(t('errGeneric')); btn.disabled = false; return; }
+      const { error } = await sb.from('agency_doc_renewals').insert({ agency_id: state.agency.id, kind, path, expiry: NEEDS_EXP.includes(kind) ? form.expiry.value : null, note: form.note.value.trim() || null });
+      if (error) { toast(t('errGeneric')); btn.disabled = false; return; }
+      toast(t('dSent'));
+      viewDocuments();
+    };
+  }
+
+  return { renderSignup, viewApplication, viewApplications, viewCompany, viewDocuments, docsBanner };
 }

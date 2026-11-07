@@ -260,11 +260,15 @@ export function install(ctx) {
 
   async function viewPartners() {
     const { data, error } = await sb.rpc('admin_agencies');
-    const { data: apps } = await sb.from('partner_applications').select('id, agency_id').not('agency_id', 'is', null);
+    const [{ data: apps }, { data: codes }] = await Promise.all([
+      sb.from('partner_applications').select('id, agency_id').not('agency_id', 'is', null),
+      sb.from('agencies').select('id, code'),
+    ]);
     const appOf = Object.fromEntries((apps || []).map((x) => [x.agency_id, x.id]));
+    const codeOf = Object.fromEntries((codes || []).map((x) => [x.id, x.code]));
     if (error) return shell('partners', `<p class="notice bad">${esc(t('errGeneric'))}</p>`);
-    const rows = (data || []).map((a) => `<tr data-id="${a.id}">
-      <td>${appOf[a.id] ? `<a href="#/company/${appOf[a.id]}" style="font-weight:800">${esc(state.lang === 'ar' ? a.name_ar || a.name : a.name)} ↗</a>` : `<b>${esc(state.lang === 'ar' ? a.name_ar || a.name : a.name)}</b>`}<div class="muted" style="font-size:12px" dir="ltr">${esc(a.email || '')}</div></td>
+    const rows = (data || []).map((a) => `<tr data-id="${a.id}" data-q="${esc([codeOf[a.id], a.name, a.name_ar, a.email, a.license_no].filter(Boolean).join(' ').toLowerCase())}">
+      <td>${codeOf[a.id] ? `<span class="badge" dir="ltr" style="margin-inline-end:6px">${esc(codeOf[a.id])}</span>` : ''}${appOf[a.id] ? `<a href="#/company/${appOf[a.id]}" style="font-weight:800">${esc(state.lang === 'ar' ? a.name_ar || a.name : a.name)} ↗</a>` : `<b>${esc(state.lang === 'ar' ? a.name_ar || a.name : a.name)}</b>`}<div class="muted" style="font-size:12px" dir="ltr">${esc(a.email || '')}</div></td>
       <td><input type="checkbox" data-k="active" ${a.active ? 'checked' : ''} hidden><span class="badge ${a.status === 'cancelled' ? 'bad' : a.status === 'suspended' ? 'accent' : 'good'}" title="${esc(a.status_reason || '')}">${esc(t('st_' + (a.status || 'active')))}</span></td>
       <td><input type="checkbox" data-k="verified" ${a.verified ? 'checked' : ''} aria-label="${esc(t('verifiedL'))}" style="width:auto"></td>
       <td><input type="number" data-k="rate" min="0" max="100" step="0.1" value="${esc(a.commission_rate)}" style="width:90px" dir="ltr"></td>
@@ -272,6 +276,7 @@ export function install(ctx) {
       <td>${esc(a.bookings)} · ${esc(money(a.paid_total))}</td><td>${esc(money(a.commission_total))}</td>
       <td><button class="btn small" type="button" data-save>${esc(t('save'))}</button></td></tr>`).join('');
     shell('partners', `<div class="top"><h1>${esc(t('navPartners'))}</h1></div>
+      <input id="p-q" type="search" placeholder="${esc(state.lang === 'ar' ? 'ابحث بكود المكتب (مثال TP1001) أو الاسم' : 'Search by agency code (e.g. TP1001) or name')}" style="margin-bottom:14px;width:100%" dir="auto">
       <div class="tbl-wrap"><table><thead><tr><th>${esc(t('partner'))}</th><th>${esc(t('active'))}</th><th>${esc(t('verifiedL'))}</th><th>${esc(t('rate'))}</th><th>${esc(t('supplier'))}</th><th>${esc(t('sales'))}</th><th>${esc(t('commission'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
       <form id="invite" data-keep class="card" style="display:flex;flex-direction:column;gap:12px;max-width:760px;margin-top:20px" novalidate>
         <h2>${esc(t('invite'))}</h2><p class="muted" style="margin:0">${esc(t('inviteSub'))}</p>
@@ -279,6 +284,7 @@ export function install(ctx) {
         <div class="row" style="gap:12px;align-items:flex-start"><div class="grow">${field(t('email'), '<input name="email" type="email" required dir="ltr">')}</div><div class="grow">${field(t('phone'), '<input name="phone" dir="ltr">')}</div></div>
         <div class="row" style="gap:12px;align-items:flex-start"><div class="grow">${field(t('license'), '<input name="license" dir="ltr">')}</div><div class="grow">${field(t('rate'), '<input name="rate" type="number" min="0" max="100" step="0.1" value="10" dir="ltr">')}</div></div>
         <button class="btn accent" type="submit">${esc(t('invite'))}</button></form>`);
+    document.getElementById('p-q').addEventListener('input', (e) => { const q = e.target.value.trim().toLowerCase(); document.querySelectorAll('tr[data-q]').forEach((r) => (r.hidden = !!q && !r.dataset.q.includes(q))); });
     document.querySelectorAll('[data-save]').forEach((b) => (b.onclick = async () => {
       const tr = b.closest('tr');
       const v = (k) => tr.querySelector(`[data-k=${k}]`);

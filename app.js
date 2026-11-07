@@ -1,7 +1,7 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=9';
+import { install } from './extra.js?v=10';
 import { AIRLINES } from './airlines.js?v=1';
-import { installOnboarding } from './onboarding.js?v=21';
+import { installOnboarding } from './onboarding.js?v=22';
 import { installTerms } from './terms.js?v=10';
 
 const CFG = window.TP_CONFIG || {};
@@ -30,7 +30,7 @@ const STR = {
     back: 'رجوع', tripDetails: 'تفاصيل الطلب', yourOffer: 'عرضك', sendOffer: 'أرسل العرض', updateOffer: 'حدّث العرض', withdraw: 'سحب العرض',
     withdrawConfirm: 'تبي تسحب عرضك؟', price: 'السعر الإجمالي (د.ك)', airline: 'الطيران', airlinePh: 'مثال: الخطوط الجوية الكويتية', hotel: 'الفندق', hotelPh: 'اسم الفندق',
     includes: 'الخدمات المشمولة', itinerary: 'البرنامج والتفاصيل', itineraryPh: 'اليوم ١: الوصول والتوصيل…', validFor: 'صلاحية العرض', days: '{n} أيام',
-    errPrice: 'اكتب سعر صحيح.', offerSent: 'تم إرسال عرضك للمسافر.', offerUpdated: 'تم تحديث العرض.', offerWithdrawn: 'تم سحب العرض.',
+    errPrice: 'اكتب سعر صحيح.', validUntil: 'العرض صالح حتى', validUntilHint: 'تحدد أنت صلاحية العرض، بشرط تكون قبل تاريخ السفر.', errValidity: 'اختر تاريخ صلاحية بعد ساعة على الأقل وقبل تاريخ السفر.', errMaxOffers: 'وصلت الحد الأعلى: 5 خيارات لكل طلب.', optLabel: 'اسم الخيار (اختياري)', optLabelPh: 'مثال: خيار اقتصادي / فندق على البحر', yourOptions: 'خياراتك المرسلة ({n} من 5)', addOption: '+ إضافة خيار آخر', editOption: 'تعديل', optionN: 'خيار {n}', hotelsL: 'الفنادق', hotelRow: 'فندق {n}', hotelNights: 'عدد الليالي', nightPrice: 'سعر الليلة (د.ك)', addHotel: '+ فندق آخر', hotelsHint: 'اذكر عدد الليالي وسعر الليلة لكل فندق.', validLeft: 'صالح حتى {d}', followup: '⏰ طلب متابعة المسافر', followupDone: 'تم إرسال تنبيه للمسافر بأن عرضك بانتظار قراره.', followupSoon: 'أرسلت طلب متابعة لهذا الطلب خلال آخر 24 ساعة.', followupHint: 'المنصة ترسل للمسافر تنبيه في التطبيق بأن عرضك بانتظار قراره (مرة كل 24 ساعة).', resultTitle: 'نتيجة الطلب', resultWon: 'تم اختيار عرضك 🎉', resultOther: 'اختار المسافر عرض المكتب {c} بسعر {p}.', resultNone: 'أُغلق الطلب بدون حجز.', myCode: 'كود مكتبك: {c}', cancelEdit: 'إلغاء التعديل', offerSent: 'تم إرسال عرضك للمسافر.', offerUpdated: 'تم تحديث العرض.', offerWithdrawn: 'تم سحب العرض.',
     requestClosed: 'هذا الطلب ما يستقبل عروض جديدة.', chat: 'المحادثة مع المسافر', chatHint: 'المحادثة تتفعّل بعد ما ترسل عرضك.', typeMessage: 'اكتب رسالة…', send: 'إرسال', noMessages: 'ما فيه رسائل للحين.',
     myOffersTitle: 'عروضي', noOffers: 'ما أرسلت أي عرض للحين.', destination: 'الوجهة', dates: 'التواريخ', status: 'الحالة', sentAt: 'أُرسل',
     st_pending: 'بانتظار المسافر', st_accepted: 'تم الحجز', st_declined: 'لم يُختر', st_withdrawn: 'مسحوب',
@@ -63,7 +63,7 @@ const STR = {
     back: 'Back', tripDetails: 'Request details', yourOffer: 'Your offer', sendOffer: 'Send offer', updateOffer: 'Update offer', withdraw: 'Withdraw offer',
     withdrawConfirm: 'Withdraw your offer?', price: 'Total price (KWD)', airline: 'Airline', airlinePh: 'e.g. Kuwait Airways', hotel: 'Hotel', hotelPh: 'Hotel name',
     includes: 'Included services', itinerary: 'Itinerary & details', itineraryPh: 'Day 1: arrival & transfer…', validFor: 'Valid for', days: '{n} days',
-    errPrice: 'Enter a valid price.', offerSent: 'Your offer was sent to the traveler.', offerUpdated: 'Offer updated.', offerWithdrawn: 'Offer withdrawn.',
+    errPrice: 'Enter a valid price.', validUntil: 'Offer valid until', validUntilHint: 'You set the offer’s validity, as long as it ends before the departure date.', errValidity: 'Pick a validity at least one hour from now and before departure.', errMaxOffers: 'Limit reached: 5 options per request.', optLabel: 'Option name (optional)', optLabelPh: 'e.g. Budget option / Beachfront hotel', yourOptions: 'Your options ({n} of 5)', addOption: '+ Add another option', editOption: 'Edit', optionN: 'Option {n}', hotelsL: 'Hotels', hotelRow: 'Hotel {n}', hotelNights: 'Nights', nightPrice: 'Price per night (KWD)', addHotel: '+ Another hotel', hotelsHint: 'Give the number of nights and the nightly rate for each hotel.', validLeft: 'Valid until {d}', followup: '⏰ Ask to follow up with the traveler', followupDone: 'The traveler was reminded that your offer awaits their decision.', followupSoon: 'You already asked for a follow-up on this request in the last 24 hours.', followupHint: 'The platform sends the traveler an in-app reminder that your offer awaits a decision (once every 24 hours).', resultTitle: 'Request result', resultWon: 'Your offer was chosen 🎉', resultOther: 'The traveler chose agency {c}’s offer at {p}.', resultNone: 'The request closed without a booking.', myCode: 'Your agency code: {c}', cancelEdit: 'Cancel edit', offerSent: 'Your offer was sent to the traveler.', offerUpdated: 'Offer updated.', offerWithdrawn: 'Offer withdrawn.',
     requestClosed: 'This request is no longer accepting offers.', chat: 'Chat with traveler', chatHint: 'Chat opens after you send an offer.', typeMessage: 'Write a message…', send: 'Send', noMessages: 'No messages yet.',
     myOffersTitle: 'My offers', noOffers: 'You have not sent any offers yet.', destination: 'Destination', dates: 'Dates', status: 'Status', sentAt: 'Sent',
     st_pending: 'Awaiting traveler', st_accepted: 'Booked', st_declined: 'Not selected', st_withdrawn: 'Withdrawn',
@@ -154,7 +154,7 @@ async function loadProfile() {
   const { data: p } = await sb.from('profiles').select('id, role, full_name, agency_id').eq('id', state.session.user.id).maybeSingle();
   state.profile = p;
   if (p?.agency_id) {
-    const { data: a } = await sb.from('agencies').select('id, name, name_ar, license_no, phone, email, rating, reviews, verified, active, status, status_reason_type, status_reason, founder_no, activated_at').eq('id', p.agency_id).maybeSingle();
+    const { data: a } = await sb.from('agencies').select('id, name, name_ar, license_no, phone, email, rating, reviews, verified, active, status, status_reason_type, status_reason, founder_no, activated_at, code').eq('id', p.agency_id).maybeSingle();
     state.agency = a;
   }
   if (p?.role === 'admin') { const { data: n } = await sb.rpc('admin_pending_applications'); state.pendingApps = n || 0; }
@@ -217,6 +217,7 @@ async function route() {
   if (view === 'terms') return TM.viewTerms();
   if (view === 'package' && id) return X.viewPackage(id);
   if (view === 'request' && id) return viewRequest(id);
+  if (view === 'documents') return O.viewDocuments();
   if (view === 'offers') return viewOffers();
   if (view === 'bookings') return viewBookings();
   return viewRequests();
@@ -306,16 +307,18 @@ function shell(active, inner) {
         ${link('offers', '#/offers', t('navOffers'))}
         ${link('bookings', '#/bookings', t('navBookings'))}
         ${link('packages', '#/packages', t('navPackages'))}
+        ${link('documents', '#/documents', t('navDocs'))}
         ${link('terms', '#/terms', t('navTerms'))}`}
       </nav>
       <div class="side-foot">
-        <span class="who">${esc(name)}</span>
+        <span class="who">${esc(name)}${!isAdmin && state.agency?.code ? `<br><span class="badge" dir="ltr" style="margin-top:4px">${esc(state.agency.code)}</span>` : ''}</span>
         ${langToggle()}
         <button class="btn ghost small" data-act="signout" type="button">${esc(t('signOut'))}</button>
       </div>
     </aside>
-    <main class="main">${agencyBanner()}${inner}</main>
+    <main class="main">${agencyBanner()}<div id="docs-banner"></div>${inner}</main>
   </div>`;
+  if (!isAdmin && state.agency && active !== 'documents') O.docsBanner().then((h) => { const el = document.getElementById('docs-banner'); if (el) el.innerHTML = h; }).catch(() => {});
 }
 
 // ---------------------------------------------------------------- views
@@ -377,17 +380,25 @@ async function viewRequest(id) {
   currentChatOffer = null;
   const [{ data: r }, { data: offers }, { data: counts }] = await Promise.all([
     sb.from('rfqs').select('*').eq('id', id).maybeSingle(),
-    sb.from('offers').select('*').eq('rfq_id', id),
+    state.agency ? sb.from('offers').select('*').eq('rfq_id', id).eq('agency_id', state.agency.id) : sb.from('offers').select('*').eq('rfq_id', id),
     sb.rpc('rfq_offer_counts', { p_ids: [id] }),
   ]);
   const rtl = state.lang === 'ar';
   if (!r) return shell('requests', `<a class="back" href="#/requests">${icon.back(rtl)} ${esc(t('back'))}</a><div class="card empty">—</div>`);
-  const my = (offers || [])[0] || null;
-  const live = my && my.status !== 'withdrawn' ? my : null;
+  const mine = (offers || []).filter((o) => o.status !== 'withdrawn').sort((a, b) => Date.parse(a.created_at) - Date.parse(b.created_at));
+  const accepted = mine.find((o) => o.status === 'accepted') || null;
+  const live = accepted || mine[0] || null;
   const canOffer = r.status === 'open' && Date.parse(r.closes_at) > Date.now();
-  const editable = canOffer && (!my || my.status === 'pending' || my.status === 'withdrawn');
-  const svc = new Set(live?.includes || r.services || []);
-  const stars = live?.hotel_stars ?? r.hotel_stars;
+  const editId = new URLSearchParams(location.hash.split('?')[1] || '').get('edit');
+  const editing = editId ? mine.find((o) => o.id === editId && o.status === 'pending') || null : null;
+  const showForm = canOffer && (editing || mine.length < 5) && (editing || !mine.length || new URLSearchParams(location.hash.split('?')[1] || '').get('new') === '1');
+  const base = editing || null;
+  const svc = new Set(base?.includes || r.services || []);
+  const stars = base?.hotel_stars ?? r.hotel_stars;
+  const hotels = base?.hotels?.length ? base.hotels : (base?.hotel ? [{ name: base.hotel, stars: base.hotel_stars, nights: nights(r.depart, r.ret) }] : [{ name: '', stars: r.hotel_stars, nights: nights(r.depart, r.ret) }]);
+  const toLocal = (d) => { const z = new Date(d); z.setMinutes(z.getMinutes() - z.getTimezoneOffset()); return z.toISOString().slice(0, 16); };
+  const maxValid = `${r.depart}T00:00`;
+  const defValid = base ? toLocal(base.valid_until) : toLocal(Math.min(Date.now() + 3 * 86400000, Date.parse(`${r.depart}T00:00`) - 3600000));
 
   const facts = `<dl class="kv">
     <dt>${esc(t('depart'))}</dt><dd dir="ltr" style="text-align:start">${esc(r.depart)}</dd>
@@ -401,32 +412,50 @@ async function viewRequest(id) {
     <dt>${esc(t('traveler'))}</dt><dd>${esc(r.traveler_name || '—')}</dd>
   </dl>`;
 
-  const form = editable ? `
+  const hotelRow = (h, i) => `<div class="row" data-hotel style="gap:8px;align-items:flex-end;flex-wrap:wrap;background:var(--sand,#F7F3EC);padding:10px;border-radius:12px">
+      <label class="f grow" style="min-width:180px">${esc(t('hotelRow', { n: i + 1 }))}<input data-h="name" placeholder="${esc(t('hotelPh'))}" value="${esc(h.name || '')}"></label>
+      <label class="f" style="width:110px">${esc(t('hotelStars'))}<select data-h="stars">${[3, 4, 5].map((n) => `<option value="${n}" ${Number(h.stars) === n ? 'selected' : ''}>${'★'.repeat(n)}</option>`).join('')}</select></label>
+      <label class="f" style="width:100px">${esc(t('hotelNights'))}<input data-h="nights" type="number" min="1" max="60" value="${esc(h.nights ?? '')}" dir="ltr"></label>
+      <label class="f" style="width:140px">${esc(t('nightPrice'))}<input data-h="night_price" type="number" min="0" step="0.001" value="${esc(h.night_price ?? '')}" dir="ltr"></label></div>`;
+
+  const form = showForm ? `
     <form id="offer-form" data-keep class="row" style="flex-direction:column;align-items:stretch;gap:14px" novalidate>
-      <label class="f">${esc(t('price'))}<input name="price" type="number" min="1" step="0.001" inputmode="decimal" required value="${live ? esc(live.price) : ''}" dir="ltr"></label>
-      ${r.services.includes('flights') ? `<div class="row" style="gap:12px;align-items:flex-start"><label class="f grow">${esc(t('airline'))}<input name="airline" list="airline-list" autocomplete="off" placeholder="${esc(t('airlinePh'))}" value="${esc(live?.airline || (r.airlines?.length === 1 ? airlineName(r.airlines[0]) : ''))}"></label>
-        <label class="f" style="min-width:170px">${esc(t('cabinL'))}<select name="cabin">${Object.values(CABIN_KEYS).map((c) => `<option value="${c}" ${(live?.cabin || r.cabin || 'economy') === c ? 'selected' : ''}>${esc(t('cabin_' + c))}</option>`).join('')}</select></label></div>
+      ${editing ? `<p class="notice info" style="margin:0">${esc(t('editOption'))}: ${esc(editing.label || t('optionN', { n: mine.indexOf(editing) + 1 }))}</p>` : ''}
+      <label class="f">${esc(t('optLabel'))}<input name="label" maxlength="60" placeholder="${esc(t('optLabelPh'))}" value="${esc(base?.label || '')}"></label>
+      <label class="f">${esc(t('price'))}<input name="price" type="number" min="1" step="0.001" inputmode="decimal" required value="${base ? esc(base.price) : ''}" dir="ltr"></label>
+      ${r.services.includes('flights') ? `<div class="row" style="gap:12px;align-items:flex-start"><label class="f grow">${esc(t('airline'))}<input name="airline" list="airline-list" autocomplete="off" placeholder="${esc(t('airlinePh'))}" value="${esc(base?.airline || (r.airlines?.length === 1 ? airlineName(r.airlines[0]) : ''))}"></label>
+        <label class="f" style="min-width:170px">${esc(t('cabinL'))}<select name="cabin">${Object.values(CABIN_KEYS).map((c) => `<option value="${c}" ${(base?.cabin || r.cabin || 'economy') === c ? 'selected' : ''}>${esc(t('cabin_' + c))}</option>`).join('')}</select></label></div>
         <datalist id="airline-list">${AIRLINES.map((a) => `<option value="${esc(state.lang === 'ar' ? a[2] : a[1])}">${esc(a[0])} · ${esc(state.lang === 'ar' ? a[1] : a[2])}</option>`).join('')}</datalist>` : ''}
-      ${r.services.includes('hotel') ? `<label class="f">${esc(t('hotel'))}<input name="hotel" placeholder="${esc(t('hotelPh'))}" value="${esc(live?.hotel || '')}"></label>
-        <fieldset style="border:0;padding:0;margin:0"><legend class="f" style="font-size:14px;font-weight:600;color:#3C4E50;margin-bottom:6px">${esc(t('hotelStars'))}</legend>
-        <div class="chips">${[3, 4, 5].map((n) => `<label class="chip ${stars === n ? 'on' : ''}"><input type="radio" name="stars" value="${n}" ${stars === n ? 'checked' : ''}> ${'★'.repeat(n)}</label>`).join('')}</div></fieldset>` : ''}
+      ${r.services.includes('hotel') ? `<fieldset style="border:0;padding:0;margin:0;display:flex;flex-direction:column;gap:8px"><legend style="font-size:14px;font-weight:600;color:#3C4E50;margin-bottom:6px">${esc(t('hotelsL'))}</legend>
+        <div id="hotels" style="display:flex;flex-direction:column;gap:8px">${hotels.map(hotelRow).join('')}</div>
+        <div class="row" style="gap:8px"><button class="btn ghost small" type="button" id="add-hotel">${esc(t('addHotel'))}</button><span class="muted" style="font-size:12px">${esc(t('hotelsHint'))}</span></div></fieldset>` : ''}
       <fieldset style="border:0;padding:0;margin:0"><legend style="font-size:14px;font-weight:600;color:#3C4E50;margin-bottom:6px">${esc(t('includes'))}</legend>
-        <div class="chips">${SERVICES.map((s) => `<label class="chip ${svc.has(s) ? 'on' : ''}"><input type="checkbox" name="inc" value="${s}" ${svc.has(s) ? 'checked' : ''}> ${esc(t('svc_' + s))}</label>`).join('')}</div></fieldset>
-      <label class="f">${esc(t('itinerary'))}<textarea name="itinerary" placeholder="${esc(t('itineraryPh'))}">${esc(live?.itinerary || '')}</textarea></label>
-      <label class="f">${esc(t('validFor'))}<select name="valid">${[1, 3, 7].map((n) => `<option value="${n}" ${n === 3 ? 'selected' : ''}>${esc(t('days', { n }))}</option>`).join('')}</select></label>
+        <div class="chips">${SERVICES.map((sv) => `<label class="chip ${svc.has(sv) ? 'on' : ''}"><input type="checkbox" name="inc" value="${sv}" ${svc.has(sv) ? 'checked' : ''}> ${esc(t('svc_' + sv))}</label>`).join('')}</div></fieldset>
+      <label class="f">${esc(t('itinerary'))}<textarea name="itinerary" placeholder="${esc(t('itineraryPh'))}">${esc(base?.itinerary || '')}</textarea></label>
+      <label class="f">${esc(t('validUntil'))}<input name="valid_until" type="datetime-local" required value="${esc(defValid)}" max="${esc(maxValid)}" dir="ltr"><span class="muted" style="font-size:12px">${esc(t('validUntilHint'))}</span></label>
       <p id="offer-err" class="notice bad" role="alert" hidden></p>
       <div class="row">
-        <button class="btn accent grow" type="submit">${esc(live ? t('updateOffer') : t('sendOffer'))}</button>
-        ${live ? `<button class="btn danger" type="button" id="withdraw">${esc(t('withdraw'))}</button>` : ''}
+        <button class="btn accent grow" type="submit">${esc(editing ? t('updateOffer') : t('sendOffer'))}</button>
+        ${editing || mine.length ? `<a class="btn ghost" href="#/request/${r.id}">${esc(t('cancelEdit'))}</a>` : ''}
       </div>
     </form>` : '';
 
-  const offerView = live && !editable ? `<dl class="kv">
-      <dt>${esc(t('price'))}</dt><dd>${esc(money(live.price))}</dd>
-      ${live.airline ? `<dt>${esc(t('airline'))}</dt><dd>${esc(live.airline)}${live.cabin ? ' · ' + esc(t('cabin_' + live.cabin)) : ''}</dd>` : ''}
-      ${live.hotel ? `<dt>${esc(t('hotel'))}</dt><dd>${esc(live.hotel)} ${live.hotel_stars ? '★'.repeat(live.hotel_stars) : ''}</dd>` : ''}
-      <dt>${esc(t('status'))}</dt><dd><span class="badge ${live.status === 'accepted' ? 'good' : ''}">${esc(t('st_' + live.status))}</span></dd>
-    </dl>${live.itinerary ? `<div class="notes">${esc(live.itinerary)}</div>` : ''}` : '';
+  const optCard = (o, i) => `<div class="card" style="display:flex;flex-direction:column;gap:8px;border:1px solid var(--line,#E5E7EB);box-shadow:none">
+      <div class="row between"><b>${esc(o.label || t('optionN', { n: i + 1 }))}</b><span class="badge ${o.status === 'accepted' ? 'good' : o.status === 'declined' ? '' : 'accent'}">${esc(t('st_' + o.status))}</span></div>
+      <div style="font-size:20px;font-weight:800;color:var(--deep)">${esc(money(o.price))}</div>
+      ${o.airline ? `<div class="muted" style="font-size:14px">✈ ${esc(o.airline)}${o.cabin ? ' · ' + esc(t('cabin_' + o.cabin)) : ''}</div>` : ''}
+      ${(o.hotels?.length ? o.hotels : o.hotel ? [{ name: o.hotel, stars: o.hotel_stars }] : []).map((h) => `<div class="muted" style="font-size:14px">🏨 ${esc(h.name)} ${h.stars ? '★'.repeat(h.stars) : ''}${h.nights ? ' · ' + esc(t('nights', { n: h.nights })) : ''}${h.night_price ? ' · ' + esc(money(h.night_price)) : ''}</div>`).join('')}
+      ${o.status === 'pending' ? `<div class="muted" style="font-size:13px">${esc(t('validLeft', { d: fmtDate(o.valid_until) }))}</div>` : ''}
+      ${o.status === 'pending' && canOffer ? `<div class="row" style="gap:8px;flex-wrap:wrap"><a class="btn ghost small" href="#/request/${r.id}?edit=${o.id}">${esc(t('editOption'))}</a>
+        <button class="btn danger small" type="button" data-wd="${o.id}">${esc(t('withdraw'))}</button></div>` : ''}</div>`;
+
+  const optionsHtml = mine.length ? `<div style="display:flex;flex-direction:column;gap:10px">
+      <div class="muted" style="font-size:14px">${esc(t('yourOptions', { n: mine.length }))}</div>
+      ${mine.map(optCard).join('')}
+      ${canOffer && mine.length < 5 && !showForm ? `<a class="btn ghost" href="#/request/${r.id}?new=1">${esc(t('addOption'))}</a>` : ''}
+      ${canOffer && mine.some((o) => o.status === 'pending') ? `<button class="btn" type="button" id="followup">${esc(t('followup'))}</button><span class="muted" style="font-size:12px">${esc(t('followupHint'))}</span>` : ''}
+    </div>` : '';
+  const resultBox = r.status !== 'open' && mine.length ? `<div class="card" id="result-box"><h2 style="margin-bottom:8px">${esc(t('resultTitle'))}</h2><div id="result-body" class="muted">…</div></div>` : '';
 
   shell('requests', `
     <a class="back" href="#/requests">${icon.back(rtl)} ${esc(t('back'))}</a>
@@ -438,11 +467,12 @@ async function viewRequest(id) {
           <div><div class="muted" style="font-size:14px;margin-bottom:6px">${esc(t('services'))}</div><div class="chips">${r.services.map((s) => `<span class="badge">${esc(t('svc_' + s))}</span>`).join('')}</div></div>
           ${r.notes ? `<div><div class="muted" style="font-size:14px;margin-bottom:6px">${esc(t('notes'))}</div><div class="notes">${esc(r.notes)}</div></div>` : ''}
         </div>
+        ${resultBox}
         ${live?.status === 'accepted' ? `<div class="card" id="contact"><h2>${esc(t('contact'))}</h2><p class="notice good" style="margin:10px 0">${esc(t('bookedNotice'))}</p><div id="contact-body">…</div></div>` : ''}
       </section>
       <section class="col">
         <div class="card" style="display:flex;flex-direction:column;gap:14px"><h2>${esc(t('yourOffer'))}</h2>
-          ${!canOffer && !live ? `<p class="notice info">${esc(t('requestClosed'))}</p>` : ''}${form}${offerView}
+          ${!canOffer && !mine.length ? `<p class="notice info">${esc(t('requestClosed'))}</p>` : ''}${optionsHtml}${form}
         </div>
         <div class="card"><h2 style="margin-bottom:10px">${esc(t('chat'))}</h2>
           ${live ? `<div class="chat" id="chat" aria-live="polite"></div>
@@ -466,35 +496,64 @@ async function viewRequest(id) {
       cabSel.innerHTML = ok.map((c) => `<option value="${c}">${esc(t('cabin_' + c))}</option>`).join(''); cabSel.value = ok.includes(cur) ? cur : ok[0]; };
     alIn.addEventListener('input', sync); sync();
   }
+  document.getElementById('add-hotel')?.addEventListener('click', () => {
+    const box = document.getElementById('hotels');
+    if (box.querySelectorAll('[data-hotel]').length >= 4) return;
+    box.insertAdjacentHTML('beforeend', hotelRow({ stars: r.hotel_stars }, box.querySelectorAll('[data-hotel]').length));
+  });
   if (of) of.onsubmit = async (e) => {
     e.preventDefault();
     const fd = new FormData(of);
     const price = Number(fd.get('price'));
     const err = document.getElementById('offer-err');
     if (!price || price <= 0) { err.textContent = t('errPrice'); err.hidden = false; return; }
+    const vu = new Date(String(fd.get('valid_until') || ''));
+    if (Number.isNaN(vu.getTime()) || vu.getTime() < Date.now() + 3600000 || vu.getTime() > Date.parse(`${r.depart}T00:00`)) { err.textContent = t('errValidity'); err.hidden = false; return; }
+    const hs = [...of.querySelectorAll('[data-hotel]')].map((row) => {
+      const g = (k) => row.querySelector(`[data-h=${k}]`).value.trim();
+      return { name: g('name'), stars: Number(g('stars')) || null, nights: Number(g('nights')) || null, night_price: g('night_price') ? Number(g('night_price')) : null };
+    }).filter((h) => h.name);
     const row = {
-      price, airline: String(fd.get('airline') || '') || null, cabin: fd.get('cabin') || null, hotel: String(fd.get('hotel') || '') || null,
-      hotel_stars: fd.get('stars') ? Number(fd.get('stars')) : null, includes: fd.getAll('inc').map(String),
-      itinerary: String(fd.get('itinerary') || '') || null,
-      valid_until: new Date(Date.now() + Number(fd.get('valid') || 3) * 86400000).toISOString(),
+      price, label: String(fd.get('label') || '').trim() || null,
+      airline: String(fd.get('airline') || '') || null, cabin: fd.get('cabin') || null,
+      hotels: hs, hotel: hs[0]?.name || null, hotel_stars: hs[0]?.stars || null,
+      includes: fd.getAll('inc').map(String), itinerary: String(fd.get('itinerary') || '') || null,
+      valid_until: vu.toISOString(),
     };
     of.querySelector('[type=submit]').disabled = true;
-    let res;
-    if (my) res = await sb.from('offers').update({ ...row, status: 'pending' }).eq('id', my.id);
-    else res = await sb.from('offers').insert({ ...row, rfq_id: r.id, agency_id: state.agency.id });
-    if (res.error) { err.textContent = t('errGeneric'); err.hidden = false; of.querySelector('[type=submit]').disabled = false; return; }
-    toast(my ? t('offerUpdated') : t('offerSent'));
+    const res = editing ? await sb.from('offers').update(row).eq('id', editing.id)
+      : await sb.from('offers').insert({ ...row, rfq_id: r.id, agency_id: state.agency.id });
+    if (res.error) {
+      const m = String(res.error.message || '');
+      err.textContent = m.includes('max_offers') ? t('errMaxOffers') : /validity/.test(m) ? t('errValidity') : t('errGeneric');
+      err.hidden = false; of.querySelector('[type=submit]').disabled = false; return;
+    }
+    toast(editing ? t('offerUpdated') : t('offerSent'));
     document.activeElement?.blur();
-    viewRequest(id);
+    location.hash = `#/request/${r.id}`;
   };
-  const wd = document.getElementById('withdraw');
-  if (wd) wd.onclick = async () => {
+  document.querySelectorAll('[data-wd]').forEach((b) => (b.onclick = async () => {
     if (!confirm(t('withdrawConfirm'))) return;
-    const { error } = await sb.from('offers').update({ status: 'withdrawn' }).eq('id', my.id);
+    const { error } = await sb.from('offers').update({ status: 'withdrawn' }).eq('id', b.dataset.wd);
     if (error) return toast(t('errGeneric'));
     toast(t('offerWithdrawn'));
     viewRequest(id);
+  }));
+  const fu = document.getElementById('followup');
+  if (fu) fu.onclick = async () => {
+    const target = mine.find((o) => o.status === 'pending');
+    fu.disabled = true;
+    const { error } = await sb.rpc('agency_request_followup', { p_offer: target.id });
+    toast(error ? (String(error.message).includes('too_soon') ? t('followupSoon') : t('errGeneric')) : t('followupDone'));
+    fu.disabled = false;
   };
+  if (document.getElementById('result-body')) {
+    const { data: res } = await sb.rpc('rfq_result', { p_rfq: r.id });
+    const w = res?.[0];
+    document.getElementById('result-body').innerHTML = !w ? esc(t('resultNone'))
+      : w.code === state.agency.code ? `<span class="badge good">${esc(t('resultWon'))}</span>`
+      : esc(t('resultOther', { c: w.code, p: money(w.price) }));
+  }
 
   if (live) {
     currentChatOffer = live.id;
