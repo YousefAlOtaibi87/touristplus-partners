@@ -3,6 +3,7 @@ import { install } from './extra.js?v=11';
 import { AIRLINES } from './airlines.js?v=1';
 import { installOnboarding } from './onboarding.js?v=23';
 import { installTerms } from './terms.js?v=10';
+import { installEsim } from './esim.js?v=1';
 
 const CFG = window.TP_CONFIG || {};
 const $app = document.getElementById('app');
@@ -137,6 +138,7 @@ if (!CFG.SUPABASE_URL || !CFG.SUPABASE_ANON_KEY) {
 const sb = createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
 let recoveryMode = /type=(recovery|invite)/.test(location.hash);
 const TM = installTerms({ sb, state, t, esc, fmtDate, shell, toast, STR });
+const ES = installEsim({ sb, state, t, esc, fmtDate, shell, toast, STR });
 const X = install({ sb, state, t, esc, money, place, fmtDate, shell, toast, STR, SERVICES, TYPES, route, terms: TM });
 const O = installOnboarding({ sb, state, t, esc, fmtDate, shell, toast, STR, $app, brand, langToggle, route, terms: TM });
 
@@ -210,6 +212,7 @@ async function route() {
     if (view === 'apps') return O.viewApplications();
     if (view === 'promos') return X.viewPromos();
     if (view === 'push') return X.viewPush();
+    if (view === 'esim') return ES.viewEsim();
     if (view === 'company' && id) return O.viewCompany(id);
     if (view === 'terms') return TM.viewTerms();
     return X.viewOverview();
@@ -305,6 +308,7 @@ function shell(active, inner) {
         ${link('apps', '#/apps', t('navApps'), state.pendingApps)}
         ${link('promos', '#/promos', t('navPromos'))}
         ${link('push', '#/push', t('navPush'))}
+        ${link('esim', '#/esim', t('navEsim'))}
         ${link('terms', '#/terms', t('navTerms'))}` : `${link('requests', '#/requests', t('navRequests'), state.openCount)}
         ${link('offers', '#/offers', t('navOffers'))}
         ${link('bookings', '#/bookings', t('navBookings'))}
