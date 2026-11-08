@@ -47,7 +47,7 @@ export function installControl(ctx) {
     <span class="muted" style="font-size:13px">${esc(t(k))}</span><b style="font-size:24px;color:${tone === 'bad' ? 'var(--bad)' : tone === 'good' ? 'var(--good)' : 'var(--deep)'}">${esc(v)}</b></div>`;
   const grid = (html) => `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px">${html}</div>`;
   const section = (title, body) => `<section style="margin-top:26px"><h2 style="margin:0 0 12px">${esc(t(title))}</h2>${body}</section>`;
-  const when = (d) => (d ? fmtDate(d) + ' ' + new Date(d).toLocaleTimeString(state.lang === 'ar' ? 'ar-KW' : 'en-GB', { hour: '2-digit', minute: '2-digit' }) : '—');
+  const when = (d) => (d ? fmtDate(d) : '—');
 
   async function viewControl() {
     const { data: c, error } = await sb.rpc('admin_control');
