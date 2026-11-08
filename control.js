@@ -14,7 +14,7 @@ export function installControl(ctx) {
     sAdminsWarn: 'تأكد إن كل حسابات الإدارة مفعّل فيها التحقق بخطوتين (2FA).',
     fPlans: 'رسوم إعلان العروض الخاصة (د.ك)', fWeek: 'أسبوعي (7 أيام)', fMonth: 'شهري (30 يوم)', fQuarter: 'فصلي (90 يوم)',
     fPromo: 'عمولة العروض الخاصة %', fFounders: 'عمولة الشركاء المؤسسين % (أول 3 شهور)', fMaxOffers: 'أقصى عدد خيارات أسعار لكل مكتب في الطلب', fFreeLimit: 'حد قيمة الليلة المجانية (د.ك)', fTesters: 'إيميلات المجربين لبوابة الدفع (وحد بكل سطر)',
-    fTestersNote: 'هذولي بس يقدرون يدفعون في الوضع التجريبي (مع حسابات الإدارة).', fSave: 'حفظ الإعدادات', fSaved: 'تم حفظ الإعدادات.', fConfirm: 'تأكيد حفظ الإعدادات؟ التغيير يطبّق فوراً على التطبيق والبوابة.',
+    fTestersNote: 'هذولي بس يقدرون يدفعون في الوضع التجريبي (مع حسابات الإدارة).', fWa: 'تسجيل الدخول برمز الواتساب في التطبيق', fWaNote: 'لا تفعّله إلا بعد موافقة Meta على رقم الواتساب وقالب رمز الدخول (otp_login) وإضافة المفاتيح، وإلا ما بيوصل الرمز للمسافر.', fSave: 'حفظ الإعدادات', fSaved: 'تم حفظ الإعدادات.', fConfirm: 'تأكيد حفظ الإعدادات؟ التغيير يطبّق فوراً على التطبيق والبوابة.',
     fNotice: '⚠️ حسب الاتفاقية: أي تعديل على الرسوم أو العمولة يُبلَّغ للشركاء قبل 30 يوم من تطبيقه.',
     e_bad_fee: 'الرسوم لازم تكون بين 0 و 1000 د.ك.', e_bad_commission: 'العمولة لازم تكون بين 0 و 30%.', e_bad_max_offers: 'أقصى عدد الخيارات بين 1 و 10.', e_bad_limit: 'حد الليلة المجانية غير صحيح.', e_bad_email: 'في إيميل غير صحيح.', e_too_many_testers: 'الحد الأقصى 20 إيميل.',
     cpNotReady: 'لوحة التحكم تحتاج تحديث قاعدة البيانات (control_panel.sql). هذي النظرة العامة المختصرة لين يتم التحديث.',
@@ -34,7 +34,7 @@ export function installControl(ctx) {
     sAdminsWarn: 'Make sure every admin account has two-factor authentication (2FA) on.',
     fPlans: 'Special-offer listing fees (KWD)', fWeek: 'Weekly (7 days)', fMonth: 'Monthly (30 days)', fQuarter: 'Quarterly (90 days)',
     fPromo: 'Special-offer commission %', fFounders: 'Founding partners commission % (first 3 months)', fMaxOffers: 'Max price options per agency per request', fFreeLimit: 'Free night value cap (KWD)', fTesters: 'Payment tester emails (one per line)',
-    fTestersNote: 'Only these (plus admins) can pay while in test mode.', fSave: 'Save settings', fSaved: 'Settings saved.', fConfirm: 'Save the settings? Changes apply to the app and portal immediately.',
+    fTestersNote: 'Only these (plus admins) can pay while in test mode.', fWa: 'WhatsApp code sign-in in the app', fWaNote: 'Turn on only after Meta approves the WhatsApp number and the sign-in template (otp_login) and the keys are added, or travelers will not receive the code.', fSave: 'Save settings', fSaved: 'Settings saved.', fConfirm: 'Save the settings? Changes apply to the app and portal immediately.',
     fNotice: '⚠️ Per the agreement: any change to fees or commission must be notified to partners 30 days before it applies.',
     e_bad_fee: 'Fees must be between 0 and 1000 KWD.', e_bad_commission: 'Commission must be between 0 and 30%.', e_bad_max_offers: 'Max options must be 1–10.', e_bad_limit: 'Invalid free night cap.', e_bad_email: 'An email is invalid.', e_too_many_testers: 'Maximum 20 emails.',
     cpNotReady: 'The control panel needs the database update (control_panel.sql). Showing the short overview until then.',
@@ -106,6 +106,8 @@ export function installControl(ctx) {
           <div class="grow">${fld(t('fFreeLimit'), n('free_night_limit', st.free_night_limit, '1', 0, 100000))}</div></div>
         ${fld(t('fTesters'), `<textarea name="testers" rows="3" dir="ltr">${esc((st.payment_test_emails || []).join('\n'))}</textarea>`)}
         <p class="muted" style="margin:-6px 0 0;font-size:13px">${esc(t('fTestersNote'))}</p>
+        <label style="display:flex;gap:10px;align-items:center;font-weight:700;font-size:14px"><input type="checkbox" name="whatsapp_login" style="width:auto" ${st.whatsapp_login ? 'checked' : ''}> 🟢 ${esc(t('fWa'))}</label>
+        <p class="muted" style="margin:-6px 0 0;font-size:13px">${esc(t('fWaNote'))}</p>
         <div><button class="btn" type="submit">${esc(t('fSave'))}</button></div></form>`)}`);
 
     document.getElementById('cp-refresh').onclick = () => viewControl();
@@ -117,6 +119,7 @@ export function installControl(ctx) {
         plans: { week: +f.get('week'), month: +f.get('month'), quarter: +f.get('quarter') },
         promo_commission: +f.get('promo_commission'), founders_commission: +f.get('founders_commission'),
         max_offers: parseInt(f.get('max_offers'), 10), free_night_limit: parseInt(f.get('free_night_limit'), 10),
+        whatsapp_login: f.get('whatsapp_login') === 'on',
         payment_test_emails: String(f.get('testers') || '').split(/[\s,;]+/).map((x) => x.trim()).filter(Boolean),
       };
       const btn = e.target.querySelector('button[type=submit]'); btn.disabled = true;
