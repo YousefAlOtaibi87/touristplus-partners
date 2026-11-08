@@ -273,7 +273,7 @@ export function installOnboarding(ctx) {
       const docs = a.docs || {};
       const open = a.id === openId || (!openId && (a.status === 'submitted' || (a.status === 'contract' && a.terms_accepted_at)));
       return `<details class="card" data-q="${esc([a.code, a.company_name, a.company_name_ar, a.license_no].filter(Boolean).join(' ').toLowerCase())}" ${open ? 'open' : ''} style="display:flex;flex-direction:column;gap:12px">
-        <summary class="row between" style="cursor:pointer;list-style:none"><span><a href="#/company/${a.id}" style="font-weight:800" onclick="event.stopPropagation()">${esc(a.company_name_ar || a.company_name || '—')} ↗</a>${a.code ? ` <span class="badge" dir="ltr">${esc(a.code)}</span>` : ''}</span>
+        <summary class="row between" style="cursor:pointer;list-style:none"><span><a href="#/company/${a.id}" style="font-weight:800">${esc(a.company_name_ar || a.company_name || '—')} ↗</a>${a.code ? ` <span class="badge" dir="ltr">${esc(a.code)}</span>` : ''}</span>
           <span class="row" style="gap:8px"><span class="muted" style="font-size:13px">${a.submitted_at ? esc(fmtDate(a.submitted_at)) : ''}</span><span class="badge ${tone(a.status)}">${esc(stLabel(a))}</span></span></summary>
         <dl class="kv" style="margin-top:12px">
           ${kv('companyNameAr', a.company_name_ar)}${kv('licenseNo', a.license_no)}${kv('licenseExpiry', a.license_expiry)}${kv('ownerName', a.owner_name)}${kv('ownerCivil', a.owner_civil_id)}
@@ -298,6 +298,7 @@ export function installOnboarding(ctx) {
     shell('apps', `<div class="top"><h1>${esc(t('appsTitle'))}</h1><button class="btn" type="button" id="dl-all">${esc(t('dlAll'))}</button></div>
       ${(data || []).length ? `<input id="app-q" type="search" placeholder="${esc(t('searchApps'))}" style="margin-bottom:14px;width:100%">
       <div style="display:flex;flex-direction:column;gap:14px">${data.map(card).join('')}</div>` : `<div class="card empty">${esc(t('noApps'))}</div>`}`);
+    document.querySelectorAll('details[data-q] summary a').forEach((el) => el.addEventListener('click', (e) => e.stopPropagation()));
     document.getElementById('app-q')?.addEventListener('input', (e) => { const q = e.target.value.trim().toLowerCase(); document.querySelectorAll('details[data-q]').forEach((d) => (d.hidden = !!q && !d.dataset.q.includes(q))); });
     document.querySelectorAll('[data-view]').forEach((b) => (b.onclick = () => openDoc(b.dataset.view)));
     document.querySelectorAll('[data-signed]').forEach((b) => (b.onclick = () => T.openSigned(b.dataset.signed)));
