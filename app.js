@@ -4,6 +4,7 @@ import { AIRLINES } from './airlines.js?v=1';
 import { installOnboarding } from './onboarding.js?v=24';
 import { installTerms } from './terms.js?v=11';
 import { installEsim } from './esim.js?v=3';
+import { installControl } from './control.js?v=1';
 
 const CFG = window.TP_CONFIG || {};
 const $app = document.getElementById('app');
@@ -140,6 +141,7 @@ let recoveryMode = /type=(recovery|invite)/.test(location.hash);
 const TM = installTerms({ sb, state, t, esc, fmtDate, shell, toast, STR });
 const ES = installEsim({ sb, state, t, esc, fmtDate, shell, toast, STR });
 const X = install({ sb, state, t, esc, money, place, fmtDate, shell, toast, STR, SERVICES, TYPES, route, terms: TM });
+const CP = installControl({ sb, state, t, esc, money, fmtDate, shell, toast, STR, fallback: () => X.viewOverview() });
 const O = installOnboarding({ sb, state, t, esc, fmtDate, shell, toast, STR, $app, brand, langToggle, route, terms: TM });
 
 sb.auth.onAuthStateChange(async (event, session) => {
@@ -215,7 +217,7 @@ async function route() {
     if (view === 'esim') return ES.viewEsim();
     if (view === 'company' && id) return O.viewCompany(id);
     if (view === 'terms') return TM.viewTerms();
-    return X.viewOverview();
+    return CP.viewControl();
   }
   if (!state.agency || state.profile.role !== 'agency') return O.viewApplication();
   if (view === 'packages') return X.viewPackages();
