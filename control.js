@@ -13,7 +13,7 @@ export function installControl(ctx) {
     sCols: ['الوقت', 'المصدر', 'النوع', 'المرجع'], al_MISMATCH: 'مبلغ أو مرجع غير مطابق', al_BAD_SIGNATURE: 'توقيع Webhook غير صحيح', al_UNKNOWN_INVOICE: 'فاتورة غير معروفة', al_rate_limited: 'محاولات دفع كثيرة', al_error: 'خطأ', al_settle_error: 'خطأ في تأكيد الدفع',
     sAdminsWarn: 'تأكد إن كل حسابات الإدارة مفعّل فيها التحقق بخطوتين (2FA).',
     fPlans: 'رسوم إعلان العروض الخاصة (د.ك)', fWeek: 'أسبوعي (7 أيام)', fMonth: 'شهري (30 يوم)', fQuarter: 'فصلي (90 يوم)',
-    fPromo: 'عمولة العروض الخاصة %', fFounders: 'عمولة الشركاء المؤسسين % (أول 3 شهور)', fMaxOffers: 'أقصى عدد خيارات أسعار لكل مكتب في الطلب', fFreeLimit: 'حد قيمة الليلة المجانية (د.ك)', fTesters: 'إيميلات المجربين لبوابة الدفع (وحد بكل سطر)',
+    fPromo: 'عمولة العروض الخاصة %', fFounders: 'عمولة الشركاء المؤسسين % (أول 3 شهور)', fMaxOffers: 'أقصى عدد خيارات أسعار لكل مكتب في الطلب', fFreeShare: 'تمويل الليلة المجانية: % من عمولة المنصة', fFreeShareNote: 'قيمة الليلة المجانية لا تتجاوز هذه النسبة من عمولة المنصة على الحجزين (حجز الاستحقاق + حجز الاستخدام)، فلا تدفع المنصة أكثر مما كسبت. 0 = إيقاف البرنامج.', fTesters: 'إيميلات المجربين لبوابة الدفع (وحد بكل سطر)',
     fTestersNote: 'هذولي بس يقدرون يدفعون في الوضع التجريبي (مع حسابات الإدارة).', fIntro: 'تفعيل الفترة التمهيدية للمكاتب (عمولة مخفضة بعد تفعيل العقد)', fIntroRate: 'عمولة الفترة التمهيدية %', fIntroDays: 'مدة الفترة التمهيدية (بالأيام)', fIntroNote: 'تطبَّق على حجوزات طلبات الأسعار من تاريخ تفعيل عقد المكتب، وبعد انتهاء المدة ترجع نسبة العقد (10%) تلقائياً. مكاتب في الفترة الحين: {n}. تمديد أو تقليل المدة لمكتب معيّن من صفحة الشركاء.', e_bad_intro_days: 'مدة الفترة التمهيدية بين 0 و 730 يوم.', fWa: 'تسجيل الدخول برقم الهاتف في التطبيق (الرمز يوصل على الواتساب)', fWaNote: 'لا تفعّله إلا بعد موافقة Meta على رقم الواتساب وقالب رمز الدخول (otp_login) وإضافة المفاتيح، وإلا ما بيوصل الرمز للمسافر.', fSave: 'حفظ الإعدادات', fSaved: 'تم حفظ الإعدادات.', fConfirm: 'تأكيد حفظ الإعدادات؟ التغيير يطبّق فوراً على التطبيق والبوابة.',
     fNotice: '⚠️ حسب الاتفاقية: أي تعديل على الرسوم أو العمولة يُبلَّغ للشركاء قبل 30 يوم من تطبيقه.',
     e_bad_fee: 'الرسوم لازم تكون بين 0 و 1000 د.ك.', e_bad_commission: 'العمولة لازم تكون بين 0 و 30%.', e_bad_max_offers: 'أقصى عدد الخيارات بين 1 و 10.', e_bad_limit: 'حد الليلة المجانية غير صحيح.', e_bad_email: 'في إيميل غير صحيح.', e_too_many_testers: 'الحد الأقصى 20 إيميل.',
@@ -33,7 +33,7 @@ export function installControl(ctx) {
     sCols: ['Time', 'Source', 'Type', 'Reference'], al_MISMATCH: 'Amount or reference mismatch', al_BAD_SIGNATURE: 'Bad webhook signature', al_UNKNOWN_INVOICE: 'Unknown invoice', al_rate_limited: 'Too many payment attempts', al_error: 'Error', al_settle_error: 'Payment confirmation error',
     sAdminsWarn: 'Make sure every admin account has two-factor authentication (2FA) on.',
     fPlans: 'Special-offer listing fees (KWD)', fWeek: 'Weekly (7 days)', fMonth: 'Monthly (30 days)', fQuarter: 'Quarterly (90 days)',
-    fPromo: 'Special-offer commission %', fFounders: 'Founding partners commission % (first 3 months)', fMaxOffers: 'Max price options per agency per request', fFreeLimit: 'Free night value cap (KWD)', fTesters: 'Payment tester emails (one per line)',
+    fPromo: 'Special-offer commission %', fFounders: 'Founding partners commission % (first 3 months)', fMaxOffers: 'Max price options per agency per request', fFreeShare: 'Free night funding: % of platform commission', fFreeShareNote: 'The free night never exceeds this share of the platform commission on the two bookings (earning + using). 0 = program off.', fTesters: 'Payment tester emails (one per line)',
     fTestersNote: 'Only these (plus admins) can pay while in test mode.', fIntro: 'Enable the introductory period for agencies (reduced commission after contract activation)', fIntroRate: 'Introductory commission %', fIntroDays: 'Introductory period (days)', fIntroNote: 'Applies to request bookings from the agency’s contract activation date; the contract rate (10%) returns automatically afterwards. Agencies in the period now: {n}. Extend or shorten it per agency from the Partners page.', e_bad_intro_days: 'Introductory period must be 0–730 days.', fWa: 'Phone number sign-in in the app (code sent on WhatsApp)', fWaNote: 'Turn on only after Meta approves the WhatsApp number and the sign-in template (otp_login) and the keys are added, or travelers will not receive the code.', fSave: 'Save settings', fSaved: 'Settings saved.', fConfirm: 'Save the settings? Changes apply to the app and portal immediately.',
     fNotice: '⚠️ Per the agreement: any change to fees or commission must be notified to partners 30 days before it applies.',
     e_bad_fee: 'Fees must be between 0 and 1000 KWD.', e_bad_commission: 'Commission must be between 0 and 30%.', e_bad_max_offers: 'Max options must be 1–10.', e_bad_limit: 'Invalid free night cap.', e_bad_email: 'An email is invalid.', e_too_many_testers: 'Maximum 20 emails.',
@@ -71,7 +71,6 @@ export function installControl(ctx) {
 
     const links = ['apps', 'partners', 'allbookings', 'promos', 'push', 'esim', 'terms'].map((r) => `<a class="btn ghost small" href="#/${r}">${esc(t('lk_' + r))}</a>`).join('')
       + `<a class="btn ghost small" href="https://supabase.com/dashboard/project/eyuezkeuxobuvakqpwlu" target="_blank" rel="noopener">${esc(t('lk_supabase'))}</a>`
-      + `<a class="btn ghost small" href="https://portal.myfatoorah.com" target="_blank" rel="noopener">${esc(t('lk_mf'))}</a>`
       + `<a class="btn ghost small" href="https://appstoreconnect.apple.com" target="_blank" rel="noopener">${esc(t('lk_asc'))}</a>`;
 
     const fld = (label, input) => `<label style="display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:14px">${esc(label)}${input}</label>`;
@@ -103,7 +102,8 @@ export function installControl(ctx) {
         <div class="row" style="gap:12px;align-items:flex-start"><div class="grow">${fld(t('fPromo'), n('promo_commission', st.promo_commission, '0.1', 0, 30))}</div>
           <div class="grow">${fld(t('fFounders'), n('founders_commission', st.founders_commission, '0.1', 0, 30))}</div></div>
         <div class="row" style="gap:12px;align-items:flex-start"><div class="grow">${fld(t('fMaxOffers'), n('max_offers', st.max_offers, '1', 1, 10))}</div>
-          <div class="grow">${fld(t('fFreeLimit'), n('free_night_limit', st.free_night_limit, '1', 0, 100000))}</div></div>
+          ${st.free_night_share === undefined ? '' : `<div class="grow">${fld(t('fFreeShare'), n('free_night_share', st.free_night_share, '1', 0, 100))}</div>`}</div>
+        ${st.free_night_share === undefined ? '' : `<p class="muted" style="margin:-6px 0 0;font-size:13px">${esc(t('fFreeShareNote'))}</p>`}
         ${st.intro_days === undefined ? '' : `<label style="display:flex;gap:10px;align-items:center;font-weight:700;font-size:14px"><input type="checkbox" name="intro_enabled" style="width:auto" ${st.intro_enabled ? 'checked' : ''}> 🎁 ${esc(t('fIntro'))}</label>
         <div class="row" style="gap:12px;align-items:flex-start"><div class="grow">${fld(t('fIntroRate'), n('intro_commission', st.intro_commission, '0.1', 0, 30))}</div>
           <div class="grow">${fld(t('fIntroDays'), n('intro_days', st.intro_days, '1', 0, 730))}</div></div>
@@ -120,7 +120,7 @@ export function installControl(ctx) {
       const p = {
         plans: { week: +f.get('week'), month: +f.get('month'), quarter: +f.get('quarter') },
         promo_commission: +f.get('promo_commission'), founders_commission: +f.get('founders_commission'),
-        max_offers: parseInt(f.get('max_offers'), 10), free_night_limit: parseInt(f.get('free_night_limit'), 10),
+        max_offers: parseInt(f.get('max_offers'), 10), ...(f.has('free_night_share') ? { free_night_share: +f.get('free_night_share') } : {}),
         ...(f.has('intro_days') ? { intro_enabled: f.get('intro_enabled') === 'on', intro_commission: +f.get('intro_commission'), intro_days: parseInt(f.get('intro_days'), 10) } : {}),
         payment_test_emails: String(f.get('testers') || '').split(/[\s,;]+/).map((x) => x.trim()).filter(Boolean),
       };
