@@ -1,10 +1,10 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=12';
+import { install } from './extra.js?v=13';
 import { AIRLINES } from './airlines.js?v=1';
 import { installOnboarding } from './onboarding.js?v=24';
 import { installTerms } from './terms.js?v=11';
 import { installEsim } from './esim.js?v=3';
-import { installControl } from './control.js?v=4';
+import { installControl } from './control.js?v=5';
 
 const CFG = window.TP_CONFIG || {};
 const $app = document.getElementById('app');
@@ -32,7 +32,7 @@ const STR = {
     back: 'رجوع', tripDetails: 'تفاصيل الطلب', yourOffer: 'عرضك', sendOffer: 'أرسل العرض', updateOffer: 'حدّث العرض', withdraw: 'سحب العرض',
     withdrawConfirm: 'تبي تسحب عرضك؟', price: 'السعر الإجمالي (د.ك)', airline: 'الطيران', airlinePh: 'مثال: الخطوط الجوية الكويتية', hotel: 'الفندق', hotelPh: 'اسم الفندق',
     includes: 'الخدمات المشمولة', itinerary: 'البرنامج والتفاصيل', itineraryPh: 'اليوم ١: الوصول والتوصيل…', validFor: 'صلاحية العرض', days: '{n} أيام',
-    errPrice: 'اكتب سعر صحيح.', validUntil: 'العرض صالح حتى', validUntilHint: 'تحدد أنت صلاحية العرض، بشرط تكون قبل تاريخ السفر.', errValidity: 'اختر تاريخ صلاحية بعد ساعة على الأقل وقبل تاريخ السفر.', errMaxOffers: 'وصلت الحد الأعلى: 3 خيارات لكل طلب.', optLabel: 'اسم الخيار (اختياري)', optLabelPh: 'مثال: خيار اقتصادي / فندق على البحر', yourOptions: 'خياراتك المرسلة ({n} من 3)', addOption: '+ إضافة خيار آخر', editOption: 'تعديل', optionN: 'خيار {n}', hotelsL: 'الفنادق', hotelRow: 'فندق {n}', hotelNights: 'عدد الليالي', nightPrice: 'سعر الليلة (د.ك)', addHotel: '+ فندق آخر', hotelsHint: 'اذكر عدد الليالي وسعر الليلة لكل فندق.', validLeft: 'صالح حتى {d}', followup: '⏰ طلب متابعة المسافر', followupDone: 'تم إرسال تنبيه للمسافر بأن عرضك بانتظار قراره.', followupSoon: 'أرسلت طلب متابعة لهذا الطلب خلال آخر 24 ساعة.', followupHint: 'المنصة ترسل للمسافر تنبيه في التطبيق بأن عرضك بانتظار قراره (مرة كل 24 ساعة).', resultTitle: 'نتيجة الطلب', resultWon: 'تم اختيار عرضك 🎉', resultOther: 'اختار المسافر عرض المكتب {c} بسعر {p}.', resultNone: 'أُغلق الطلب بدون حجز.', myCode: 'كود مكتبك: {c}', cancelEdit: 'إلغاء التعديل', offerSent: 'تم إرسال عرضك للمسافر.', offerUpdated: 'تم تحديث العرض.', offerWithdrawn: 'تم سحب العرض.',
+    errPrice: 'اكتب سعر صحيح.', validUntil: 'العرض صالح حتى', validUntilHint: 'تحدد أنت صلاحية العرض، بشرط تكون قبل تاريخ السفر.', errValidity: 'اختر تاريخ صلاحية بعد ساعة على الأقل وقبل تاريخ السفر.', errMaxOffers: 'وصلت الحد الأعلى من الخيارات لهذا الطلب (3 خيارات لكل مدينة).', hotelCity: 'المدينة', citiesL: 'المدن', anyHotel: 'أي فندق', introBanner: '🎁 فترة تمهيدية: عمولة المنصة على حجوزات طلبات الأسعار {r}% بدل {n}% حتى {d}، وبعدها تطبَّق النسبة الأصلية تلقائياً.', optLabel: 'اسم الخيار (اختياري)', optLabelPh: 'مثال: خيار اقتصادي / فندق على البحر', yourOptions: 'خياراتك المرسلة ({n} من {m})', addOption: '+ إضافة خيار آخر', editOption: 'تعديل', optionN: 'خيار {n}', hotelsL: 'الفنادق', hotelRow: 'فندق {n}', hotelNights: 'عدد الليالي', nightPrice: 'سعر الليلة (د.ك)', addHotel: '+ فندق آخر', hotelsHint: 'اذكر عدد الليالي وسعر الليلة لكل فندق.', validLeft: 'صالح حتى {d}', followup: '⏰ طلب متابعة المسافر', followupDone: 'تم إرسال تنبيه للمسافر بأن عرضك بانتظار قراره.', followupSoon: 'أرسلت طلب متابعة لهذا الطلب خلال آخر 24 ساعة.', followupHint: 'المنصة ترسل للمسافر تنبيه في التطبيق بأن عرضك بانتظار قراره (مرة كل 24 ساعة).', resultTitle: 'نتيجة الطلب', resultWon: 'تم اختيار عرضك 🎉', resultOther: 'اختار المسافر عرض المكتب {c} بسعر {p}.', resultNone: 'أُغلق الطلب بدون حجز.', myCode: 'كود مكتبك: {c}', cancelEdit: 'إلغاء التعديل', offerSent: 'تم إرسال عرضك للمسافر.', offerUpdated: 'تم تحديث العرض.', offerWithdrawn: 'تم سحب العرض.',
     requestClosed: 'هذا الطلب ما يستقبل عروض جديدة.', chat: 'المحادثة مع المسافر', chatHint: 'المحادثة تتفعّل بعد ما ترسل عرضك.', typeMessage: 'اكتب رسالة…', send: 'إرسال', noMessages: 'ما فيه رسائل للحين.',
     myOffersTitle: 'عروضي', noOffers: 'ما أرسلت أي عرض للحين.', destination: 'الوجهة', dates: 'التواريخ', status: 'الحالة', sentAt: 'أُرسل',
     st_pending: 'بانتظار المسافر', st_accepted: 'تم الحجز', st_declined: 'لم يُختر', st_withdrawn: 'مسحوب',
@@ -65,7 +65,7 @@ const STR = {
     back: 'Back', tripDetails: 'Request details', yourOffer: 'Your offer', sendOffer: 'Send offer', updateOffer: 'Update offer', withdraw: 'Withdraw offer',
     withdrawConfirm: 'Withdraw your offer?', price: 'Total price (KWD)', airline: 'Airline', airlinePh: 'e.g. Kuwait Airways', hotel: 'Hotel', hotelPh: 'Hotel name',
     includes: 'Included services', itinerary: 'Itinerary & details', itineraryPh: 'Day 1: arrival & transfer…', validFor: 'Valid for', days: '{n} days',
-    errPrice: 'Enter a valid price.', validUntil: 'Offer valid until', validUntilHint: 'You set the offer’s validity, as long as it ends before the departure date.', errValidity: 'Pick a validity at least one hour from now and before departure.', errMaxOffers: 'Limit reached: 3 options per request.', optLabel: 'Option name (optional)', optLabelPh: 'e.g. Budget option / Beachfront hotel', yourOptions: 'Your options ({n} of 3)', addOption: '+ Add another option', editOption: 'Edit', optionN: 'Option {n}', hotelsL: 'Hotels', hotelRow: 'Hotel {n}', hotelNights: 'Nights', nightPrice: 'Price per night (KWD)', addHotel: '+ Another hotel', hotelsHint: 'Give the number of nights and the nightly rate for each hotel.', validLeft: 'Valid until {d}', followup: '⏰ Ask to follow up with the traveler', followupDone: 'The traveler was reminded that your offer awaits their decision.', followupSoon: 'You already asked for a follow-up on this request in the last 24 hours.', followupHint: 'The platform sends the traveler an in-app reminder that your offer awaits a decision (once every 24 hours).', resultTitle: 'Request result', resultWon: 'Your offer was chosen 🎉', resultOther: 'The traveler chose agency {c}’s offer at {p}.', resultNone: 'The request closed without a booking.', myCode: 'Your agency code: {c}', cancelEdit: 'Cancel edit', offerSent: 'Your offer was sent to the traveler.', offerUpdated: 'Offer updated.', offerWithdrawn: 'Offer withdrawn.',
+    errPrice: 'Enter a valid price.', validUntil: 'Offer valid until', validUntilHint: 'You set the offer’s validity, as long as it ends before the departure date.', errValidity: 'Pick a validity at least one hour from now and before departure.', errMaxOffers: 'Limit reached for this request (3 options per city).', hotelCity: 'City', citiesL: 'Cities', anyHotel: 'Any hotel', introBanner: '🎁 Introductory period: platform commission on request bookings is {r}% instead of {n}% until {d}; the standard rate applies automatically afterwards.', optLabel: 'Option name (optional)', optLabelPh: 'e.g. Budget option / Beachfront hotel', yourOptions: 'Your options ({n} of {m})', addOption: '+ Add another option', editOption: 'Edit', optionN: 'Option {n}', hotelsL: 'Hotels', hotelRow: 'Hotel {n}', hotelNights: 'Nights', nightPrice: 'Price per night (KWD)', addHotel: '+ Another hotel', hotelsHint: 'Give the number of nights and the nightly rate for each hotel.', validLeft: 'Valid until {d}', followup: '⏰ Ask to follow up with the traveler', followupDone: 'The traveler was reminded that your offer awaits their decision.', followupSoon: 'You already asked for a follow-up on this request in the last 24 hours.', followupHint: 'The platform sends the traveler an in-app reminder that your offer awaits a decision (once every 24 hours).', resultTitle: 'Request result', resultWon: 'Your offer was chosen 🎉', resultOther: 'The traveler chose agency {c}’s offer at {p}.', resultNone: 'The request closed without a booking.', myCode: 'Your agency code: {c}', cancelEdit: 'Cancel edit', offerSent: 'Your offer was sent to the traveler.', offerUpdated: 'Offer updated.', offerWithdrawn: 'Offer withdrawn.',
     requestClosed: 'This request is no longer accepting offers.', chat: 'Chat with traveler', chatHint: 'Chat opens after you send an offer.', typeMessage: 'Write a message…', send: 'Send', noMessages: 'No messages yet.',
     myOffersTitle: 'My offers', noOffers: 'You have not sent any offers yet.', destination: 'Destination', dates: 'Dates', status: 'Status', sentAt: 'Sent',
     st_pending: 'Awaiting traveler', st_accepted: 'Booked', st_declined: 'Not selected', st_withdrawn: 'Withdrawn',
@@ -97,7 +97,7 @@ const t = (k, v) => {
   return s;
 };
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const place = (p) => (state.lang === 'ar' ? PLACES[p] || p : p);
+const place = (p) => (state.lang === 'ar' ? String(p).split(' + ').map((x) => PLACES[x] || x).join(' + ') : p);
 const money = (n) => {
   const s = Number(n).toLocaleString('en-US', { maximumFractionDigits: 3 });
   return state.lang === 'ar' ? `${s} د.ك` : `KWD ${s}`;
@@ -161,6 +161,8 @@ async function loadProfile() {
     const { data: a } = await sb.from('agencies').select('id, name, name_ar, license_no, phone, email, rating, reviews, verified, active, status, status_reason_type, status_reason, founder_no, activated_at').eq('id', p.agency_id).maybeSingle();
     if (a) { const { data: cd } = await sb.from('agencies').select('code').eq('id', p.agency_id).maybeSingle(); if (cd) a.code = cd.code; }
     state.agency = a;
+    state.intro = null;
+    if (a) { const { data: it } = await sb.rpc('my_intro'); if (it?.on) state.intro = it; }
     if (a) try { sessionStorage.removeItem('ttp_reload'); } catch {}
   }
   if (p?.role === 'admin') { const { data: n } = await sb.rpc('admin_pending_applications'); state.pendingApps = n || 0; }
@@ -290,6 +292,8 @@ function renderNotPartner() {
 // ---------------------------------------------------------------- shell
 function agencyBanner() {
   const a = state.agency;
+  if (a && state.profile?.role !== 'admin' && (!a.status || a.status === 'active') && state.intro?.on && Number(state.intro.rate) < Number(state.intro.normal))
+    return `<div class="notice good" style="margin-bottom:16px">${esc(t('introBanner', { r: state.intro.rate, n: state.intro.normal, d: fmtDate(state.intro.until) }))}</div>`;
   if (!a || state.profile?.role === 'admin' || !a.status || a.status === 'active') return '';
   const why = [a.status_reason_type ? t('rt_' + a.status_reason_type) : '', a.status_reason || ''].filter(Boolean).join(' — ');
   return `<div class="notice ${a.status === 'cancelled' ? 'bad' : 'info'}" style="margin-bottom:16px"><b>${esc(t(a.status === 'cancelled' ? 'agCancelled' : 'agSuspended'))}</b>${why ? `<div>${esc(t('agReason'))} ${esc(why)}</div>` : ''}<div class="muted">${esc(t('agContact'))}</div></div>`;
@@ -399,11 +403,13 @@ async function viewRequest(id) {
   const canOffer = r.status === 'open' && Date.parse(r.closes_at) > Date.now();
   const editId = new URLSearchParams(location.hash.split('?')[1] || '').get('edit');
   const editing = editId ? mine.find((o) => o.id === editId && o.status === 'pending') || null : null;
-  const showForm = canOffer && (editing || mine.length < 3) && (editing || !mine.length || new URLSearchParams(location.hash.split('?')[1] || '').get('new') === '1');
+  const rc = Array.isArray(r.cities) ? r.cities.filter((c) => c && c.city) : [];
+  const cap = 3 * Math.max(1, rc.length);
+  const showForm = canOffer && (editing || mine.length < cap) && (editing || !mine.length || new URLSearchParams(location.hash.split('?')[1] || '').get('new') === '1');
   const base = editing || null;
   const svc = new Set(base?.includes || r.services || []);
   const stars = base?.hotel_stars ?? r.hotel_stars;
-  const hotels = base?.hotels?.length ? base.hotels : (base?.hotel ? [{ name: base.hotel, stars: base.hotel_stars, nights: nights(r.depart, r.ret) }] : [{ name: '', stars: r.hotel_stars, nights: nights(r.depart, r.ret) }]);
+  const hotels = base?.hotels?.length ? base.hotels : (base?.hotel ? [{ name: base.hotel, stars: base.hotel_stars, nights: nights(r.depart, r.ret) }] : rc.length ? rc.map((c) => ({ city: c.city, name: c.hotel || '', stars: r.hotel_stars, nights: c.nights || null })) : [{ name: '', stars: r.hotel_stars, nights: nights(r.depart, r.ret) }]);
   const toLocal = (d) => { const z = new Date(d); z.setMinutes(z.getMinutes() - z.getTimezoneOffset()); return z.toISOString().slice(0, 16); };
   const maxValid = `${r.depart}T00:00`;
   const defValid = base ? toLocal(base.valid_until) : toLocal(Math.min(Date.now() + 3 * 86400000, Date.parse(`${r.depart}T00:00`) - 3600000));
@@ -417,10 +423,12 @@ async function viewRequest(id) {
     ${r.prefs?.length ? `<dt>${esc(t('prefsL'))}</dt><dd><div class="chips">${r.prefs.map((p) => `<span class="badge accent">${esc(t('pref_' + p))}</span>`).join('')}</div></dd>` : ''}
     <dt>${esc(t('hotelStars'))}</dt><dd>${r.hotel_stars ? '★'.repeat(r.hotel_stars) : esc(t('any'))}</dd>
     ${r.budget_min || r.budget_max ? `<dt>${esc(t('budget'))}</dt><dd>${r.budget_min ? esc(money(r.budget_min)) : '—'} – ${r.budget_max ? esc(money(r.budget_max)) : '—'}</dd>` : ''}
+    ${rc.length ? `<dt>${esc(t('citiesL'))}</dt><dd>${rc.map((c) => `${esc(place(c.city))}${c.nights ? ' · ' + esc(t('nights', { n: c.nights })) : ''} · 🏨 ${esc(c.hotel || t('anyHotel'))}`).join('<br>')}</dd>` : ''}
     <dt>${esc(t('traveler'))}</dt><dd>${esc(r.traveler_name || '—')}</dd>
   </dl>`;
 
   const hotelRow = (h, i) => `<div class="row" data-hotel style="gap:8px;align-items:flex-end;flex-wrap:wrap;background:var(--sand,#F7F3EC);padding:10px;border-radius:12px">
+      ${rc.length ? `<label class="f" style="width:150px">${esc(t('hotelCity'))}<select data-h="city">${rc.map((c) => `<option value="${esc(c.city)}" ${h.city === c.city ? 'selected' : ''}>${esc(place(c.city))}</option>`).join('')}</select></label>` : ''}
       <label class="f grow" style="min-width:180px">${esc(t('hotelRow', { n: i + 1 }))}<input data-h="name" placeholder="${esc(t('hotelPh'))}" value="${esc(h.name || '')}"></label>
       <label class="f" style="width:110px">${esc(t('hotelStars'))}<select data-h="stars">${[3, 4, 5].map((n) => `<option value="${n}" ${Number(h.stars) === n ? 'selected' : ''}>${'★'.repeat(n)}</option>`).join('')}</select></label>
       <label class="f" style="width:100px">${esc(t('hotelNights'))}<input data-h="nights" type="number" min="1" max="60" value="${esc(h.nights ?? '')}" dir="ltr"></label>
@@ -452,15 +460,15 @@ async function viewRequest(id) {
       <div class="row between"><b>${esc(o.label || t('optionN', { n: i + 1 }))}</b><span class="badge ${o.status === 'accepted' ? 'good' : o.status === 'declined' ? '' : 'accent'}">${esc(t('st_' + o.status))}</span></div>
       <div style="font-size:20px;font-weight:800;color:var(--deep)">${esc(money(o.price))}</div>
       ${o.airline ? `<div class="muted" style="font-size:14px">✈ ${esc(o.airline)}${o.cabin ? ' · ' + esc(t('cabin_' + o.cabin)) : ''}</div>` : ''}
-      ${(o.hotels?.length ? o.hotels : o.hotel ? [{ name: o.hotel, stars: o.hotel_stars }] : []).map((h) => `<div class="muted" style="font-size:14px">🏨 ${esc(h.name)} ${h.stars ? '★'.repeat(h.stars) : ''}${h.nights ? ' · ' + esc(t('nights', { n: h.nights })) : ''}${h.night_price ? ' · ' + esc(money(h.night_price)) : ''}</div>`).join('')}
+      ${(o.hotels?.length ? o.hotels : o.hotel ? [{ name: o.hotel, stars: o.hotel_stars }] : []).map((h) => `<div class="muted" style="font-size:14px">🏨 ${h.city ? esc(place(h.city)) + ': ' : ''}${esc(h.name)} ${h.stars ? '★'.repeat(h.stars) : ''}${h.nights ? ' · ' + esc(t('nights', { n: h.nights })) : ''}${h.night_price ? ' · ' + esc(money(h.night_price)) : ''}</div>`).join('')}
       ${o.status === 'pending' ? `<div class="muted" style="font-size:13px">${esc(t('validLeft', { d: fmtDate(o.valid_until) }))}</div>` : ''}
       ${o.status === 'pending' && canOffer ? `<div class="row" style="gap:8px;flex-wrap:wrap"><a class="btn ghost small" href="#/request/${r.id}?edit=${o.id}">${esc(t('editOption'))}</a>
         <button class="btn danger small" type="button" data-wd="${o.id}">${esc(t('withdraw'))}</button></div>` : ''}</div>`;
 
   const optionsHtml = mine.length ? `<div style="display:flex;flex-direction:column;gap:10px">
-      <div class="muted" style="font-size:14px">${esc(t('yourOptions', { n: mine.length }))}</div>
+      <div class="muted" style="font-size:14px">${esc(t('yourOptions', { n: mine.length, m: cap }))}</div>
       ${mine.map(optCard).join('')}
-      ${canOffer && mine.length < 3 && !showForm ? `<a class="btn ghost" href="#/request/${r.id}?new=1">${esc(t('addOption'))}</a>` : ''}
+      ${canOffer && mine.length < cap && !showForm ? `<a class="btn ghost" href="#/request/${r.id}?new=1">${esc(t('addOption'))}</a>` : ''}
       ${canOffer && mine.some((o) => o.status === 'pending') ? `<button class="btn" type="button" id="followup">${esc(t('followup'))}</button><span class="muted" style="font-size:12px">${esc(t('followupHint'))}</span>` : ''}
     </div>` : '';
   const resultBox = r.status !== 'open' && mine.length ? `<div class="card" id="result-box"><h2 style="margin-bottom:8px">${esc(t('resultTitle'))}</h2><div id="result-body" class="muted">…</div></div>` : '';
@@ -506,7 +514,7 @@ async function viewRequest(id) {
   }
   document.getElementById('add-hotel')?.addEventListener('click', () => {
     const box = document.getElementById('hotels');
-    if (box.querySelectorAll('[data-hotel]').length >= 4) return;
+    if (box.querySelectorAll('[data-hotel]').length >= (rc.length ? 15 : 4)) return;
     box.insertAdjacentHTML('beforeend', hotelRow({ stars: r.hotel_stars }, box.querySelectorAll('[data-hotel]').length));
   });
   if (of) of.onsubmit = async (e) => {
@@ -518,8 +526,8 @@ async function viewRequest(id) {
     const vu = new Date(String(fd.get('valid_until') || ''));
     if (Number.isNaN(vu.getTime()) || vu.getTime() < Date.now() + 3600000 || vu.getTime() > Date.parse(`${r.depart}T00:00`)) { err.textContent = t('errValidity'); err.hidden = false; return; }
     const hs = [...of.querySelectorAll('[data-hotel]')].map((row) => {
-      const g = (k) => row.querySelector(`[data-h=${k}]`).value.trim();
-      return { name: g('name'), stars: Number(g('stars')) || null, nights: Number(g('nights')) || null, night_price: g('night_price') ? Number(g('night_price')) : null };
+      const g = (k) => (row.querySelector(`[data-h=${k}]`)?.value || '').trim();
+      return { ...(rc.length ? { city: g('city') } : {}), name: g('name'), stars: Number(g('stars')) || null, nights: Number(g('nights')) || null, night_price: g('night_price') ? Number(g('night_price')) : null };
     }).filter((h) => h.name);
     const row = {
       price, label: String(fd.get('label') || '').trim() || null,

@@ -262,8 +262,9 @@ export function install(ctx) {
     const { data, error } = await sb.rpc('admin_agencies');
     const [{ data: apps }, { data: codes }] = await Promise.all([
       sb.from('partner_applications').select('id, agency_id, code').not('agency_id', 'is', null),
-      Promise.resolve({ data: [] }),
+      sb.rpc('admin_intro_list'),
     ]);
+    const introOf = Object.fromEntries((codes || []).map((x) => [x.id, x]));
     const appOf = Object.fromEntries((apps || []).map((x) => [x.agency_id, x.id]));
     const codeOf = Object.fromEntries((apps || []).map((x) => [x.agency_id, x.code]));
     if (error) return shell('partners', `<p class="notice bad">${esc(t('errGeneric'))}</p>`);
@@ -273,11 +274,12 @@ export function install(ctx) {
       <td><input type="checkbox" data-k="verified" ${a.verified ? 'checked' : ''} aria-label="${esc(t('verifiedL'))}" style="width:auto"></td>
       <td><input type="number" data-k="rate" min="0" max="100" step="0.1" value="${esc(a.commission_rate)}" style="width:90px" dir="ltr"></td>
       <td><input type="number" data-k="supplier" value="${esc(a.mf_supplier_code ?? '')}" style="width:110px" dir="ltr"></td>
+      <td><input type="date" data-k="intro" data-was="${esc((introOf[a.id]?.intro_until || '').slice(0, 10))}" value="${esc((introOf[a.id]?.intro_until || '').slice(0, 10))}" style="width:150px" dir="ltr"><div class="muted" style="font-size:12px">${introOf[a.id] ? esc(introOf[a.id].rate) + '%' : ''}</div></td>
       <td>${esc(a.bookings)} · ${esc(money(a.paid_total))}</td><td>${esc(money(a.commission_total))}</td>
       <td><button class="btn small" type="button" data-save>${esc(t('save'))}</button></td></tr>`).join('');
     shell('partners', `<div class="top"><h1>${esc(t('navPartners'))}</h1></div>
       <input id="p-q" type="search" placeholder="${esc(state.lang === 'ar' ? 'ابحث بكود المكتب (مثال TP1001) أو الاسم' : 'Search by agency code (e.g. TP1001) or name')}" style="margin-bottom:14px;width:100%" dir="auto">
-      <div class="tbl-wrap"><table><thead><tr><th>${esc(t('partner'))}</th><th>${esc(t('active'))}</th><th>${esc(t('verifiedL'))}</th><th>${esc(t('rate'))}</th><th>${esc(t('supplier'))}</th><th>${esc(t('sales'))}</th><th>${esc(t('commission'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
+      <div class="tbl-wrap"><table><thead><tr><th>${esc(t('partner'))}</th><th>${esc(t('active'))}</th><th>${esc(t('verifiedL'))}</th><th>${esc(t('rate'))}</th><th>${esc(t('supplier'))}</th><th title="${esc(state.lang === 'ar' ? 'تاريخ نهاية العمولة المخفضة. عدّل التاريخ للتمديد أو التقليل، وامسحه للرجوع للمدة الافتراضية.' : 'End date of the reduced commission. Change it to extend or shorten; clear it to return to the default period.')}">${esc(state.lang === 'ar' ? 'العمولة المخفضة حتى' : 'Reduced rate until')}</th><th>${esc(t('sales'))}</th><th>${esc(t('commission'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
       <form id="invite" data-keep class="card" style="display:flex;flex-direction:column;gap:12px;max-width:760px;margin-top:20px" novalidate>
         <h2>${esc(t('invite'))}</h2><p class="muted" style="margin:0">${esc(t('inviteSub'))}</p>
         <div class="row" style="gap:12px;align-items:flex-start"><div class="grow">${field(t('agencyName'), '<input name="name" required>')}</div><div class="grow">${field(t('agencyNameAr'), '<input name="name_ar">')}</div></div>
@@ -290,7 +292,8 @@ export function install(ctx) {
       const v = (k) => tr.querySelector(`[data-k=${k}]`);
       const sup = v('supplier').value.trim();
       const { error: e2 } = await sb.rpc('admin_update_agency', { p_agency: tr.dataset.id, p_active: v('active').checked, p_verified: v('verified').checked, p_rate: Number(v('rate').value || 0), p_supplier_code: sup ? Number(sup) : null });
-      const e4 = null;
+      const iv = v('intro'); let e4 = null;
+      if (iv && iv.value !== iv.dataset.was) { ({ error: e4 } = await sb.rpc('admin_set_intro', { p_agency: tr.dataset.id, p_until: iv.value ? new Date(iv.value + 'T23:59:59').toISOString() : null })); if (!e4) iv.dataset.was = iv.value; }
       toast(e2 || e4 ? t('errGeneric') : t('saved'));
     }));
     document.getElementById('invite').onsubmit = async (e) => {
