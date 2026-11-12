@@ -110,8 +110,6 @@ export function installControl(ctx) {
         <p class="muted" style="margin:-6px 0 0;font-size:13px">${esc(t('fIntroNote', { n: st.intro_active ?? 0 }))}</p>`}
         ${fld(t('fTesters'), `<textarea name="testers" rows="3" dir="ltr">${esc((st.payment_test_emails || []).join('\n'))}</textarea>`)}
         <p class="muted" style="margin:-6px 0 0;font-size:13px">${esc(t('fTestersNote'))}</p>
-        <label style="display:flex;gap:10px;align-items:center;font-weight:700;font-size:14px"><input type="checkbox" name="whatsapp_login" style="width:auto" ${st.whatsapp_login ? 'checked' : ''}> 🟢 ${esc(t('fWa'))}</label>
-        <p class="muted" style="margin:-6px 0 0;font-size:13px">${esc(t('fWaNote'))}</p>
         <div><button class="btn" type="submit">${esc(t('fSave'))}</button></div></form>`)}`);
 
     document.getElementById('cp-refresh').onclick = () => viewControl();
@@ -123,7 +121,6 @@ export function installControl(ctx) {
         plans: { week: +f.get('week'), month: +f.get('month'), quarter: +f.get('quarter') },
         promo_commission: +f.get('promo_commission'), founders_commission: +f.get('founders_commission'),
         max_offers: parseInt(f.get('max_offers'), 10), free_night_limit: parseInt(f.get('free_night_limit'), 10),
-        whatsapp_login: f.get('whatsapp_login') === 'on',
         ...(f.has('intro_days') ? { intro_enabled: f.get('intro_enabled') === 'on', intro_commission: +f.get('intro_commission'), intro_days: parseInt(f.get('intro_days'), 10) } : {}),
         payment_test_emails: String(f.get('testers') || '').split(/[\s,;]+/).map((x) => x.trim()).filter(Boolean),
       };
