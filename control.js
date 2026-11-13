@@ -87,7 +87,7 @@ export function installControl(ctx) {
       ${section('cpUsers', grid(tile('k_travelers', num(k.travelers)) + tile('k_travelers_7d', num(k.travelers_7d), 'good') + tile('k_agencies_active', num(k.agencies_active))
         + tile('k_agencies_suspended', num(k.agencies_suspended), k.agencies_suspended > 0 ? 'bad' : '') + tile('k_applications_pending', num(k.applications_pending), k.applications_pending > 0 ? 'bad' : '') + tile('k_push_devices', num(k.push_devices))))}
       ${section('cpActivity', grid(tile('k_requests', num(k.requests)) + tile('k_requests_open', num(k.requests_open)) + tile('k_offers', num(k.offers))
-        + tile('k_special_offers_live', num(k.special_offers_live)) + tile('k_free_nights_given', num(k.free_nights_given))))}
+        + tile('k_special_offers_live', num(k.special_offers_live))))}
       ${section('cpSecurity', grid(tile('sMode', s.payments_mode === 'live' ? t('sLive') : t('sTest'), s.payments_mode === 'live' ? 'good' : '')
         + tile('sReview', num(s.payments_review), s.payments_review > 0 ? 'bad' : 'good') + tile('sAlerts', num(s.alerts_7d), s.alerts_7d > 0 ? 'bad' : 'good') + tile('sAdmins', num(s.admins)))
         + `<p class="muted" style="font-size:13px;margin:10px 0">🔐 ${esc(t('sAdminsWarn'))}</p>`
@@ -102,8 +102,7 @@ export function installControl(ctx) {
         <div class="row" style="gap:12px;align-items:flex-start"><div class="grow">${fld(t('fPromo'), n('promo_commission', st.promo_commission, '0.1', 0, 30))}</div>
           <div class="grow">${fld(t('fFounders'), n('founders_commission', st.founders_commission, '0.1', 0, 30))}</div></div>
         <div class="row" style="gap:12px;align-items:flex-start"><div class="grow">${fld(t('fMaxOffers'), n('max_offers', st.max_offers, '1', 1, 10))}</div>
-          ${st.free_night_share === undefined ? '' : `<div class="grow">${fld(t('fFreeShare'), n('free_night_share', st.free_night_share, '1', 0, 100))}</div>`}</div>
-        ${st.free_night_share === undefined ? '' : `<p class="muted" style="margin:-6px 0 0;font-size:13px">${esc(t('fFreeShareNote'))}</p>`}
+          </div>
         ${st.intro_days === undefined ? '' : `<label style="display:flex;gap:10px;align-items:center;font-weight:700;font-size:14px"><input type="checkbox" name="intro_enabled" style="width:auto" ${st.intro_enabled ? 'checked' : ''}> 🎁 ${esc(t('fIntro'))}</label>
         <div class="row" style="gap:12px;align-items:flex-start"><div class="grow">${fld(t('fIntroRate'), n('intro_commission', st.intro_commission, '0.1', 0, 30))}</div>
           <div class="grow">${fld(t('fIntroDays'), n('intro_days', st.intro_days, '1', 0, 730))}</div></div>
@@ -120,7 +119,7 @@ export function installControl(ctx) {
       const p = {
         plans: { week: +f.get('week'), month: +f.get('month'), quarter: +f.get('quarter') },
         promo_commission: +f.get('promo_commission'), founders_commission: +f.get('founders_commission'),
-        max_offers: parseInt(f.get('max_offers'), 10), ...(f.has('free_night_share') ? { free_night_share: +f.get('free_night_share') } : {}),
+        max_offers: parseInt(f.get('max_offers'), 10), 
         ...(f.has('intro_days') ? { intro_enabled: f.get('intro_enabled') === 'on', intro_commission: +f.get('intro_commission'), intro_days: parseInt(f.get('intro_days'), 10) } : {}),
         payment_test_emails: String(f.get('testers') || '').split(/[\s,;]+/).map((x) => x.trim()).filter(Boolean),
       };
