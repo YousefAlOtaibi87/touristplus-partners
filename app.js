@@ -4,7 +4,7 @@ import { AIRLINES } from './airlines.js?v=1';
 import { installOnboarding } from './onboarding.js?v=24';
 import { installTerms } from './terms.js?v=11';
 import { installEsim } from './esim.js?v=3';
-import { installControl } from './control.js?v=8';
+import { installControl } from './control.js?v=9';
 
 const CFG = window.TP_CONFIG || {};
 const $app = document.getElementById('app');
