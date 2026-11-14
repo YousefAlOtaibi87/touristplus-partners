@@ -221,7 +221,6 @@ async function route() {
     if (view === 'promos') return X.viewPromos();
     if (view === 'push') return X.viewPush();
     if (view === 'users') return X.viewUsers();
-    if (view === 'errors') return X.viewErrors();
     if (view === 'esim') return ES.viewEsim();
     if (view === 'company' && id) return O.viewCompany(id);
     if (view === 'terms') return TM.viewTerms();
@@ -320,7 +319,6 @@ function shell(active, inner) {
         ${link('apps', '#/apps', t('navApps'), state.pendingApps)}
         ${link('promos', '#/promos', t('navPromos'))}
         ${link('users', '#/users', t('navUsers'))}
-        ${link('errors', '#/errors', t('navErrors'))}
         ${link('push', '#/push', t('navPush'))}
         ${link('esim', '#/esim', t('navEsim'))}
         ${link('terms', '#/terms', t('navTerms'))}` : `${link('requests', '#/requests', t('navRequests'), state.openCount)}
