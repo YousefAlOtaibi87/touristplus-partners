@@ -66,6 +66,7 @@ export function installControl(ctx) {
   async function wallet() {
     const box = document.getElementById('cp-wallet'); if (!box) return;
     const { data, error } = await sb.rpc('admin_wallet_list');
+    if (!box.isConnected) return;   // the admin left the page while loading
     const rows = error ? [] : (data || []);
     const werr = (err) => { const c = (String(err.message).match(/no_user|has_night|bad_input/) || [])[0]; toast(c ? t('e_' + c) : t('errGeneric')); };
     box.innerHTML = `<form id="w-grant" data-keep class="card" style="display:flex;flex-direction:column;gap:12px;max-width:760px" novalidate>
@@ -81,7 +82,7 @@ export function installControl(ctx) {
           <td>${esc(r.tier)}★</td><td>${esc(t('w_' + r.status))}</td><td>${esc(t(r.manual ? 'wManual' : 'wAuto'))}</td>
           <td>${r.status === 'used' ? esc(fmtDate(r.used_at)) : `<input type="date" data-w="${esc(r.id)}" value="${esc(String(r.expires_at).slice(0, 10))}" dir="ltr" style="max-width:150px">`}</td>
           <td>${r.status === 'used' ? '' : `<button class="btn ghost small" data-wsave="${esc(r.id)}">${esc(t('wSaveDate'))}</button> ${r.status === 'available' ? `<button class="btn ghost small" data-wrev="${esc(r.id)}">${esc(t('wRevoke'))}</button>` : ''}`}</td></tr>`).join('')}</tbody></table>` : `<p class="muted">${esc(t('wNone'))}</p>`}</div>`;
-    document.getElementById('w-grant').onsubmit = async (e) => {
+    box.querySelector('#w-grant').onsubmit = async (e) => {
       e.preventDefault();
       const f = new FormData(e.target);
       const { error: err } = await sb.rpc('admin_wallet_grant', { p_email: String(f.get('email') || '').trim(), p_tier: parseInt(f.get('tier'), 10), p_days: parseInt(f.get('days'), 10), p_note: String(f.get('note') || '') });
