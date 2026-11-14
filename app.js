@@ -1,5 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=19';
+import { install } from './extra.js?v=20';
 import { AIRLINES } from './airlines.js?v=1';
 import { installOnboarding } from './onboarding.js?v=24';
 import { installTerms } from './terms.js?v=11';
@@ -137,6 +137,10 @@ if (!CFG.SUPABASE_URL || !CFG.SUPABASE_ANON_KEY) {
   throw new Error('not configured');
 }
 const sb = createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
+// Report portal errors to the admin error log (best effort, never throws).
+const reportError = (msg, stack) => { try { sb.rpc('log_error', { p_source: 'portal', p_message: String(msg || 'error').slice(0, 500), p_stack: String(stack || '').slice(0, 3000), p_screen: location.hash.slice(0, 200), p_version: 'web', p_platform: navigator.userAgent.slice(0, 40) }).then(() => {}, () => {}); } catch {} };
+window.addEventListener('error', (e) => reportError(e.message, e.error?.stack || `${e.filename}:${e.lineno}`));
+window.addEventListener('unhandledrejection', (e) => reportError(e.reason?.message || e.reason, e.reason?.stack));
 let recoveryMode = /type=(recovery|invite)/.test(location.hash);
 const TM = installTerms({ sb, state, t, esc, fmtDate, shell, toast, STR });
 const ES = installEsim({ sb, state, t, esc, fmtDate, shell, toast, STR });
@@ -217,6 +221,7 @@ async function route() {
     if (view === 'promos') return X.viewPromos();
     if (view === 'push') return X.viewPush();
     if (view === 'users') return X.viewUsers();
+    if (view === 'errors') return X.viewErrors();
     if (view === 'esim') return ES.viewEsim();
     if (view === 'company' && id) return O.viewCompany(id);
     if (view === 'terms') return TM.viewTerms();
@@ -315,6 +320,7 @@ function shell(active, inner) {
         ${link('apps', '#/apps', t('navApps'), state.pendingApps)}
         ${link('promos', '#/promos', t('navPromos'))}
         ${link('users', '#/users', t('navUsers'))}
+        ${link('errors', '#/errors', t('navErrors'))}
         ${link('push', '#/push', t('navPush'))}
         ${link('esim', '#/esim', t('navEsim'))}
         ${link('terms', '#/terms', t('navTerms'))}` : `${link('requests', '#/requests', t('navRequests'), state.openCount)}

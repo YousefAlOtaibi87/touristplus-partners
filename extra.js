@@ -9,6 +9,10 @@ export function install(ctx) {
     founderBanner: '🎉 أنتم الشريك المؤسس رقم {n} من 10: نشر عروضكم الخاصة بدون رسوم إعلان، وعمولة مخفّضة 2.5% بدل 4% على حجوزات العروض حتى {d} (الملحق رقم 2 من الاتفاقية).', founderBtn: '📣 نشر مجاني حتى {d}', founderDone: 'نُشر العرض مجاناً حتى {d}.',
     foundersTitle: 'الشركاء المؤسسون: {n} من {max}', foundersSub: 'أول 10 مكاتب تُفعَّل: بدون رسوم إعلان، وعمولة العروض الخاصة 2.5% بدل 4% لمدة 3 أشهر من التفعيل.', founderRemove: 'إلغاء صفة المؤسس', founderRemoveConfirm: 'إلغاء صفة الشريك المؤسس عن هذا المكتب وتحرير مقعده؟', noFounders: 'لم ينضم أي شريك مؤسس بعد.', founderNo: 'رقم', founderEnds: 'ينتهي العرض',
     payOpening: 'جاري فتح صفحة الدفع…', promoPaid: 'تم الدفع ونُشر العرض في التطبيق.', promoFailed: 'لم يكتمل الدفع، ولم يُنشر العرض.', needSave: 'احفظ العرض أولاً.', bookingsN: '{n} حجز',
+    uDel: 'حذف', uDelAsk: 'حذف حساب {e} وكل بياناته (الطلبات، المحادثات، الجوازات، المحفظة) نهائياً؟ ما يمكن التراجع، ويقدر يسجّل من جديد بنفس الإيميل.\n\nللتأكيد اكتب الإيميل:', uDelReason: 'سبب الحذف (اختياري):', uDeleted: 'تم حذف الحساب وبياناته.', uDelMismatch: 'الإيميل غير مطابق، ما تم الحذف.',
+    e_has_paid_bookings: 'ما ينحذف: عنده حجوزات مدفوعة لازم تبقى في السجلات المالية.', e_not_traveler: 'ما ينحذف من هنا: الحساب مو مسافر (مدير أو مكتب).', e_cannot_delete_self: 'ما تقدر تحذف حسابك.',
+    navErrors: 'سجل الأخطاء', errTitle: 'سجل الأخطاء', errSub: 'أخطاء التطبيق ولوحة الإدارة، ومشاكل الدفع والمهام التلقائية والإشعارات اللي ما وصلت لأحد.', errDays: 'آخر', errDaysN: '{n} يوم', errNone: 'ما في أخطاء في هذي الفترة 👍', errCols: ['الوقت', 'المصدر', 'النوع', 'الرسالة', 'تفاصيل', 'المستخدم / المرجع'],
+    src_app: 'التطبيق', src_portal: 'لوحة الإدارة', src_site: 'الموقع', src_payments: 'الدفع', src_cron: 'مهمة تلقائية', src_push: 'الإشعارات', errCopy: 'نسخ', errCopied: 'تم النسخ',
     navUsers: 'المستخدمين', usersTitle: 'مستخدمين التطبيق', usersSub: 'كل اللي سجّلوا في التطبيق مع بيانات التسجيل ونشاطهم.', uTotal: 'إجمالي المسجّلين', u7: 'سجّلوا آخر 7 أيام', u30: 'سجّلوا آخر 30 يوم', uDev: 'عندهم إشعارات مفعّلة', uGuests: 'أجهزة بدون تسجيل', uBooked: 'حجزوا مرة على الأقل', uSearch: 'ابحث بالاسم أو الإيميل أو الرقم', uCsv: '⬇ تنزيل Excel (CSV)', uNone: 'ما في مستخدمين.',
     uCols: ['الاسم', 'الإيميل', 'الهاتف', 'تاريخ التسجيل', 'آخر دخول', 'طريقة التسجيل', 'اللغة', 'الطلبات', 'الحجوزات', 'المدفوع', 'الإشعارات', 'إشعارات العروض'], uYes: 'نعم', uNo: 'لا', uAdmin: 'مدير',
     navPush: 'الإشعارات', pushTitle: 'إشعارات المسافرين', pushSub: 'أرسل لكل اللي منزّلين التطبيق، أو للمسجّلين فقط، أو لمستخدم محدد بإيميله. يوصل خلال دقيقة تقريباً، وبدون حد لعدد الإشعارات أو وقت الإرسال. اللي قفّل «إشعارات العروض» من حسابه ما توصله الإشعارات العامة، والإشعار الخاص يوصل له دائماً.', pushAud: 'إلى', aud_all: 'كل اللي منزّلين التطبيق', aud_registered: 'المسجّلين فقط', aud_user: 'مستخدم محدد', pushEmail: 'إيميل المستخدم', pushRegistered: 'أجهزة لمستخدمين مسجّلين', kind_direct: 'إشعار خاص', pushConfirmUser: 'إرسال هذا الإشعار لـ {e}؟', pushResend: '↻ إعادة الإرسال', pushAt: 'وقت الإرسال (اختياري، بتوقيت الكويت)', pushAtNote: 'اتركه فاضي للإرسال الحين.', pushSchedFor: 'مجدول: {d}', pushCancel: 'إلغاء', pushCancelAsk: 'تلغي هذا الإشعار المجدول؟', pushScheduled: 'تمت جدولة الإشعار.', e_bad_time: 'اختر وقت في المستقبل (خلال سنة).', pushResendAsk: 'تعيد إرسال هذا الإشعار لنفس المستلمين؟', e_no_user: 'ما لقينا مستخدم بهذا الإيميل.', pushDevices: 'أجهزة مسجّلة', pushOptIn: 'يستقبلون إشعارات العروض', pushGuests: 'منزّلين التطبيق بدون تسجيل', pushTitleAr: 'العنوان (عربي)', pushBodyAr: 'النص (عربي)', pushOneLang: 'اكتب العنوان والنص بلغة وحدة على الأقل (عربي أو إنجليزي). إذا كتبت بلغة وحدة يوصل نفس النص للكل.', pushTitleEn: 'العنوان (إنجليزي)', pushBodyEn: 'النص (إنجليزي)', pushTarget: 'يفتح عند الضغط', tgtHome: 'الصفحة الرئيسية', tgtOffers: 'العروض الخاصة', tgtNew: 'طلب رحلة جديدة', pushSend: '📣 إرسال الإشعار', pushConfirm: 'إرسال هذا الإشعار لـ «{a}»؟', pushQueued: 'تم وضع الإشعار في قائمة الإرسال.', pushRecent: 'آخر الإشعارات المرسلة', pushNone: 'ما في إشعارات بعد.', pushAuto: 'تلقائياً يوصل للمسافر: عرض سعر جديد، عرض قرب ينتهي، تأكيد الحجز، عرض خاص جديد، وتذكير للي ما طلب رحلة.', pushNotReady: 'الإشعارات ما تفعّلت بعد في قاعدة البيانات.', ps_pending: 'بالانتظار', ps_sent: 'أُرسل', ps_skipped: 'ملغي', kind_promo: 'عرض خاص', kind_broadcast: 'إشعار عام', pushSentTo: 'وصل لـ {n} جهاز',
@@ -32,6 +36,10 @@ export function install(ctx) {
     founderBanner: '🎉 You are founding partner no. {n} of 10: publish your special offers with no listing fees and a reduced 2.5% (instead of 4%) special-offers commission until {d} (agreement annex 2).', founderBtn: '📣 Publish free until {d}', founderDone: 'Offer published free until {d}.',
     foundersTitle: 'Founding partners: {n} of {max}', foundersSub: 'The first 10 activated agencies: no listing fees and a 2.5% (instead of 4%) special-offers commission for 3 months from activation.', founderRemove: 'Remove founder status', founderRemoveConfirm: 'Remove founding-partner status from this agency and free its seat?', noFounders: 'No founding partners yet.', founderNo: 'No.', founderEnds: 'Offer ends',
     payOpening: 'Opening payment page…', promoPaid: 'Paid — your offer is live in the app.', promoFailed: 'Payment was not completed; the offer is not published.', needSave: 'Save the offer first.', bookingsN: '{n} bookings',
+    uDel: 'Delete', uDelAsk: 'Permanently delete {e} and all their data (requests, chats, passports, wallet)? This cannot be undone; they can sign up again with the same email.\n\nType the email to confirm:', uDelReason: 'Reason (optional):', uDeleted: 'Account and data deleted.', uDelMismatch: 'Email does not match; nothing was deleted.',
+    e_has_paid_bookings: 'Cannot delete: has paid bookings that must stay in the financial records.', e_not_traveler: 'Cannot delete here: not a traveler account (admin or agency).', e_cannot_delete_self: 'You cannot delete your own account.',
+    navErrors: 'Error log', errTitle: 'Error log', errSub: 'Errors from the app and the admin portal, plus payment, scheduled-job and undelivered-notification problems.', errDays: 'Last', errDaysN: '{n} days', errNone: 'No errors in this period 👍', errCols: ['Time', 'Source', 'Type', 'Message', 'Details', 'User / ref'],
+    src_app: 'App', src_portal: 'Admin portal', src_site: 'Website', src_payments: 'Payments', src_cron: 'Scheduled job', src_push: 'Notifications', errCopy: 'Copy', errCopied: 'Copied',
     navUsers: 'Users', usersTitle: 'App users', usersSub: 'Everyone who signed up in the app, with sign-up details and activity.', uTotal: 'Signed-up users', u7: 'Joined last 7 days', u30: 'Joined last 30 days', uDev: 'Notifications on', uGuests: 'Devices not signed in', uBooked: 'Booked at least once', uSearch: 'Search by name, email or phone', uCsv: '⬇ Download Excel (CSV)', uNone: 'No users.',
     uCols: ['Name', 'Email', 'Phone', 'Signed up', 'Last sign-in', 'Sign-up method', 'Language', 'Requests', 'Bookings', 'Paid', 'Notifications', 'Offer notifications'], uYes: 'Yes', uNo: 'No', uAdmin: 'Admin',
     navPush: 'Notifications', pushTitle: 'Traveler notifications', pushSub: 'Send to everyone who installed the app, to signed-in users only, or to one user by email. Delivered in about a minute, with no limit on how many or when. Users who turned off offer notifications do not get general sends; a direct notification always reaches them.', pushAud: 'To', aud_all: 'Everyone with the app', aud_registered: 'Signed-in users only', aud_user: 'One user', pushEmail: 'User email', pushRegistered: 'Signed-in users\' devices', kind_direct: 'Direct', pushConfirmUser: 'Send this notification to {e}?', pushResend: '↻ Send again', pushAt: 'Send time (optional, Kuwait time)', pushAtNote: 'Leave empty to send now.', pushSchedFor: 'Scheduled: {d}', pushCancel: 'Cancel', pushCancelAsk: 'Cancel this scheduled notification?', pushScheduled: 'Notification scheduled.', e_bad_time: 'Pick a future time (within a year).', pushResendAsk: 'Send this notification again to the same recipients?', e_no_user: 'No user with this email.', pushDevices: 'Registered devices', pushOptIn: 'Receiving offer notifications', pushGuests: 'Installed, not signed in', pushTitleAr: 'Title (Arabic)', pushBodyAr: 'Text (Arabic)', pushOneLang: 'Write the title and text in at least one language (Arabic or English). With one language, everyone gets the same text.', pushTitleEn: 'Title (English)', pushBodyEn: 'Text (English)', pushTarget: 'Opens on tap', tgtHome: 'Home', tgtOffers: 'Special offers', tgtNew: 'New trip request', pushSend: '📣 Send notification', pushConfirm: 'Send this notification to “{a}”?', pushQueued: 'Notification queued for sending.', pushRecent: 'Recent notifications', pushNone: 'No notifications yet.', pushAuto: 'Sent automatically to the traveler: new price offer, offer about to expire, booking confirmed, new special offer, and a reminder for those who have not requested a trip.', pushNotReady: 'Notifications are not enabled in the database yet.', ps_pending: 'Queued', ps_sent: 'Sent', ps_skipped: 'Cancelled', kind_promo: 'Special offer', kind_broadcast: 'Broadcast', pushSentTo: 'Reached {n} devices',
@@ -405,22 +413,37 @@ export function install(ctx) {
     const prov = (p) => ({ email: 'Email', apple: 'Apple', google: 'Google', phone: 'SMS' }[p] || p || '—');
     const row = (u) => `<tr><td>${esc(u.full_name || '—')}${u.role === 'admin' ? ` <span class="badge">${esc(t('uAdmin'))}</span>` : ''}</td><td dir="ltr">${esc(u.email || '—')}</td><td dir="ltr">${esc(u.phone || '—')}</td>
       <td style="white-space:nowrap">${esc(d(u.created_at))}</td><td style="white-space:nowrap">${esc(d(u.last_sign_in_at))}</td><td>${esc(prov(u.provider))}</td><td>${esc((u.lang || 'ar').toUpperCase())}</td>
-      <td>${esc(u.requests)}</td><td>${esc(u.bookings)}</td><td>${esc(money(u.spent))}</td><td>${esc(t(Number(u.devices) > 0 ? 'uYes' : 'uNo'))}</td><td>${esc(t(u.notify_promos ? 'uYes' : 'uNo'))}</td></tr>`;
+      <td>${esc(u.requests)}</td><td>${esc(u.bookings)}</td><td>${esc(money(u.spent))}</td><td>${esc(t(Number(u.devices) > 0 ? 'uYes' : 'uNo'))}</td><td>${esc(t(u.notify_promos ? 'uYes' : 'uNo'))}</td>
+      <td>${u.role === 'traveler' ? `<button type="button" class="btn ghost small" data-udel="${esc(u.id)}" data-email="${esc(u.email || '')}">${esc(t('uDel'))}</button>` : ''}</td></tr>`;
     shell('users', `<div class="top"><div><h1>${esc(t('usersTitle'))}</h1><p class="muted" style="margin:4px 0 0">${esc(t('usersSub'))}</p></div>
         <button class="btn ghost" id="u-csv" type="button">${esc(t('uCsv'))}</button></div>
       <div class="row" style="gap:12px;margin-bottom:16px;flex-wrap:wrap">
         ${k('uTotal', trav.length)}${k('u7', trav.filter((u) => now - Date.parse(u.created_at) < 7 * day).length)}${k('u30', trav.filter((u) => now - Date.parse(u.created_at) < 30 * day).length)}
         ${k('uBooked', trav.filter((u) => Number(u.bookings) > 0).length)}${k('uDev', trav.filter((u) => Number(u.devices) > 0).length)}${k('uGuests', ov.data?.guests ?? 0)}</div>
       <div class="card"><input id="u-q" type="search" placeholder="${esc(t('uSearch'))}" style="margin-bottom:12px;max-width:360px">
-        <div class="tbl-wrap"><table><thead><tr>${t('uCols').map((c) => `<th>${esc(c)}</th>`).join('')}</tr></thead><tbody id="u-body"></tbody></table></div></div>`);
+        <div class="tbl-wrap"><table><thead><tr>${t('uCols').map((c) => `<th>${esc(c)}</th>`).join('')}<th></th></tr></thead><tbody id="u-body"></tbody></table></div></div>`);
     const body = document.getElementById('u-body');
     const draw = (q) => {
       const s = String(q || '').trim().toLowerCase();
       const list = s ? all.filter((u) => [u.full_name, u.email, u.phone].some((v) => String(v || '').toLowerCase().includes(s))) : all;
-      body.innerHTML = list.length ? list.map(row).join('') : `<tr><td colspan="12" class="muted">${esc(t('uNone'))}</td></tr>`;
+      body.innerHTML = list.length ? list.map(row).join('') : `<tr><td colspan="13" class="muted">${esc(t('uNone'))}</td></tr>`;
     };
     draw('');
     document.getElementById('u-q').oninput = (e) => draw(e.target.value);
+    body.addEventListener('click', async (e) => {
+      const b = e.target.closest('[data-udel]'); if (!b) return;
+      const email = b.dataset.email || '';
+      const typed = prompt(t('uDelAsk', { e: email }));
+      if (typed === null) return;
+      if (typed.trim().toLowerCase() !== email.toLowerCase()) return toast(t('uDelMismatch'));
+      const reason = prompt(t('uDelReason')) || '';
+      b.disabled = true;
+      const { data: files } = await sb.rpc('admin_user_files', { p_id: b.dataset.udel });
+      const { error: er } = await sb.rpc('admin_delete_user', { p_id: b.dataset.udel, p_reason: reason });
+      if (er) { b.disabled = false; const c = (String(er.message).match(/has_paid_bookings|not_traveler|cannot_delete_self/) || [])[0]; return toast(c ? t('e_' + c) : t('errGeneric')); }
+      if (files?.length) await sb.storage.from('passports').remove(files).catch(() => {});
+      toast(t('uDeleted')); viewUsers();
+    });
     document.getElementById('u-csv').onclick = () => {
       const cell = (v) => { let x = String(v ?? ''); if (/^[=+\-@]/.test(x)) x = "'" + x; return '"' + x.replace(/"/g, '""') + '"'; };
       const head = t('uCols');
@@ -431,5 +454,25 @@ export function install(ctx) {
     };
   }
 
-  return { viewUsers, viewPush, viewPackagesLocked, viewPackages, viewPackage, viewOverview, viewPartners, viewAllBookings, viewPromos, startPromo };
+  // ---------- admin: error log
+  async function viewErrors(days = 7) {
+    const { data, error } = await sb.rpc('admin_error_log', { p_days: days });
+    const rows = error ? [] : (data || []);
+    const opt = [1, 7, 30, 90].map((n) => `<option value="${n}" ${n === days ? 'selected' : ''}>${esc(t('errDaysN', { n }))}</option>`).join('');
+    shell('errors', `<div class="top"><div><h1>${esc(t('errTitle'))}</h1><p class="muted" style="margin:4px 0 0">${esc(t('errSub'))}</p></div>
+        <label class="f" style="min-width:140px">${esc(t('errDays'))}<select id="err-days">${opt}</select></label></div>
+      ${error ? `<p class="notice info">${esc(t('errGeneric'))}</p>` : ''}
+      <div class="card">${rows.length ? `<div class="tbl-wrap"><table><thead><tr>${t('errCols').map((c) => `<th>${esc(c)}</th>`).join('')}<th></th></tr></thead><tbody>${rows.map((r, i) => `<tr>
+          <td style="white-space:nowrap">${esc(fmtDate(r.at))}</td><td><span class="badge">${esc(t('src_' + r.source) || r.source)}</span></td><td>${esc(r.kind)}</td>
+          <td style="max-width:320px"><b>${esc(r.message)}</b></td><td style="max-width:360px"><div class="muted" dir="ltr" style="font-size:12px;white-space:pre-wrap;word-break:break-word;max-height:90px;overflow:auto">${esc(r.detail || '')}</div></td>
+          <td dir="ltr" style="font-size:12px">${esc(r.who || '')}</td><td><button type="button" class="btn ghost small" data-ecopy="${i}">${esc(t('errCopy'))}</button></td></tr>`).join('')}</tbody></table></div>`
+        : `<p class="muted">${esc(t('errNone'))}</p>`}</div>`);
+    document.getElementById('err-days').onchange = (e) => viewErrors(parseInt(e.target.value, 10));
+    document.querySelectorAll('[data-ecopy]').forEach((b) => { b.onclick = async () => {
+      const r = rows[Number(b.dataset.ecopy)];
+      try { await navigator.clipboard.writeText(`${r.at}\n${r.source} / ${r.kind}\n${r.message}\n${r.detail || ''}\n${r.who || ''}`); toast(t('errCopied')); } catch { toast(t('errGeneric')); }
+    }; });
+  }
+
+  return { viewErrors, viewUsers, viewPush, viewPackagesLocked, viewPackages, viewPackage, viewOverview, viewPartners, viewAllBookings, viewPromos, startPromo };
 }
