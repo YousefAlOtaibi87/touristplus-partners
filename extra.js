@@ -13,6 +13,8 @@ export function install(ctx) {
     e_has_paid_bookings: 'ما ينحذف: عنده حجوزات مدفوعة لازم تبقى في السجلات المالية.', e_not_traveler: 'ما ينحذف من هنا: الحساب مو مسافر (مدير أو مكتب).', e_cannot_delete_self: 'ما تقدر تحذف حسابك.',
     navErrors: 'سجل الأخطاء', errTitle: 'سجل الأخطاء', errSub: 'أخطاء التطبيق ولوحة الإدارة، ومشاكل الدفع والمهام التلقائية والإشعارات اللي ما وصلت لأحد.', errDays: 'آخر', errDaysN: '{n} يوم', errNone: 'ما في أخطاء في هذي الفترة 👍', errCols: ['الوقت', 'المصدر', 'النوع', 'الرسالة', 'تفاصيل', 'المستخدم / المرجع'],
     src_app: 'التطبيق', src_portal: 'لوحة الإدارة', src_site: 'الموقع', src_payments: 'الدفع', src_cron: 'مهمة تلقائية', src_push: 'الإشعارات', errCopy: 'نسخ', errCopied: 'تم النسخ',
+    gTitle: 'نمو المستخدمين', gPeriod: 'الفترة', gp_7: 'آخر 7 أيام', gp_30: 'آخر 30 يوم', gp_90: 'آخر 90 يوم', gp_month: 'هذا الشهر', gp_lastmonth: 'الشهر الماضي', gp_year: 'هذي السنة', gp_all: 'من البداية', gp_custom: 'فترة محددة', gFrom: 'من', gTo: 'إلى',
+    gNew: 'مسجّلين جدد في الفترة', gPrev: 'الفترة اللي قبلها', gChange: 'التغيّر', gAvg: 'متوسط باليوم', gTotalAt: 'إجمالي المسجّلين بنهاية الفترة', gBy_day: 'حسب اليوم', gBy_week: 'حسب الأسبوع', gBy_month: 'حسب الشهر', gTableNote: 'الجدول تحت يعرض المسجّلين في هذي الفترة.',
     navUsers: 'المستخدمين', usersTitle: 'مستخدمين التطبيق', usersSub: 'كل اللي سجّلوا في التطبيق مع بيانات التسجيل ونشاطهم.', uTotal: 'إجمالي المسجّلين', u7: 'سجّلوا آخر 7 أيام', u30: 'سجّلوا آخر 30 يوم', uDev: 'عندهم إشعارات مفعّلة', uGuests: 'أجهزة بدون تسجيل', uBooked: 'حجزوا مرة على الأقل', uSearch: 'ابحث بالاسم أو الإيميل أو الرقم', uCsv: '⬇ تنزيل Excel (CSV)', uNone: 'ما في مستخدمين.',
     uCols: ['الاسم', 'الإيميل', 'الهاتف', 'تاريخ التسجيل', 'آخر دخول', 'طريقة التسجيل', 'اللغة', 'الطلبات', 'الحجوزات', 'المدفوع', 'الإشعارات', 'إشعارات العروض'], uYes: 'نعم', uNo: 'لا', uAdmin: 'مدير',
     navPush: 'الإشعارات', pushTitle: 'إشعارات المسافرين', pushSub: 'أرسل لكل اللي منزّلين التطبيق، أو للمسجّلين فقط، أو لمستخدم محدد بإيميله. يوصل خلال دقيقة تقريباً، وبدون حد لعدد الإشعارات أو وقت الإرسال. اللي قفّل «إشعارات العروض» من حسابه ما توصله الإشعارات العامة، والإشعار الخاص يوصل له دائماً.', pushAud: 'إلى', aud_all: 'كل اللي منزّلين التطبيق', aud_registered: 'المسجّلين فقط', aud_user: 'مستخدم محدد', pushEmail: 'إيميل المستخدم', pushRegistered: 'أجهزة لمستخدمين مسجّلين', kind_direct: 'إشعار خاص', pushConfirmUser: 'إرسال هذا الإشعار لـ {e}؟', pushResend: '↻ إعادة الإرسال', pushAt: 'وقت الإرسال (اختياري، بتوقيت الكويت)', pushAtNote: 'اتركه فاضي للإرسال الحين.', pushSchedFor: 'مجدول: {d}', pushCancel: 'إلغاء', pushCancelAsk: 'تلغي هذا الإشعار المجدول؟', pushScheduled: 'تمت جدولة الإشعار.', e_bad_time: 'اختر وقت في المستقبل (خلال سنة).', pushResendAsk: 'تعيد إرسال هذا الإشعار لنفس المستلمين؟', e_no_user: 'ما لقينا مستخدم بهذا الإيميل.', pushDevices: 'أجهزة مسجّلة', pushOptIn: 'يستقبلون إشعارات العروض', pushGuests: 'منزّلين التطبيق بدون تسجيل', pushTitleAr: 'العنوان (عربي)', pushBodyAr: 'النص (عربي)', pushOneLang: 'اكتب العنوان والنص بلغة وحدة على الأقل (عربي أو إنجليزي). إذا كتبت بلغة وحدة يوصل نفس النص للكل.', pushTitleEn: 'العنوان (إنجليزي)', pushBodyEn: 'النص (إنجليزي)', pushTarget: 'يفتح عند الضغط', tgtHome: 'الصفحة الرئيسية', tgtOffers: 'العروض الخاصة', tgtNew: 'طلب رحلة جديدة', pushSend: '📣 إرسال الإشعار', pushConfirm: 'إرسال هذا الإشعار لـ «{a}»؟', pushQueued: 'تم وضع الإشعار في قائمة الإرسال.', pushRecent: 'آخر الإشعارات المرسلة', pushNone: 'ما في إشعارات بعد.', pushAuto: 'تلقائياً يوصل للمسافر: عرض سعر جديد، عرض قرب ينتهي، تأكيد الحجز، عرض خاص جديد، وتذكير للي ما طلب رحلة.', pushNotReady: 'الإشعارات ما تفعّلت بعد في قاعدة البيانات.', ps_pending: 'بالانتظار', ps_sent: 'أُرسل', ps_skipped: 'ملغي', kind_promo: 'عرض خاص', kind_broadcast: 'إشعار عام', pushSentTo: 'وصل لـ {n} جهاز',
@@ -40,6 +42,8 @@ export function install(ctx) {
     e_has_paid_bookings: 'Cannot delete: has paid bookings that must stay in the financial records.', e_not_traveler: 'Cannot delete here: not a traveler account (admin or agency).', e_cannot_delete_self: 'You cannot delete your own account.',
     navErrors: 'Error log', errTitle: 'Error log', errSub: 'Errors from the app and the admin portal, plus payment, scheduled-job and undelivered-notification problems.', errDays: 'Last', errDaysN: '{n} days', errNone: 'No errors in this period 👍', errCols: ['Time', 'Source', 'Type', 'Message', 'Details', 'User / ref'],
     src_app: 'App', src_portal: 'Admin portal', src_site: 'Website', src_payments: 'Payments', src_cron: 'Scheduled job', src_push: 'Notifications', errCopy: 'Copy', errCopied: 'Copied',
+    gTitle: 'User growth', gPeriod: 'Period', gp_7: 'Last 7 days', gp_30: 'Last 30 days', gp_90: 'Last 90 days', gp_month: 'This month', gp_lastmonth: 'Last month', gp_year: 'This year', gp_all: 'All time', gp_custom: 'Custom range', gFrom: 'From', gTo: 'To',
+    gNew: 'New sign-ups in period', gPrev: 'Previous period', gChange: 'Change', gAvg: 'Average per day', gTotalAt: 'Total users at period end', gBy_day: 'By day', gBy_week: 'By week', gBy_month: 'By month', gTableNote: 'The table below shows users who signed up in this period.',
     navUsers: 'Users', usersTitle: 'App users', usersSub: 'Everyone who signed up in the app, with sign-up details and activity.', uTotal: 'Signed-up users', u7: 'Joined last 7 days', u30: 'Joined last 30 days', uDev: 'Notifications on', uGuests: 'Devices not signed in', uBooked: 'Booked at least once', uSearch: 'Search by name, email or phone', uCsv: '⬇ Download Excel (CSV)', uNone: 'No users.',
     uCols: ['Name', 'Email', 'Phone', 'Signed up', 'Last sign-in', 'Sign-up method', 'Language', 'Requests', 'Bookings', 'Paid', 'Notifications', 'Offer notifications'], uYes: 'Yes', uNo: 'No', uAdmin: 'Admin',
     navPush: 'Notifications', pushTitle: 'Traveler notifications', pushSub: 'Send to everyone who installed the app, to signed-in users only, or to one user by email. Delivered in about a minute, with no limit on how many or when. Users who turned off offer notifications do not get general sends; a direct notification always reaches them.', pushAud: 'To', aud_all: 'Everyone with the app', aud_registered: 'Signed-in users only', aud_user: 'One user', pushEmail: 'User email', pushRegistered: 'Signed-in users\' devices', kind_direct: 'Direct', pushConfirmUser: 'Send this notification to {e}?', pushResend: '↻ Send again', pushAt: 'Send time (optional, Kuwait time)', pushAtNote: 'Leave empty to send now.', pushSchedFor: 'Scheduled: {d}', pushCancel: 'Cancel', pushCancelAsk: 'Cancel this scheduled notification?', pushScheduled: 'Notification scheduled.', e_bad_time: 'Pick a future time (within a year).', pushResendAsk: 'Send this notification again to the same recipients?', e_no_user: 'No user with this email.', pushDevices: 'Registered devices', pushOptIn: 'Receiving offer notifications', pushGuests: 'Installed, not signed in', pushTitleAr: 'Title (Arabic)', pushBodyAr: 'Text (Arabic)', pushOneLang: 'Write the title and text in at least one language (Arabic or English). With one language, everyone gets the same text.', pushTitleEn: 'Title (English)', pushBodyEn: 'Text (English)', pushTarget: 'Opens on tap', tgtHome: 'Home', tgtOffers: 'Special offers', tgtNew: 'New trip request', pushSend: '📣 Send notification', pushConfirm: 'Send this notification to “{a}”?', pushQueued: 'Notification queued for sending.', pushRecent: 'Recent notifications', pushNone: 'No notifications yet.', pushAuto: 'Sent automatically to the traveler: new price offer, offer about to expire, booking confirmed, new special offer, and a reminder for those who have not requested a trip.', pushNotReady: 'Notifications are not enabled in the database yet.', ps_pending: 'Queued', ps_sent: 'Sent', ps_skipped: 'Cancelled', kind_promo: 'Special offer', kind_broadcast: 'Broadcast', pushSentTo: 'Reached {n} devices',
@@ -420,15 +424,69 @@ export function install(ctx) {
       <div class="row" style="gap:12px;margin-bottom:16px;flex-wrap:wrap">
         ${k('uTotal', trav.length)}${k('u7', trav.filter((u) => now - Date.parse(u.created_at) < 7 * day).length)}${k('u30', trav.filter((u) => now - Date.parse(u.created_at) < 30 * day).length)}
         ${k('uBooked', trav.filter((u) => Number(u.bookings) > 0).length)}${k('uDev', trav.filter((u) => Number(u.devices) > 0).length)}${k('uGuests', ov.data?.guests ?? 0)}</div>
+      <div class="card" style="margin-bottom:16px;display:flex;flex-direction:column;gap:14px">
+        <div class="row" style="gap:12px;align-items:flex-end;flex-wrap:wrap"><h2 style="margin:0;flex:1 1 200px">${esc(t('gTitle'))}</h2>
+          <label class="f" style="min-width:170px">${esc(t('gPeriod'))}<select id="g-p">${['7', '30', '90', 'month', 'lastmonth', 'year', 'all', 'custom'].map((p) => `<option value="${p}" ${p === '30' ? 'selected' : ''}>${esc(t('gp_' + p))}</option>`).join('')}</select></label>
+          <label class="f" id="g-fw" style="display:none">${esc(t('gFrom'))}<input type="date" id="g-from" dir="ltr"></label>
+          <label class="f" id="g-tw" style="display:none">${esc(t('gTo'))}<input type="date" id="g-to" dir="ltr"></label></div>
+        <div class="row" id="g-k" style="gap:12px;flex-wrap:wrap"></div>
+        <div><div class="muted" id="g-by" style="font-size:13px;margin-bottom:6px"></div><div id="g-chart" dir="ltr" style="display:flex;align-items:flex-end;gap:3px;height:150px;border-bottom:1px solid var(--line,#e5e7eb);overflow-x:auto"></div>
+          <div id="g-axis" dir="ltr" style="display:flex;justify-content:space-between;font-size:11px;color:#6b7280;margin-top:4px"></div></div>
+        <p class="muted" style="margin:0;font-size:13px">${esc(t('gTableNote'))}</p></div>
       <div class="card"><input id="u-q" type="search" placeholder="${esc(t('uSearch'))}" style="margin-bottom:12px;max-width:360px">
         <div class="tbl-wrap"><table><thead><tr>${t('uCols').map((c) => `<th>${esc(c)}</th>`).join('')}<th></th></tr></thead><tbody id="u-body"></tbody></table></div></div>`);
     const body = document.getElementById('u-body');
+    // ----- growth filter (local = Kuwait time in the admin's browser)
+    const sod = (x) => { const z = new Date(x); z.setHours(0, 0, 0, 0); return z; };
+    const addD = (x, n) => { const z = new Date(x); z.setDate(z.getDate() + n); return z; };
+    const iso = (x) => `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, '0')}-${String(x.getDate()).padStart(2, '0')}`;
+    let range = null;
+    const firstAt = trav.length ? sod(Math.min(...trav.map((u) => Date.parse(u.created_at)))) : sod(Date.now());
+    const calcRange = () => {
+      const p = document.getElementById('g-p').value, today = sod(Date.now()), end = addD(today, 1);
+      document.getElementById('g-fw').style.display = document.getElementById('g-tw').style.display = p === 'custom' ? '' : 'none';
+      if (/^\d+$/.test(p)) return [addD(end, -Number(p)), end];
+      if (p === 'month') return [new Date(today.getFullYear(), today.getMonth(), 1), end];
+      if (p === 'lastmonth') return [new Date(today.getFullYear(), today.getMonth() - 1, 1), new Date(today.getFullYear(), today.getMonth(), 1)];
+      if (p === 'year') return [new Date(today.getFullYear(), 0, 1), end];
+      if (p === 'all') return [firstAt, end];
+      const f = document.getElementById('g-from').value, to = document.getElementById('g-to').value;
+      const a1 = f ? sod(new Date(f + 'T00:00:00')) : addD(end, -30), b1 = to ? addD(sod(new Date(to + 'T00:00:00')), 1) : end;
+      return a1 < b1 ? [a1, b1] : [b1, a1];
+    };
+    const inR = (u, a1, b1) => { const x = Date.parse(u.created_at); return x >= +a1 && x < +b1; };
+    const growth = () => {
+      range = calcRange();
+      const [a1, b1] = range, days = Math.max(1, Math.round((b1 - a1) / day));
+      const cur = trav.filter((u) => inR(u, a1, b1)).length, prev = trav.filter((u) => inR(u, addD(a1, -days), a1)).length;
+      const ch = prev ? Math.round((cur - prev) / prev * 100) : null;
+      const kk = (lbl, v) => `<div class="card grow" style="min-width:150px;box-shadow:none;border:1px solid var(--line,#e5e7eb)"><div class="muted" style="font-size:13px">${esc(t(lbl))}</div><b style="font-size:24px">${esc(v)}</b></div>`;
+      document.getElementById('g-k').innerHTML = kk('gNew', cur) + kk('gPrev', prev) + kk('gChange', ch === null ? '—' : (ch > 0 ? '+' : '') + ch + '%')
+        + kk('gAvg', (cur / days).toFixed(1)) + kk('gTotalAt', trav.filter((u) => Date.parse(u.created_at) < +b1).length);
+      const by = days <= 31 ? 'day' : days <= 140 ? 'week' : 'month';
+      const buckets = [];
+      for (let x = new Date(a1); x < b1;) {
+        const nx = by === 'day' ? addD(x, 1) : by === 'week' ? addD(x, 7) : new Date(x.getFullYear(), x.getMonth() + 1, 1);
+        const e1 = nx < b1 ? nx : b1;
+        buckets.push({ from: new Date(x), n: trav.filter((u) => inR(u, x, e1)).length });
+        x = nx;
+      }
+      const max = Math.max(1, ...buckets.map((b) => b.n));
+      const lbl = (x) => x.toLocaleDateString(state.lang === 'ar' ? 'ar-KW' : 'en-GB', by === 'month' ? { month: 'short', year: '2-digit' } : { day: 'numeric', month: 'short' });
+      document.getElementById('g-by').textContent = t('gBy_' + by);
+      document.getElementById('g-chart').innerHTML = buckets.map((b) => `<div title="${esc(lbl(b.from))}: ${b.n}" style="flex:1 0 8px;min-width:8px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%">
+          <span style="font-size:10px;color:#6b7280">${b.n || ''}</span><div style="width:100%;height:${Math.round(b.n / max * 120)}px;min-height:${b.n ? 3 : 1}px;background:${b.n ? '#0B3D91' : '#e5e7eb'};border-radius:4px 4px 0 0"></div></div>`).join('');
+      document.getElementById('g-axis').innerHTML = buckets.length ? `<span>${esc(lbl(buckets[0].from))}</span><span>${esc(lbl(buckets[buckets.length - 1].from))}</span>` : '';
+      draw(document.getElementById('u-q').value);
+    };
     const draw = (q) => {
       const s = String(q || '').trim().toLowerCase();
-      const list = s ? all.filter((u) => [u.full_name, u.email, u.phone].some((v) => String(v || '').toLowerCase().includes(s))) : all;
+      const base = range ? all.filter((u) => inR(u, range[0], range[1])) : all;
+      const list = s ? base.filter((u) => [u.full_name, u.email, u.phone].some((v) => String(v || '').toLowerCase().includes(s))) : base;
       body.innerHTML = list.length ? list.map(row).join('') : `<tr><td colspan="13" class="muted">${esc(t('uNone'))}</td></tr>`;
     };
-    draw('');
+    ['g-p', 'g-from', 'g-to'].forEach((id) => { document.getElementById(id).onchange = growth; });
+    growth();
     document.getElementById('u-q').oninput = (e) => draw(e.target.value);
     body.addEventListener('click', async (e) => {
       const b = e.target.closest('[data-udel]'); if (!b) return;
@@ -447,7 +505,7 @@ export function install(ctx) {
     document.getElementById('u-csv').onclick = () => {
       const cell = (v) => { let x = String(v ?? ''); if (/^[=+\-@]/.test(x)) x = "'" + x; return '"' + x.replace(/"/g, '""') + '"'; };
       const head = t('uCols');
-      const lines = [head.map(cell).join(',')].concat(all.map((u) => [u.full_name, u.email, u.phone, (u.created_at || '').slice(0, 10), (u.last_sign_in_at || '').slice(0, 10), prov(u.provider), u.lang, u.requests, u.bookings, u.spent, Number(u.devices) > 0 ? t('uYes') : t('uNo'), u.notify_promos ? t('uYes') : t('uNo')].map(cell).join(',')));
+      const lines = [head.map(cell).join(',')].concat((range ? all.filter((u) => inR(u, range[0], range[1])) : all).map((u) => [u.full_name, u.email, u.phone, (u.created_at || '').slice(0, 10), (u.last_sign_in_at || '').slice(0, 10), prov(u.provider), u.lang, u.requests, u.bookings, u.spent, Number(u.devices) > 0 ? t('uYes') : t('uNo'), u.notify_promos ? t('uYes') : t('uNo')].map(cell).join(',')));
       const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
       const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `thetouristplus-users-${new Date().toISOString().slice(0, 10)}.csv`;
       document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
