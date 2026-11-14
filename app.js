@@ -36,10 +36,10 @@ const STR = {
     requestClosed: 'هذا الطلب ما يستقبل عروض جديدة.', chat: 'المحادثة مع المسافر', chatHint: 'المحادثة تتفعّل بعد ما ترسل عرضك.', typeMessage: 'اكتب رسالة…', send: 'إرسال', noMessages: 'ما فيه رسائل للحين.',
     myOffersTitle: 'عروضي', noOffers: 'ما أرسلت أي عرض للحين.', destination: 'الوجهة', dates: 'التواريخ', status: 'الحالة', sentAt: 'أُرسل',
     st_pending: 'بانتظار المسافر', st_accepted: 'تم الحجز', st_declined: 'لم يُختر', st_withdrawn: 'مسحوب',
-    bookingsTitle: 'الحجوزات المؤكدة', noBookings: 'ما فيه حجوزات للحين.', bookedNotice: 'المسافر اختار عرضك! بيدفع من التطبيق، وأول ما يتم الدفع يطلع لك هني. تواصل معه لإرسال المستندات.',
-    contactAfterPay: 'تظهر بيانات المسافر وجوازات السفر هنا فور إتمام الدفع.', passports: 'بيانات جوازات السفر', paxName: 'الاسم كما في الجواز', passportNo: 'رقم الجواز', nationality: 'الجنسية', birth: 'تاريخ الميلاد', expiry: 'انتهاء الجواز', viewCopy: 'عرض النسخة',
+    bookingsTitle: 'الحجوزات المؤكدة', noBookings: 'ما فيه حجوزات للحين.', bookedNotice: 'المسافر اختار عرضك! بيدفع من التطبيق، وأول ما يتم الدفع يطلع لك هني. أي تواصل أو مستندات مع المسافر تكون عن طريق المحادثة في البوابة.', contactViaApp: 'حفاظاً على خصوصية الطرفين، بيانات تواصل المسافر ما تظهر للمكتب. كل التواصل (الأسئلة، المستندات، التذاكر) يكون عن طريق المحادثة في البوابة، وأي أرقام أو إيميلات أو روابط تنكتب فيها تنخفي تلقائياً.',
+    contactAfterPay: 'تظهر بيانات جوازات السفر هنا فور إتمام الدفع.', passports: 'بيانات جوازات السفر', paxName: 'الاسم كما في الجواز', passportNo: 'رقم الجواز', nationality: 'الجنسية', birth: 'تاريخ الميلاد', expiry: 'انتهاء الجواز', viewCopy: 'عرض النسخة',
     payStatus: 'الدفع', commission: 'العمولة', net: 'صافي لك', pay_paid: 'مدفوع', pay_pending: 'بانتظار الدفع', pay_failed: 'لم يتم', pay_refunded: 'مسترجع', pay_none: 'لم يدفع بعد',
-    contact: 'بيانات التواصل', name: 'الاسم', phone: 'الجوال', newRequest: 'وصل طلب سفر جديد', newMessage: 'رسالة جديدة من مسافر', offerAccepted: 'مسافر حجز عرضك!',
+    contact: 'بيانات المسافر', name: 'الاسم', phone: 'الجوال', newRequest: 'وصل طلب سفر جديد', newMessage: 'رسالة جديدة من مسافر', offerAccepted: 'مسافر حجز عرضك!',
     type_leisure: 'سياحة', type_family: 'عائلية', type_umrah: 'عمرة', type_honeymoon: 'شهر عسل', type_business: 'عمل', type_group: 'مجموعة',
     svc_flights: 'طيران', svc_hotel: 'فندق', svc_transfers: 'توصيل', svc_tours: 'جولات', svc_visa: 'تأشيرة', svc_insurance: 'تأمين',
     kwd: 'د.ك', open: 'مفتوح', rfq_booked: 'محجوز', rfq_cancelled: 'ملغي', rfq_closed: 'مغلق',
@@ -69,10 +69,10 @@ const STR = {
     requestClosed: 'This request is no longer accepting offers.', chat: 'Chat with traveler', chatHint: 'Chat opens after you send an offer.', typeMessage: 'Write a message…', send: 'Send', noMessages: 'No messages yet.',
     myOffersTitle: 'My offers', noOffers: 'You have not sent any offers yet.', destination: 'Destination', dates: 'Dates', status: 'Status', sentAt: 'Sent',
     st_pending: 'Awaiting traveler', st_accepted: 'Booked', st_declined: 'Not selected', st_withdrawn: 'Withdrawn',
-    bookingsTitle: 'Confirmed bookings', noBookings: 'No bookings yet.', bookedNotice: 'The traveler chose your offer! They pay in the app and the payment shows here once complete. Contact them to send documents.',
-    contactAfterPay: 'Traveler details and passports appear here once payment is complete.', passports: 'Passport details', paxName: 'Name as in passport', passportNo: 'Passport no.', nationality: 'Nationality', birth: 'Date of birth', expiry: 'Passport expiry', viewCopy: 'View copy',
+    bookingsTitle: 'Confirmed bookings', noBookings: 'No bookings yet.', bookedNotice: 'The traveler chose your offer! They pay in the app and the payment shows here once complete. All contact and documents with the traveler go through the chat in this portal.', contactViaApp: 'To protect both sides, the traveler\'s contact details are not shown to agencies. All contact (questions, documents, tickets) goes through the chat in this portal; phone numbers, emails and links typed there are hidden automatically.',
+    contactAfterPay: 'Passport details appear here once payment is complete.', passports: 'Passport details', paxName: 'Name as in passport', passportNo: 'Passport no.', nationality: 'Nationality', birth: 'Date of birth', expiry: 'Passport expiry', viewCopy: 'View copy',
     payStatus: 'Payment', commission: 'Commission', net: 'Your net', pay_paid: 'Paid', pay_pending: 'Awaiting payment', pay_failed: 'Failed', pay_refunded: 'Refunded', pay_none: 'Not paid yet',
-    contact: 'Contact details', name: 'Name', phone: 'Mobile', newRequest: 'New trip request received', newMessage: 'New message from a traveler', offerAccepted: 'A traveler booked your offer!',
+    contact: 'Traveler', name: 'Name', phone: 'Mobile', newRequest: 'New trip request received', newMessage: 'New message from a traveler', offerAccepted: 'A traveler booked your offer!',
     type_leisure: 'Leisure', type_family: 'Family', type_umrah: 'Umrah', type_honeymoon: 'Honeymoon', type_business: 'Business', type_group: 'Group',
     svc_flights: 'Flights', svc_hotel: 'Hotel', svc_transfers: 'Transfers', svc_tours: 'Tours', svc_visa: 'Visa', svc_insurance: 'Insurance',
     kwd: 'KWD', open: 'Open', rfq_booked: 'Booked', rfq_cancelled: 'Cancelled', rfq_closed: 'Closed',
@@ -602,9 +602,8 @@ async function viewRequest(id) {
     const { data: c } = await sb.rpc('booking_contact', { p_offer: live.id });
     const x = c?.[0];
     const body = document.getElementById('contact-body');
-    if (body) body.innerHTML = x ? `<dl class="kv"><dt>${esc(t('name'))}</dt><dd>${esc(x.full_name || '—')}</dd>
-      <dt>${esc(t('email'))}</dt><dd><a href="mailto:${esc(x.email)}" dir="ltr">${esc(x.email)}</a></dd>
-      ${x.phone ? `<dt>${esc(t('phone'))}</dt><dd dir="ltr" style="text-align:start">${esc(x.phone)}</dd>` : ''}</dl>` : `<p class="muted">${esc(t('contactAfterPay'))}</p>`;
+    if (body) body.innerHTML = (x ? `<dl class="kv"><dt>${esc(t('name'))}</dt><dd>${esc(x.full_name || '—')}</dd></dl>` : '')
+      + `<p class="notice info" style="margin:10px 0 0">${esc(t('contactViaApp'))}</p>`;
     const { data: pax } = await sb.from('booking_travelers').select('*').eq('offer_id', live.id).order('created_at');
     if (body && pax?.length) {
       body.insertAdjacentHTML('beforeend', `<h3 style="margin:14px 0 6px">${esc(t('passports'))}</h3><div class="tbl-wrap"><table><thead><tr>
