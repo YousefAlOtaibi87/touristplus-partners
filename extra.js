@@ -19,7 +19,7 @@ export function install(ctx) {
     aNotDetail: 'عندها عروض ولم تُحجز {a} · بدون عروض {b} · ملغاة {c} · منتهية {d}', aConv: 'نسبة التحويل (حجز ÷ طلبات)', aNote: 'الزيارات تُحسب من دخول المستخدم للتطبيق (مرة لكل مستخدم باليوم). «راجع» = دخل في يومين أو أكثر بالفترة أو مسجّل من قبلها.',
     confirmCol: 'تأكيد الحجز', confirmBtn: '✓ تأكيد الحجز', confirmAsk: 'تأكيد هذا الحجز؟ يوصل إشعار للمسافر إن حجزه تأكد.', confirmDone: 'تم تأكيد الحجز وإشعار المسافر.', confirmedOn: 'مؤكد {d}',
     navPerf: 'أداء المكاتب', perfTitle: 'أداء المكاتب', perfSub: 'نشاط كل مكتب في الفترة: الدخول، العروض، سرعة الرد على الطلبات الجديدة، والوقت لتأكيد الحجز.',
-    pCols: ['المكتب', 'أيام دخول', 'عروض مرسلة', 'طلبات رد عليها', 'متوسط وقت الرد', 'وسيط وقت الرد', 'حجوزات', 'مدفوعة', 'مؤكدة', 'بانتظار التأكيد', 'متوسط وقت التأكيد', 'وسيط وقت التأكيد'],
+    pCols: ['المكتب', 'تقييم الأداء ★', 'حجوزات من البداية', 'مبيعات من البداية', 'أيام دخول', 'عروض مرسلة', 'طلبات رد عليها', 'متوسط وقت الرد', 'وسيط وقت الرد', 'حجوزات', 'مدفوعة', 'مؤكدة', 'بانتظار التأكيد', 'متوسط وقت التأكيد', 'وسيط وقت التأكيد'],
     pMarket: 'طلبات المسافرين في الفترة', pAnswered: 'نسبة الطلبات اللي رد عليها أي مكتب', pFastest: 'أسرع مكتب بالرد', pOffers: 'إجمالي العروض', pPending: 'حجوزات بانتظار التأكيد',
     pNote: 'وقت الرد = من نزول طلب المسافر لين أول عرض من المكتب. وقت التأكيد = من الدفع (أو قبول العرض إذا ما في دفع) لين ضغط المكتب «تأكيد الحجز». «الوسيط» يقلل تأثير الحالات الشاذة.', pNone: 'ما في مكاتب.', pMin: '{n} د', pHr: '{n} س', pDay: '{n} يوم',
     navUsers: 'المستخدمين', usersTitle: 'مستخدمين التطبيق', usersSub: 'كل اللي سجّلوا في التطبيق مع بيانات التسجيل ونشاطهم.', uTotal: 'إجمالي المسجّلين', u7: 'سجّلوا آخر 7 أيام', u30: 'سجّلوا آخر 30 يوم', uDev: 'عندهم إشعارات مفعّلة', uGuests: 'أجهزة بدون تسجيل', uBooked: 'حجزوا مرة على الأقل', uSearch: 'ابحث بالاسم أو الإيميل أو الرقم', uCsv: '⬇ تنزيل Excel (CSV)', uNone: 'ما في مستخدمين.',
@@ -55,7 +55,7 @@ export function install(ctx) {
     aNotDetail: 'Has offers, not booked {a} · No offers {b} · Cancelled {c} · Expired {d}', aConv: 'Conversion (booked ÷ requests)', aNote: 'Visits are counted from app sign-ins (once per user per day). “Returning” = active on 2+ days in the period, or signed up before it.',
     confirmCol: 'Confirmation', confirmBtn: '✓ Confirm booking', confirmAsk: 'Confirm this booking? The traveler is notified that it is confirmed.', confirmDone: 'Booking confirmed and traveler notified.', confirmedOn: 'Confirmed {d}',
     navPerf: 'Partner performance', perfTitle: 'Partner performance', perfSub: 'Each agency in the period: sign-ins, offers, response speed to new requests, and time to confirm bookings.',
-    pCols: ['Agency', 'Sign-in days', 'Offers sent', 'Requests answered', 'Avg response', 'Median response', 'Bookings', 'Paid', 'Confirmed', 'Awaiting confirmation', 'Avg confirmation', 'Median confirmation'],
+    pCols: ['Agency', 'Performance ★', 'Bookings (all time)', 'Sales (all time)', 'Sign-in days', 'Offers sent', 'Requests answered', 'Avg response', 'Median response', 'Bookings', 'Paid', 'Confirmed', 'Awaiting confirmation', 'Avg confirmation', 'Median confirmation'],
     pMarket: 'Traveler requests in period', pAnswered: 'Requests answered by any agency', pFastest: 'Fastest to respond', pOffers: 'Total offers', pPending: 'Bookings awaiting confirmation',
     pNote: 'Response time = from the traveler’s request to the agency’s first offer. Confirmation time = from payment (or offer acceptance when unpaid) to the agency pressing “Confirm booking”. The median limits the effect of outliers.', pNone: 'No agencies.', pMin: '{n} min', pHr: '{n} h', pDay: '{n} d',
     navUsers: 'Users', usersTitle: 'App users', usersSub: 'Everyone who signed up in the app, with sign-up details and activity.', uTotal: 'Signed-up users', u7: 'Joined last 7 days', u30: 'Joined last 30 days', uDev: 'Notifications on', uGuests: 'Devices not signed in', uBooked: 'Booked at least once', uSearch: 'Search by name, email or phone', uCsv: '⬇ Download Excel (CSV)', uNone: 'No users.',
@@ -573,8 +573,25 @@ export function install(ctx) {
     else if (p === 'year') { a1 = new Date(today.getFullYear(), 0, 1); b1 = end; }
     else if (p === 'all') { a1 = new Date(2026, 0, 1); b1 = end; }
     else { a1 = from ? sod(new Date(from + 'T00:00:00')) : addD(end, -30); b1 = to ? addD(sod(new Date(to + 'T00:00:00')), 1) : end; if (a1 > b1) [a1, b1] = [b1, a1]; }
-    const { data, error } = await sb.rpc('admin_partner_perf', { p_from: a1.toISOString(), p_to: b1.toISOString() });
+    const allFrom = new Date(2026, 0, 1).toISOString(), allTo = addD(end, 1).toISOString();
+    const [{ data, error }, { data: hist }, { data: sales }] = await Promise.all([
+      sb.rpc('admin_partner_perf', { p_from: a1.toISOString(), p_to: b1.toISOString() }),
+      sb.rpc('admin_partner_perf', { p_from: allFrom, p_to: allTo }),
+      sb.rpc('admin_partner_sales', { p_from: allFrom, p_to: allTo })]);
     const rows = error ? [] : (data || []);
+    const H = Object.fromEntries((hist || []).map((h) => [h.agency_id, h]));
+    const S = Object.fromEntries((sales || []).map((x) => [x.agency_id, x]));
+    const clamp = (x) => Math.max(0, Math.min(1, x));
+    const score = (h) => {
+      if (!h || !Number(h.requests_answered)) return null;
+      const ans = clamp(h.requests_answered / Math.max(1, h.market_requests));
+      const spd = h.median_response_min === null ? 0.5 : clamp(1 - Math.log(Math.max(30, h.median_response_min) / 30) / Math.log(48));
+      const conv = clamp(h.accepted / h.requests_answered);
+      const conf = h.median_confirm_hours === null ? 0.5 : clamp(1 - (Math.max(2, h.median_confirm_hours) - 2) / 70);
+      return Math.round((ans * 0.3 + spd * 0.25 + conv * 0.25 + conf * 0.2) * 50) / 10;
+    };
+    rows.forEach((r) => { r._score = score(H[r.agency_id]); r._b = S[r.agency_id]?.bookings ?? 0; r._sales = S[r.agency_id]?.sales ?? 0; });
+    const best = rows.filter((r) => r._score !== null).sort((x, y) => y._score - x._score)[0];
     const dur = (m) => (m === null || m === undefined ? '—' : m < 60 ? t('pMin', { n: Math.round(m) }) : m < 2880 ? t('pHr', { n: (m / 60).toFixed(1) }) : t('pDay', { n: (m / 1440).toFixed(1) }));
     const durH = (h) => (h === null || h === undefined ? '—' : dur(Number(h) * 60));
     const market = rows[0]?.market_requests ?? 0;
@@ -587,14 +604,15 @@ export function install(ctx) {
         <div class="row" style="gap:10px;align-items:flex-end;flex-wrap:wrap"><label class="f" style="min-width:160px">${esc(t('gPeriod'))}<select id="pf-p">${opt}</select></label>
           ${p === 'custom' ? `<label class="f">${esc(t('gFrom'))}<input type="date" id="pf-from" dir="ltr" value="${esc(from)}"></label><label class="f">${esc(t('gTo'))}<input type="date" id="pf-to" dir="ltr" value="${esc(to)}"></label>` : ''}</div></div>
       ${error ? `<p class="notice info">${esc(t('errGeneric'))}</p>` : ''}
-      <div class="row" style="gap:12px;margin-bottom:16px;flex-wrap:wrap">${k('pMarket', market)}${k('pOffers', offers)}${k('pFastest', fast ? `${fast.name} · ${dur(fast.median_response_min)}` : '—')}${k('pPending', pend)}</div>
+      <div class="row" style="gap:12px;margin-bottom:16px;flex-wrap:wrap">${k('pMarket', market)}${k('pOffers', offers)}${k('pFastest', fast ? `${fast.name} · ${dur(fast.median_response_min)}` : '—')}${k('pPending', pend)}${k('pBest', best ? `${best.name} · ${best._score}★` : '—')}</div>
       <div class="card"><div class="tbl-wrap"><table><thead><tr>${t('pCols').map((c) => `<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>
         ${rows.length ? rows.map((r) => `<tr><td><b>${esc(r.name)}</b>${r.status && r.status !== 'active' ? `<div class="muted" style="font-size:12px">${esc(r.status)}</div>` : ''}</td>
+          <td><b>${r._score === null ? '—' : esc(r._score) + ' ★'}</b></td><td>${esc(r._b)}</td><td>${esc(money(r._sales))}</td>
           <td>${esc(r.logins)}</td><td>${esc(r.offers_sent)}</td><td>${esc(r.requests_answered)}${market ? ` <span class="muted" style="font-size:12px">(${Math.round(r.requests_answered / market * 100)}%)</span>` : ''}</td>
           <td>${esc(dur(r.avg_response_min))}</td><td>${esc(dur(r.median_response_min))}</td><td>${esc(r.accepted)}</td><td>${esc(r.paid)}</td><td>${esc(r.confirmed)}</td>
           <td>${Number(r.pending_confirm) ? `<span class="badge accent">${esc(r.pending_confirm)}</span>` : '0'}</td><td>${esc(durH(r.avg_confirm_hours))}</td><td>${esc(durH(r.median_confirm_hours))}</td></tr>`).join('')
-          : `<tr><td colspan="12" class="muted">${esc(t('pNone'))}</td></tr>`}</tbody></table></div>
-        <p class="muted" style="margin:10px 0 0;font-size:12px">${esc(t('pNote'))}</p></div>`);
+          : `<tr><td colspan="15" class="muted">${esc(t('pNone'))}</td></tr>`}</tbody></table></div>
+        <p class="muted" style="margin:10px 0 0;font-size:12px">${esc(t('pNote'))}</p><p class="muted" style="margin:6px 0 0;font-size:12px">${esc(t('pScoreNote'))}</p></div>`);
     const go = () => viewPerf(document.getElementById('pf-p').value, document.getElementById('pf-from')?.value || from, document.getElementById('pf-to')?.value || to);
     document.getElementById('pf-p').onchange = go;
     ['pf-from', 'pf-to'].forEach((id) => { const el = document.getElementById(id); if (el) el.onchange = go; });
