@@ -15,7 +15,7 @@ export function install(ctx) {
     src_app: 'التطبيق', src_portal: 'لوحة الإدارة', src_site: 'الموقع', src_payments: 'الدفع', src_cron: 'مهمة تلقائية', src_push: 'الإشعارات', errCopy: 'نسخ', errCopied: 'تم النسخ',
     gTitle: 'نمو المستخدمين', gPeriod: 'الفترة', gp_7: 'آخر 7 أيام', gp_30: 'آخر 30 يوم', gp_90: 'آخر 90 يوم', gp_month: 'هذا الشهر', gp_lastmonth: 'الشهر الماضي', gp_year: 'هذي السنة', gp_all: 'من البداية', gp_custom: 'فترة محددة', gFrom: 'من', gTo: 'إلى',
     gNew: 'مسجّلين جدد في الفترة', gPrev: 'الفترة اللي قبلها', gChange: 'التغيّر', gAvg: 'متوسط باليوم', gTotalAt: 'إجمالي المسجّلين بنهاية الفترة', gBy_day: 'حسب اليوم', gBy_week: 'حسب الأسبوع', gBy_month: 'حسب الشهر', gTableNote: 'الجدول تحت يعرض المسجّلين في هذي الفترة.',
-    aTitle: 'نشاط المسافرين في الفترة', aVisits: 'زيارات (مستخدم/يوم)', aActive: 'مستخدمين نشطين', aReturning: 'مستخدمين راجعين', aReq: 'طلبات حجز', aRepeat: 'طلبوا أكثر من مرة', aBooked: 'تم الحجز', aPaid: 'منها مدفوع', aNot: 'لم يتم الحجز',
+    aTitle: 'نشاط المسافرين في الفترة', oOpens: 'فتحات التطبيق (عدّ دقيق)', oDevices: 'أجهزة فتحت التطبيق', oRetDev: 'أجهزة رجعت بأكثر من يوم', oGuests: 'فتحات بدون تسجيل', aVisits: 'زيارات (مستخدم/يوم)', aActive: 'مستخدمين نشطين', aReturning: 'مستخدمين راجعين', aReq: 'طلبات حجز', aRepeat: 'طلبوا أكثر من مرة', aBooked: 'تم الحجز', aPaid: 'منها مدفوع', aNot: 'لم يتم الحجز',
     aNotDetail: 'عندها عروض ولم تُحجز {a} · بدون عروض {b} · ملغاة {c} · منتهية {d}', aConv: 'نسبة التحويل (حجز ÷ طلبات)', aNote: 'الزيارات تُحسب من دخول المستخدم للتطبيق (مرة لكل مستخدم باليوم). «راجع» = دخل في يومين أو أكثر بالفترة أو مسجّل من قبلها.',
     confirmCol: 'تأكيد الحجز', confirmBtn: '✓ تأكيد الحجز', confirmAsk: 'تأكيد هذا الحجز؟ يوصل إشعار للمسافر إن حجزه تأكد.', confirmDone: 'تم تأكيد الحجز وإشعار المسافر.', confirmedOn: 'مؤكد {d}',
     navPerf: 'أداء المكاتب', perfTitle: 'أداء المكاتب', perfSub: 'نشاط كل مكتب في الفترة: الدخول، العروض، سرعة الرد على الطلبات الجديدة، والوقت لتأكيد الحجز.',
@@ -54,7 +54,7 @@ export function install(ctx) {
     src_app: 'App', src_portal: 'Admin portal', src_site: 'Website', src_payments: 'Payments', src_cron: 'Scheduled job', src_push: 'Notifications', errCopy: 'Copy', errCopied: 'Copied',
     gTitle: 'User growth', gPeriod: 'Period', gp_7: 'Last 7 days', gp_30: 'Last 30 days', gp_90: 'Last 90 days', gp_month: 'This month', gp_lastmonth: 'Last month', gp_year: 'This year', gp_all: 'All time', gp_custom: 'Custom range', gFrom: 'From', gTo: 'To',
     gNew: 'New sign-ups in period', gPrev: 'Previous period', gChange: 'Change', gAvg: 'Average per day', gTotalAt: 'Total users at period end', gBy_day: 'By day', gBy_week: 'By week', gBy_month: 'By month', gTableNote: 'The table below shows users who signed up in this period.',
-    aTitle: 'Traveler activity in period', aVisits: 'Visits (user-days)', aActive: 'Active users', aReturning: 'Returning users', aReq: 'Trip requests', aRepeat: 'Requested more than once', aBooked: 'Booked', aPaid: 'of which paid', aNot: 'Not booked',
+    aTitle: 'Traveler activity in period', oOpens: 'App opens (exact)', oDevices: 'Devices that opened the app', oRetDev: 'Devices back on 2+ days', oGuests: 'Opens without sign-in', aVisits: 'Visits (user-days)', aActive: 'Active users', aReturning: 'Returning users', aReq: 'Trip requests', aRepeat: 'Requested more than once', aBooked: 'Booked', aPaid: 'of which paid', aNot: 'Not booked',
     aNotDetail: 'Has offers, not booked {a} · No offers {b} · Cancelled {c} · Expired {d}', aConv: 'Conversion (booked ÷ requests)', aNote: 'Visits are counted from app sign-ins (once per user per day). “Returning” = active on 2+ days in the period, or signed up before it.',
     confirmCol: 'Confirmation', confirmBtn: '✓ Confirm booking', confirmAsk: 'Confirm this booking? The traveler is notified that it is confirmed.', confirmDone: 'Booking confirmed and traveler notified.', confirmedOn: 'Confirmed {d}',
     navPerf: 'Partner performance', perfTitle: 'Partner performance', perfSub: 'Each agency in the period: sign-ins, offers, response speed to new requests, and time to confirm bookings.',
@@ -513,6 +513,8 @@ export function install(ctx) {
       box.innerHTML = kk('aVisits', v.visits) + kk('aActive', v.active) + kk('aReturning', v.returning) + kk('aReq', v.requests) + kk('aRepeat', v.repeat_requesters)
         + kk('aBooked', `${v.booked} (${t('aPaid')} ${v.paid})`) + kk('aNot', notB) + kk('aConv', v.requests ? Math.round(v.booked / v.requests * 100) + '%' : '—');
       document.getElementById('a-nd').textContent = t('aNotDetail', { a: v.open_offers, b: v.open_no_offers, c: v.cancelled, d: v.expired });
+      const { data: op } = await sb.rpc('admin_opens', { p_from: a1.toISOString(), p_to: b1.toISOString() });   // app 1.3.1+
+      if (my === actSeq && box.isConnected && op && Number(op.opens) > 0) box.innerHTML += kk('oOpens', op.opens) + kk('oDevices', op.devices) + kk('oRetDev', op.returning_devices) + kk('oGuests', op.opens_guests);
     };
     const draw = (q) => {
       const s = String(q || '').trim().toLowerCase();
