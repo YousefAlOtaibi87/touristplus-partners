@@ -1,5 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=26';
+import { install } from './extra.js?v=27';
 import { AIRLINES } from './airlines.js?v=1';
 import { installOnboarding } from './onboarding.js?v=24';
 import { installTerms } from './terms.js?v=11';
@@ -167,6 +167,8 @@ async function loadProfile() {
     state.agency = a;
     state.intro = null;
     if (a) { const { data: it } = await sb.rpc('my_intro'); if (it?.on) state.intro = it; }
+    state.unread = 0;
+    if (a) { const { data: ns } = await sb.rpc('my_notices'); state.unread = (ns || []).filter((n) => !n.is_read).length; }
     if (a) try { sessionStorage.removeItem('ttp_reload'); } catch {}
   }
   if (p?.role === 'admin') { const { data: n } = await sb.rpc('admin_pending_applications'); state.pendingApps = n || 0; }
@@ -222,12 +224,14 @@ async function route() {
     if (view === 'push') return X.viewPush();
     if (view === 'users') return X.viewUsers();
     if (view === 'perf') return X.viewPerf();
+    if (view === 'notices') return X.viewNotices();
     if (view === 'esim') return ES.viewEsim();
     if (view === 'company' && id) return O.viewCompany(id);
     if (view === 'terms') return TM.viewTerms();
     return CP.viewControl();
   }
   if (!state.agency || state.profile.role !== 'agency') return O.viewApplication();
+  if (view === 'notices') return X.viewMyNotices();
   if (view === 'packages') return X.viewPackages();
   if (view === 'terms') return TM.viewTerms();
   if (view === 'package' && id) return X.viewPackage(id);
@@ -298,6 +302,11 @@ function renderNotPartner() {
 // ---------------------------------------------------------------- shell
 function agencyBanner() {
   const a = state.agency;
+  const nb = state.unread && state.profile?.role !== 'admin' ? `<a class="notice info" href="#/notices" style="display:block;margin-bottom:16px;text-decoration:none">📩 ${esc(t('noticesUnread', { n: state.unread }))}</a>` : '';
+  return nb + agencyBanner0();
+}
+function agencyBanner0() {
+  const a = state.agency;
   if (a && state.profile?.role !== 'admin' && (!a.status || a.status === 'active') && state.intro?.on && Number(state.intro.rate) < Number(state.intro.normal))
     return `<div class="notice good" style="margin-bottom:16px">${esc(t('introBanner', { r: state.intro.rate, n: state.intro.normal, d: fmtDate(state.intro.until) }))}</div>`;
   if (!a || state.profile?.role === 'admin' || !a.status || a.status === 'active') return '';
@@ -321,6 +330,7 @@ function shell(active, inner) {
         ${link('promos', '#/promos', t('navPromos'))}
         ${link('users', '#/users', t('navUsers'))}
         ${link('perf', '#/perf', t('navPerf'))}
+        ${link('notices', '#/notices', t('navNoticesAdmin'))}
         ${link('push', '#/push', t('navPush'))}
         ${link('esim', '#/esim', t('navEsim'))}
         ${link('terms', '#/terms', t('navTerms'))}` : `${link('requests', '#/requests', t('navRequests'), state.openCount)}
@@ -328,6 +338,7 @@ function shell(active, inner) {
         ${link('bookings', '#/bookings', t('navBookings'))}
         ${link('packages', '#/packages', t('navPackages'))}
         ${link('documents', '#/documents', t('navDocs'))}
+        ${link('notices', '#/notices', t('navNotices'), state.unread)}
         ${link('terms', '#/terms', t('navTerms'))}`}
       </nav>
       <div class="side-foot">
