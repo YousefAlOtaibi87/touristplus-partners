@@ -1,5 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=28';
+import { install } from './extra.js?v=29';
 import { AIRLINES } from './airlines.js?v=1';
 import { installOnboarding } from './onboarding.js?v=24';
 import { installTerms } from './terms.js?v=11';
@@ -152,8 +152,11 @@ sb.auth.onAuthStateChange(async (event, session) => {
   if (event === 'PASSWORD_RECOVERY') recoveryMode = true;
   state.session = session;
   await loadProfile();
+  if (event === 'SIGNED_IN' && state.agency) sb.rpc('portal_event', { p_event: 'login' }).then(() => {}, () => {});
   route();
 });
+// Agency presence: heartbeat while the portal is open (admin sees "online now" and last sign-in/out).
+setInterval(() => { if (state.agency && state.profile?.role === 'agency' && document.visibilityState === 'visible') sb.rpc('portal_event', { p_event: 'seen' }).then(() => {}, () => {}); }, 120000);
 
 async function loadProfile() {
   state.profile = null;
@@ -170,6 +173,7 @@ async function loadProfile() {
     state.unread = 0;
     if (a) { const { data: ns } = await sb.rpc('my_notices'); state.unread = (ns || []).filter((n) => !n.is_read).length; }
     if (a) try { sessionStorage.removeItem('ttp_reload'); } catch {}
+    if (a && p.role === 'agency') sb.rpc('portal_event', { p_event: 'seen' }).then(() => {}, () => {});
   }
   if (p?.role === 'admin') { const { data: n } = await sb.rpc('admin_pending_applications'); state.pendingApps = n || 0; }
   startRealtime();
@@ -693,7 +697,7 @@ document.addEventListener('click', async (e) => {
   if (!b) return;
   const act = b.dataset.act;
   if (act === 'lang') { state.lang = state.lang === 'ar' ? 'en' : 'ar'; localStorage.setItem('tp.lang', state.lang); state.session ? route() : renderLogin(); }
-  if (act === 'signout') { await sb.auth.signOut(); location.hash = ''; }
+  if (act === 'signout') { if (state.agency && state.profile?.role === 'agency') await sb.rpc('portal_event', { p_event: 'logout' }).then(() => {}, () => {}); await sb.auth.signOut(); location.hash = ''; }
   if (act === 'to-forgot') renderLogin('forgot');
   if (act === 'to-login') renderLogin('login');
   if (act === 'to-register') O.renderSignup();
