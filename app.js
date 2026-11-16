@@ -1,5 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=30';
+import { install } from './extra.js?v=31';
 import { AIRLINES } from './airlines.js?v=1';
 import { installOnboarding } from './onboarding.js?v=24';
 import { installTerms } from './terms.js?v=11';
@@ -32,7 +32,7 @@ const STR = {
     back: 'رجوع', tripDetails: 'تفاصيل الطلب', yourOffer: 'عرضك', sendOffer: 'أرسل العرض', updateOffer: 'حدّث العرض', withdraw: 'سحب العرض',
     withdrawConfirm: 'تبي تسحب عرضك؟', price: 'السعر الإجمالي (د.ك)', airline: 'الطيران', airlinePh: 'مثال: الخطوط الجوية الكويتية', hotel: 'الفندق', hotelPh: 'اسم الفندق',
     includes: 'الخدمات المشمولة', itinerary: 'البرنامج والتفاصيل', itineraryPh: 'اليوم ١: الوصول والتوصيل…', validFor: 'صلاحية العرض', days: '{n} أيام',
-    photosL: 'صور الفندق والغرفة', photoHotel: 'أضف صور الفندق', photoRoom: 'أضف صور الغرفة', kind_hotel: 'الفندق', kind_room: 'الغرفة', photosHint: 'حتى 12 صورة تظهر للمسافر قبل الموافقة. لا تضع شعار المكتب أو أي بيانات تواصل في الصور.', photoUploading: 'جاري رفع الصور…', errPhoto: 'تعذّر رفع إحدى الصور. جرّب صورة JPG أو PNG.', removePhoto: 'حذف الصورة', phAck: 'أؤكد أن الصور لا تحتوي على اسم المكتب أو شعاره أو أي بيانات تواصل (أرقام، بريد، حسابات، مواقع). أي صورة مخالفة تُحذف وقد يُوقف العرض.', errPhAck: 'أكّد أن الصور خالية من اسم المكتب وبيانات التواصل.', hotelMap: 'رابط موقع الفندق على الخريطة', hotelMapPh: 'رابط Google Maps أو Apple Maps', errMap: 'رابط الموقع لازم يكون من Google Maps أو Apple Maps فقط.', mapLink: 'الموقع على الخريطة', errPrice: 'اكتب سعر صحيح.', validUntil: 'العرض صالح حتى', validUntilHint: 'تحدد أنت صلاحية العرض، بشرط تكون قبل تاريخ السفر.', errValidity: 'اختر تاريخ صلاحية بعد ساعة على الأقل وقبل تاريخ السفر.', errMaxOffers: 'وصلت الحد الأعلى من الخيارات لهذا الطلب (3 خيارات لكل مدينة).', hotelCity: 'المدينة', hCancel: 'الإلغاء', hcFree: 'قابل للإلغاء', hcNonref: 'غير قابل للإلغاء', hcUntil: 'إلغاء مجاني حتى', hcWant: 'إلغاء الفندق المطلوب', hc_any: 'قابل أو غير قابل للإلغاء', hc_free: 'قابل للإلغاء', hc_nonref: 'غير قابل للإلغاء', flightPolicy: 'تذاكر الطيران تخضع لسياسة شركة الطيران نفسها.', errCancel: 'حدد لكل فندق: قابل للإلغاء أو غير قابل للإلغاء.', citiesL: 'المدن', anyHotel: 'أي فندق', introBanner: '🎁 فترة تمهيدية: عمولة المنصة على حجوزات طلبات الأسعار {r}% بدل {n}% حتى {d}، وبعدها تطبَّق النسبة الأصلية تلقائياً.', optLabel: 'اسم الخيار (اختياري)', optLabelPh: 'مثال: خيار اقتصادي / فندق على البحر', yourOptions: 'خياراتك المرسلة ({n} من {m})', addOption: '+ إضافة خيار آخر', editOption: 'تعديل', optionN: 'خيار {n}', hotelsL: 'الفنادق', hotelRow: 'فندق {n}', hotelNights: 'عدد الليالي', nightPrice: 'سعر الليلة (د.ك)', addHotel: '+ فندق آخر', hotelsHint: 'اذكر عدد الليالي وسعر الليلة لكل فندق.', validLeft: 'صالح حتى {d}', followup: '⏰ طلب متابعة المسافر', followupDone: 'تم إرسال تنبيه للمسافر بأن عرضك بانتظار قراره.', followupSoon: 'أرسلت طلب متابعة لهذا الطلب خلال آخر 24 ساعة.', followupHint: 'المنصة ترسل للمسافر تنبيه في التطبيق بأن عرضك بانتظار قراره (مرة كل 24 ساعة).', resultTitle: 'نتيجة الطلب', resultWon: 'تم اختيار عرضك 🎉', resultOther: 'اختار المسافر عرض المكتب {c} بسعر {p}.', resultNone: 'أُغلق الطلب بدون حجز.', myCode: 'كود مكتبك: {c}', cancelEdit: 'إلغاء التعديل', offerSent: 'تم إرسال عرضك للمسافر.', offerUpdated: 'تم تحديث العرض.', offerWithdrawn: 'تم سحب العرض.',
+    photosL: 'صور الفندق والغرفة', photoHotel: 'أضف صور الفندق', photoRoom: 'أضف صور الغرفة', kind_hotel: 'الفندق', kind_room: 'الغرفة', photosHint: 'حتى 12 صورة تظهر للمسافر قبل الموافقة. لا تضع شعار المكتب أو أي بيانات تواصل في الصور.', photoUploading: 'جاري رفع الصور…', errPhoto: 'تعذّر رفع إحدى الصور. جرّب صورة JPG أو PNG.', removePhoto: 'حذف الصورة', hPhone: 'هاتف الفندق (لا يظهر للمسافر)', hSaved: 'من دليل الفنادق', hUseSaved: 'أضف صوره المحفوظة ({n})', phForHotel: 'الصور لفندق:', phReused: 'الصورة موجودة مسبقاً واستُخدمت بدون تكرار.', phAck: 'أؤكد أن الصور لا تحتوي على اسم المكتب أو شعاره أو أي بيانات تواصل (أرقام، بريد، حسابات، مواقع). أي صورة مخالفة تُحذف وقد يُوقف العرض.', errPhAck: 'أكّد أن الصور خالية من اسم المكتب وبيانات التواصل.', hotelMap: 'رابط موقع الفندق على الخريطة', hotelMapPh: 'رابط Google Maps أو Apple Maps', errMap: 'رابط الموقع لازم يكون من Google Maps أو Apple Maps فقط.', mapLink: 'الموقع على الخريطة', errPrice: 'اكتب سعر صحيح.', validUntil: 'العرض صالح حتى', validUntilHint: 'تحدد أنت صلاحية العرض، بشرط تكون قبل تاريخ السفر.', errValidity: 'اختر تاريخ صلاحية بعد ساعة على الأقل وقبل تاريخ السفر.', errMaxOffers: 'وصلت الحد الأعلى من الخيارات لهذا الطلب (3 خيارات لكل مدينة).', hotelCity: 'المدينة', hCancel: 'الإلغاء', hcFree: 'قابل للإلغاء', hcNonref: 'غير قابل للإلغاء', hcUntil: 'إلغاء مجاني حتى', hcWant: 'إلغاء الفندق المطلوب', hc_any: 'قابل أو غير قابل للإلغاء', hc_free: 'قابل للإلغاء', hc_nonref: 'غير قابل للإلغاء', flightPolicy: 'تذاكر الطيران تخضع لسياسة شركة الطيران نفسها.', errCancel: 'حدد لكل فندق: قابل للإلغاء أو غير قابل للإلغاء.', citiesL: 'المدن', anyHotel: 'أي فندق', introBanner: '🎁 فترة تمهيدية: عمولة المنصة على حجوزات طلبات الأسعار {r}% بدل {n}% حتى {d}، وبعدها تطبَّق النسبة الأصلية تلقائياً.', optLabel: 'اسم الخيار (اختياري)', optLabelPh: 'مثال: خيار اقتصادي / فندق على البحر', yourOptions: 'خياراتك المرسلة ({n} من {m})', addOption: '+ إضافة خيار آخر', editOption: 'تعديل', optionN: 'خيار {n}', hotelsL: 'الفنادق', hotelRow: 'فندق {n}', hotelNights: 'عدد الليالي', nightPrice: 'سعر الليلة (د.ك)', addHotel: '+ فندق آخر', hotelsHint: 'اذكر عدد الليالي وسعر الليلة لكل فندق.', validLeft: 'صالح حتى {d}', followup: '⏰ طلب متابعة المسافر', followupDone: 'تم إرسال تنبيه للمسافر بأن عرضك بانتظار قراره.', followupSoon: 'أرسلت طلب متابعة لهذا الطلب خلال آخر 24 ساعة.', followupHint: 'المنصة ترسل للمسافر تنبيه في التطبيق بأن عرضك بانتظار قراره (مرة كل 24 ساعة).', resultTitle: 'نتيجة الطلب', resultWon: 'تم اختيار عرضك 🎉', resultOther: 'اختار المسافر عرض المكتب {c} بسعر {p}.', resultNone: 'أُغلق الطلب بدون حجز.', myCode: 'كود مكتبك: {c}', cancelEdit: 'إلغاء التعديل', offerSent: 'تم إرسال عرضك للمسافر.', offerUpdated: 'تم تحديث العرض.', offerWithdrawn: 'تم سحب العرض.',
     requestClosed: 'هذا الطلب ما يستقبل عروض جديدة.', chat: 'المحادثة مع المسافر', chatHint: 'المحادثة تتفعّل بعد ما ترسل عرضك.', typeMessage: 'اكتب رسالة…', send: 'إرسال', noMessages: 'ما فيه رسائل للحين.',
     myOffersTitle: 'عروضي', noOffers: 'ما أرسلت أي عرض للحين.', destination: 'الوجهة', dates: 'التواريخ', status: 'الحالة', sentAt: 'أُرسل',
     st_pending: 'بانتظار المسافر', st_accepted: 'تم الحجز', st_declined: 'لم يُختر', st_withdrawn: 'مسحوب',
@@ -65,7 +65,7 @@ const STR = {
     back: 'Back', tripDetails: 'Request details', yourOffer: 'Your offer', sendOffer: 'Send offer', updateOffer: 'Update offer', withdraw: 'Withdraw offer',
     withdrawConfirm: 'Withdraw your offer?', price: 'Total price (KWD)', airline: 'Airline', airlinePh: 'e.g. Kuwait Airways', hotel: 'Hotel', hotelPh: 'Hotel name',
     includes: 'Included services', itinerary: 'Itinerary & details', itineraryPh: 'Day 1: arrival & transfer…', validFor: 'Valid for', days: '{n} days',
-    photosL: 'Hotel & room photos', photoHotel: 'Add hotel photos', photoRoom: 'Add room photos', kind_hotel: 'Hotel', kind_room: 'Room', photosHint: 'Up to 12 photos, shown to the traveler before they accept. Do not include your agency logo or any contact details.', photoUploading: 'Uploading photos…', errPhoto: 'A photo could not be uploaded. Try a JPG or PNG.', removePhoto: 'Remove photo', phAck: 'I confirm the photos contain no agency name, logo or contact details (numbers, email, accounts, websites). Any violating photo is removed and the offer may be suspended.', errPhAck: 'Confirm the photos contain no agency name or contact details.', hotelMap: 'Hotel location link', hotelMapPh: 'Google Maps or Apple Maps link', errMap: 'The location link must be a Google Maps or Apple Maps link only.', mapLink: 'Location on map', errPrice: 'Enter a valid price.', validUntil: 'Offer valid until', validUntilHint: 'You set the offer’s validity, as long as it ends before the departure date.', errValidity: 'Pick a validity at least one hour from now and before departure.', errMaxOffers: 'Limit reached for this request (3 options per city).', hotelCity: 'City', hCancel: 'Cancellation', hcFree: 'Free cancellation', hcNonref: 'Non-refundable', hcUntil: 'Free cancellation until', hcWant: 'Hotel cancellation wanted', hc_any: 'Refundable or non-refundable', hc_free: 'Free cancellation', hc_nonref: 'Non-refundable', flightPolicy: 'Flight tickets follow the airline’s own policy.', errCancel: 'State for every hotel: free cancellation or non-refundable.', citiesL: 'Cities', anyHotel: 'Any hotel', introBanner: '🎁 Introductory period: platform commission on request bookings is {r}% instead of {n}% until {d}; the standard rate applies automatically afterwards.', optLabel: 'Option name (optional)', optLabelPh: 'e.g. Budget option / Beachfront hotel', yourOptions: 'Your options ({n} of {m})', addOption: '+ Add another option', editOption: 'Edit', optionN: 'Option {n}', hotelsL: 'Hotels', hotelRow: 'Hotel {n}', hotelNights: 'Nights', nightPrice: 'Price per night (KWD)', addHotel: '+ Another hotel', hotelsHint: 'Give the number of nights and the nightly rate for each hotel.', validLeft: 'Valid until {d}', followup: '⏰ Ask to follow up with the traveler', followupDone: 'The traveler was reminded that your offer awaits their decision.', followupSoon: 'You already asked for a follow-up on this request in the last 24 hours.', followupHint: 'The platform sends the traveler an in-app reminder that your offer awaits a decision (once every 24 hours).', resultTitle: 'Request result', resultWon: 'Your offer was chosen 🎉', resultOther: 'The traveler chose agency {c}’s offer at {p}.', resultNone: 'The request closed without a booking.', myCode: 'Your agency code: {c}', cancelEdit: 'Cancel edit', offerSent: 'Your offer was sent to the traveler.', offerUpdated: 'Offer updated.', offerWithdrawn: 'Offer withdrawn.',
+    photosL: 'Hotel & room photos', photoHotel: 'Add hotel photos', photoRoom: 'Add room photos', kind_hotel: 'Hotel', kind_room: 'Room', photosHint: 'Up to 12 photos, shown to the traveler before they accept. Do not include your agency logo or any contact details.', photoUploading: 'Uploading photos…', errPhoto: 'A photo could not be uploaded. Try a JPG or PNG.', removePhoto: 'Remove photo', hPhone: 'Hotel phone (not shown to travelers)', hSaved: 'From the hotel directory', hUseSaved: 'Add its saved photos ({n})', phForHotel: 'Photos for hotel:', phReused: 'This photo already exists and was reused (no duplicate).', phAck: 'I confirm the photos contain no agency name, logo or contact details (numbers, email, accounts, websites). Any violating photo is removed and the offer may be suspended.', errPhAck: 'Confirm the photos contain no agency name or contact details.', hotelMap: 'Hotel location link', hotelMapPh: 'Google Maps or Apple Maps link', errMap: 'The location link must be a Google Maps or Apple Maps link only.', mapLink: 'Location on map', errPrice: 'Enter a valid price.', validUntil: 'Offer valid until', validUntilHint: 'You set the offer’s validity, as long as it ends before the departure date.', errValidity: 'Pick a validity at least one hour from now and before departure.', errMaxOffers: 'Limit reached for this request (3 options per city).', hotelCity: 'City', hCancel: 'Cancellation', hcFree: 'Free cancellation', hcNonref: 'Non-refundable', hcUntil: 'Free cancellation until', hcWant: 'Hotel cancellation wanted', hc_any: 'Refundable or non-refundable', hc_free: 'Free cancellation', hc_nonref: 'Non-refundable', flightPolicy: 'Flight tickets follow the airline’s own policy.', errCancel: 'State for every hotel: free cancellation or non-refundable.', citiesL: 'Cities', anyHotel: 'Any hotel', introBanner: '🎁 Introductory period: platform commission on request bookings is {r}% instead of {n}% until {d}; the standard rate applies automatically afterwards.', optLabel: 'Option name (optional)', optLabelPh: 'e.g. Budget option / Beachfront hotel', yourOptions: 'Your options ({n} of {m})', addOption: '+ Add another option', editOption: 'Edit', optionN: 'Option {n}', hotelsL: 'Hotels', hotelRow: 'Hotel {n}', hotelNights: 'Nights', nightPrice: 'Price per night (KWD)', addHotel: '+ Another hotel', hotelsHint: 'Give the number of nights and the nightly rate for each hotel.', validLeft: 'Valid until {d}', followup: '⏰ Ask to follow up with the traveler', followupDone: 'The traveler was reminded that your offer awaits their decision.', followupSoon: 'You already asked for a follow-up on this request in the last 24 hours.', followupHint: 'The platform sends the traveler an in-app reminder that your offer awaits a decision (once every 24 hours).', resultTitle: 'Request result', resultWon: 'Your offer was chosen 🎉', resultOther: 'The traveler chose agency {c}’s offer at {p}.', resultNone: 'The request closed without a booking.', myCode: 'Your agency code: {c}', cancelEdit: 'Cancel edit', offerSent: 'Your offer was sent to the traveler.', offerUpdated: 'Offer updated.', offerWithdrawn: 'Offer withdrawn.',
     requestClosed: 'This request is no longer accepting offers.', chat: 'Chat with traveler', chatHint: 'Chat opens after you send an offer.', typeMessage: 'Write a message…', send: 'Send', noMessages: 'No messages yet.',
     myOffersTitle: 'My offers', noOffers: 'You have not sent any offers yet.', destination: 'Destination', dates: 'Dates', status: 'Status', sentAt: 'Sent',
     st_pending: 'Awaiting traveler', st_accepted: 'Booked', st_declined: 'Not selected', st_withdrawn: 'Withdrawn',
@@ -140,6 +140,17 @@ async function shrinkImage(file) {
     c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
     return await new Promise((res) => c.toBlob((b) => res(b || file), 'image/jpeg', 0.82));
   } catch { return file; }
+}
+// 64-bit difference hash, so the same picture (even resized) is recognised and not stored twice.
+async function dHash(blob) {
+  try {
+    const img = await createImageBitmap(blob); const c = document.createElement('canvas'); c.width = 9; c.height = 8;
+    const x = c.getContext('2d'); x.drawImage(img, 0, 0, 9, 8); const d = x.getImageData(0, 0, 9, 8).data;
+    const g = (i) => d[i * 4] * 0.299 + d[i * 4 + 1] * 0.587 + d[i * 4 + 2] * 0.114;
+    let bits = ''; for (let yy = 0; yy < 8; yy++) for (let xx = 0; xx < 8; xx++) bits += g(yy * 9 + xx) > g(yy * 9 + xx + 1) ? '1' : '0';
+    let hex = ''; for (let i = 0; i < 64; i += 4) hex += parseInt(bits.slice(i, i + 4), 2).toString(16);
+    return hex;
+  } catch { return null; }
 }
 const photoThumbs = (ps, removable) => `<div style="display:flex;gap:8px;flex-wrap:wrap">${(ps || []).map((p, i) => `<div style="position:relative;width:84px;height:84px;border-radius:10px;overflow:hidden;background:#eee">
   <a href="${esc(p.url)}" target="_blank" rel="noopener"><img src="${esc(p.url)}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover"></a>
@@ -256,6 +267,7 @@ async function route() {
     if (view === 'perf') return X.viewPerf();
     if (view === 'notices') return X.viewNotices();
     if (view === 'photos') return X.viewPhotos();
+    if (view === 'hotels') return X.viewHotels();
     if (view === 'esim') return ES.viewEsim();
     if (view === 'company' && id) return O.viewCompany(id);
     if (view === 'terms') return TM.viewTerms();
@@ -362,6 +374,7 @@ function shell(active, inner) {
         ${link('users', '#/users', t('navUsers'))}
         ${link('perf', '#/perf', t('navPerf'))}
         ${link('notices', '#/notices', t('navNoticesAdmin'))}
+        ${link('hotels', '#/hotels', t('navHotels'))}
         ${link('photos', '#/photos', t('navPhotos'))}
         ${link('push', '#/push', t('navPush'))}
         ${link('esim', '#/esim', t('navEsim'))}
@@ -481,7 +494,9 @@ async function viewRequest(id) {
 
   const hotelRow = (h, i) => `<div class="row" data-hotel style="gap:8px;align-items:flex-end;flex-wrap:wrap;background:var(--sand,#F7F3EC);padding:10px;border-radius:12px">
       ${rc.length ? `<label class="f" style="width:150px">${esc(t('hotelCity'))}<select data-h="city">${rc.map((c) => `<option value="${esc(c.city)}" ${h.city === c.city ? 'selected' : ''}>${esc(place(c.city))}</option>`).join('')}</select></label>` : ''}
-      <label class="f grow" style="min-width:180px">${esc(t('hotelRow', { n: i + 1 }))}<input data-h="name" placeholder="${esc(t('hotelPh'))}" value="${esc(h.name || '')}"></label>
+      <label class="f grow" style="min-width:180px;position:relative">${esc(t('hotelRow', { n: i + 1 }))}<input data-h="name" autocomplete="off" placeholder="${esc(t('hotelPh'))}" value="${esc(h.name || '')}">
+        <input type="hidden" data-h="hotel_id" value="${esc(h.hotel_id || '')}"><div data-hsugg hidden style="position:absolute;top:100%;inset-inline:0;z-index:20;background:#fff;border:1px solid #ddd;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.12);max-height:280px;overflow:auto"></div></label>
+      <label class="f" style="width:190px">${esc(t('hPhone'))}<input data-h="phone" type="tel" dir="ltr" value=""></label>
       <label class="f" style="width:110px">${esc(t('hotelStars'))}<select data-h="stars">${[3, 4, 5].map((n) => `<option value="${n}" ${Number(h.stars) === n ? 'selected' : ''}>${'★'.repeat(n)}</option>`).join('')}</select></label>
       <label class="f" style="width:100px">${esc(t('hotelNights'))}<input data-h="nights" type="number" min="1" max="60" value="${esc(h.nights ?? '')}" dir="ltr"></label>
       <label class="f" style="width:140px">${esc(t('nightPrice'))}<input data-h="night_price" type="number" min="0" step="0.001" value="${esc(h.night_price ?? '')}" dir="ltr"></label>
@@ -505,6 +520,7 @@ async function viewRequest(id) {
         <div class="row" style="gap:8px;flex-wrap:wrap"><label class="btn ghost small" style="cursor:pointer">📷 ${esc(t('photoHotel'))}<input type="file" accept="image/*" multiple data-kind="hotel" hidden></label>
           <label class="btn ghost small" style="cursor:pointer">🛏️ ${esc(t('photoRoom'))}<input type="file" accept="image/*" multiple data-kind="room" hidden></label>
           <span id="ph-status" class="muted" style="font-size:12px"></span></div>
+        <label class="row" style="gap:8px;font-size:13px;align-items:center">${esc(t('phForHotel'))} <select id="ph-hotel" style="width:auto;min-width:200px"></select></label>
         <span class="muted" style="font-size:12px">${esc(t('photosHint'))}</span>
         <label style="display:flex;gap:8px;align-items:flex-start;font-size:13px;background:#FFF4E5;border-radius:10px;padding:10px"><input type="checkbox" id="ph-ack" ${base?.photos?.length ? 'checked' : ''} style="margin-top:3px"> <span>${esc(t('phAck'))}</span></label></fieldset>
       ${r.services.includes('flights') ? `<p class="muted" style="margin:0;font-size:12px">✈️ ${esc(t('flightPolicy'))}</p>` : ''}
@@ -591,16 +607,52 @@ async function viewRequest(id) {
     const files = [...inp.files].slice(0, Math.max(0, 12 - photos.length)); inp.value = '';
     if (!files.length) return;
     uploading++; phStatus.textContent = t('photoUploading'); of.querySelector('[type=submit]').disabled = true;
+    const forHotel = document.getElementById('ph-hotel')?.value || '';
     for (const f of files) {
       const blob = await shrinkImage(f);
+      const hash = await dHash(blob);
+      const { data: same } = hash ? await sb.rpc('photo_lookup', { p_hash: hash }) : { data: null };
+      if (same && photos.some((x) => x.url === same)) continue;
+      if (same) { photos.push({ url: same, kind: inp.dataset.kind, hash, hotel: forHotel }); toast(t('phReused')); drawPhotos(); continue; }
       const path = `${state.agency.id}/${crypto.randomUUID()}.jpg`;
       const { error } = await sb.storage.from('offer-photos').upload(path, blob, { contentType: blob.type || 'image/jpeg', upsert: false });
       if (error) { toast(t('errPhoto')); continue; }
-      photos.push({ url: sb.storage.from('offer-photos').getPublicUrl(path).data.publicUrl, kind: inp.dataset.kind });
+      photos.push({ url: sb.storage.from('offer-photos').getPublicUrl(path).data.publicUrl, kind: inp.dataset.kind, hash, hotel: forHotel });
       drawPhotos();
     }
     uploading--; if (!uploading) { phStatus.textContent = ''; of.querySelector('[type=submit]').disabled = false; }
   }));
+  const hotelNames = () => [...(of?.querySelectorAll('[data-hotel] [data-h=name]') || [])].map((x) => x.value.trim()).filter(Boolean);
+  const fillPhHotel = () => { const sel = document.getElementById('ph-hotel'); if (!sel) return; const cur = sel.value;
+    sel.innerHTML = hotelNames().map((n) => `<option value="${esc(n)}">${esc(n)}</option>`).join('') || `<option value="">—</option>`; if (hotelNames().includes(cur)) sel.value = cur; };
+  document.getElementById('ph-hotel')?.addEventListener('focus', fillPhHotel); fillPhHotel();
+  let sugT;
+  document.getElementById('hotels')?.addEventListener('input', (e) => {
+    const inp = e.target; if (inp?.dataset?.h !== 'name') return;
+    const row = inp.closest('[data-hotel]'); row.querySelector('[data-h=hotel_id]').value = ''; fillPhHotel();
+    const box = row.querySelector('[data-hsugg]'); clearTimeout(sugT);
+    if (inp.value.trim().length < 2) { box.hidden = true; return; }
+    sugT = setTimeout(async () => {
+      const city = row.querySelector('[data-h=city]')?.value || r.destination || '';
+      const { data } = await sb.rpc('catalog_search', { p_q: inp.value.trim(), p_city: city });
+      if (!data?.length) { box.hidden = true; return; }
+      box.innerHTML = data.map((h, k) => `<button type="button" data-pick="${k}" style="display:block;width:100%;text-align:start;padding:8px 10px;border:0;border-bottom:1px solid #eee;background:#fff;cursor:pointer">
+        <b>${esc(h.name)}</b> ${h.stars ? '★'.repeat(h.stars) : ''}<br><span class="muted" style="font-size:12px">${esc([h.area, h.city ? place(h.city) : ''].filter(Boolean).join(' · '))}${h.photos?.length ? ' · 📷 ' + h.photos.length : ''} · ${esc(t('hSaved'))}</span></button>`).join('');
+      box.hidden = false;
+      box.querySelectorAll('[data-pick]').forEach((b) => (b.onmousedown = (ev) => {
+        ev.preventDefault(); const h = data[Number(b.dataset.pick)];
+        inp.value = h.name; row.querySelector('[data-h=hotel_id]').value = h.id;
+        if (h.stars) row.querySelector('[data-h=stars]').value = String(h.stars);
+        if (h.map && !row.querySelector('[data-h=map]').value) row.querySelector('[data-h=map]').value = h.map;
+        box.hidden = true; fillPhHotel();
+        if (PHOTOS_OK && h.photos?.length) {
+          const add = h.photos.filter((x) => !photos.some((y) => y.url === x.url)).slice(0, Math.max(0, 12 - photos.length));
+          if (add.length && confirm(t('hUseSaved', { n: add.length }))) { add.forEach((x) => photos.push({ url: x.url, kind: x.kind, hotel: h.name })); drawPhotos(); }
+        }
+      }));
+    }, 300);
+  });
+  document.getElementById('hotels')?.addEventListener('focusout', (e) => { const box = e.target?.closest?.('[data-hotel]')?.querySelector('[data-hsugg]'); if (box) setTimeout(() => (box.hidden = true), 150); });
   if (of) of.onsubmit = async (e) => {
     e.preventDefault();
     const fd = new FormData(of);
@@ -611,7 +663,7 @@ async function viewRequest(id) {
     if (Number.isNaN(vu.getTime()) || vu.getTime() < Date.now() + 3600000 || vu.getTime() > Date.parse(`${r.depart}T00:00`)) { err.textContent = t('errValidity'); err.hidden = false; return; }
     const hs = [...of.querySelectorAll('[data-hotel]')].map((row) => {
       const g = (k) => (row.querySelector(`[data-h=${k}]`)?.value || '').trim();
-      return { ...(rc.length ? { city: g('city') } : {}), name: g('name'), stars: Number(g('stars')) || null, nights: Number(g('nights')) || null, night_price: g('night_price') ? Number(g('night_price')) : null, cancel: g('cancel') || null, cancel_until: g('cancel') === 'free' && g('cancel_until') ? g('cancel_until') : null, map: g('map') || null };
+      return { ...(rc.length ? { city: g('city') } : {}), name: g('name'), stars: Number(g('stars')) || null, nights: Number(g('nights')) || null, night_price: g('night_price') ? Number(g('night_price')) : null, cancel: g('cancel') || null, cancel_until: g('cancel') === 'free' && g('cancel_until') ? g('cancel_until') : null, map: g('map') || null, hotel_id: g('hotel_id') || null, phone: g('phone') || null };
     }).filter((h) => h.name);
     if (hs.some((h) => !h.cancel)) { err.textContent = t('errCancel'); err.hidden = false; return; }
     if (hs.some((h) => h.map && !isMapUrl(h.map))) { err.textContent = t('errMap'); err.hidden = false; return; }

@@ -22,6 +22,7 @@ export function install(ctx) {
     pCols: ['المكتب', 'الحالة', 'آخر دخول', 'آخر خروج', 'تقييم الأداء ★', 'جودة الخدمة (تقييم المسافرين)', 'حجوزات من البداية', 'مبيعات من البداية', 'أيام دخول', 'عروض مرسلة', 'طلبات رد عليها', 'متوسط وقت الرد', 'وسيط وقت الرد', 'حجوزات', 'مدفوعة', 'مؤكدة', 'بانتظار التأكيد', 'متوسط وقت التأكيد', 'وسيط وقت التأكيد'],
     pMarket: 'طلبات المسافرين في الفترة', pAnswered: 'نسبة الطلبات اللي رد عليها أي مكتب', pFastest: 'أسرع مكتب بالرد', pOffers: 'إجمالي العروض', pPending: 'حجوزات بانتظار التأكيد',
     pNote: 'وقت الرد = من نزول طلب المسافر لين أول عرض من المكتب. وقت التأكيد = من الدفع (أو قبول العرض إذا ما في دفع) لين ضغط المكتب «تأكيد الحجز». «الوسيط» يقلل تأثير الحالات الشاذة.', pNone: 'ما في مكاتب.', pScoreNote: 'تقييم الأداء (من 5) يُحسب تلقائياً من تاريخ المكتب كامل: جودة الخدمة من تقييم المسافرين بعد الرحلة 20%، نسبة الرد على الطلبات 25%، سرعة الرد 20%، تحويل العروض لحجوزات 20%، سرعة تأكيد الحجز 15%. إذا ما فيه بيانات لجزء (مثلاً ما فيه تقييمات بعد) يُحسب كمتوسط محايد. يظهر لك أنت بس كمدير، وما يشوفه المسافر ولا المكتب.', pBest: 'أعلى مكتب تقييماً', prOnline: '🟢 متصل الآن', prOffline: 'غير متصل', prSeen: 'آخر نشاط {d}', prLogins: '{n} دخول آخر 30 يوم', pOnlineNow: 'مكاتب متصلة الآن', pRevN: '{n} تقييم', pRevPeriod: 'بالفترة {s}★ من {n}', pReviewsTitle: 'آخر تعليقات المسافرين', pMin: '{n} د', pHr: '{n} س', pDay: '{n} يوم',
+    navHotels: 'دليل الفنادق', hdTitle: 'دليل الفنادق', hdSub: 'كل فندق ينحفظ مرة وحدة من عروض الشركاء، مع صوره وموقعه وبياناته — بدون تكرار.', hdSearch: 'ابحث باسم الفندق أو المدينة', hdNone: 'ما فيه فنادق بعد. الدليل يكبر تلقائياً مع كل عرض فيه فندق.', hdOffers: 'عروض', hdBookings: 'حجوزات', hdAvg: 'متوسط الليلة', hdAgencies: 'مكاتب', hdEdit: 'تعديل', hdSave: 'حفظ', hdCancel: 'إلغاء', hdMerge: 'دمج المحدد', hdMergeHint: 'حدد سجلين لنفس الفندق واضغط دمج.', hdMergeConfirm: 'نحتفظ بـ «{a}» وندمج فيه «{b}» (صوره وعروضه). متأكد؟', hdMerged: 'تم الدمج.', hdSaved: 'انحفظ.', hdPhotoDel: 'حذف الصورة من الدليل؟', hdName: 'الاسم', hdCity: 'المدينة', hdArea: 'المنطقة', hdAddress: 'العنوان', hdStars: 'النجوم', hdPhone: 'الهاتف', hdMap: 'رابط الخريطة', hdCount: '{n} فندق',
     navPhotos: 'صور العروض', phTitle: 'مراجعة صور العروض', phSub: 'راجع الصور اللي يرفعها الشركاء واحذف أي صورة فيها اسم المكتب أو شعاره أو بيانات تواصل.', phNone: 'ما فيه عروض فيها صور.', phNotReady: 'الميزة تحتاج تفعيل في قاعدة البيانات أولاً.', phDel: 'حذف', phDelConfirm: 'تحذف هذي الصورة من العرض نهائياً؟', phDeleted: 'انحذفت الصورة.', phNotify: 'أرسل تنبيه للمكتب', phNoticeTitle: 'حذف صورة مخالفة من عرضك', phNoticeBody: 'تم حذف صورة من عرضك ({d}) لأنها تحتوي على اسم المكتب أو بيانات تواصل. نذكّركم بأن الصور يجب أن تكون خالية من أي بيانات تعريفية أو تواصل، وتكرار المخالفة قد يؤدي لإيقاف العروض.', phNoticeSent: 'انحذفت الصورة وانرسل تنبيه للمكتب.', phFilterAll: 'كل الحالات', phCount: '{n} صورة',
     navNoticesAdmin: 'رسائل للمكاتب', navNotices: 'رسائل الإدارة', noticesUnread: 'عندك {n} رسالة جديدة من إدارة TheTouristPlus — اضغط هنا لقراءتها.',
     ntTitle: 'رسائل للمكاتب', ntSub: 'أرسل رسالة لكل المكاتب أو لمكتب محدد. توصلهم في بوابة الشركاء (مع تنبيه)، ومع إيميل إذا اخترته.', ntTo: 'إلى', ntAll: 'كل المكاتب المفعّلة', ntSubject: 'العنوان *', ntBody: 'نص الرسالة *', ntEmail: 'أرسلها بالإيميل بعد', ntSend: 'إرسال الرسالة',
@@ -62,6 +63,7 @@ export function install(ctx) {
     pCols: ['Agency', 'Status', 'Last sign-in', 'Last sign-out', 'Performance ★', 'Service quality (traveler rating)', 'Bookings (all time)', 'Sales (all time)', 'Sign-in days', 'Offers sent', 'Requests answered', 'Avg response', 'Median response', 'Bookings', 'Paid', 'Confirmed', 'Awaiting confirmation', 'Avg confirmation', 'Median confirmation'],
     pMarket: 'Traveler requests in period', pAnswered: 'Requests answered by any agency', pFastest: 'Fastest to respond', pOffers: 'Total offers', pPending: 'Bookings awaiting confirmation',
     pNote: 'Response time = from the traveler’s request to the agency’s first offer. Confirmation time = from payment (or offer acceptance when unpaid) to the agency pressing “Confirm booking”. The median limits the effect of outliers.', pNone: 'No agencies.', pScoreNote: 'Performance score (out of 5), from the agency’s whole history: service quality from travelers’ post-trip ratings 20%, answer rate 25%, response speed 20%, offer-to-booking conversion 20%, confirmation speed 15%. A part with no data yet (e.g. no ratings) counts as neutral. Visible to you as admin only — never to travelers or agencies.', pBest: 'Top-rated agency', prOnline: '🟢 Online now', prOffline: 'Offline', prSeen: 'Last active {d}', prLogins: '{n} sign-ins in 30 days', pOnlineNow: 'Agencies online now', pRevN: '{n} ratings', pRevPeriod: 'period {s}★ of {n}', pReviewsTitle: 'Latest traveler comments', pMin: '{n} min', pHr: '{n} h', pDay: '{n} d',
+    navHotels: 'Hotel directory', hdTitle: 'Hotel directory', hdSub: 'Every hotel is stored once from partner offers, with its photos, location and details — no duplicates.', hdSearch: 'Search by hotel or city', hdNone: 'No hotels yet. The directory grows automatically with every offer that includes a hotel.', hdOffers: 'offers', hdBookings: 'bookings', hdAvg: 'avg night', hdAgencies: 'agencies', hdEdit: 'Edit', hdSave: 'Save', hdCancel: 'Cancel', hdMerge: 'Merge selected', hdMergeHint: 'Tick two records of the same hotel and press merge.', hdMergeConfirm: 'Keep “{a}” and merge “{b}” into it (photos and offers). Sure?', hdMerged: 'Merged.', hdSaved: 'Saved.', hdPhotoDel: 'Remove this photo from the directory?', hdName: 'Name', hdCity: 'City', hdArea: 'Area', hdAddress: 'Address', hdStars: 'Stars', hdPhone: 'Phone', hdMap: 'Map link', hdCount: '{n} hotels',
     navPhotos: 'Offer photos', phTitle: 'Review offer photos', phSub: 'Review partner photos and remove any showing the agency name, logo or contact details.', phNone: 'No offers with photos yet.', phNotReady: 'This feature needs the database update first.', phDel: 'Delete', phDelConfirm: 'Remove this photo from the offer permanently?', phDeleted: 'Photo removed.', phNotify: 'Notify the agency', phNoticeTitle: 'A photo was removed from your offer', phNoticeBody: 'A photo was removed from your offer ({d}) because it showed the agency name or contact details. Photos must not contain any identifying or contact details; repeated violations may suspend your offers.', phNoticeSent: 'Photo removed and the agency was notified.', phFilterAll: 'All statuses', phCount: '{n} photos',
     navNoticesAdmin: 'Messages to agencies', navNotices: 'Platform messages', noticesUnread: 'You have {n} new message(s) from TheTouristPlus — click to read.',
     ntTitle: 'Messages to agencies', ntSub: 'Send a message to every agency or to one agency. It appears in the partner portal (with an alert), and by email if you choose.', ntTo: 'To', ntAll: 'All active agencies', ntSubject: 'Subject *', ntBody: 'Message *', ntEmail: 'Also send by email', ntSend: 'Send message',
@@ -646,6 +648,50 @@ export function install(ctx) {
   }
 
 
+
+  // ---------- admin: hotel directory (catalog)
+  async function viewHotels(q = '') {
+    const { data, error } = await sb.rpc('admin_hotels', { p_q: q || null, p_limit: 300 });
+    if (error) { shell('hotels', `<div class="top"><div><h1>${esc(t('hdTitle'))}</h1></div></div><p class="notice bad">${esc(t('errGeneric'))}</p>`); return; }
+    const list = data || [];
+    const card = (h) => `<div class="card" style="margin-bottom:12px" data-hid="${esc(h.id)}">
+      <div class="row" style="justify-content:space-between;gap:10px;flex-wrap:wrap">
+        <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" data-sel="${esc(h.id)}" style="width:auto"> <b>${esc(h.name)}</b> ${h.stars ? '★'.repeat(h.stars) : ''}</label>
+        <span class="muted" style="font-size:12px">${esc(h.offers)} ${esc(t('hdOffers'))} · ${esc(h.bookings)} ${esc(t('hdBookings'))} · ${esc(h.agencies)} ${esc(t('hdAgencies'))}${h.avg_night ? ` · ${esc(t('hdAvg'))} ${esc(money(h.avg_night))}` : ''}</span></div>
+      <div class="muted" style="font-size:13px;margin:6px 0">${esc([h.city ? place(h.city) : '', h.area, h.address].filter(Boolean).join(' · ') || '—')}${h.phone ? ` · ☎ <span dir="ltr">${esc(h.phone)}</span>` : ''}${h.map ? ` · <a href="${esc(h.map)}" target="_blank" rel="noopener">📍 ${esc(t('hdMap'))}</a>` : ''}</div>
+      ${h.photos?.length ? `<div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0">${h.photos.map((p) => `<div style="position:relative"><a href="${esc(p.url)}" target="_blank" rel="noopener"><img src="${esc(p.url)}" alt="" loading="lazy" style="width:110px;height:80px;object-fit:cover;border-radius:8px;background:#eee"></a>
+        <button type="button" data-phrm="${esc(p.id)}" aria-label="×" style="position:absolute;top:3px;inset-inline-end:3px;width:22px;height:22px;border-radius:11px;border:0;background:rgba(0,0,0,.6);color:#fff;cursor:pointer">×</button></div>`).join('')}</div>` : ''}
+      <button class="btn ghost small" type="button" data-edit="${esc(h.id)}">${esc(t('hdEdit'))}</button>
+      <form data-form="${esc(h.id)}" hidden style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-top:10px">
+        ${[['name', 'hdName'], ['city', 'hdCity'], ['area', 'hdArea'], ['address', 'hdAddress'], ['stars', 'hdStars'], ['phone', 'hdPhone'], ['map', 'hdMap']].map(([k, l]) => `<label class="f">${esc(t(l))}<input name="${k}" value="${esc(h[k] ?? '')}" ${k === 'phone' || k === 'map' || k === 'stars' ? 'dir="ltr"' : ''}></label>`).join('')}
+        <div class="row" style="gap:8px;align-items:flex-end"><button class="btn small" type="submit">${esc(t('hdSave'))}</button><button class="btn ghost small" type="button" data-cancel>${esc(t('hdCancel'))}</button></div></form></div>`;
+    shell('hotels', `<div class="top"><div><h1>${esc(t('hdTitle'))}</h1><p class="muted" style="margin:4px 0 0">${esc(t('hdSub'))}</p></div></div>
+      <div class="row" style="gap:8px;flex-wrap:wrap;margin-bottom:12px"><input id="hd-q" placeholder="${esc(t('hdSearch'))}" value="${esc(q)}" style="max-width:320px">
+        <button class="btn" type="button" id="hd-merge">${esc(t('hdMerge'))}</button><span class="muted" style="font-size:12px">${esc(t('hdMergeHint'))} · ${esc(t('hdCount', { n: list.length }))}</span></div>
+      ${list.length ? list.map(card).join('') : `<p class="muted">${esc(t('hdNone'))}</p>`}`);
+    let qt; document.getElementById('hd-q').oninput = (e) => { clearTimeout(qt); qt = setTimeout(() => viewHotels(e.target.value.trim()), 400); };
+    document.querySelectorAll('[data-edit]').forEach((b) => (b.onclick = () => { const f = document.querySelector(`[data-form="${b.dataset.edit}"]`); f.hidden = !f.hidden; }));
+    document.querySelectorAll('[data-form]').forEach((f) => {
+      f.querySelector('[data-cancel]').onclick = () => (f.hidden = true);
+      f.onsubmit = async (e) => { e.preventDefault(); const p = Object.fromEntries(new FormData(f));
+        const { error: er } = await sb.rpc('admin_hotel_update', { p_id: f.dataset.form, p });
+        if (er) return toast(t('errGeneric')); toast(t('hdSaved')); viewHotels(q); };
+    });
+    document.querySelectorAll('[data-phrm]').forEach((b) => (b.onclick = async () => {
+      if (!confirm(t('hdPhotoDel'))) return;
+      const { error: er } = await sb.rpc('admin_hotel_photo_remove', { p_id: b.dataset.phrm });
+      if (er) return toast(t('errGeneric')); viewHotels(q);
+    }));
+    document.getElementById('hd-merge').onclick = async () => {
+      const ids = [...document.querySelectorAll('[data-sel]:checked')].map((x) => x.dataset.sel);
+      if (ids.length !== 2) return toast(t('hdMergeHint'));
+      const [x, y] = ids.map((id) => list.find((h) => h.id === id));
+      const keep = Number(x.offers) >= Number(y.offers) ? x : y, drop = keep === x ? y : x;
+      if (!confirm(t('hdMergeConfirm', { a: keep.name, b: drop.name }))) return;
+      const { error: er } = await sb.rpc('admin_hotel_merge', { p_from: drop.id, p_into: keep.id });
+      if (er) return toast(t('errGeneric')); toast(t('hdMerged')); viewHotels(q);
+    };
+  }
   // ---------- admin: review offer photos
   async function viewPhotos() {
     const { data, error } = await sb.rpc('admin_offer_photos', { p_limit: 200 });
@@ -713,5 +759,5 @@ export function install(ctx) {
     if (list.some((n) => !n.is_read)) { await sb.rpc('read_notices'); state.unread = 0; }
   }
 
-  return { viewPhotos, viewNotices, viewMyNotices, viewPerf, viewErrors, viewUsers, viewPush, viewPackagesLocked, viewPackages, viewPackage, viewOverview, viewPartners, viewAllBookings, viewPromos, startPromo };
+  return { viewHotels, viewPhotos, viewNotices, viewMyNotices, viewPerf, viewErrors, viewUsers, viewPush, viewPackagesLocked, viewPackages, viewPackage, viewOverview, viewPartners, viewAllBookings, viewPromos, startPromo };
 }
