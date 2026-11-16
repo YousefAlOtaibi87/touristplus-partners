@@ -1,5 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=33';
+import { install } from './extra.js?v=34';
 import { AIRLINES } from './airlines.js?v=1';
 import { installOnboarding } from './onboarding.js?v=24';
 import { installTerms } from './terms.js?v=12';
@@ -268,6 +268,7 @@ async function route() {
     if (view === 'notices') return X.viewNotices();
     if (view === 'photos') return X.viewPhotos();
     if (view === 'hotels') return X.viewHotels();
+    if (view === 'strengths') return X.viewStrengths();
     if (view === 'esim') return ES.viewEsim();
     if (view === 'company' && id) return O.viewCompany(id);
     if (view === 'terms') return TM.viewTerms();
@@ -373,6 +374,7 @@ function shell(active, inner) {
         ${link('promos', '#/promos', t('navPromos'))}
         ${link('users', '#/users', t('navUsers'))}
         ${link('perf', '#/perf', t('navPerf'))}
+        ${link('strengths', '#/strengths', t('navStrengths'))}
         ${link('notices', '#/notices', t('navNoticesAdmin'))}
         ${link('hotels', '#/hotels', t('navHotels'))}
         ${link('photos', '#/photos', t('navPhotos'))}
