@@ -677,7 +677,7 @@ export function install(ctx) {
       <div class="card" style="margin-bottom:16px"><h2 style="margin:0 0 10px">${esc(t('stByCity'))}</h2>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px">${cities.map(([c, list]) => `<div style="border:1px solid var(--line,#e5e7eb);border-radius:12px;padding:10px">
           <b>📍 ${esc(place(c))}</b>${list.slice(0, 3).map((x, i) => `<div class="row" style="justify-content:space-between;font-size:13px;margin-top:6px"><span>${['🥇', '🥈', '🥉'][i]} ${esc(x.name || '—')}</span><span class="muted">${x.wins} ${esc(t('stWins'))} · ${x.offers} ${esc(t('stOffers'))}</span></div>`).join('')}</div>`).join('')}</div></div>
-      <div class="card"><h2 style="margin:0 0 10px">${esc(t('stDetail'))}</h2><div class="tablewrap" style="overflow:auto"><table class="table"><thead><tr>
+      <div class="card"><h2 style="margin:0 0 10px">${esc(t('stDetail'))}</h2><div class="tbl-wrap"><table><thead><tr>
         <th>${esc(t('stAgency'))}</th><th>${esc(t('stCity'))}</th><th>${esc(t('stHotel'))}</th><th>${esc(t('stOffers'))}</th><th>${esc(t('stWins'))}</th><th>${esc(t('stWinRate'))}</th><th>${esc(t('stNight'))}</th><th>${esc(t('stMarket'))}</th><th>${esc(t('stDiff'))}</th></tr></thead><tbody>
         ${rows.map((r) => `<tr><td>${esc(r.agency_name || '—')}</td><td>${esc(place(r.city || ''))}</td><td>${esc(r.hotel_name)} ${r.stars ? '★'.repeat(r.stars) : ''}<div class="muted" style="font-size:11px">${esc(t('stCompeting', { n: r.agencies_on_hotel }))}</div></td>
           <td>${esc(r.offers)}</td><td><b>${esc(r.wins)}</b></td><td>${pct(Number(r.wins), Number(r.offers))}%</td>
