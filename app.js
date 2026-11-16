@@ -1,5 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=29';
+import { install } from './extra.js?v=30';
 import { AIRLINES } from './airlines.js?v=1';
 import { installOnboarding } from './onboarding.js?v=24';
 import { installTerms } from './terms.js?v=11';
@@ -255,6 +255,7 @@ async function route() {
     if (view === 'users') return X.viewUsers();
     if (view === 'perf') return X.viewPerf();
     if (view === 'notices') return X.viewNotices();
+    if (view === 'photos') return X.viewPhotos();
     if (view === 'esim') return ES.viewEsim();
     if (view === 'company' && id) return O.viewCompany(id);
     if (view === 'terms') return TM.viewTerms();
@@ -361,6 +362,7 @@ function shell(active, inner) {
         ${link('users', '#/users', t('navUsers'))}
         ${link('perf', '#/perf', t('navPerf'))}
         ${link('notices', '#/notices', t('navNoticesAdmin'))}
+        ${link('photos', '#/photos', t('navPhotos'))}
         ${link('push', '#/push', t('navPush'))}
         ${link('esim', '#/esim', t('navEsim'))}
         ${link('terms', '#/terms', t('navTerms'))}` : `${link('requests', '#/requests', t('navRequests'), state.openCount)}

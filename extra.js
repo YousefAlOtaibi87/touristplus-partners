@@ -22,6 +22,7 @@ export function install(ctx) {
     pCols: ['المكتب', 'الحالة', 'آخر دخول', 'آخر خروج', 'تقييم الأداء ★', 'جودة الخدمة (تقييم المسافرين)', 'حجوزات من البداية', 'مبيعات من البداية', 'أيام دخول', 'عروض مرسلة', 'طلبات رد عليها', 'متوسط وقت الرد', 'وسيط وقت الرد', 'حجوزات', 'مدفوعة', 'مؤكدة', 'بانتظار التأكيد', 'متوسط وقت التأكيد', 'وسيط وقت التأكيد'],
     pMarket: 'طلبات المسافرين في الفترة', pAnswered: 'نسبة الطلبات اللي رد عليها أي مكتب', pFastest: 'أسرع مكتب بالرد', pOffers: 'إجمالي العروض', pPending: 'حجوزات بانتظار التأكيد',
     pNote: 'وقت الرد = من نزول طلب المسافر لين أول عرض من المكتب. وقت التأكيد = من الدفع (أو قبول العرض إذا ما في دفع) لين ضغط المكتب «تأكيد الحجز». «الوسيط» يقلل تأثير الحالات الشاذة.', pNone: 'ما في مكاتب.', pScoreNote: 'تقييم الأداء (من 5) يُحسب تلقائياً من تاريخ المكتب كامل: جودة الخدمة من تقييم المسافرين بعد الرحلة 20%، نسبة الرد على الطلبات 25%، سرعة الرد 20%، تحويل العروض لحجوزات 20%، سرعة تأكيد الحجز 15%. إذا ما فيه بيانات لجزء (مثلاً ما فيه تقييمات بعد) يُحسب كمتوسط محايد. يظهر لك أنت بس كمدير، وما يشوفه المسافر ولا المكتب.', pBest: 'أعلى مكتب تقييماً', prOnline: '🟢 متصل الآن', prOffline: 'غير متصل', prSeen: 'آخر نشاط {d}', prLogins: '{n} دخول آخر 30 يوم', pOnlineNow: 'مكاتب متصلة الآن', pRevN: '{n} تقييم', pRevPeriod: 'بالفترة {s}★ من {n}', pReviewsTitle: 'آخر تعليقات المسافرين', pMin: '{n} د', pHr: '{n} س', pDay: '{n} يوم',
+    navPhotos: 'صور العروض', phTitle: 'مراجعة صور العروض', phSub: 'راجع الصور اللي يرفعها الشركاء واحذف أي صورة فيها اسم المكتب أو شعاره أو بيانات تواصل.', phNone: 'ما فيه عروض فيها صور.', phNotReady: 'الميزة تحتاج تفعيل في قاعدة البيانات أولاً.', phDel: 'حذف', phDelConfirm: 'تحذف هذي الصورة من العرض نهائياً؟', phDeleted: 'انحذفت الصورة.', phNotify: 'أرسل تنبيه للمكتب', phNoticeTitle: 'حذف صورة مخالفة من عرضك', phNoticeBody: 'تم حذف صورة من عرضك ({d}) لأنها تحتوي على اسم المكتب أو بيانات تواصل. نذكّركم بأن الصور يجب أن تكون خالية من أي بيانات تعريفية أو تواصل، وتكرار المخالفة قد يؤدي لإيقاف العروض.', phNoticeSent: 'انحذفت الصورة وانرسل تنبيه للمكتب.', phFilterAll: 'كل الحالات', phCount: '{n} صورة',
     navNoticesAdmin: 'رسائل للمكاتب', navNotices: 'رسائل الإدارة', noticesUnread: 'عندك {n} رسالة جديدة من إدارة TheTouristPlus — اضغط هنا لقراءتها.',
     ntTitle: 'رسائل للمكاتب', ntSub: 'أرسل رسالة لكل المكاتب أو لمكتب محدد. توصلهم في بوابة الشركاء (مع تنبيه)، ومع إيميل إذا اخترته.', ntTo: 'إلى', ntAll: 'كل المكاتب المفعّلة', ntSubject: 'العنوان *', ntBody: 'نص الرسالة *', ntEmail: 'أرسلها بالإيميل بعد', ntSend: 'إرسال الرسالة',
     ntConfirmAll: 'إرسال هذه الرسالة لكل المكاتب؟', ntConfirmOne: 'إرسال هذه الرسالة إلى {a}؟', ntSent: 'تم إرسال الرسالة.', ntHistory: 'الرسائل المرسلة', ntRead: 'قرأها {r} من {n}', ntNone: 'ما في رسائل.', ntEmailed: 'بالإيميل', ntMyTitle: 'رسائل الإدارة', ntMySub: 'رسائل وتعاميم من إدارة TheTouristPlus.', ntNew: 'جديد', ntRequired: 'اكتب العنوان والنص.',
@@ -61,6 +62,7 @@ export function install(ctx) {
     pCols: ['Agency', 'Status', 'Last sign-in', 'Last sign-out', 'Performance ★', 'Service quality (traveler rating)', 'Bookings (all time)', 'Sales (all time)', 'Sign-in days', 'Offers sent', 'Requests answered', 'Avg response', 'Median response', 'Bookings', 'Paid', 'Confirmed', 'Awaiting confirmation', 'Avg confirmation', 'Median confirmation'],
     pMarket: 'Traveler requests in period', pAnswered: 'Requests answered by any agency', pFastest: 'Fastest to respond', pOffers: 'Total offers', pPending: 'Bookings awaiting confirmation',
     pNote: 'Response time = from the traveler’s request to the agency’s first offer. Confirmation time = from payment (or offer acceptance when unpaid) to the agency pressing “Confirm booking”. The median limits the effect of outliers.', pNone: 'No agencies.', pScoreNote: 'Performance score (out of 5), from the agency’s whole history: service quality from travelers’ post-trip ratings 20%, answer rate 25%, response speed 20%, offer-to-booking conversion 20%, confirmation speed 15%. A part with no data yet (e.g. no ratings) counts as neutral. Visible to you as admin only — never to travelers or agencies.', pBest: 'Top-rated agency', prOnline: '🟢 Online now', prOffline: 'Offline', prSeen: 'Last active {d}', prLogins: '{n} sign-ins in 30 days', pOnlineNow: 'Agencies online now', pRevN: '{n} ratings', pRevPeriod: 'period {s}★ of {n}', pReviewsTitle: 'Latest traveler comments', pMin: '{n} min', pHr: '{n} h', pDay: '{n} d',
+    navPhotos: 'Offer photos', phTitle: 'Review offer photos', phSub: 'Review partner photos and remove any showing the agency name, logo or contact details.', phNone: 'No offers with photos yet.', phNotReady: 'This feature needs the database update first.', phDel: 'Delete', phDelConfirm: 'Remove this photo from the offer permanently?', phDeleted: 'Photo removed.', phNotify: 'Notify the agency', phNoticeTitle: 'A photo was removed from your offer', phNoticeBody: 'A photo was removed from your offer ({d}) because it showed the agency name or contact details. Photos must not contain any identifying or contact details; repeated violations may suspend your offers.', phNoticeSent: 'Photo removed and the agency was notified.', phFilterAll: 'All statuses', phCount: '{n} photos',
     navNoticesAdmin: 'Messages to agencies', navNotices: 'Platform messages', noticesUnread: 'You have {n} new message(s) from TheTouristPlus — click to read.',
     ntTitle: 'Messages to agencies', ntSub: 'Send a message to every agency or to one agency. It appears in the partner portal (with an alert), and by email if you choose.', ntTo: 'To', ntAll: 'All active agencies', ntSubject: 'Subject *', ntBody: 'Message *', ntEmail: 'Also send by email', ntSend: 'Send message',
     ntConfirmAll: 'Send this message to every agency?', ntConfirmOne: 'Send this message to {a}?', ntSent: 'Message sent.', ntHistory: 'Sent messages', ntRead: 'Read by {r} of {n}', ntNone: 'No messages.', ntEmailed: 'by email', ntMyTitle: 'Platform messages', ntMySub: 'Messages and circulars from TheTouristPlus.', ntNew: 'New', ntRequired: 'Write a subject and a message.',
@@ -643,6 +645,35 @@ export function install(ctx) {
     ['pf-from', 'pf-to'].forEach((id) => { const el = document.getElementById(id); if (el) el.onchange = go; });
   }
 
+
+  // ---------- admin: review offer photos
+  async function viewPhotos() {
+    const { data, error } = await sb.rpc('admin_offer_photos', { p_limit: 200 });
+    if (error) { shell('photos', `<div class="top"><div><h1>${esc(t('phTitle'))}</h1></div></div><p class="notice info">${esc(t('phNotReady'))}</p>`); return; }
+    const list = data || [];
+    shell('photos', `<div class="top"><div><h1>${esc(t('phTitle'))}</h1><p class="muted" style="margin:4px 0 0">${esc(t('phSub'))}</p></div></div>
+      <label style="display:flex;gap:8px;align-items:center;font-weight:700;font-size:14px;margin-bottom:12px"><input type="checkbox" id="ph-notify" style="width:auto" checked> ${esc(t('phNotify'))}</label>
+      ${list.length ? list.map((o) => `<div class="card" style="margin-bottom:12px">
+        <div class="row" style="justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px"><b>${esc(o.agency_name || '—')} · ${esc(place(o.destination || ''))}</b>
+          <span class="muted" style="font-size:12px">${esc(fmtDate(o.created_at))} · ${esc(t('st_' + o.status))} · ${esc(t('phCount', { n: o.photos.length }))}</span></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">${o.photos.map((p) => `<div style="width:170px;display:flex;flex-direction:column;gap:6px">
+          <a href="${esc(p.url)}" target="_blank" rel="noopener"><img src="${esc(p.url)}" alt="" loading="lazy" style="width:170px;height:120px;object-fit:cover;border-radius:10px;background:#eee"></a>
+          <div class="row" style="justify-content:space-between"><span class="badge">${esc(t('kind_' + (p.kind || 'hotel')))}</span>
+          <button class="btn danger small" type="button" data-ph-del data-offer="${esc(o.offer_id)}" data-agency="${esc(o.agency_id)}" data-dest="${esc(place(o.destination || ''))}" data-url="${esc(p.url)}">${esc(t('phDel'))}</button></div></div>`).join('')}</div></div>`).join('') : `<p class="muted">${esc(t('phNone'))}</p>`}`);
+    document.querySelectorAll('[data-ph-del]').forEach((b) => (b.onclick = async () => {
+      if (!confirm(t('phDelConfirm'))) return;
+      b.disabled = true;
+      const { error: er } = await sb.rpc('admin_remove_offer_photo', { p_offer: b.dataset.offer, p_url: b.dataset.url });
+      if (er) { b.disabled = false; return toast(t('errGeneric')); }
+      const path = decodeURIComponent((b.dataset.url.split('/object/public/offer-photos/')[1] || '').split('?')[0]);
+      if (path) await sb.storage.from('offer-photos').remove([path]).catch(() => {});
+      if (document.getElementById('ph-notify')?.checked) {
+        await sb.rpc('admin_send_notice', { p_agency: b.dataset.agency, p_title: t('phNoticeTitle'), p_body: t('phNoticeBody', { d: b.dataset.dest }), p_email: true });
+        toast(t('phNoticeSent'));
+      } else toast(t('phDeleted'));
+      viewPhotos();
+    }));
+  }
   // ---------- admin → agencies messages
   async function viewNotices() {
     const [{ data: ags }, { data: list }] = await Promise.all([sb.from('agencies').select('id, name, name_ar, status').order('name'), sb.rpc('admin_notices')]);
@@ -682,5 +713,5 @@ export function install(ctx) {
     if (list.some((n) => !n.is_read)) { await sb.rpc('read_notices'); state.unread = 0; }
   }
 
-  return { viewNotices, viewMyNotices, viewPerf, viewErrors, viewUsers, viewPush, viewPackagesLocked, viewPackages, viewPackage, viewOverview, viewPartners, viewAllBookings, viewPromos, startPromo };
+  return { viewPhotos, viewNotices, viewMyNotices, viewPerf, viewErrors, viewUsers, viewPush, viewPackagesLocked, viewPackages, viewPackage, viewOverview, viewPartners, viewAllBookings, viewPromos, startPromo };
 }
