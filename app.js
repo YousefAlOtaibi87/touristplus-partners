@@ -1,5 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=35';
+import { install } from './extra.js?v=36';
 import { AIRLINES } from './airlines.js?v=1';
 import { installOnboarding } from './onboarding.js?v=24';
 import { installTerms } from './terms.js?v=12';
@@ -374,7 +374,6 @@ function shell(active, inner) {
         ${link('promos', '#/promos', t('navPromos'))}
         ${link('users', '#/users', t('navUsers'))}
         ${link('perf', '#/perf', t('navPerf'))}
-        ${link('strengths', '#/strengths', t('navStrengths'))}
         ${link('notices', '#/notices', t('navNoticesAdmin'))}
         ${link('hotels', '#/hotels', t('navHotels'))}
         ${link('photos', '#/photos', t('navPhotos'))}

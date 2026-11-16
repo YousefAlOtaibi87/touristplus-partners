@@ -644,6 +644,9 @@ export function install(ctx) {
       const nm = Object.fromEntries(rows.map((r) => [r.agency_id, r.name]));
       box.innerHTML = rv?.length ? rv.map((x) => `<div style="padding:8px 0;border-bottom:1px solid var(--line,#e5e7eb)"><b>${'★'.repeat(x.stars)}${'☆'.repeat(5 - x.stars)}</b> · ${esc(nm[x.agency_id] || '')} · <span class="muted" style="font-size:12px">${esc(fmtDate(x.created_at))}</span>${x.comment ? `<div style="color:inherit;margin-top:4px">${esc(x.comment)}</div>` : ''}</div>`).join('') : '—';
     });
+    const main = document.querySelector('main') || document.getElementById('app');
+    const sbox = document.createElement('div'); sbox.className = 'card'; sbox.id = 'pf-strengths'; sbox.style.marginTop = '16px';
+    main.appendChild(sbox); renderStrengths(sbox);
     const go = () => viewPerf(document.getElementById('pf-p').value, document.getElementById('pf-from')?.value || from, document.getElementById('pf-to')?.value || to);
     document.getElementById('pf-p').onchange = go;
     ['pf-from', 'pf-to'].forEach((id) => { const el = document.getElementById(id); if (el) el.onchange = go; });
@@ -653,7 +656,8 @@ export function install(ctx) {
 
 
   // ---------- admin: where each agency is strong (city / hotel)
-  async function viewStrengths(days = 365, agency = '') {
+  async function viewStrengths() { location.hash = '#/perf'; }
+  async function renderStrengths(box, days = 365, agency = '') {
     const [{ data, error }, { data: ags }] = await Promise.all([
       sb.rpc('admin_agency_strengths', { p_days: Number(days), p_agency: agency || null }),
       sb.from('agencies').select('id, name, name_ar').order('name')]);
@@ -669,20 +673,20 @@ export function install(ctx) {
     const byCity = {};
     rows.forEach((r) => { const c = r.city || '—'; const k = r.agency_id; byCity[c] ??= {}; const x = (byCity[c][k] ??= { name: r.agency_name, offers: 0, wins: 0, hotels: new Set() }); x.offers += Number(r.offers); x.wins += Number(r.wins); x.hotels.add(r.hotel_name); });
     const cities = Object.entries(byCity).map(([c, m]) => [c, Object.values(m).sort((a, b) => b.wins - a.wins || b.offers - a.offers)]).sort((a, b) => b[1].reduce((s, x) => s + x.offers, 0) - a[1].reduce((s, x) => s + x.offers, 0));
-    shell('strengths', `<div class="top"><div><h1>${esc(t('stTitle'))}</h1><p class="muted" style="margin:4px 0 0">${esc(t('stSub'))}</p></div></div>
+    box.innerHTML = `<h2 style="margin:0 0 4px">${esc(t('stTitle'))}</h2><p class="muted" style="margin:0 0 12px;font-size:13px">${esc(t('stSub'))}</p>
       <div class="row" style="gap:10px;flex-wrap:wrap;margin-bottom:14px">
         <label class="f" style="width:160px">${esc(t('stDays'))}<select id="st-days">${[[90, '90'], [180, '180'], [365, '365'], [3650, '∞']].map(([v, l]) => `<option value="${v}" ${Number(days) === v ? 'selected' : ''}>${l === '∞' ? '∞' : l + (state.lang === 'ar' ? ' يوم' : ' days')}</option>`).join('')}</select></label>
         <label class="f" style="min-width:220px">${esc(t('stAgency'))}<select id="st-ag"><option value="">${esc(t('stAll'))}</option>${(ags || []).map((a) => `<option value="${esc(a.id)}" ${agency === a.id ? 'selected' : ''}>${esc(nm(a))}</option>`).join('')}</select></label></div>
       ${!rows.length ? `<p class="muted">${esc(t('stNone'))}</p>` : `
-      <div class="card" style="margin-bottom:16px"><h2 style="margin:0 0 10px">${esc(t('stByCity'))}</h2>
+      <div style="margin-bottom:16px"><h3 style="margin:0 0 10px">${esc(t('stByCity'))}</h3>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px">${cities.map(([c, list]) => `<div style="border:1px solid var(--line,#e5e7eb);border-radius:12px;padding:10px">
           <b>📍 ${esc(place(c))}</b>${list.slice(0, 3).map((x, i) => `<div class="row" style="justify-content:space-between;font-size:13px;margin-top:6px"><span>${['🥇', '🥈', '🥉'][i]} ${esc(x.name || '—')}</span><span class="muted">${x.wins} ${esc(t('stWins'))} · ${x.offers} ${esc(t('stOffers'))}</span></div>`).join('')}</div>`).join('')}</div></div>
-      <div class="card"><h2 style="margin:0 0 10px">${esc(t('stDetail'))}</h2><div class="tbl-wrap"><table><thead><tr>
+      <div><h3 style="margin:0 0 10px">${esc(t('stDetail'))}</h3><div class="tbl-wrap"><table><thead><tr>
         <th>${esc(t('stAgency'))}</th><th>${esc(t('stCity'))}</th><th>${esc(t('stHotel'))}</th><th>${esc(t('stOffers'))}</th><th>${esc(t('stWins'))}</th><th>${esc(t('stWinRate'))}</th><th>${esc(t('stNight'))}</th><th>${esc(t('stMarket'))}</th><th>${esc(t('stDiff'))}</th></tr></thead><tbody>
         ${rows.map((r) => `<tr><td>${esc(r.agency_name || '—')}</td><td>${esc(place(r.city || ''))}</td><td>${esc(r.hotel_name)} ${r.stars ? '★'.repeat(r.stars) : ''}<div class="muted" style="font-size:11px">${esc(t('stCompeting', { n: r.agencies_on_hotel }))}</div></td>
           <td>${esc(r.offers)}</td><td><b>${esc(r.wins)}</b></td><td>${pct(Number(r.wins), Number(r.offers))}%</td>
-          <td>${r.avg_night ? esc(money(r.avg_night)) : '—'}</td><td>${r.market_avg ? esc(money(r.market_avg)) : '—'}</td><td>${diff(r)}</td></tr>`).join('')}</tbody></table></div></div>`}`);
-    const go = () => viewStrengths(document.getElementById('st-days').value, document.getElementById('st-ag').value);
+          <td>${r.avg_night ? esc(money(r.avg_night)) : '—'}</td><td>${r.market_avg ? esc(money(r.market_avg)) : '—'}</td><td>${diff(r)}</td></tr>`).join('')}</tbody></table></div></div>`}`;
+    const go = () => renderStrengths(box, document.getElementById('st-days').value, document.getElementById('st-ag').value);
     document.getElementById('st-days').onchange = go; document.getElementById('st-ag').onchange = go;
   }
   // ---------- admin: hotel directory (catalog)
