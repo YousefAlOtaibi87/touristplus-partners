@@ -663,6 +663,7 @@ export function install(ctx) {
     const [{ data, error }, { data: ags }] = await Promise.all([
       sb.rpc('admin_agency_strengths', { p_days: Number(days), p_agency: agency || null }),
       sb.from('agencies').select('id, name, name_ar').order('name')]);
+    if (!box.isConnected) return; // user left the page while loading
     const rows = error ? [] : (data || []);
     const nm = (a) => (state.lang === 'ar' ? a.name_ar || a.name : a.name);
     const pct = (a, b) => (b > 0 ? Math.round((a / b) * 100) : 0);
@@ -688,8 +689,10 @@ export function install(ctx) {
         ${rows.map((r) => `<tr><td>${esc(r.agency_name || '—')}</td><td>${esc(place(r.city || ''))}</td><td>${esc(r.hotel_name)} ${r.stars ? '★'.repeat(r.stars) : ''}<div class="muted" style="font-size:11px">${esc(t('stCompeting', { n: r.agencies_on_hotel }))}</div></td>
           <td>${esc(r.offers)}</td><td><b>${esc(r.wins)}</b></td><td>${pct(Number(r.wins), Number(r.offers))}%</td>
           <td>${r.avg_night ? esc(money(r.avg_night)) : '—'}</td><td>${r.market_avg ? esc(money(r.market_avg)) : '—'}</td><td>${diff(r)}</td></tr>`).join('')}</tbody></table></div></div>`}`;
-    const go = () => renderStrengths(box, document.getElementById('st-days').value, document.getElementById('st-ag').value);
-    document.getElementById('st-days').onchange = go; document.getElementById('st-ag').onchange = go;
+    const sd = box.querySelector('#st-days'), sa = box.querySelector('#st-ag');
+    if (!sd || !sa) return;
+    const go = () => renderStrengths(box, sd.value, sa.value);
+    sd.onchange = go; sa.onchange = go;
   }
   // ---------- admin: hotel directory (catalog)
   async function viewHotels(q = '') {
