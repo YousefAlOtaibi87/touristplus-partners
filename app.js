@@ -758,7 +758,8 @@ async function viewRequest(id) {
 async function loadChat(offerId) {
   const el = document.getElementById('chat');
   if (!el) return;
-  const { data } = await sb.from('messages').select('*').eq('offer_id', offerId).order('created_at');
+  const { data, error } = await sb.from('messages').select('*').eq('offer_id', offerId).order('created_at');
+  if (error) { el.innerHTML = `<p class="notice bad">${esc(t('errGeneric'))}</p>`; return; }
   el.innerHTML = (data || []).length
     ? data.map((m) => `<div class="msg ${m.sender_role === 'agency' ? 'me' : ''}">${esc(m.body)}<time datetime="${esc(m.created_at)}">${esc(fmtDate(m.created_at))}</time></div>`).join('')
     : `<p class="muted">${esc(t('noMessages'))}</p>`;
