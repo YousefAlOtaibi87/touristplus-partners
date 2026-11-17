@@ -6,8 +6,8 @@ export function install(ctx) {
     promoHow: 'طريقة النشر', promoHow1: 'أضف العرض واحفظه.', promoHow2: 'اختر مدة الإعلان وادفع رسومه عن طريق بوابة الدفع: {plansText}.', promoHow3: 'يظهر العرض فوراً في التطبيق، ويتوقف تلقائياً بنهاية المدة ويمكنك تجديده.',
     promoHow4: 'عمولة المنصة {rate}% من كل حجز يتم عن طريق العروض الخاصة. هوية مكتبكم وبيانات التواصل تبقى مخفية عن المسافر حتى يدفع.',
     liveUntil: 'منشور حتى {d}', notLive: 'غير منشور', stoppedByAdmin: 'موقوف من الإدارة', publishBtn: '📣 {plan} — {fee} د.ك', renewBtn: '🔁 تجديد {plan} — {fee} د.ك', plan_week: 'أسبوعي (7 أيام)', plan_month: 'شهري (30 يوماً)', plan_quarter: 'فصلي (90 يوماً)', planDays: '{n} يوماً',
-    founderBanner: '🎉 أنتم الشريك المؤسس رقم {n} من 10: نشر عروضكم الخاصة بدون رسوم إعلان، وعمولة مخفّضة 3% بدل 4% على حجوزات العروض حتى {d} (الملحق رقم 2 من الاتفاقية).', founderBtn: '📣 نشر مجاني حتى {d}', founderDone: 'نُشر العرض مجاناً حتى {d}.',
-    foundersTitle: 'الشركاء المؤسسون: {n} من {max}', foundersSub: 'أول 10 مكاتب تُفعَّل: بدون رسوم إعلان، وعمولة العروض الخاصة 3% بدل 4% لمدة 3 أشهر من التفعيل.', founderRemove: 'إلغاء صفة المؤسس', founderRemoveConfirm: 'إلغاء صفة الشريك المؤسس عن هذا المكتب وتحرير مقعده؟', noFounders: 'لم ينضم أي شريك مؤسس بعد.', founderNo: 'رقم', founderEnds: 'ينتهي العرض',
+    founderBanner: '🎉 مزايا الإطلاق لحسابكم: نشر عروضكم الخاصة بدون رسوم إعلان، وعمولة مخفّضة 3% بدل 4% على حجوزات العروض الخاصة حتى {d}.', founderBtn: '📣 نشر مجاني حتى {d}', founderDone: 'نُشر العرض مجاناً حتى {d}.',
+    foundersTitle: 'مزايا الإطلاق: {n} مكتب في أول 3 شهور', foundersSub: 'كل مكتب جديد: بدون رسوم إعلان، وعمولة العروض الخاصة 3% بدل 4% لمدة 3 أشهر من تفعيل العقد.', founderRemove: 'إلغاء صفة المؤسس', founderRemoveConfirm: 'إلغاء صفة الشريك المؤسس عن هذا المكتب وتحرير مقعده؟', noFounders: 'لا يوجد مكاتب في فترة مزايا الإطلاق حالياً.', founderNo: 'رقم', founderEnds: 'ينتهي العرض',
     payOpening: 'جاري فتح صفحة الدفع…', promoPaid: 'تم الدفع ونُشر العرض في التطبيق.', promoFailed: 'لم يكتمل الدفع، ولم يُنشر العرض.', needSave: 'احفظ العرض أولاً.', bookingsN: '{n} حجز',
     uDel: 'حذف', uDelAsk: 'حذف حساب {e} وكل بياناته (الطلبات، المحادثات، الجوازات، المحفظة) نهائياً؟ ما يمكن التراجع، ويقدر يسجّل من جديد بنفس الإيميل.\n\nللتأكيد اكتب الإيميل:', uDelReason: 'سبب الحذف (اختياري):', uDeleted: 'تم حذف الحساب وبياناته.', uDelMismatch: 'الإيميل غير مطابق، ما تم الحذف.',
     e_has_paid_bookings: 'ما ينحذف: عنده حجوزات مدفوعة لازم تبقى في السجلات المالية.', e_not_traveler: 'ما ينحذف من هنا: الحساب مو مسافر (مدير أو مكتب).', e_cannot_delete_self: 'ما تقدر تحذف حسابك.',
@@ -50,8 +50,8 @@ export function install(ctx) {
     promoHow: 'How publishing works', promoHow1: 'Add the offer and save it.', promoHow2: 'Choose the listing period and pay its fee through the payment gateway: {plansText}.', promoHow3: 'The offer goes live in the app at once, stops automatically at the end of the period, and can be renewed.',
     promoHow4: 'Platform commission is {rate}% on every booking made through special offers. Your identity and contact details stay hidden from travelers until they pay.',
     liveUntil: 'Live until {d}', notLive: 'Not published', stoppedByAdmin: 'Stopped by admin', publishBtn: '📣 {plan} — {fee} KWD', renewBtn: '🔁 Renew {plan} — {fee} KWD', plan_week: 'Weekly (7 days)', plan_month: 'Monthly (30 days)', plan_quarter: 'Quarterly (90 days)', planDays: '{n} days',
-    founderBanner: '🎉 You are founding partner no. {n} of 10: publish your special offers with no listing fees and a reduced 3% (instead of 4%) special-offers commission until {d} (agreement annex 2).', founderBtn: '📣 Publish free until {d}', founderDone: 'Offer published free until {d}.',
-    foundersTitle: 'Founding partners: {n} of {max}', foundersSub: 'The first 10 activated agencies: no listing fees and a 3% (instead of 4%) special-offers commission for 3 months from activation.', founderRemove: 'Remove founder status', founderRemoveConfirm: 'Remove founding-partner status from this agency and free its seat?', noFounders: 'No founding partners yet.', founderNo: 'No.', founderEnds: 'Offer ends',
+    founderBanner: '🎉 Your launch benefits: publish your special offers with no listing fees and a reduced 3% (instead of 4%) special-offers commission until {d}.', founderBtn: '📣 Publish free until {d}', founderDone: 'Offer published free until {d}.',
+    foundersTitle: 'Launch benefits: {n} agencies in their first 3 months', foundersSub: 'Every new agency: no listing fees and a 3% (instead of 4%) special-offers commission for 3 months from contract activation.', founderRemove: 'Remove founder status', founderRemoveConfirm: 'Remove founding-partner status from this agency and free its seat?', noFounders: 'No agencies in the launch-benefits period right now.', founderNo: 'No.', founderEnds: 'Offer ends',
     payOpening: 'Opening payment page…', promoPaid: 'Paid — your offer is live in the app.', promoFailed: 'Payment was not completed; the offer is not published.', needSave: 'Save the offer first.', bookingsN: '{n} bookings',
     uDel: 'Delete', uDelAsk: 'Permanently delete {e} and all their data (requests, chats, passports, wallet)? This cannot be undone; they can sign up again with the same email.\n\nType the email to confirm:', uDelReason: 'Reason (optional):', uDeleted: 'Account and data deleted.', uDelMismatch: 'Email does not match; nothing was deleted.',
     e_has_paid_bookings: 'Cannot delete: has paid bookings that must stay in the financial records.', e_not_traveler: 'Cannot delete here: not a traveler account (admin or agency).', e_cannot_delete_self: 'You cannot delete your own account.',
@@ -105,7 +105,6 @@ export function install(ctx) {
   }
   // End of this agency's founding-partner period (null when not a founder or already over).
   async function founderUntil() {
-    if (!state.agency?.founder_no) return null;
     const { data } = await sb.rpc('agency_founder_until', { p_agency: state.agency.id });
     return data && Date.parse(data) > Date.now() ? data : null;
   }
@@ -181,7 +180,7 @@ export function install(ctx) {
     const founders = fd || [];
     const fBox = `<div class="card" style="margin-bottom:16px;display:flex;flex-direction:column;gap:8px">
       <h2 style="margin:0">⭐ ${esc(t('foundersTitle', { n: founders.length, max: ps.foundersLimit }))}</h2><p class="muted" style="margin:0;font-size:13px">${esc(t('foundersSub'))}</p>
-      ${founders.length ? `<div class="tbl-wrap"><table><tbody>${founders.map((f) => `<tr><td>${esc(t('founderNo'))} ${esc(f.founder_no)}</td><td><b>${esc(f.name)}</b></td><td class="muted">${esc(fmtDate(f.activated_at))} → ${esc(fmtDate(f.founder_until))}</td><td><button class="btn ghost small" type="button" data-unfound="${f.id}">${esc(t('founderRemove'))}</button></td></tr>`).join('')}</tbody></table></div>` : `<p class="muted" style="margin:0">${esc(t('noFounders'))}</p>`}</div>`;
+      ${founders.length ? `<div class="tbl-wrap"><table><tbody>${founders.map((f) => `<tr><td>${esc(f.founder_no)}</td><td><b>${esc(f.name)}</b></td><td class="muted">${esc(fmtDate(f.activated_at))} → ${esc(fmtDate(f.founder_until))}</td></tr>`).join('')}</tbody></table></div>` : `<p class="muted" style="margin:0">${esc(t('noFounders'))}</p>`}</div>`;
     const rows = (data || []).map((r) => `<tr>
       <td><b>${esc(r.title)}</b><div class="muted" style="font-size:12px">${esc(r.agency)}</div></td>
       <td>${esc(money(r.amount))}</td><td><span class="badge ${r.status === 'paid' ? 'good' : r.status === 'pending' ? 'accent' : ''}">${esc(t('pay_' + r.status))}</span></td>
