@@ -409,13 +409,16 @@ export function install(ctx) {
     const kwLocal = (iso) => { const d = new Date(Date.parse(iso) + 3 * 3600e3); return d.toISOString().slice(0, 16); };
     document.querySelectorAll('[data-pedit]').forEach((b) => { b.onclick = () => {
       const r = rows.find((x) => String(x.id) === b.dataset.pedit); const tr = b.closest('tr');
+      // When only one language was written, the other is stored as a copy: show it empty so it is clear it was not written separately.
+      const same = (r.title_en || '') === (r.title_ar || '') && (r.body_en || '') === (r.body_ar || '');
+      const vAr = { t: r.title_ar, b: r.body_ar }, vEn = same ? { t: '', b: '' } : { t: r.title_en, b: r.body_en };
       if (tr.nextElementSibling?.dataset?.editrow) { tr.nextElementSibling.remove(); return; }
       const ed = document.createElement('tr'); ed.dataset.editrow = '1';
       ed.innerHTML = `<td colspan="9"><form style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;padding:10px;background:#F6F2EA;border-radius:12px" novalidate>
-        <label class="f">${esc(t('pushTitleAr'))}<input name="ta" maxlength="60" value="${esc(r.title_ar || '')}"></label>
-        <label class="f">${esc(t('pushTitleEn'))}<input name="te" maxlength="60" dir="ltr" value="${esc(r.title_en || '')}"></label>
-        <label class="f">${esc(t('pushBodyAr'))}<textarea name="ba" rows="3" maxlength="180">${esc(r.body_ar || '')}</textarea></label>
-        <label class="f">${esc(t('pushBodyEn'))}<textarea name="be" rows="3" maxlength="180" dir="ltr">${esc(r.body_en || '')}</textarea></label>
+        <label class="f">${esc(t('pushTitleAr'))}<input name="ta" maxlength="60" value="${esc(vAr.t || '')}"></label>
+        <label class="f">${esc(t('pushTitleEn'))}<input name="te" maxlength="60" dir="ltr" value="${esc(vEn.t || '')}"></label>
+        <label class="f">${esc(t('pushBodyAr'))}<textarea name="ba" rows="3" maxlength="180">${esc(vAr.b || '')}</textarea></label>
+        <label class="f">${esc(t('pushBodyEn'))}<textarea name="be" rows="3" maxlength="180" dir="ltr">${esc(vEn.b || '')}</textarea></label>
         <label class="f">${esc(t('pushAt'))}<input name="at" type="datetime-local" dir="ltr" required value="${esc(kwLocal(r.send_after))}"></label>
         <label class="f">${esc(t('pushTarget'))}<select name="route">${[['/', 'tgtHome'], ['/packages', 'tgtOffers'], ['/new', 'tgtNew']].map(([v, l]) => `<option value="${v}" ${r.route === v ? 'selected' : ''}>${esc(t(l))}</option>`).join('')}</select></label>
         <div class="row" style="gap:8px;align-items:flex-end"><button class="btn small" type="submit">${esc(t('pushEditSave'))}</button><button class="btn ghost small" type="button" data-x>${esc(t('hdCancel'))}</button></div></form></td>`;
