@@ -123,7 +123,7 @@ export function installTerms(ctx) {
     const sigCell = (title, name, img, date, extra = '', pend = t('pending')) => `<td style="width:50%;vertical-align:top;padding:12px;border:1px solid #E2E8F0">
       <div style="font-weight:800;color:#0B3D91;margin-bottom:6px">${esc(title)}</div>
       <div>${esc(t('signer'))}: ${esc(name || '—')}${extra}</div>
-      <div style="height:90px;display:flex;align-items:center">${img ? `<img src="${img}" alt="" style="max-height:86px;max-width:100%">` : `<span style="color:#94A3B8">${esc(pend)}</span>`}</div>
+      <div style="height:90px;display:flex;align-items:center">${img ? `<img src="${esc(img)}" alt="" style="max-height:86px;max-width:100%">` : `<span style="color:#94A3B8">${esc(pend)}</span>`}</div>
       <div style="color:#64748B;font-size:12px">${esc(t('signedAt'))}: ${date ? esc(new Date(date).toLocaleString('ar-KW')) : '—'}</div></td>`;
     return `<div dir="rtl" class="terms-body contract-doc" style="font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;color:#0F172A;line-height:1.8;font-size:14px">
       <style>.contract-doc table{width:100%;table-layout:fixed;border-collapse:collapse;margin:8px 0}.contract-doc td,.contract-doc th{border:1px solid #E2E8F0;padding:6px 8px;text-align:start;vertical-align:top;overflow-wrap:anywhere;white-space:normal}
@@ -150,7 +150,7 @@ export function installTerms(ctx) {
       <p class="muted" style="margin:0;font-size:13px">${esc(t('termsLive'))}</p>
       <div class="terms-live" style="max-height:380px;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fff"></div>
       <label class="f">${esc(t('termsSigner'))}<input name="terms_signer" value="${esc(app.terms_signer || app.signatory_name || '')}"></label>
-      ${locked && app.terms_signature ? `<img src="${app.terms_signature}" alt="" style="max-height:90px;align-self:flex-start">` : padHtml('signHere')}
+      ${locked && app.terms_signature ? `<img src="${esc(app.terms_signature)}" alt="" style="max-height:90px;align-self:flex-start">` : padHtml('signHere')}
       <label class="chip ${done || locked ? 'on' : ''}" data-docbox="terms" style="align-self:stretch;border-radius:12px;white-space:normal;line-height:1.6">
         <input type="checkbox" name="terms_ok" ${done || locked ? 'checked' : ''}> ${esc(t('termsAccept', { v: v.version }))}</label>
     </fieldset>`;
@@ -270,7 +270,7 @@ export function installTerms(ctx) {
       <p class="muted" style="margin:0">${esc(t('signDlgSub'))}</p>
       <div style="max-height:48vh;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fff">${contractHTML(a, ps, terms, { platformSig: false })}</div>
       <div class="f" style="gap:4px"><b>${esc(t('party1'))}</b><span class="muted">${esc(ps.company_name || '—')} · ${esc(t('signer'))}: ${esc(ps.signatory_name || '—')}${ps.signatory_title ? ' — ' + esc(ps.signatory_title) : ''}</span></div>
-      ${ps.signature ? `<label class="chip on" style="align-self:flex-start"><input type="checkbox" data-saved checked> ${esc(t('useSavedSig'))}</label><img src="${ps.signature}" alt="" data-savedimg style="max-height:80px;align-self:flex-start">` : ''}
+      ${ps.signature ? `<label class="chip on" style="align-self:flex-start"><input type="checkbox" data-saved checked> ${esc(t('useSavedSig'))}</label><img src="${esc(ps.signature)}" alt="" data-savedimg style="max-height:80px;align-self:flex-start">` : ''}
       <div data-padwrap ${ps.signature ? 'hidden' : ''}>${padHtml('signHere')}
         <label class="chip" style="align-self:flex-start;margin-top:6px"><input type="checkbox" data-remember> ${esc(t('rememberSig'))}</label></div>
       <label class="chip" data-docbox="pconfirm" style="align-self:stretch;border-radius:12px;white-space:normal;line-height:1.6"><input type="checkbox" data-confirm> ${esc(t('platformConfirm'))}</label>
@@ -411,7 +411,7 @@ export function installTerms(ctx) {
         ${f('pAddress', 'address', ps.address)}
         <div class="row" style="gap:12px;align-items:flex-start"><div class="grow">${f('pSignatory', 'signatory_name', ps.signatory_name)}</div><div class="grow">${f('pTitle', 'signatory_title', ps.signatory_title)}</div><div class="grow">${f('pEmail', 'email', ps.email)}</div></div>
         <div class="f" style="gap:6px"><b>${esc(t('savedSig'))}</b>
-          ${ps.signature ? `<img src="${ps.signature}" alt="" style="max-height:90px;align-self:flex-start;border:1px solid var(--line);border-radius:10px;padding:4px;background:#fff">
+          ${ps.signature ? `<img src="${esc(ps.signature)}" alt="" style="max-height:90px;align-self:flex-start;border:1px solid var(--line);border-radius:10px;padding:4px;background:#fff">
           <button class="btn danger small" type="button" id="sig-del" style="align-self:flex-start">${esc(t('delSig'))}</button>` : `<span class="muted" style="font-size:13px">${esc(t('noSavedSig'))}</span>`}
           <span class="muted" style="font-size:13px">${esc(t('editSigHint'))}</span></div>
         ${padHtml('signHere')}
