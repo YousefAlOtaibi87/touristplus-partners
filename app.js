@@ -5,6 +5,7 @@ import { installOnboarding } from './onboarding.js?v=24';
 import { installTerms } from './terms.js?v=12';
 import { installEsim } from './esim.js?v=3';
 import { installControl } from './control.js?v=10';
+import { installInsights } from './insights.js?v=1';
 
 const CFG = window.TP_CONFIG || {};
 const $app = document.getElementById('app');
@@ -181,6 +182,7 @@ window.addEventListener('unhandledrejection', (e) => reportError(e.reason?.messa
 let recoveryMode = /type=(recovery|invite)/.test(location.hash);
 const TM = installTerms({ sb, state, t, esc, fmtDate, shell, toast, STR });
 const ES = installEsim({ sb, state, t, esc, fmtDate, shell, toast, STR });
+const IN = installInsights({ sb, state, t, esc, money, place, fmtDate, shell, STR });
 const X = install({ sb, state, t, esc, money, place, fmtDate, shell, toast, STR, SERVICES, TYPES, route, terms: TM });
 const CP = installControl({ sb, state, t, esc, money, fmtDate, shell, toast, STR, fallback: () => X.viewOverview() });
 const O = installOnboarding({ sb, state, t, esc, fmtDate, shell, toast, STR, $app, brand, langToggle, route, terms: TM });
@@ -265,6 +267,7 @@ async function route() {
     if (view === 'push') return X.viewPush();
     if (view === 'users') return X.viewUsers();
     if (view === 'perf') return X.viewPerf();
+    if (view === 'insights') return IN.viewInsights(id || '');
     if (view === 'notices') return X.viewNotices();
     if (view === 'photos') return X.viewPhotos();
     if (view === 'hotels') return X.viewHotels();
@@ -374,6 +377,7 @@ function shell(active, inner) {
         ${link('promos', '#/promos', t('navPromos'))}
         ${link('users', '#/users', t('navUsers'))}
         ${link('perf', '#/perf', t('navPerf'))}
+        ${link('insights', '#/insights', t('navInsights'))}
         ${link('notices', '#/notices', t('navNoticesAdmin'))}
         ${link('hotels', '#/hotels', t('navHotels'))}
         ${link('photos', '#/photos', t('navPhotos'))}
