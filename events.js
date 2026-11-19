@@ -62,7 +62,7 @@ export function installEvents(ctx) {
           <button class="btn ghost small" type="button" data-tog="${esc(e.id)}">${esc(t(e.active ? 'evHide' : 'evShow'))}</button>
           <button class="btn ghost small" type="button" data-del="${esc(e.id)}">${esc(t('evDelete'))}</button></div>
       </div>
-      <form data-form="${esc(e.id)}" hidden style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-top:10px">${fields(e)}
+      <form data-form="${esc(e.id)}" style="display:none;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-top:10px">${fields(e)}
         <div class="row" style="align-items:flex-end"><button class="btn small" type="submit">${esc(t('evSave'))}</button></div></form>
     </div>`;
     shell('events', `<div class="top"><div><h1>${esc(t('evTitle'))}</h1><p class="muted" style="margin:4px 0 0;max-width:70ch">${esc(t('evSub'))}</p></div></div>
@@ -82,7 +82,7 @@ export function installEvents(ctx) {
       const { error: er } = await sb.from('destination_events').insert(read(e.target));
       if (er) return toast(t('errGeneric')); toast(t('evSaved')); again();
     };
-    document.querySelectorAll('[data-edit]').forEach((b) => (b.onclick = () => { const f = document.querySelector(`[data-form="${b.dataset.edit}"]`); f.hidden = !f.hidden; }));
+    document.querySelectorAll('[data-edit]').forEach((b) => (b.onclick = () => { const f = document.querySelector(`[data-form="${b.dataset.edit}"]`); f.style.display = f.style.display === 'none' ? 'grid' : 'none'; }));
     document.querySelectorAll('[data-form]').forEach((f) => (f.onsubmit = async (e) => {
       e.preventDefault();
       const { error: er } = await sb.from('destination_events').update(read(f)).eq('id', f.dataset.form);
