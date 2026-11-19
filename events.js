@@ -7,7 +7,7 @@ export function installEvents(ctx) {
     evSub: 'المهرجانات والمناسبات والأماكن الجديدة لكل وجهة وشهر. تظهر للمسافر في قسم «الوجهات» مباشرة، وما تحتاج تحديث للتطبيق. راجعها كل فترة.',
     evCity: 'الوجهة (الاسم الإنجليزي كما في التطبيق)', evMonth: 'الشهر', evKind: 'النوع', evTitleAr: 'العنوان بالعربي', evTitleEn: 'العنوان بالإنجليزي',
     evNoteAr: 'ملاحظة بالعربي (اختياري)', evNoteEn: 'ملاحظة بالإنجليزي (اختياري)', evStarts: 'من تاريخ (اختياري)', evEnds: 'إلى تاريخ (اختياري، تختفي بعده)',
-    evSource: 'رابط المصدر (اختياري)', evAdd: 'إضافة فعالية', evSave: 'حفظ', evHide: 'إخفاء', evShow: 'إظهار', evDelete: 'حذف',
+    evSource: 'رابط المصدر (اختياري)', evImg: 'رابط الصورة (اختياري، https)', evImgCredit: 'حقوق الصورة (المصوّر · الرخصة)', evImgCreditUrl: 'رابط صفحة الصورة', evAdd: 'إضافة فعالية', evSave: 'حفظ', evHide: 'إخفاء', evShow: 'إظهار', evDelete: 'حذف',
     evDeleteConfirm: 'حذف هذه الفعالية نهائياً؟', evSaved: 'تم الحفظ', evAll: 'كل الوجهات', evAllMonths: 'كل الشهور', evNone: 'ما في فعاليات بهذا الفلتر.',
     evHidden: 'مخفية', evReviewed: 'آخر مراجعة', evMarkReviewed: 'تمت المراجعة', evOld: 'تحتاج مراجعة',
     k_event: 'فعالية', k_festival: 'مهرجان', k_opening: 'افتتاح جديد', k_holiday: 'مناسبة', k_season: 'موسم',
@@ -17,7 +17,7 @@ export function installEvents(ctx) {
     evSub: 'Festivals, holidays and new openings per destination and month. They show in the app\'s Destinations tab right away, with no app update. Review them regularly.',
     evCity: 'Destination (English name as in the app)', evMonth: 'Month', evKind: 'Type', evTitleAr: 'Title (Arabic)', evTitleEn: 'Title (English)',
     evNoteAr: 'Note (Arabic, optional)', evNoteEn: 'Note (English, optional)', evStarts: 'From (optional)', evEnds: 'Until (optional, hidden after)',
-    evSource: 'Source link (optional)', evAdd: 'Add event', evSave: 'Save', evHide: 'Hide', evShow: 'Show', evDelete: 'Delete',
+    evSource: 'Source link (optional)', evImg: 'Image link (optional, https)', evImgCredit: 'Image credit (author · licence)', evImgCreditUrl: 'Image page link', evAdd: 'Add event', evSave: 'Save', evHide: 'Hide', evShow: 'Show', evDelete: 'Delete',
     evDeleteConfirm: 'Delete this event for good?', evSaved: 'Saved', evAll: 'All destinations', evAllMonths: 'All months', evNone: 'No events for this filter.',
     evHidden: 'Hidden', evReviewed: 'Last reviewed', evMarkReviewed: 'Mark reviewed', evOld: 'Needs review',
     k_event: 'Event', k_festival: 'Festival', k_opening: 'New opening', k_holiday: 'Holiday', k_season: 'Season',
@@ -35,12 +35,15 @@ export function installEvents(ctx) {
     <label class="f">${esc(t('evNoteEn'))}<input name="note_en" value="${esc(e.note_en || '')}" dir="ltr"></label>
     <label class="f">${esc(t('evStarts'))}<input name="starts_on" type="date" value="${esc(e.starts_on || '')}"></label>
     <label class="f">${esc(t('evEnds'))}<input name="ends_on" type="date" value="${esc(e.ends_on || '')}"></label>
-    <label class="f">${esc(t('evSource'))}<input name="source_url" type="url" placeholder="https://" value="${esc(e.source_url || '')}" dir="ltr"></label>`;
+    <label class="f">${esc(t('evSource'))}<input name="source_url" type="url" placeholder="https://" value="${esc(e.source_url || '')}" dir="ltr"></label>
+    <label class="f">${esc(t('evImg'))}<input name="image_url" type="url" placeholder="https://" value="${esc(e.image_url || '')}" dir="ltr"></label>
+    <label class="f">${esc(t('evImgCredit'))}<input name="image_credit" maxlength="160" value="${esc(e.image_credit || '')}" dir="ltr"></label>
+    <label class="f">${esc(t('evImgCreditUrl'))}<input name="image_credit_url" type="url" placeholder="https://" value="${esc(e.image_credit_url || '')}" dir="ltr"></label>`;
   const read = (form) => {
     const f = Object.fromEntries(new FormData(form));
     const v = (k) => (String(f[k] || '').trim() || null);
     return { city: v('city'), month: Number(f.month), kind: f.kind, title_ar: v('title_ar'), title_en: v('title_en'), note_ar: v('note_ar'), note_en: v('note_en'),
-      starts_on: v('starts_on'), ends_on: v('ends_on'), recurring: !v('starts_on'), source_url: v('source_url'), updated_at: new Date().toISOString(), reviewed_at: new Date().toISOString() };
+      starts_on: v('starts_on'), ends_on: v('ends_on'), recurring: !v('starts_on'), source_url: v('source_url'), image_url: v('image_url'), image_credit: v('image_credit'), image_credit_url: v('image_credit_url'), updated_at: new Date().toISOString(), reviewed_at: new Date().toISOString() };
   };
 
   async function viewEvents(filter = { city: '', month: 0 }) {
@@ -55,6 +58,7 @@ export function installEvents(ctx) {
     const row = (e) => `<div class="card" style="margin-bottom:10px;${e.active ? '' : 'opacity:.6'}" data-id="${esc(e.id)}">
       <div class="row" style="justify-content:space-between;gap:8px;flex-wrap:wrap">
         <div><b>${esc(e.title_ar)}</b> <span class="muted" style="font-size:12px">· ${esc(e.title_en)}</span><div class="muted" style="font-size:12px;margin-top:4px">${esc(place(e.city))} · ${esc(monthName(e.month))} · ${esc(t('k_' + e.kind))}${e.ends_on ? ` · ← ${esc(e.ends_on)}` : ''}${e.active ? '' : ` · ${esc(t('evHidden'))}`}</div>
+        ${e.image_url && /^https:\/\//.test(e.image_url) ? `<img src="${esc(e.image_url)}" alt="" loading="lazy" style="width:96px;height:64px;object-fit:cover;border-radius:8px;margin-top:6px">` : ''}
         ${e.note_ar ? `<div style="font-size:13px;margin-top:4px">${esc(e.note_ar)}</div>` : ''}</div>
         <div class="row" style="gap:6px;flex-wrap:wrap;align-items:center">${stale(e) ? `<span class="badge">${esc(t('evOld'))}</span>` : ''}
           <button class="btn ghost small" type="button" data-rev="${esc(e.id)}">${esc(t('evMarkReviewed'))}</button>
