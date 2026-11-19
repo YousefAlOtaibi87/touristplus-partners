@@ -836,7 +836,15 @@ export function install(ctx) {
         <div style="display:flex;gap:10px;flex-wrap:wrap">${o.photos.map((p) => `<div style="width:170px;display:flex;flex-direction:column;gap:6px">
           <a href="${esc(p.url)}" target="_blank" rel="noopener"><img src="${esc(p.url)}" alt="" loading="lazy" style="width:170px;height:120px;object-fit:cover;border-radius:10px;background:#eee"></a>
           <div class="row" style="justify-content:space-between"><span class="badge">${esc(t('kind_' + (p.kind || 'hotel')))}</span>
+          <button class="btn ghost small" type="button" data-ph-flag data-offer="${esc(o.offer_id)}" data-agency="${esc(o.agency_id)}" data-dest="${esc(place(o.destination || ''))}" data-url="${esc(p.url)}">${esc(t('phFlag'))}</button>
           <button class="btn danger small" type="button" data-ph-del data-offer="${esc(o.offer_id)}" data-agency="${esc(o.agency_id)}" data-dest="${esc(place(o.destination || ''))}" data-url="${esc(p.url)}">${esc(t('phDel'))}</button></div></div>`).join('')}</div></div>`).join('') : `<p class="muted">${esc(t('phNone'))}</p>`}`);
+    document.querySelectorAll('[data-ph-flag]').forEach((b) => (b.onclick = async () => {
+      if (!confirm(t('phFlagConfirm'))) return;
+      b.disabled = true;
+      const { error: er } = await sb.rpc('admin_flag_agency', { p_agency: b.dataset.agency, p_kind: 'photo_ad', p_detail: `صورة في عرض سعر (${b.dataset.dest}): ${b.dataset.url}`, p_ref: b.dataset.offer });
+      if (er) { b.disabled = false; return toast(t('errGeneric')); }
+      toast(t('phFlagged'));
+    }));
     document.querySelectorAll('[data-ph-del]').forEach((b) => (b.onclick = async () => {
       if (!confirm(t('phDelConfirm'))) return;
       b.disabled = true;

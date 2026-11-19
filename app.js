@@ -1,5 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=47';
+import { install } from './extra.js?v=48';
 import { AIRLINES } from './airlines.js?v=1';
 import { installOnboarding } from './onboarding.js?v=25';
 import { installTerms } from './terms.js?v=19';
@@ -7,7 +7,7 @@ import { installEsim } from './esim.js?v=3';
 import { installControl } from './control.js?v=11';
 import { installInsights } from './insights.js?v=1';
 import { installEvents } from './events.js?v=3';
-import { installFlags } from './flags.js?v=1';
+import { installFlags } from './flags.js?v=2';
 
 const CFG = window.TP_CONFIG || {};
 const $app = document.getElementById('app');
