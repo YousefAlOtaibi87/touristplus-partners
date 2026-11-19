@@ -56,7 +56,8 @@ export function installIssue(ctx) {
 
   async function viewIssue(offerId) {
     const admin = state.profile?.role === 'admin';
-    const { data: o, error } = await sb.from('offers').select('id, status, agency_id, hotel, hotels, rfq:rfqs(id, destination, depart, ret, adults, children, services, cities)').eq('id', offerId).maybeSingle();
+    // One RPC for agency and admin: the admin can't read offers directly.
+    const { data: o, error } = await sb.rpc('booking_context', { p_offer: offerId });
     if (error || !o) return shell(admin ? 'allbookings' : 'bookings', `<p class="notice bad">${esc(t('errGeneric'))}</p>`);
     const [{ data: b }, { data: files }, { data: miss }] = await Promise.all([
       sb.from('bookings').select('*').eq('offer_id', offerId).maybeSingle(),

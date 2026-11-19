@@ -7,7 +7,7 @@ import { installEsim } from './esim.js?v=3';
 import { installControl } from './control.js?v=11';
 import { installInsights } from './insights.js?v=1';
 import { installEvents } from './events.js?v=3';
-import { installIssue } from './issue.js?v=1';
+import { installIssue } from './issue.js?v=2';
 
 const CFG = window.TP_CONFIG || {};
 const $app = document.getElementById('app');
