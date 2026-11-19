@@ -2,7 +2,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 import { install } from './extra.js?v=47';
 import { AIRLINES } from './airlines.js?v=1';
 import { installOnboarding } from './onboarding.js?v=25';
-import { installTerms } from './terms.js?v=18';
+import { installTerms } from './terms.js?v=19';
 import { installEsim } from './esim.js?v=3';
 import { installControl } from './control.js?v=11';
 import { installInsights } from './insights.js?v=1';
