@@ -359,9 +359,9 @@ export function install(ctx) {
     if (error) return shell('allbookings', `<p class="notice bad">${esc(t('errGeneric'))}</p>`);
     const rows = (data || []).map((b) => `<tr><td>${esc(place(b.destination))}</td><td dir="ltr" style="text-align:start">${esc(b.depart)}</td><td>${esc(b.traveler_name || '—')}</td><td>${esc(b.agency_name)}</td>
       <td>${esc(money(b.price))}</td><td><span class="badge ${b.payment_status === 'paid' ? 'good' : b.payment_status === 'none' ? '' : 'accent'}">${esc(t('pay_' + b.payment_status))}</span></td>
-      <td>${b.commission != null ? esc(money(b.commission)) : '—'}</td><td class="muted">${esc(fmtDate(b.booked_at))}</td></tr>`).join('');
+      <td>${b.commission != null ? esc(money(b.commission)) : '—'}</td><td class="muted">${esc(fmtDate(b.booked_at))}</td><td><a class="btn ghost small" href="#/issue/${esc(b.offer_id)}">${esc(t('isView'))}</a></td></tr>`).join('');
     shell('allbookings', `<div class="top"><h1>${esc(t('navAllBookings'))}</h1></div>
-      ${rows ? `<div class="tbl-wrap"><table><thead><tr><th>${esc(t('destination'))}</th><th>${esc(t('depart'))}</th><th>${esc(t('traveler'))}</th><th>${esc(t('partner'))}</th><th>${esc(t('price'))}</th><th>${esc(t('payStatus'))}</th><th>${esc(t('commission'))}</th><th>${esc(t('bookedAt'))}</th></tr></thead><tbody>${rows}</tbody></table></div>` : `<div class="card empty">${esc(t('noBookings'))}</div>`}`);
+      ${rows ? `<div class="tbl-wrap"><table><thead><tr><th>${esc(t('destination'))}</th><th>${esc(t('depart'))}</th><th>${esc(t('traveler'))}</th><th>${esc(t('partner'))}</th><th>${esc(t('price'))}</th><th>${esc(t('payStatus'))}</th><th>${esc(t('commission'))}</th><th>${esc(t('bookedAt'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>` : `<div class="card empty">${esc(t('noBookings'))}</div>`}`);
   }
 
   function viewPackagesLocked() {
