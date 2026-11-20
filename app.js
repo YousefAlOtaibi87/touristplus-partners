@@ -1,5 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=48';
+import { install } from './extra.js?v=49';
 import { AIRLINES } from './airlines.js?v=1';
 import { installOnboarding } from './onboarding.js?v=25';
 import { installTerms } from './terms.js?v=19';
@@ -7,6 +7,7 @@ import { installEsim } from './esim.js?v=3';
 import { installControl } from './control.js?v=11';
 import { installInsights } from './insights.js?v=1';
 import { installEvents } from './events.js?v=3';
+import { installFlags } from './flags.js?v=2';
 import { installIssue } from './issue.js?v=2';
 
 const CFG = window.TP_CONFIG || {};
@@ -186,6 +187,7 @@ const TM = installTerms({ sb, state, t, esc, fmtDate, shell, toast, STR });
 const ES = installEsim({ sb, state, t, esc, fmtDate, shell, toast, STR });
 const IN = installInsights({ sb, state, t, esc, money, place, fmtDate, shell, STR });
 const EV = installEvents({ sb, t, esc, shell, toast, place, STR });
+const FL = installFlags({ sb, state, t, esc, shell, toast, fmtDate, STR });
 const IS = installIssue({ sb, state, t, esc, shell, toast, place, STR });
 const X = install({ sb, state, t, esc, money, place, fmtDate, shell, toast, STR, SERVICES, TYPES, route, terms: TM });
 const CP = installControl({ sb, state, t, esc, money, fmtDate, shell, toast, STR, fallback: () => X.viewOverview() });
@@ -218,7 +220,7 @@ async function loadProfile() {
     if (a) try { sessionStorage.removeItem('ttp_reload'); } catch {}
     if (a && p.role === 'agency') sb.rpc('portal_event', { p_event: 'seen' }).then(() => {}, () => {});
   }
-  if (p?.role === 'admin') { const { data: n } = await sb.rpc('admin_pending_applications'); state.pendingApps = n || 0; }
+  if (p?.role === 'admin') { const { data: n } = await sb.rpc('admin_pending_applications'); state.pendingApps = n || 0; await FL.refreshCount(); }
   startRealtime();
 }
 
@@ -276,6 +278,7 @@ async function route() {
     if (view === 'photos') return X.viewPhotos();
     if (view === 'hotels') return X.viewHotels();
     if (view === 'events') return EV.viewEvents();
+    if (view === 'flags') return FL.viewFlags();
     if (view === 'issue' && id) return IS.viewIssue(id);
     if (view === 'strengths') return X.viewStrengths();
     if (view === 'esim') return ES.viewEsim();
@@ -383,6 +386,7 @@ function shell(active, inner) {
         ${link('apps', '#/apps', t('navApps'), state.pendingApps)}
         ${link('promos', '#/promos', t('navPromos'))}
         ${link('users', '#/users', t('navUsers'))}
+        ${link('flags', '#/flags', t('navFlags'), state.openFlags)}
         ${link('perf', '#/perf', t('navPerf'))}
         ${link('insights', '#/insights', t('navInsights'))}
         ${link('notices', '#/notices', t('navNoticesAdmin'))}
@@ -405,7 +409,7 @@ function shell(active, inner) {
         <button class="btn ghost small" data-act="signout" type="button">${esc(t('signOut'))}</button>
       </div>
     </aside>
-    <main class="main">${agencyBanner()}<div id="docs-banner"></div>${inner}</main>
+    <main class="main">${FL.banner(active)}${agencyBanner()}<div id="docs-banner"></div>${inner}</main>
   </div>`;
   if (!isAdmin && state.agency && active !== 'documents') O.docsBanner().then((h) => { const el = document.getElementById('docs-banner'); if (el) el.innerHTML = h; }).catch(() => {});
 }
@@ -832,3 +836,8 @@ state.session = init.session;
 await loadProfile();
 route();
 setInterval(() => { if (!isEditing() && (location.hash === '' || location.hash.startsWith('#/requests'))) route(); }, 60000);
+setInterval(async () => {
+  if (state.profile?.role !== 'admin' || document.visibilityState !== 'visible') return;
+  const before = state.openFlags || 0;
+  if ((await FL.refreshCount()) !== before && !isEditing()) route();
+}, 120000);
