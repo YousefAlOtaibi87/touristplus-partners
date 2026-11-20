@@ -151,3 +151,9 @@ input[type="date"],input[type="time"],input[type="datetime-local"],input[type="m
 .hol-add label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;color:var(--muted)}
 @media (max-width:720px){.hol-add{grid-template-columns:1fr 1fr}.hol-add label:first-child{grid-column:1/-1}}
 .hol-t .hol-wd{color:var(--muted);font-size:12px;display:inline-block;min-width:52px}
+
+.sug-box{position:absolute;top:100%;inset-inline:0;z-index:30;margin-top:4px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(11,61,145,.12);max-height:280px;overflow:auto}
+.sug-box button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:start;padding:9px 12px;border:0;border-bottom:1px solid var(--line);background:#fff;cursor:pointer;font:inherit}
+.sug-box button:last-child{border-bottom:0}
+.sug-box button:hover,.sug-box button:focus{background:var(--sand);outline:none}
+.sug-box button span{font-size:12px;color:var(--muted)}

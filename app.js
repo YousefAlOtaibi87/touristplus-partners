@@ -1,6 +1,7 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=50';
+import { install } from './extra.js?v=52';
 import { AIRLINES } from './airlines.js?v=1';
+import { setupSuggest, airlineField, hotelField } from './suggest.js?v=1';
 // Departure cities a traveler can pick in the app (IATA code). Requests from older app versions are Kuwait.
 const ORIGINS = { KWI: ['الكويت', 'Kuwait'], RUH: ['الرياض', 'Riyadh'], JED: ['جدة', 'Jeddah'], DMM: ['الدمام', 'Dammam'], MED: ['المدينة المنورة', 'Madinah'], DXB: ['دبي', 'Dubai'], AUH: ['أبوظبي', 'Abu Dhabi'], SHJ: ['الشارقة', 'Sharjah'], DOH: ['الدوحة', 'Doha'], BAH: ['البحرين', 'Bahrain'], MCT: ['مسقط', 'Muscat'] };
 const originName = (c) => { const o = ORIGINS[c || 'KWI']; return o ? `${o[document.documentElement.lang === 'ar' ? 0 : 1]} (${c || 'KWI'})` : c; };
@@ -198,7 +199,8 @@ const IN = installInsights({ sb, state, t, esc, money, place, fmtDate, shell, ST
 const EV = installEvents({ sb, t, esc, shell, toast, place, STR });
 const FL = installFlags({ sb, state, t, esc, shell, toast, fmtDate, STR });
 const IS = installIssue({ sb, state, t, esc, shell, toast, place, STR });
-const X = install({ sb, state, t, esc, money, place, fmtDate, shell, toast, STR, SERVICES, TYPES, route, terms: TM });
+setupSuggest({ sb, esc, lang: () => state.lang });
+const X = install({ sb, state, t, esc, money, place, fmtDate, shell, toast, STR, SERVICES, TYPES, route, terms: TM, suggest: { airlineField, hotelField } });
 const CP = installControl({ sb, state, t, esc, money, fmtDate, shell, toast, STR, fallback: () => X.viewOverview() });
 const O = installOnboarding({ sb, state, t, esc, fmtDate, shell, toast, STR, $app, brand, langToggle, route, terms: TM });
 
@@ -611,6 +613,7 @@ async function viewRequest(id) {
   }));
 
   const of = document.getElementById('offer-form');
+  airlineField(of?.querySelector('[name=airline]'));
   // Cabin choices follow what the typed airline usually sells.
   const alIn = of?.querySelector('[name=airline]'), cabSel = of?.querySelector('[name=cabin]');
   if (alIn && cabSel) {
