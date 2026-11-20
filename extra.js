@@ -249,6 +249,8 @@ export function install(ctx) {
           ${id !== 'new' ? `<button class="btn danger" type="button" id="pkg-del">${esc(t('del'))}</button>` : ''}</div>
       </form>`);
     const form = document.getElementById('pkg-form');
+    ctx.suggest?.airlineField(form.querySelector('[name=airline]'));
+    ctx.suggest?.hotelField(form.querySelector('[name=hotel]'), () => form.querySelector('[name=destination]').value, (h) => { const st = form.querySelector('[name=hotel_stars]'); if (h?.stars && st) st.value = String(h.stars); });
     form.querySelectorAll('.chip input').forEach((i) => (i.onchange = () => i.closest('.chip').classList.toggle('on', i.checked)));
     form.onsubmit = async (e) => {
       e.preventDefault();
