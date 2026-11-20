@@ -6,7 +6,7 @@ import { installTerms } from './terms.js?v=19';
 import { installEsim } from './esim.js?v=3';
 import { installControl } from './control.js?v=11';
 import { installInsights } from './insights.js?v=1';
-import { installEvents } from './events.js?v=3';
+import { installEvents } from './events.js?v=4';
 import { installFlags } from './flags.js?v=2';
 import { installIssue } from './issue.js?v=2';
 
