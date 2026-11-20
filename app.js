@@ -168,6 +168,12 @@ function toast(msg) {
   document.body.appendChild(el);
   setTimeout(() => el.remove(), 3200);
 }
+// Date/time fields: open the picker on a click anywhere in the box, not only on the small icon.
+document.addEventListener('click', (e) => {
+  const el = e.target instanceof Element ? e.target.closest('input[type="date"],input[type="time"],input[type="datetime-local"],input[type="month"]') : null;
+  if (el && !el.disabled && !el.readOnly && typeof el.showPicker === 'function') { try { el.showPicker(); } catch (_) { /* already open */ } }
+});
+
 const langToggle = () => `<button class="btn ghost small" data-act="lang" type="button" lang="${state.lang === 'ar' ? 'en' : 'ar'}">${state.lang === 'ar' ? 'English' : 'العربية'}</button>`;
 const brand = () => `<div class="brand"><span class="logo"><span class="tp" dir="ltr">T+</span></span><span><span dir="ltr" class="w"><b>TheTourist</b><i>Plus</i></span><small>${t('partners')}</small></span></div>`;
 

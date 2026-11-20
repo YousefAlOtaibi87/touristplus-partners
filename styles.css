@@ -127,3 +127,5 @@ input.invalid,select.invalid,textarea.invalid{border-color:var(--bad);background
 .offer-cover span{color:#fff;font-weight:800;font-size:16px;position:relative}
 .promo-how{margin-bottom:18px;border-inline-start:4px solid var(--accent)}
 .promo-how h2{margin:0 0 6px}.promo-how ol{margin:0 0 8px;padding-inline-start:20px;line-height:1.9}
+
+input[type="date"],input[type="time"],input[type="datetime-local"],input[type="month"]{cursor:pointer}
