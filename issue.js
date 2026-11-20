@@ -10,7 +10,7 @@ export function installIssue(ctx) {
     hName: 'اسم الفندق', hConf: 'رقم تأكيد الفندق', hRoom: 'نوع الغرفة وعددها', hIn: 'تاريخ الدخول', hOut: 'تاريخ الخروج', hBoard: 'الوجبات', hCancel: 'سياسة الإلغاء',
     b_ro: 'بدون وجبات', b_bb: 'شامل الإفطار', b_hb: 'إفطار وعشاء', b_fb: 'ثلاث وجبات', b_ai: 'شامل كلياً',
     c_ref: 'قابل للاسترداد', c_non: 'غير قابل للاسترداد',
-    fPnr: 'رقم الحجز (PNR)', fOut: 'رحلة الذهاب', fRet: 'رحلة العودة', fNo: 'رقم الرحلة', fDate: 'التاريخ', fTime: 'وقت الإقلاع', fBag: 'الأمتعة', bChk: 'أمتعة الشحن (لا يُسمح بها داخل الطائرة)', bCab: 'حقيبة المقصورة (يُسمح بها مع المسافر داخل الطائرة)', bCnt: 'العدد لكل مسافر', bKg: 'الوزن المسموح للقطعة', bNone: 'بدون', kg: 'كغ', fPax: 'اسم المسافر كما في الجواز', fTicket: 'رقم التذكرة',
+    fPnr: 'رقم الحجز (PNR)', fOut: 'رحلة الذهاب', fRet: 'رحلة العودة', fNo: 'رقم الرحلة', fDate: 'التاريخ', fTime: 'وقت الإقلاع', fBag: 'الأمتعة', bChk: 'أمتعة الشحن (لا يُسمح بها داخل الطائرة)', bCab: 'حقيبة المقصورة (يُسمح بها مع المسافر داخل الطائرة)', bCnt: 'العدد لكل مسافر', bKg: 'الوزن المسموح للقطعة', bNone: 'بدون', kg: 'kg', fPax: 'اسم المسافر كما في الجواز', fTicket: 'رقم التذكرة',
     x_transfers: 'التوصيل (من وين لوين، التاريخ)', x_tours: 'الجولات (الأسماء والتواريخ)', x_visa: 'التأشيرة (النوع ورقمها)', x_insurance: 'تأمين السفر (الشركة ورقم الوثيقة)',
     k_hotel: 'تأكيد الفندق', k_ticket: 'التذاكر الإلكترونية', k_transfers: 'تأكيد التوصيل', k_tours: 'تأكيد الجولات', k_visa: 'التأشيرة', k_insurance: 'وثيقة التأمين', k_other: 'ملف آخر',
     isAttach: 'إرفاق ملف', isFileHint: 'PDF أو صورة، حتى 10 ميغا', isFileBad: 'نوع الملف لازم PDF أو صورة وحجمه أقل من 10 ميغا.', isUploaded: 'تم رفع الملف', isRemove: 'حذف', isOpen: 'فتح',
@@ -59,7 +59,7 @@ export function installIssue(ctx) {
     return `<fieldset class="f" style="border:1px solid var(--line);border-radius:12px;padding:8px 10px;margin:0;grid-column:1/-1"><legend style="font-weight:700;padding:0 4px">${esc(label)} *</legend>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px">${input(key + '_no', t('fNo'), no, { ltr: true, max: 12, ro })}${input(key + '_date', t('fDate'), d || defDate || '', { type: 'date', ro })}${input(key + '_time', t('fTime'), tm, { type: 'time', ro })}</div></fieldset>`;
   };
-  // Baggage: picked, not typed. Stored as "شحن: 2 × 23 كغ · مقصورة: 1 × 7 كغ" (count 0 → "بدون").
+  // Baggage: picked, not typed. Stored as "شحن: 2 × 23 kg · مقصورة: 1 × 7 kg" (count 0 → "بدون").
   const BAG = { chk: { cnt: [0, 1, 2, 3, 4], kg: [15, 20, 23, 25, 30, 32, 35, 40, 46] }, cab: { cnt: [0, 1, 2], kg: [5, 7, 8, 10, 12, 15] } };
   const parseBag = (v) => {
     const one = (word) => { const m = String(v || '').match(new RegExp(word + ':\\s*(?:(\\d+)\\s*×\\s*(\\d+)|(بدون))')); return m ? (m[3] ? { cnt: '0', kg: '' } : { cnt: m[1], kg: m[2] }) : { cnt: '', kg: '' }; };
@@ -137,7 +137,7 @@ export function installIssue(ctx) {
       const fe = document.getElementById('is-flight');
       const legVal = (k) => { const a = [val(fe, k + '_no').toUpperCase(), val(fe, k + '_date'), val(fe, k + '_time')]; return a.every(Boolean) ? a.join(' · ') : ''; };
       const bagVal = () => {
-        const one = (k, word) => { const c = val(fe, `bag_${k}_cnt`), w = val(fe, `bag_${k}_kg`); if (c === '0') return `${word}: بدون`; return c && w ? `${word}: ${c} × ${w} كغ` : ''; };
+        const one = (k, word) => { const c = val(fe, `bag_${k}_cnt`), w = val(fe, `bag_${k}_kg`); if (c === '0') return `${word}: بدون`; return c && w ? `${word}: ${c} × ${w} kg` : ''; };
         const a = one('chk', 'شحن'), b = one('cab', 'مقصورة');
         return a && b ? `${a} · ${b}` : '';
       };
