@@ -22,6 +22,7 @@ export function installEvents(ctx) {
     evHidden: 'Hidden', evReviewed: 'Last reviewed', evMarkReviewed: 'Mark reviewed', evOld: 'Needs review',
     k_event: 'Event', k_festival: 'Festival', k_opening: 'New opening', k_holiday: 'Holiday', k_season: 'Season',
   });
+  const isAr = () => document.documentElement.lang === 'ar';
   const KINDS = ['event', 'festival', 'opening', 'holiday', 'season'];
   const MONTHS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const monthName = (m) => new Date(2026, m - 1, 1).toLocaleString(document.documentElement.lang === 'ar' ? 'ar-KW-u-nu-latn' : 'en-GB', { month: 'long' });
@@ -57,9 +58,9 @@ export function installEvents(ctx) {
     const stale = (e) => !e.reviewed_at || Date.now() - new Date(e.reviewed_at).getTime() > 180 * 864e5;
     const row = (e) => `<div class="card" style="margin-bottom:10px;${e.active ? '' : 'opacity:.6'}" data-id="${esc(e.id)}">
       <div class="row" style="justify-content:space-between;gap:8px;flex-wrap:wrap">
-        <div><b>${esc(e.title_ar)}</b> <span class="muted" style="font-size:12px">· ${esc(e.title_en)}</span><div class="muted" style="font-size:12px;margin-top:4px">${esc(place(e.city))} · ${esc(monthName(e.month))} · ${esc(t('k_' + e.kind))}${e.ends_on ? ` · ← ${esc(e.ends_on)}` : ''}${e.active ? '' : ` · ${esc(t('evHidden'))}`}</div>
+        <div><b>${esc(isAr() ? e.title_ar : e.title_en)}</b> <span class="muted" style="font-size:12px">· ${esc(isAr() ? e.title_en : e.title_ar)}</span><div class="muted" style="font-size:12px;margin-top:4px">${esc(place(e.city))} · ${esc(monthName(e.month))} · ${esc(t('k_' + e.kind))}${e.ends_on ? ` · ← ${esc(e.ends_on)}` : ''}${e.active ? '' : ` · ${esc(t('evHidden'))}`}</div>
         ${e.image_url && /^https:\/\//.test(e.image_url) ? `<img src="${esc(e.image_url)}" alt="" loading="lazy" style="width:96px;height:64px;object-fit:cover;border-radius:8px;margin-top:6px">` : ''}
-        ${e.note_ar ? `<div style="font-size:13px;margin-top:4px">${esc(e.note_ar)}</div>` : ''}</div>
+        ${(isAr() ? e.note_ar : e.note_en || e.note_ar) ? `<div style="font-size:13px;margin-top:4px">${esc(isAr() ? e.note_ar : e.note_en || e.note_ar)}</div>` : ''}</div>
         <div class="row" style="gap:6px;flex-wrap:wrap;align-items:center">${stale(e) ? `<span class="badge">${esc(t('evOld'))}</span>` : ''}
           <button class="btn ghost small" type="button" data-rev="${esc(e.id)}">${esc(t('evMarkReviewed'))}</button>
           <button class="btn ghost small" type="button" data-edit="${esc(e.id)}">${esc(t('hdEdit') || 'Edit')}</button>
