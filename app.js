@@ -448,7 +448,7 @@ async function viewRequests() {
       <div class="row between"><span class="dest">${esc(place(r.destination))}</span><span class="badge ${hrs < 12 ? 'bad' : 'accent'}">${esc(closesLabel(r.closes_at))}</span></div>
       <div class="muted" style="font-size:14px">${esc(t('type_' + r.trip_type))} · <span dir="ltr">${esc(r.depart)} → ${esc(r.ret)}</span> · ${esc(t('nights', { n: nights(r.depart, r.ret) }))}</div>
       <div style="font-size:14px">${esc(t('travelers', { a: r.adults, c: r.children }))}</div>
-      <div class="chips">${(r.services || []).includes('flights') ? `<span class="badge accent">✈ ${esc(originName(r.origin))} ← ${esc(place(r.destination))}</span>` : ''}${(r.services || []).map((s) => `<span class="badge">${esc(t('svc_' + s))}</span>`).join('')}</div>
+      <div class="chips">${(r.services || []).includes('flights') ? `<span class="badge accent">✈ ${esc(originName(r.origin))} ${document.documentElement.lang === 'ar' ? '←' : '→'} ${esc(place(r.destination))}</span>` : ''}${(r.services || []).map((s) => `<span class="badge">${esc(t('svc_' + s))}</span>`).join('')}</div>
       <div class="foot">
         <span class="muted">${esc(t('offersN', { n: countMap[r.id] || 0 }))}${r.budget_max ? ' · ' + esc(t('budgetUpTo', { v: money(r.budget_max) })) : ''}</span>
         ${my ? `<span class="badge good">${esc(t('yourOfferSent'))} · ${esc(money(my.price))}</span>` : ''}
@@ -507,7 +507,7 @@ async function viewRequest(id) {
     <dt>${esc(t('depart'))}</dt><dd dir="ltr" style="text-align:start">${esc(r.depart)}</dd>
     <dt>${esc(t('ret'))}</dt><dd dir="ltr" style="text-align:start">${esc(r.ret)} · ${esc(t('nights', { n: nights(r.depart, r.ret) }))}</dd>
     <dt>${esc(t('travelersL'))}</dt><dd>${esc(t('travelers', { a: r.adults, c: r.children }))}</dd>
-    ${(r.services || []).includes('flights') ? `<dt>${esc(t('originL'))}</dt><dd><b>${esc(originName(r.origin))}</b> ← <b>${esc(place(r.destination))}</b></dd>` : ''}
+    ${(r.services || []).includes('flights') ? `<dt>${esc(t('originL'))}</dt><dd><b>${esc(originName(r.origin))}</b> ${document.documentElement.lang === 'ar' ? '←' : '→'} <b>${esc(place(r.destination))}</b></dd>` : ''}
     ${r.airlines?.length || r.cabin ? `<dt>${esc(t('flightPrefs'))}</dt><dd>${esc([(r.airlines || []).map(airlineName).join('، '), r.cabin ? t('cabin_' + r.cabin) : ''].filter(Boolean).join(' · '))}</dd>` : ''}
     ${r.children_ages?.length ? `<dt>${esc(t('childAges'))}</dt><dd>${r.children_ages.map((a) => esc(a < 2 ? t('ageInfant', { n: a }) : t('ageYears', { n: a }))).join('، ')}</dd>` : ''}
     ${r.prefs?.length ? `<dt>${esc(t('prefsL'))}</dt><dd><div class="chips">${r.prefs.map((p) => `<span class="badge accent">${esc(t('pref_' + p))}</span>`).join('')}</div></dd>` : ''}
