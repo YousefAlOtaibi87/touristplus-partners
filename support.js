@@ -6,7 +6,7 @@ export function installSupport(ctx) {
 
   Object.assign(STR.ar, {
     spTitle: 'راسل الإدارة', spSub: 'بلّغنا عن أي خطأ أو خانة تحتاج تعديل، أو اقترح تطوير للبوابة، أو اسأل أي استفسار.',
-    spCat: 'نوع الرسالة', spCat_bug: 'خطأ أو خانة تحتاج تعديل', spCat_feature: 'اقتراح تطوير', spCat_question: 'استفسار', spCat_other: 'أخرى',
+    spCat: 'نوع الرسالة', spCat_bug: 'خطأ أو خانة تحتاج تعديل', spCat_feature: 'اقتراح تطوير', spCat_question: 'استفسار', spCat_other: 'أخرى', spCat_reply: 'رد على رسالة الإدارة',
     spSubject: 'العنوان', spBody: 'الرسالة', spSend: 'إرسال للإدارة', spSent: 'وصلت رسالتك للإدارة، وبيوصلك الرد هنا.',
     spMine: 'رسائلي للإدارة', spNone: 'ما فيه رسائل.', spReply: 'رد', spReplyPh: 'اكتب ردك…', spClose: 'إغلاق', spReopen: 'إعادة فتح',
     st_open: 'بانتظار الرد', st_answered: 'تم الرد', st_closed: 'مغلقة', spNew: 'جديد', spYou: 'أنت', spAdmin: 'إدارة TheTouristPlus',
@@ -16,7 +16,7 @@ export function installSupport(ctx) {
   });
   Object.assign(STR.en, {
     spTitle: 'Message the platform', spSub: 'Report a bug or a field that needs fixing, suggest an improvement, or ask any question.',
-    spCat: 'Type', spCat_bug: 'Bug or field to fix', spCat_feature: 'Improvement idea', spCat_question: 'Question', spCat_other: 'Other',
+    spCat: 'Type', spCat_bug: 'Bug or field to fix', spCat_feature: 'Improvement idea', spCat_question: 'Question', spCat_other: 'Other', spCat_reply: 'Reply to a platform message',
     spSubject: 'Subject', spBody: 'Message', spSend: 'Send to the platform', spSent: 'Your message reached the platform. The reply will appear here.',
     spMine: 'My messages to the platform', spNone: 'No messages.', spReply: 'Reply', spReplyPh: 'Write your reply…', spClose: 'Close', spReopen: 'Reopen',
     st_open: 'Awaiting reply', st_answered: 'Answered', st_closed: 'Closed', spNew: 'New', spYou: 'You', spAdmin: 'TheTouristPlus team',
