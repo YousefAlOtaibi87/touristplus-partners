@@ -1,6 +1,9 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 import { install } from './extra.js?v=50';
 import { AIRLINES } from './airlines.js?v=1';
+// Departure cities a traveler can pick in the app (IATA code). Requests from older app versions are Kuwait.
+const ORIGINS = { KWI: ['الكويت', 'Kuwait'], RUH: ['الرياض', 'Riyadh'], JED: ['جدة', 'Jeddah'], DMM: ['الدمام', 'Dammam'], MED: ['المدينة المنورة', 'Madinah'], DXB: ['دبي', 'Dubai'], AUH: ['أبوظبي', 'Abu Dhabi'], SHJ: ['الشارقة', 'Sharjah'], DOH: ['الدوحة', 'Doha'], BAH: ['البحرين', 'Bahrain'], MCT: ['مسقط', 'Muscat'] };
+const originName = (c) => { const o = ORIGINS[c || 'KWI']; return o ? `${o[document.documentElement.lang === 'ar' ? 0 : 1]} (${c || 'KWI'})` : c; };
 import { installOnboarding } from './onboarding.js?v=25';
 import { installTerms } from './terms.js?v=19';
 import { installEsim } from './esim.js?v=3';
@@ -25,7 +28,7 @@ const STR = {
     childAges: 'أعمار الأطفال', ageInfant: 'رضيع ({n})', ageYears: '{n} سنوات', prefsL: 'تفضيلات المسافر',
     pref_central: 'فندق في وسط المدينة', pref_breakfast: 'إفطار مشمول', pref_direct: 'طيران مباشر', pref_connecting: 'غرف متصلة', pref_view: 'إطلالة بحر / جبل',
     pref_pool: 'مسبح أو فيلا', pref_flexible: 'مرونة بالتواريخ ±2 يوم', pref_driver: 'سيارة مع سائق', pref_access: 'احتياجات خاصة',
-    flightPrefs: 'الطيران المطلوب', cabinL: 'درجة المقعد', cabin_economy: 'سياحية', cabin_premium: 'سياحية مميزة', cabin_business: 'رجال الأعمال', cabin_first: 'الأولى',
+    originL: 'مدينة المغادرة', fromCity: 'من {c}', flightPrefs: 'الطيران المطلوب', cabinL: 'درجة المقعد', cabin_economy: 'سياحية', cabin_premium: 'سياحية مميزة', cabin_business: 'رجال الأعمال', cabin_first: 'الأولى',
     navRequests: 'طلبات السفر', navOffers: 'عروض الأسعار', navBookings: 'الحجوزات', signOut: 'تسجيل الخروج',
     requestsTitle: 'طلبات السفر المفتوحة', requestsSub: 'اختر طلب وقدّم عرضك للمسافر.',
     search: 'ابحث بالوجهة…', allTypes: 'كل الأنواع', sortClosing: 'الأقرب إغلاقاً', sortNewest: 'الأحدث',
@@ -58,7 +61,7 @@ const STR = {
     childAges: 'Children’s ages', ageInfant: 'infant ({n})', ageYears: '{n} yrs', prefsL: 'Traveler preferences',
     pref_central: 'Central hotel', pref_breakfast: 'Breakfast included', pref_direct: 'Direct flights', pref_connecting: 'Connecting rooms', pref_view: 'Sea / mountain view',
     pref_pool: 'Pool or villa', pref_flexible: 'Flexible dates ±2 days', pref_driver: 'Car with driver', pref_access: 'Accessibility needs',
-    flightPrefs: 'Requested flights', cabinL: 'Cabin', cabin_economy: 'Economy', cabin_premium: 'Premium Economy', cabin_business: 'Business', cabin_first: 'First',
+    originL: 'Departing from', fromCity: 'From {c}', flightPrefs: 'Requested flights', cabinL: 'Cabin', cabin_economy: 'Economy', cabin_premium: 'Premium Economy', cabin_business: 'Business', cabin_first: 'First',
     navRequests: 'Trip requests', navOffers: 'My quotes', navBookings: 'Bookings', signOut: 'Sign out',
     requestsTitle: 'Open trip requests', requestsSub: 'Pick a request and send your offer to the traveler.',
     search: 'Search destination…', allTypes: 'All types', sortClosing: 'Closing soon', sortNewest: 'Newest',
@@ -445,7 +448,7 @@ async function viewRequests() {
       <div class="row between"><span class="dest">${esc(place(r.destination))}</span><span class="badge ${hrs < 12 ? 'bad' : 'accent'}">${esc(closesLabel(r.closes_at))}</span></div>
       <div class="muted" style="font-size:14px">${esc(t('type_' + r.trip_type))} · <span dir="ltr">${esc(r.depart)} → ${esc(r.ret)}</span> · ${esc(t('nights', { n: nights(r.depart, r.ret) }))}</div>
       <div style="font-size:14px">${esc(t('travelers', { a: r.adults, c: r.children }))}</div>
-      <div class="chips">${(r.services || []).map((s) => `<span class="badge">${esc(t('svc_' + s))}</span>`).join('')}</div>
+      <div class="chips">${(r.services || []).includes('flights') ? `<span class="badge accent">✈ ${esc(t('fromCity', { c: originName(r.origin) }))}</span>` : ''}${(r.services || []).map((s) => `<span class="badge">${esc(t('svc_' + s))}</span>`).join('')}</div>
       <div class="foot">
         <span class="muted">${esc(t('offersN', { n: countMap[r.id] || 0 }))}${r.budget_max ? ' · ' + esc(t('budgetUpTo', { v: money(r.budget_max) })) : ''}</span>
         ${my ? `<span class="badge good">${esc(t('yourOfferSent'))} · ${esc(money(my.price))}</span>` : ''}
@@ -504,6 +507,7 @@ async function viewRequest(id) {
     <dt>${esc(t('depart'))}</dt><dd dir="ltr" style="text-align:start">${esc(r.depart)}</dd>
     <dt>${esc(t('ret'))}</dt><dd dir="ltr" style="text-align:start">${esc(r.ret)} · ${esc(t('nights', { n: nights(r.depart, r.ret) }))}</dd>
     <dt>${esc(t('travelersL'))}</dt><dd>${esc(t('travelers', { a: r.adults, c: r.children }))}</dd>
+    ${(r.services || []).includes('flights') ? `<dt>${esc(t('originL'))}</dt><dd><b>${esc(originName(r.origin))}</b></dd>` : ''}
     ${r.airlines?.length || r.cabin ? `<dt>${esc(t('flightPrefs'))}</dt><dd>${esc([(r.airlines || []).map(airlineName).join('، '), r.cabin ? t('cabin_' + r.cabin) : ''].filter(Boolean).join(' · '))}</dd>` : ''}
     ${r.children_ages?.length ? `<dt>${esc(t('childAges'))}</dt><dd>${r.children_ages.map((a) => esc(a < 2 ? t('ageInfant', { n: a }) : t('ageYears', { n: a }))).join('، ')}</dd>` : ''}
     ${r.prefs?.length ? `<dt>${esc(t('prefsL'))}</dt><dd><div class="chips">${r.prefs.map((p) => `<span class="badge accent">${esc(t('pref_' + p))}</span>`).join('')}</div></dd>` : ''}
