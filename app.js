@@ -1,5 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=48';
+import { install } from './extra.js?v=49';
 import { AIRLINES } from './airlines.js?v=1';
 import { installOnboarding } from './onboarding.js?v=25';
 import { installTerms } from './terms.js?v=19';
@@ -8,6 +8,7 @@ import { installControl } from './control.js?v=11';
 import { installInsights } from './insights.js?v=1';
 import { installEvents } from './events.js?v=3';
 import { installFlags } from './flags.js?v=2';
+import { installIssue } from './issue.js?v=2';
 
 const CFG = window.TP_CONFIG || {};
 const $app = document.getElementById('app');
@@ -187,6 +188,7 @@ const ES = installEsim({ sb, state, t, esc, fmtDate, shell, toast, STR });
 const IN = installInsights({ sb, state, t, esc, money, place, fmtDate, shell, STR });
 const EV = installEvents({ sb, t, esc, shell, toast, place, STR });
 const FL = installFlags({ sb, state, t, esc, shell, toast, fmtDate, STR });
+const IS = installIssue({ sb, state, t, esc, shell, toast, place, STR });
 const X = install({ sb, state, t, esc, money, place, fmtDate, shell, toast, STR, SERVICES, TYPES, route, terms: TM });
 const CP = installControl({ sb, state, t, esc, money, fmtDate, shell, toast, STR, fallback: () => X.viewOverview() });
 const O = installOnboarding({ sb, state, t, esc, fmtDate, shell, toast, STR, $app, brand, langToggle, route, terms: TM });
@@ -277,6 +279,7 @@ async function route() {
     if (view === 'hotels') return X.viewHotels();
     if (view === 'events') return EV.viewEvents();
     if (view === 'flags') return FL.viewFlags();
+    if (view === 'issue' && id) return IS.viewIssue(id);
     if (view === 'strengths') return X.viewStrengths();
     if (view === 'esim') return ES.viewEsim();
     if (view === 'company' && id) return O.viewCompany(id);
@@ -292,6 +295,7 @@ async function route() {
   if (view === 'documents') return O.viewDocuments();
   if (view === 'offers') return viewOffers();
   if (view === 'bookings') return viewBookings();
+  if (view === 'issue' && id) return IS.viewIssue(id);
   return viewRequests();
 }
 
@@ -793,7 +797,7 @@ async function viewOffers(onlyBooked = false) {
     return `<td><span class="badge ${st === 'paid' ? 'good' : st === 'none' ? '' : 'accent'}">${esc(t('pay_' + st))}</span></td>
       <td>${p && p.status === 'paid' ? esc(money(p.commission)) : '—'}</td>
       <td>${p && p.status === 'paid' ? esc(money(p.partner_share)) : '—'}</td>
-      <td>${o.confirmed_at ? `<span class="badge good">${esc(t('confirmedOn', { d: fmtDate(o.confirmed_at) }))}</span>` : `<button type="button" class="btn small" data-confirm="${esc(o.id)}">${esc(t('confirmBtn'))}</button>`}</td>`;
+      <td>${o.confirmed_at ? `<a class="badge good" href="#/issue/${esc(o.id)}">${esc(t('confirmedOn', { d: fmtDate(o.confirmed_at) }))}</a>` : `<a class="btn small" href="#/issue/${esc(o.id)}">${esc(t('isBtn'))}</a>`}</td>`;
   };
   const rows = (data || []).map((o) => `<tr class="link" tabindex="0" data-href="#/request/${o.rfq_id}">
       <td><a href="#/request/${o.rfq_id}">${esc(place(o.rfq?.destination || '—'))}</a></td>
@@ -807,16 +811,8 @@ async function viewOffers(onlyBooked = false) {
     ${rows ? `<div class="tbl-wrap"><table>
       <thead><tr><th scope="col">${esc(t('destination'))}</th><th scope="col">${esc(t('dates'))}</th><th scope="col">${esc(t('traveler'))}</th><th scope="col">${esc(t('price'))}</th><th scope="col">${esc(t('status'))}</th>${onlyBooked ? `<th scope="col">${esc(t('payStatus'))}</th><th scope="col">${esc(t('commission'))}</th><th scope="col">${esc(t('net'))}</th><th scope="col">${esc(t('confirmCol'))}</th>` : ''}<th scope="col">${esc(t('sentAt'))}</th></tr></thead>
       <tbody>${rows}</tbody></table></div>` : `<div class="card empty">${esc(onlyBooked ? t('noBookings') : t('noOffers'))}</div>`}`);
-  document.querySelectorAll('[data-confirm]').forEach((b) => { b.onclick = async (e) => {
-    e.stopPropagation();
-    if (!confirm(t('confirmAsk'))) return;
-    b.disabled = true;
-    const { error: er } = await sb.rpc('agency_confirm_booking', { p_offer: b.dataset.confirm });
-    if (er) { b.disabled = false; return toast(t('errGeneric')); }
-    toast(t('confirmDone')); viewOffers(true);
-  }; });
   document.querySelectorAll('tr.link').forEach((tr) => {
-    tr.onclick = (e) => { if (e.target.tagName !== 'A' && !e.target.closest('button')) location.hash = tr.dataset.href; };
+    tr.onclick = (e) => { if (!e.target.closest('a') && !e.target.closest('button')) location.hash = tr.dataset.href; };
     tr.onkeydown = (e) => { if (e.key === 'Enter') location.hash = tr.dataset.href; };
   });
 }
