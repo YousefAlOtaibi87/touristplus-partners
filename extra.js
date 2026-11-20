@@ -4,7 +4,7 @@ export function install(ctx) {
 
   Object.assign(STR.ar, {
     promoHow: 'طريقة النشر', promoHow1: 'أضف العرض واحفظه.', promoHow2: 'اختر مدة الإعلان وادفع رسومه عن طريق بوابة الدفع: {plansText}.', promoHow3: 'يظهر العرض فوراً في التطبيق، ويتوقف تلقائياً بنهاية المدة ويمكنك تجديده.',
-    promoHow4: 'عمولة المنصة {rate}% من كل حجز يتم عن طريق العروض الخاصة. هوية مكتبكم وبيانات التواصل تبقى مخفية عن المسافر حتى يدفع.',
+    promoHow4: 'عمولة المنصة {rate}% من كل حجز يتم عن طريق العروض الخاصة. هوية مكتبكم وبيانات التواصل تبقى مخفية عن المسافر دائماً، حتى بعد الدفع.',
     liveUntil: 'منشور حتى {d}', notLive: 'غير منشور', stoppedByAdmin: 'موقوف من الإدارة', publishBtn: '📣 {plan} — {fee} د.ك', renewBtn: '🔁 تجديد {plan} — {fee} د.ك', plan_week: 'أسبوعي (7 أيام)', plan_month: 'شهري (30 يوماً)', plan_quarter: 'فصلي (90 يوماً)', planDays: '{n} يوماً',
     founderBanner: '🎉 مزايا الإطلاق لحسابكم: نشر عروضكم الخاصة بدون رسوم إعلان، وعمولة مخفّضة 3% بدل 4% على حجوزات العروض الخاصة حتى {d}.', founderBtn: '📣 نشر مجاني حتى {d}', founderDone: 'نُشر العرض مجاناً حتى {d}.',
     foundersTitle: 'مزايا الإطلاق: {n} مكتب في أول 3 شهور', foundersSub: 'كل مكتب جديد: بدون رسوم إعلان، وعمولة العروض الخاصة 3% بدل 4% لمدة 3 أشهر من تفعيل العقد.', founderRemove: 'إنهاء مزايا الإطلاق', founderRemoveConfirm: 'إنهاء مزايا الإطلاق لهذا المكتب الآن؟', noFounders: 'لا يوجد مكاتب في فترة مزايا الإطلاق حالياً.', founderNo: 'رقم', founderEnds: 'ينتهي العرض',
@@ -48,7 +48,7 @@ export function install(ctx) {
   });
   Object.assign(STR.en, {
     promoHow: 'How publishing works', promoHow1: 'Add the offer and save it.', promoHow2: 'Choose the listing period and pay its fee through the payment gateway: {plansText}.', promoHow3: 'The offer goes live in the app at once, stops automatically at the end of the period, and can be renewed.',
-    promoHow4: 'Platform commission is {rate}% on every booking made through special offers. Your identity and contact details stay hidden from travelers until they pay.',
+    promoHow4: 'Platform commission is {rate}% on every booking made through special offers. Your identity and contact details always stay hidden from travelers, even after they pay.',
     liveUntil: 'Live until {d}', notLive: 'Not published', stoppedByAdmin: 'Stopped by admin', publishBtn: '📣 {plan} — {fee} KWD', renewBtn: '🔁 Renew {plan} — {fee} KWD', plan_week: 'Weekly (7 days)', plan_month: 'Monthly (30 days)', plan_quarter: 'Quarterly (90 days)', planDays: '{n} days',
     founderBanner: '🎉 Your launch benefits: publish your special offers with no listing fees and a reduced 3% (instead of 4%) special-offers commission until {d}.', founderBtn: '📣 Publish free until {d}', founderDone: 'Offer published free until {d}.',
     foundersTitle: 'Launch benefits: {n} agencies in their first 3 months', foundersSub: 'Every new agency: no listing fees and a 3% (instead of 4%) special-offers commission for 3 months from contract activation.', founderRemove: 'End launch benefits', founderRemoveConfirm: 'End the launch benefits for this agency now?', noFounders: 'No agencies in the launch-benefits period right now.', founderNo: 'No.', founderEnds: 'Offer ends',
