@@ -1,5 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=52';
+import { install } from './extra.js?v=53';
 import { AIRLINES } from './airlines.js?v=1';
 import { setupSuggest, airlineField, hotelField } from './suggest.js?v=1';
 // Departure cities a traveler can pick in the app (IATA code). Requests from older app versions are Kuwait.
@@ -12,6 +12,7 @@ import { installControl } from './control.js?v=15';
 import { installInsights } from './insights.js?v=1';
 import { installEvents } from './events.js?v=5';
 import { installFlags } from './flags.js?v=2';
+import { installSupport } from './support.js?v=1';
 import { installIssue } from './issue.js?v=4';
 
 const CFG = window.TP_CONFIG || {};
@@ -200,7 +201,8 @@ const EV = installEvents({ sb, t, esc, shell, toast, place, STR });
 const FL = installFlags({ sb, state, t, esc, shell, toast, fmtDate, STR });
 const IS = installIssue({ sb, state, t, esc, shell, toast, place, STR });
 setupSuggest({ sb, esc, lang: () => state.lang });
-const X = install({ sb, state, t, esc, money, place, fmtDate, shell, toast, STR, SERVICES, TYPES, route, terms: TM, suggest: { airlineField, hotelField } });
+const SP = installSupport({ sb, state, t, esc, fmtDate, toast, STR, onCount: async () => { state.supportUnread = await SP.count(); } });
+const X = install({ sb, state, t, esc, money, place, fmtDate, shell, toast, STR, SERVICES, TYPES, route, terms: TM, suggest: { airlineField, hotelField }, support: SP });
 const CP = installControl({ sb, state, t, esc, money, fmtDate, shell, toast, STR, fallback: () => X.viewOverview() });
 const O = installOnboarding({ sb, state, t, esc, fmtDate, shell, toast, STR, $app, brand, langToggle, route, terms: TM });
 
@@ -227,11 +229,11 @@ async function loadProfile() {
     state.intro = null;
     if (a) { const { data: it } = await sb.rpc('my_intro'); if (it?.on) state.intro = it; }
     state.unread = 0;
-    if (a) { const { data: ns } = await sb.rpc('my_notices'); state.unread = (ns || []).filter((n) => !n.is_read).length; }
+    if (a) { const { data: ns } = await sb.rpc('my_notices'); state.unread = (ns || []).filter((n) => !n.is_read).length; state.supportUnread = await SP.count(); }
     if (a) try { sessionStorage.removeItem('ttp_reload'); } catch {}
     if (a && p.role === 'agency') sb.rpc('portal_event', { p_event: 'seen' }).then(() => {}, () => {});
   }
-  if (p?.role === 'admin') { const { data: n } = await sb.rpc('admin_pending_applications'); state.pendingApps = n || 0; await FL.refreshCount(); }
+  if (p?.role === 'admin') { const { data: n } = await sb.rpc('admin_pending_applications'); state.pendingApps = n || 0; state.supportUnread = await SP.count(); await FL.refreshCount(); }
   startRealtime();
 }
 
@@ -400,7 +402,7 @@ function shell(active, inner) {
         ${link('flags', '#/flags', t('navFlags'), state.openFlags)}
         ${link('perf', '#/perf', t('navPerf'))}
         ${link('insights', '#/insights', t('navInsights'))}
-        ${link('notices', '#/notices', t('navNoticesAdmin'))}
+        ${link('notices', '#/notices', t('navNoticesAdmin'), state.supportUnread)}
         ${link('hotels', '#/hotels', t('navHotels'))}
         ${link('events', '#/events', t('navEvents'))}
         ${link('photos', '#/photos', t('navPhotos'))}
@@ -411,7 +413,7 @@ function shell(active, inner) {
         ${link('bookings', '#/bookings', t('navBookings'))}
         ${link('packages', '#/packages', t('navPackages'))}
         ${link('documents', '#/documents', t('navDocs'))}
-        ${link('notices', '#/notices', t('navNotices'), state.unread)}
+        ${link('notices', '#/notices', t('navNotices'), (state.unread || 0) + (state.supportUnread || 0))}
         ${link('terms', '#/terms', t('navTerms'))}`}
       </nav>
       <div class="side-foot">

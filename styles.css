@@ -157,3 +157,13 @@ input[type="date"],input[type="time"],input[type="datetime-local"],input[type="m
 .sug-box button:last-child{border-bottom:0}
 .sug-box button:hover,.sug-box button:focus{background:var(--sand);outline:none}
 .sug-box button span{font-size:12px;color:var(--muted)}
+.sp-thread{border-top:1px solid var(--line)}
+.sp-thread>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 2px}
+.sp-thread>summary::-webkit-details-marker{display:none}
+.sp-conv{display:flex;flex-direction:column;gap:8px;padding:4px 0 10px}
+.sp-msg{max-width:80%;padding:8px 12px;border-radius:12px;background:var(--sand);align-self:flex-start}
+.sp-msg.sp-admin{background:#E8EEF9}
+.sp-msg.mine{align-self:flex-end;background:#EAF6EF}
+.sp-meta{font-size:11px;color:var(--muted);margin-bottom:2px}
+.sp-body{white-space:pre-wrap;font-size:14px}
+.sp-reply{display:flex;flex-direction:column;gap:8px;padding-bottom:12px}

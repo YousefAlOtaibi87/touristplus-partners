@@ -867,6 +867,7 @@ export function install(ctx) {
       sb.from('platform_settings').select('welcome_enabled, welcome_title, welcome_body').eq('id', 1).maybeSingle()]);
     const nm = (a) => (state.lang === 'ar' ? a.name_ar || a.name : a.name);
     shell('notices', `<div class="top"><div><h1>${esc(t('ntTitle'))}</h1><p class="muted" style="margin:4px 0 0">${esc(t('ntSub'))}</p></div></div>
+      <div id="sp-box"></div>
       ${wc ? `<form class="card" id="wc-form" style="display:flex;flex-direction:column;gap:12px;max-width:760px;margin-bottom:16px" novalidate>
         <h2 style="margin:0">${esc(t('wcTitle'))}</h2><p class="muted" style="margin:0;font-size:13px">${esc(t('wcSub'))}</p>
         <label style="display:flex;gap:10px;align-items:center;font-weight:700;font-size:14px"><input type="checkbox" name="on" style="width:auto" ${wc.welcome_enabled ? 'checked' : ''}> ${esc(t('wcOn'))}</label>
@@ -882,6 +883,7 @@ export function install(ctx) {
       <div class="card"><h2 style="margin:0 0 10px">${esc(t('ntHistory'))}</h2>${(list || []).length ? (list || []).map((n) => `<div style="padding:10px 0;border-bottom:1px solid var(--line,#e5e7eb)">
           <div class="row" style="justify-content:space-between;gap:10px;flex-wrap:wrap"><b>${esc(n.title)}</b><span class="muted" style="font-size:12px">${esc(fmtDate(n.created_at))} · ${esc(n.agency_name || t('ntAll'))}${n.by_email ? ` · ${esc(t('ntEmailed'))}` : ''} · ${esc(t('ntRead', { r: n.reads, n: n.targets }))}</span></div>
           <div style="white-space:pre-wrap;margin-top:6px">${esc(n.body)}</div></div>`).join('') : `<p class="muted">${esc(t('ntNone'))}</p>`}</div>`);
+    ctx.support?.mountAdmin(document.getElementById('sp-box'));
     const wf = document.getElementById('wc-form');
     if (wf) wf.onsubmit = async (e) => {
       e.preventDefault(); const fd = new FormData(wf);
@@ -909,7 +911,9 @@ export function install(ctx) {
     shell('notices', `<div class="top"><div><h1>${esc(t('ntMyTitle'))}</h1><p class="muted" style="margin:4px 0 0">${esc(t('ntMySub'))}</p></div></div>
       <div class="card">${list.length ? list.map((n) => `<div style="padding:12px 0;border-bottom:1px solid var(--line,#e5e7eb)">
           <div class="row" style="justify-content:space-between;gap:10px;flex-wrap:wrap"><b>${n.is_read ? '' : `<span class="badge accent">${esc(t('ntNew'))}</span> `}${esc(n.title)}</b><span class="muted" style="font-size:12px">${esc(fmtDate(n.created_at))}</span></div>
-          <div style="white-space:pre-wrap;margin-top:6px">${esc(n.body)}</div></div>`).join('') : `<p class="muted">${esc(t('ntNone'))}</p>`}</div>`);
+          <div style="white-space:pre-wrap;margin-top:6px">${esc(n.body)}</div></div>`).join('') : `<p class="muted">${esc(t('ntNone'))}</p>`}</div>
+      <div id="sp-box" style="margin-top:16px"></div>`);
+    ctx.support?.mountAgency(document.getElementById('sp-box'));
     if (list.some((n) => !n.is_read)) { await sb.rpc('read_notices'); state.unread = 0; }
   }
 
