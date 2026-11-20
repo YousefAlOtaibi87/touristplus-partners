@@ -28,7 +28,7 @@ export function install(ctx) {
     navPhotos: 'صور العروض', phTitle: 'مراجعة صور العروض', phSub: 'راجع الصور اللي يرفعها الشركاء واحذف أي صورة فيها اسم المكتب أو شعاره أو بيانات تواصل.', phNone: 'ما فيه عروض فيها صور.', phNotReady: 'الميزة تحتاج تفعيل في قاعدة البيانات أولاً.', phDel: 'حذف', phDelConfirm: 'تحذف هذي الصورة من العرض نهائياً؟', phDeleted: 'انحذفت الصورة.', phNotify: 'أرسل تنبيه للمكتب', phNoticeTitle: 'حذف صورة مخالفة من عرضك', phNoticeBody: 'تم حذف صورة من عرضك ({d}) لأنها تحتوي على اسم المكتب أو بيانات تواصل. نذكّركم بأن الصور يجب أن تكون خالية من أي بيانات تعريفية أو تواصل، وتكرار المخالفة قد يؤدي لإيقاف العروض.', phNoticeSent: 'انحذفت الصورة وانرسل تنبيه للمكتب.', phFilterAll: 'كل الحالات', phCount: '{n} صورة',
     wcTitle: 'رسالة الترحيب التلقائية', wcSub: 'توصل تلقائياً لكل مكتب جديد (في البوابة وبالإيميل) لحظة قبول تسجيله وتفعيل حسابه.', wcOn: 'تفعيل الإرسال التلقائي', wcSubject: 'العنوان', wcBody: 'نص الرسالة', wcSave: 'حفظ رسالة الترحيب', wcSaved: 'انحفظت رسالة الترحيب.',
     navNoticesAdmin: 'رسائل للمكاتب', navNotices: 'رسائل الإدارة', noticesUnread: 'عندك {n} رسالة جديدة من إدارة TheTouristPlus — اضغط هنا لقراءتها.',
-    ntTitle: 'رسائل للمكاتب', ntSub: 'أرسل رسالة لكل المكاتب أو لمكتب محدد. توصلهم في بوابة الشركاء (مع تنبيه)، ومع إيميل إذا اخترته.', ntTo: 'إلى', ntAll: 'كل المكاتب المفعّلة', ntSubject: 'العنوان *', ntBody: 'نص الرسالة *', ntEmail: 'أرسلها بالإيميل بعد', ntSend: 'إرسال الرسالة',
+    ntReply: 'رد على الإدارة', ntReplyPh: 'اكتب ردك على هذه الرسالة…', ntReplySend: 'إرسال الرد', ntReplied: 'وصل ردك للإدارة، وتلقاه تحت في «رسائلي للإدارة».', ntTitle: 'رسائل للمكاتب', ntSub: 'أرسل رسالة لكل المكاتب أو لمكتب محدد. توصلهم في بوابة الشركاء (مع تنبيه)، ومع إيميل إذا اخترته.', ntTo: 'إلى', ntAll: 'كل المكاتب المفعّلة', ntSubject: 'العنوان *', ntBody: 'نص الرسالة *', ntEmail: 'أرسلها بالإيميل بعد', ntSend: 'إرسال الرسالة',
     ntConfirmAll: 'إرسال هذه الرسالة لكل المكاتب؟', ntConfirmOne: 'إرسال هذه الرسالة إلى {a}؟', ntSent: 'تم إرسال الرسالة.', ntHistory: 'الرسائل المرسلة', ntRead: 'قرأها {r} من {n}', ntNone: 'ما في رسائل.', ntEmailed: 'بالإيميل', ntMyTitle: 'رسائل الإدارة', ntMySub: 'رسائل وتعاميم من إدارة TheTouristPlus.', ntNew: 'جديد', ntRequired: 'اكتب العنوان والنص.',
     navUsers: 'المستخدمين', usersTitle: 'مستخدمين التطبيق', usersSub: 'كل اللي سجّلوا في التطبيق مع بيانات التسجيل ونشاطهم.', uTotal: 'إجمالي المسجّلين', u7: 'سجّلوا آخر 7 أيام', u30: 'سجّلوا آخر 30 يوم', uDev: 'عندهم إشعارات مفعّلة', uGuests: 'أجهزة بدون تسجيل', uBooked: 'حجزوا مرة على الأقل', uSearch: 'ابحث بالاسم أو الإيميل أو الرقم', uCsv: '⬇ تنزيل Excel (CSV)', uNone: 'ما في مستخدمين.',
     uCols: ['الاسم', 'الإيميل', 'الهاتف', 'تاريخ التسجيل', 'آخر دخول', 'طريقة التسجيل', 'اللغة', 'الطلبات', 'الحجوزات', 'المدفوع', 'الإشعارات', 'إشعارات العروض'], uYes: 'نعم', uNo: 'لا', uAdmin: 'مدير',
@@ -72,7 +72,7 @@ export function install(ctx) {
     navPhotos: 'Offer photos', phTitle: 'Review offer photos', phSub: 'Review partner photos and remove any showing the agency name, logo or contact details.', phNone: 'No offers with photos yet.', phNotReady: 'This feature needs the database update first.', phDel: 'Delete', phDelConfirm: 'Remove this photo from the offer permanently?', phDeleted: 'Photo removed.', phNotify: 'Notify the agency', phNoticeTitle: 'A photo was removed from your offer', phNoticeBody: 'A photo was removed from your offer ({d}) because it showed the agency name or contact details. Photos must not contain any identifying or contact details; repeated violations may suspend your offers.', phNoticeSent: 'Photo removed and the agency was notified.', phFilterAll: 'All statuses', phCount: '{n} photos',
     wcTitle: 'Automatic welcome message', wcSub: 'Sent automatically to every new agency (portal + email) the moment its registration is approved and the account activated.', wcOn: 'Send automatically', wcSubject: 'Subject', wcBody: 'Message', wcSave: 'Save welcome message', wcSaved: 'Welcome message saved.',
     navNoticesAdmin: 'Messages to agencies', navNotices: 'Platform messages', noticesUnread: 'You have {n} new message(s) from TheTouristPlus — click to read.',
-    ntTitle: 'Messages to agencies', ntSub: 'Send a message to every agency or to one agency. It appears in the partner portal (with an alert), and by email if you choose.', ntTo: 'To', ntAll: 'All active agencies', ntSubject: 'Subject *', ntBody: 'Message *', ntEmail: 'Also send by email', ntSend: 'Send message',
+    ntReply: 'Reply to the platform', ntReplyPh: 'Write your reply to this message…', ntReplySend: 'Send reply', ntReplied: 'Your reply reached the platform. Find it below under “My messages to the platform”.', ntTitle: 'Messages to agencies', ntSub: 'Send a message to every agency or to one agency. It appears in the partner portal (with an alert), and by email if you choose.', ntTo: 'To', ntAll: 'All active agencies', ntSubject: 'Subject *', ntBody: 'Message *', ntEmail: 'Also send by email', ntSend: 'Send message',
     ntConfirmAll: 'Send this message to every agency?', ntConfirmOne: 'Send this message to {a}?', ntSent: 'Message sent.', ntHistory: 'Sent messages', ntRead: 'Read by {r} of {n}', ntNone: 'No messages.', ntEmailed: 'by email', ntMyTitle: 'Platform messages', ntMySub: 'Messages and circulars from TheTouristPlus.', ntNew: 'New', ntRequired: 'Write a subject and a message.',
     navUsers: 'Users', usersTitle: 'App users', usersSub: 'Everyone who signed up in the app, with sign-up details and activity.', uTotal: 'Signed-up users', u7: 'Joined last 7 days', u30: 'Joined last 30 days', uDev: 'Notifications on', uGuests: 'Devices not signed in', uBooked: 'Booked at least once', uSearch: 'Search by name, email or phone', uCsv: '⬇ Download Excel (CSV)', uNone: 'No users.',
     uCols: ['Name', 'Email', 'Phone', 'Signed up', 'Last sign-in', 'Sign-up method', 'Language', 'Requests', 'Bookings', 'Paid', 'Notifications', 'Offer notifications'], uYes: 'Yes', uNo: 'No', uAdmin: 'Admin',
@@ -911,9 +911,21 @@ export function install(ctx) {
     shell('notices', `<div class="top"><div><h1>${esc(t('ntMyTitle'))}</h1><p class="muted" style="margin:4px 0 0">${esc(t('ntMySub'))}</p></div></div>
       <div class="card">${list.length ? list.map((n) => `<div style="padding:12px 0;border-bottom:1px solid var(--line,#e5e7eb)">
           <div class="row" style="justify-content:space-between;gap:10px;flex-wrap:wrap"><b>${n.is_read ? '' : `<span class="badge accent">${esc(t('ntNew'))}</span> `}${esc(n.title)}</b><span class="muted" style="font-size:12px">${esc(fmtDate(n.created_at))}</span></div>
-          <div style="white-space:pre-wrap;margin-top:6px">${esc(n.body)}</div></div>`).join('') : `<p class="muted">${esc(t('ntNone'))}</p>`}</div>
+          <div style="white-space:pre-wrap;margin-top:6px">${esc(n.body)}</div>
+          <details class="nt-reply"><summary>↩︎ ${esc(t('ntReply'))}</summary><form data-nr="${esc(n.id)}" novalidate style="display:flex;flex-direction:column;gap:8px;margin-top:8px"><textarea name="body" rows="3" maxlength="5000" dir="auto" placeholder="${esc(t('ntReplyPh'))}"></textarea><div><button class="btn small" type="submit">${esc(t('ntReplySend'))}</button></div></form></details></div>`).join('') : `<p class="muted">${esc(t('ntNone'))}</p>`}</div>
       <div id="sp-box" style="margin-top:16px"></div>`);
-    ctx.support?.mountAgency(document.getElementById('sp-box'));
+    const spBox = document.getElementById('sp-box');
+    ctx.support?.mountAgency(spBox);
+    document.querySelectorAll('[data-nr]').forEach((f) => (f.onsubmit = async (e) => {
+      e.preventDefault();
+      const body = f.querySelector('textarea').value.trim(); if (!body) return;
+      const btn = f.querySelector('button'); btn.disabled = true;
+      const { data: tid, error: er } = await sb.rpc('agency_notice_reply', { p_notice: Number(f.dataset.nr), p_body: body });
+      btn.disabled = false;
+      if (er) return toast(t('errGeneric'));
+      f.reset(); f.closest('details').open = false; toast(t('ntReplied'));
+      ctx.support?.mountAgency(spBox, tid);
+    }));
     if (list.some((n) => !n.is_read)) { await sb.rpc('read_notices'); state.unread = 0; }
   }
 

@@ -1,5 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { install } from './extra.js?v=53';
+import { install } from './extra.js?v=54';
 import { AIRLINES } from './airlines.js?v=1';
 import { setupSuggest, airlineField, hotelField } from './suggest.js?v=1';
 // Departure cities a traveler can pick in the app (IATA code). Requests from older app versions are Kuwait.
@@ -12,7 +12,7 @@ import { installControl } from './control.js?v=15';
 import { installInsights } from './insights.js?v=1';
 import { installEvents } from './events.js?v=5';
 import { installFlags } from './flags.js?v=2';
-import { installSupport } from './support.js?v=1';
+import { installSupport } from './support.js?v=2';
 import { installIssue } from './issue.js?v=4';
 
 const CFG = window.TP_CONFIG || {};
