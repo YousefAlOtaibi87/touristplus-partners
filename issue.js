@@ -10,7 +10,7 @@ export function installIssue(ctx) {
     hName: 'اسم الفندق', hConf: 'رقم تأكيد الفندق', hRoom: 'نوع الغرفة وعددها', hIn: 'تاريخ الدخول', hOut: 'تاريخ الخروج', hBoard: 'الوجبات', hCancel: 'سياسة الإلغاء',
     b_ro: 'بدون وجبات', b_bb: 'شامل الإفطار', b_hb: 'إفطار وعشاء', b_fb: 'ثلاث وجبات', b_ai: 'شامل كلياً',
     c_ref: 'قابل للاسترداد', c_non: 'غير قابل للاسترداد',
-    fPnr: 'رقم الحجز (PNR)', fOut: 'رحلة الذهاب', fRet: 'رحلة العودة', fNo: 'رقم الرحلة', fDate: 'التاريخ', fTime: 'وقت الإقلاع', fBag: 'الأمتعة', fPax: 'اسم المسافر كما في الجواز', fTicket: 'رقم التذكرة',
+    fPnr: 'رقم الحجز (PNR)', fOut: 'رحلة الذهاب', fRet: 'رحلة العودة', fNo: 'رقم الرحلة', fDate: 'التاريخ', fTime: 'وقت الإقلاع', fBag: 'الأمتعة', bChk: 'أمتعة الشحن (لا يُسمح بها داخل الطائرة)', bCab: 'حقيبة المقصورة (يُسمح بها مع المسافر داخل الطائرة)', bCnt: 'العدد لكل مسافر', bKg: 'الوزن المسموح للقطعة', bNone: 'بدون', kg: 'كغ', fPax: 'اسم المسافر كما في الجواز', fTicket: 'رقم التذكرة',
     x_transfers: 'التوصيل (من وين لوين، التاريخ)', x_tours: 'الجولات (الأسماء والتواريخ)', x_visa: 'التأشيرة (النوع ورقمها)', x_insurance: 'تأمين السفر (الشركة ورقم الوثيقة)',
     k_hotel: 'تأكيد الفندق', k_ticket: 'التذاكر الإلكترونية', k_transfers: 'تأكيد التوصيل', k_tours: 'تأكيد الجولات', k_visa: 'التأشيرة', k_insurance: 'وثيقة التأمين', k_other: 'ملف آخر',
     isAttach: 'إرفاق ملف', isFileHint: 'PDF أو صورة، حتى 10 ميغا', isFileBad: 'نوع الملف لازم PDF أو صورة وحجمه أقل من 10 ميغا.', isUploaded: 'تم رفع الملف', isRemove: 'حذف', isOpen: 'فتح',
@@ -26,7 +26,7 @@ export function installIssue(ctx) {
     hName: 'Hotel name', hConf: 'Hotel confirmation number', hRoom: 'Room type and count', hIn: 'Check-in', hOut: 'Check-out', hBoard: 'Meals', hCancel: 'Cancellation policy',
     b_ro: 'Room only', b_bb: 'Breakfast', b_hb: 'Half board', b_fb: 'Full board', b_ai: 'All inclusive',
     c_ref: 'Refundable', c_non: 'Non-refundable',
-    fPnr: 'Booking reference (PNR)', fOut: 'Outbound flight', fRet: 'Return flight', fNo: 'Flight number', fDate: 'Date', fTime: 'Departure time', fBag: 'Baggage', fPax: 'Passenger name as in passport', fTicket: 'Ticket number',
+    fPnr: 'Booking reference (PNR)', fOut: 'Outbound flight', fRet: 'Return flight', fNo: 'Flight number', fDate: 'Date', fTime: 'Departure time', fBag: 'Baggage', bChk: 'Checked baggage (not allowed in the cabin)', bCab: 'Cabin bag (allowed on board with the traveler)', bCnt: 'Pieces per traveler', bKg: 'Allowed weight per piece', bNone: 'None', kg: 'kg', fPax: 'Passenger name as in passport', fTicket: 'Ticket number',
     x_transfers: 'Transfers (from, to, date)', x_tours: 'Tours (names and dates)', x_visa: 'Visa (type and number)', x_insurance: 'Travel insurance (company and policy number)',
     k_hotel: 'Hotel confirmation', k_ticket: 'E-tickets', k_transfers: 'Transfer confirmation', k_tours: 'Tour confirmation', k_visa: 'Visa', k_insurance: 'Insurance policy', k_other: 'Other file',
     isAttach: 'Attach file', isFileHint: 'PDF or image, up to 10 MB', isFileBad: 'The file must be a PDF or image under 10 MB.', isUploaded: 'File uploaded', isRemove: 'Remove', isOpen: 'Open',
@@ -59,6 +59,19 @@ export function installIssue(ctx) {
     return `<fieldset class="f" style="border:1px solid var(--line);border-radius:12px;padding:8px 10px;margin:0;grid-column:1/-1"><legend style="font-weight:700;padding:0 4px">${esc(label)} *</legend>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px">${input(key + '_no', t('fNo'), no, { ltr: true, max: 12, ro })}${input(key + '_date', t('fDate'), d || defDate || '', { type: 'date', ro })}${input(key + '_time', t('fTime'), tm, { type: 'time', ro })}</div></fieldset>`;
   };
+  // Baggage: picked, not typed. Stored as "شحن: 2 × 23 كغ · مقصورة: 1 × 7 كغ" (count 0 → "بدون").
+  const BAG = { chk: { cnt: [0, 1, 2, 3, 4], kg: [15, 20, 23, 25, 30, 32, 35, 40, 46] }, cab: { cnt: [0, 1, 2], kg: [5, 7, 8, 10, 12, 15] } };
+  const parseBag = (v) => {
+    const one = (word) => { const m = String(v || '').match(new RegExp(word + ':\\s*(?:(\\d+)\\s*×\\s*(\\d+)|(بدون))')); return m ? (m[3] ? { cnt: '0', kg: '' } : { cnt: m[1], kg: m[2] }) : { cnt: '', kg: '' }; };
+    return { chk: one('شحن'), cab: one('مقصورة') };
+  };
+  const opts = (list, v, unit) => `<option value=""></option>${list.map((n) => `<option value="${n}" ${String(v) === String(n) ? 'selected' : ''}>${n === 0 && !unit ? esc(t('bNone')) : n}${unit ? ' ' + esc(t('kg')) : ''}</option>`).join('')}`;
+  const bagFields = (value, ro) => {
+    const b = parseBag(value);
+    const box = (k, label) => `<fieldset class="f" style="border:1px solid var(--line);border-radius:12px;padding:8px 10px;margin:0;grid-column:1/-1"><legend style="font-weight:700;padding:0 4px">${esc(label)} *</legend>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px"><label class="f">${esc(t('bCnt'))} *<select name="bag_${k}_cnt" ${ro ? 'disabled' : ''}>${opts(BAG[k].cnt, b[k].cnt)}</select></label><label class="f">${esc(t('bKg'))} *<select name="bag_${k}_kg" ${ro ? 'disabled' : ''}>${opts(BAG[k].kg, b[k].kg, true)}</select></label></div></fieldset>`;
+    return box('chk', t('bChk')) + box('cab', t('bCab'));
+  };
   const select = (name, label, value, list, prefix, ro) => `<label class="f">${esc(label)} *<select name="${esc(name)}" ${ro ? 'disabled' : ''}><option value=""></option>${list.map((v) => `<option value="${v}" ${value === v ? 'selected' : ''}>${esc(t(prefix + v))}</option>`).join('')}</select></label>`;
 
   async function viewIssue(offerId) {
@@ -88,7 +101,7 @@ export function installIssue(ctx) {
         ${input('check_in', t('hIn'), h.check_in || (i === 0 ? r.depart : ''), { type: 'date', ro })}${input('check_out', t('hOut'), h.check_out || (i === hotels.length - 1 ? r.ret : ''), { type: 'date', ro })}
         ${select('board', t('hBoard'), h.board, BOARDS, 'b_', ro)}${select('cancel', t('hCancel'), h.cancel, ['ref', 'non'], 'c_', ro)}</div>`).join('<hr style="border:0;border-top:1px solid var(--line,#e2e8f0)">')}</section>` : '';
     const flightBlock = sv.includes('flights') ? `<section class="card" style="display:grid;gap:10px" id="is-flight"><h2 style="margin:0">${esc(t('isFlight'))}</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px">${input('pnr', t('fPnr'), fl.pnr, { ltr: true, max: 20, ro })}${leg('out', t('fOut'), fl.out, r.depart, ro)}${r.ret ? leg('ret', t('fRet'), fl.ret, r.ret, ro) : ''}${input('baggage', t('fBag'), fl.baggage, { ro })}</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px">${input('pnr', t('fPnr'), fl.pnr, { ltr: true, max: 20, ro })}${leg('out', t('fOut'), fl.out, r.depart, ro)}${r.ret ? leg('ret', t('fRet'), fl.ret, r.ret, ro) : ''}${bagFields(fl.baggage, ro)}</div>
       <div style="display:grid;gap:6px">${tickets.map((tk, i) => `<div data-ticket="${i}" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px">${input('name', `${t('fPax')} ${i + 1}`, tk.name, { ltr: true, ro })}${input('number', `${t('fTicket')} ${i + 1}`, tk.number, { ltr: true, max: 30, ro })}</div>`).join('')}</div></section>` : '';
     const extras = EXTRA.filter((k) => sv.includes(k));
     const extraBlock = extras.length ? `<section class="card" style="display:grid;gap:10px" id="is-extras"><h2 style="margin:0">${esc(t('isExtras'))}</h2>
@@ -123,7 +136,12 @@ export function installIssue(ctx) {
       const hs = [...document.querySelectorAll('[data-hotel]')].map((el, i) => ({ city: cities[i] || '', name: val(el, 'name'), confirmation: val(el, 'confirmation'), room: val(el, 'room'), check_in: val(el, 'check_in'), check_out: val(el, 'check_out'), board: val(el, 'board'), cancel: val(el, 'cancel') }));
       const fe = document.getElementById('is-flight');
       const legVal = (k) => { const a = [val(fe, k + '_no').toUpperCase(), val(fe, k + '_date'), val(fe, k + '_time')]; return a.every(Boolean) ? a.join(' · ') : ''; };
-      const flight = fe ? { pnr: val(fe, 'pnr'), out: legVal('out'), ret: legVal('ret'), baggage: val(fe, 'baggage'), tickets: [...fe.querySelectorAll('[data-ticket]')].map((el) => ({ name: val(el, 'name'), number: val(el, 'number') })) } : null;
+      const bagVal = () => {
+        const one = (k, word) => { const c = val(fe, `bag_${k}_cnt`), w = val(fe, `bag_${k}_kg`); if (c === '0') return `${word}: بدون`; return c && w ? `${word}: ${c} × ${w} كغ` : ''; };
+        const a = one('chk', 'شحن'), b = one('cab', 'مقصورة');
+        return a && b ? `${a} · ${b}` : '';
+      };
+      const flight = fe ? { pnr: val(fe, 'pnr'), out: legVal('out'), ret: legVal('ret'), baggage: bagVal(), tickets: [...fe.querySelectorAll('[data-ticket]')].map((el) => ({ name: val(el, 'name'), number: val(el, 'number') })) } : null;
       const xe = document.getElementById('is-extras');
       const extrasOut = {};
       if (xe) extras.forEach((k) => { extrasOut[k] = val(xe, k); });
