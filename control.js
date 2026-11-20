@@ -3,7 +3,7 @@ export function installControl(ctx) {
   const { sb, state, t, esc, money, fmtDate, shell, toast, STR, fallback } = ctx;
   Object.assign(STR.ar, {
     wTitle: 'المحفظة والليالي المجانية', wOn: 'تفعيل برنامج الليلة المجانية', wNights: 'عدد الليالي المطلوبة لكل فئة', wDays: 'صلاحية الليلة (يوم)', wShare: 'أقصى تمويل: % من عمولة المنصة',
-    wWeekend: 'منع الاستخدام إذا آخر ليلة جمعة أو سبت', wHolidays: 'منع الاستخدام في العطل الرسمية', wHolList: 'العطل الرسمية (كل سطر: من إلى الاسم)',
+    wWeekend: 'منع الاستخدام إذا آخر ليلة جمعة أو سبت', wHolidays: 'منع الاستخدام في العطل الرسمية', wHolList: 'العطل الرسمية', wHolFrom: 'من', wHolTo: 'إلى', wHolName: 'اسم العطلة', wHolAdd: '+ إضافة عطلة', wHolDel: 'حذف',
     wNote: 'الليلة المجانية = الليلة التالية بعد العدد المطلوب (مثلاً 12 مدفوعة والـ13 مجانية)، بنفس فئة الفندق. نسبة التمويل تحدد أقصى قيمة لليلة من عمولة المنصة على حجوزات الاستحقاق والاستخدام، والليالي الممنوحة يدوياً بدون حد.',
     wGrant: 'منح ليلة لعميل', wEmail: 'إيميل العميل', wTier: 'الفئة', wT5: '5 نجوم', wT4: '4 نجوم', wValid: 'الصلاحية (يوم)', wMemo: 'ملاحظة (اختياري)', wGive: 'منح الليلة',
     wCols: ['العميل', 'الفئة', 'الحالة', 'النوع', 'تنتهي في', ''], wManual: 'يدوية', wAuto: 'مكتسبة', wSaveDate: 'حفظ التاريخ', wRevoke: 'إلغاء', wNone: 'ما في ليالي مجانية لين الحين.',
@@ -30,7 +30,7 @@ export function installControl(ctx) {
   });
   Object.assign(STR.en, {
     wTitle: 'Wallet and free nights', wOn: 'Free-night program on', wNights: 'Nights required per class', wDays: 'Night validity (days)', wShare: 'Max funding: % of platform commission',
-    wWeekend: 'Block when the last night is Friday or Saturday', wHolidays: 'Block on public holidays', wHolList: 'Public holidays (each line: from to name)',
+    wWeekend: 'Block when the last night is Friday or Saturday', wHolidays: 'Block on public holidays', wHolList: 'Public holidays', wHolFrom: 'From', wHolTo: 'To', wHolName: 'Holiday name', wHolAdd: '+ Add holiday', wHolDel: 'Remove',
     wNote: 'The free night is the night after the required count (e.g. 12 paid, the 13th free), same hotel class. The funding share caps the night value by the platform commission on the earning and using bookings; hand-granted nights have no cap.',
     wGrant: 'Grant a night to a customer', wEmail: 'Customer email', wTier: 'Class', wT5: '5 stars', wT4: '4 stars', wValid: 'Validity (days)', wMemo: 'Note (optional)', wGive: 'Grant night',
     wCols: ['Customer', 'Class', 'Status', 'Type', 'Expires', ''], wManual: 'Manual', wAuto: 'Earned', wSaveDate: 'Save date', wRevoke: 'Revoke', wNone: 'No free nights yet.',
@@ -103,6 +103,12 @@ export function installControl(ctx) {
     }; });
   }
 
+  // One public-holiday row: from/to picked from the calendar, name typed.
+  const holRow = (h = {}) => `<div data-hol style="display:grid;grid-template-columns:1fr 1fr 2fr auto;gap:8px;align-items:end">
+    <label style="display:flex;flex-direction:column;gap:4px;font-size:13px">${esc(t('wHolFrom'))}<input type="date" name="hol_from" dir="ltr" value="${esc(h.from || '')}"></label>
+    <label style="display:flex;flex-direction:column;gap:4px;font-size:13px">${esc(t('wHolTo'))}<input type="date" name="hol_to" dir="ltr" value="${esc(h.to || '')}"></label>
+    <label style="display:flex;flex-direction:column;gap:4px;font-size:13px">${esc(t('wHolName'))}<input name="hol_name" maxlength="60" value="${esc(h.name || '')}"></label>
+    <button class="btn ghost small" type="button" data-hol-del>${esc(t('wHolDel'))}</button></div>`;
   async function viewControl() {
     const { data: c, error } = await sb.rpc('admin_control');
     if (error) {
@@ -167,7 +173,8 @@ export function installControl(ctx) {
             <div class="grow">${fld(t('wDays'), n('free_night_days', st.free_night_days, '1', 1, 1095))}</div><div class="grow">${fld(t('wShare'), n('free_night_share', st.free_night_share, '1', 0, 100))}</div></div>
           <label style="display:flex;gap:10px;align-items:center;font-weight:700;font-size:14px"><input type="checkbox" name="free_night_block_weekend" style="width:auto" ${st.free_night_block_weekend ? 'checked' : ''}> ${esc(t('wWeekend'))}</label>
           <label style="display:flex;gap:10px;align-items:center;font-weight:700;font-size:14px"><input type="checkbox" name="free_night_block_holidays" style="width:auto" ${st.free_night_block_holidays ? 'checked' : ''}> ${esc(t('wHolidays'))}</label>
-          ${fld(t('wHolList'), `<textarea name="free_night_holidays" rows="5" dir="auto">${esc((st.free_night_holidays || []).map((h) => `${h.from} ${h.to} ${h.name || ''}`.trim()).join('\n'))}</textarea>`)}
+          <div><b style="font-size:14px">${esc(t('wHolList'))}</b><div id="cp-hols" style="display:flex;flex-direction:column;gap:8px;margin-top:6px">${(st.free_night_holidays || []).map(holRow).join('')}</div>
+            <button class="btn ghost small" type="button" id="cp-hol-add" style="margin-top:8px">${esc(t('wHolAdd'))}</button></div>
           <p class="muted" style="margin:0;font-size:13px">${esc(t('wNote'))}</p></fieldset>`}
         ${fld(t('fTesters'), `<textarea name="testers" rows="3" dir="ltr">${esc((st.payment_test_emails || []).join('\n'))}</textarea>`)}
         <p class="muted" style="margin:-6px 0 0;font-size:13px">${esc(t('fTestersNote'))}</p>
@@ -176,6 +183,11 @@ export function installControl(ctx) {
     if (st.free_night_nights !== undefined) wallet();
 
     document.getElementById('cp-refresh').onclick = () => viewControl();
+    const hols = document.getElementById('cp-hols');
+    if (hols) {
+      document.getElementById('cp-hol-add').onclick = () => hols.insertAdjacentHTML('beforeend', holRow());
+      hols.addEventListener('click', (e) => { const b = e.target.closest('[data-hol-del]'); if (b) b.closest('[data-hol]').remove(); });
+    }
     document.getElementById('cp-form').onsubmit = async (e) => {
       e.preventDefault();
       if (!confirm(t('fConfirm'))) return;
@@ -187,7 +199,7 @@ export function installControl(ctx) {
         ...(f.has('intro_days') ? { intro_enabled: f.get('intro_enabled') === 'on', intro_commission: +f.get('intro_commission'), intro_days: parseInt(f.get('intro_days'), 10) } : {}),
         ...(f.has('free_night_nights') ? { free_night_enabled: f.get('free_night_enabled') === 'on', free_night_nights: parseInt(f.get('free_night_nights'), 10), free_night_days: parseInt(f.get('free_night_days'), 10),
           free_night_share: +f.get('free_night_share'), free_night_block_weekend: f.get('free_night_block_weekend') === 'on', free_night_block_holidays: f.get('free_night_block_holidays') === 'on',
-          free_night_holidays: String(f.get('free_night_holidays') || '').split('\n').map((l) => l.trim().match(/^(\d{4}-\d\d-\d\d)\s+(\d{4}-\d\d-\d\d)\s*(.*)$/)).filter(Boolean).map((m) => ({ from: m[1], to: m[2], name: m[3] })) } : {}),
+          free_night_holidays: [...document.querySelectorAll('[data-hol]')].map((r) => ({ from: r.querySelector('[name="hol_from"]').value, to: r.querySelector('[name="hol_to"]').value, name: r.querySelector('[name="hol_name"]').value.trim() })).filter((h) => h.from && h.to) } : {}),
         payment_test_emails: String(f.get('testers') || '').split(/[\s,;]+/).map((x) => x.trim()).filter(Boolean),
       };
       const btn = e.target.querySelector('button[type=submit]'); btn.disabled = true;
