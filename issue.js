@@ -79,11 +79,13 @@ export function installIssue(ctx) {
     // One RPC for agency and admin: the admin can't read offers directly.
     const { data: o, error } = await sb.rpc('booking_context', { p_offer: offerId });
     if (error || !o) return shell(admin ? 'allbookings' : 'bookings', `<p class="notice bad">${esc(t('errGeneric'))}</p>`);
-    const [{ data: b }, { data: files }, { data: miss }] = await Promise.all([
+    const [{ data: b, error: e1 }, { data: files, error: e2 }, { data: miss, error: e3 }] = await Promise.all([
       sb.from('bookings').select('*').eq('offer_id', offerId).maybeSingle(),
       sb.from('booking_files').select('*').eq('offer_id', offerId).order('created_at'),
       sb.rpc('booking_missing', { p_offer: offerId }),
     ]);
+    // Without these the form would look empty / not issued and could be saved over the real details.
+    if (e1 || e2 || e3) return shell(admin ? 'allbookings' : 'bookings', `<p class="notice bad">${esc(t('errGeneric'))}</p>`);
     const r = o.rfq || {};
     const sv = r.services || [];
     const issued = !!b?.issued_at;
