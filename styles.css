@@ -28,6 +28,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .nav a:hover{background:rgba(255,255,255,.06);color:#fff}
 .nav a[aria-current="page"]{background:rgba(242,166,90,.16);color:var(--accent)}
 .count{min-width:24px;padding:0 7px;border-radius:999px;background:var(--accent);color:var(--deep);font-size:12px;font-weight:700;text-align:center}
+.side-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin:0 0 18px}.side-top .brand{margin:0 8px}.side-top .btn{flex-shrink:0}
 .side-foot{margin-top:auto;padding:12px 8px 0;border-top:1px solid rgba(255,255,255,.12);display:flex;flex-direction:column;gap:8px;color:#A9C3C5;font-size:14px}
 .main{flex:999 1 560px;min-width:0;padding:24px clamp(16px,3vw,36px) 48px}
 .top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
@@ -105,6 +106,8 @@ tr.link:hover td{background:#F8FAFC}
 @media (max-width:720px){
   .side{max-width:none;flex-basis:100%;flex-direction:row;flex-wrap:wrap;align-items:center;padding:12px}
   .side .brand{margin:0 4px 0 auto}
+  .side-top{margin:0;flex:1 1 100%;order:1}
+  .side-top .brand{margin:0}
   .nav{display:flex;flex-wrap:wrap;gap:4px;width:100%;order:3}
   .side-foot{margin:0;border:0;padding:0;flex-direction:row;order:2}
   .side-foot .who{display:none}

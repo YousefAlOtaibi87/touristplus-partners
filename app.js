@@ -378,7 +378,7 @@ function shell(active, inner) {
   $app.innerHTML = `
   <div class="shell">
     <aside class="side">
-      ${brand()}
+      <div class="side-top">${brand()}${langToggle()}</div>
       <nav class="nav" aria-label="${esc(t('partners'))}">
         ${isAdmin ? `${link('overview', '#/overview', t('navOverview'))}
         ${link('partners', '#/partners', t('navPartners'))}
@@ -405,7 +405,6 @@ function shell(active, inner) {
       </nav>
       <div class="side-foot">
         <span class="who">${esc(name)}${!isAdmin && state.agency?.code ? `<br><span class="badge" dir="ltr" style="margin-top:4px">${esc(state.agency.code)}</span>` : ''}</span>
-        ${langToggle()}
         <button class="btn ghost small" data-act="signout" type="button">${esc(t('signOut'))}</button>
       </div>
     </aside>
