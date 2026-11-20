@@ -107,6 +107,9 @@ export function installControl(ctx) {
   let holList = [];
   let holEdit = -1;
   const hDate = (d) => (d ? new Date(`${d}T12:00:00`).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '');
+  // Weekday in the portal's language, date digits always English.
+  const hDay = (d) => (d ? new Date(`${d}T12:00:00`).toLocaleDateString(document.documentElement.lang === 'ar' ? 'ar-KW' : 'en-GB', { weekday: 'long' }) : '');
+  const hCell = (d) => `<span class="hol-wd">${esc(hDay(d))}</span> <span dir="ltr">${esc(hDate(d))}</span>`;
   const hDays = (h) => Math.round((Date.parse(h.to) - Date.parse(h.from)) / 86400000) + 1;
   const holRender = () => {
     const box = document.getElementById('cp-hols');
@@ -115,7 +118,7 @@ export function installControl(ctx) {
     const today = new Date().toISOString().slice(0, 10);
     const next = holList.find((h) => h.to >= today);
     document.getElementById('cp-hol-sum').textContent = `${t('wHolCount', { n: holList.length })}${next ? ' · ' + t('wHolNext', { x: `${next.name || ''} ${hDate(next.from)}`.trim() }) : ''}`;
-    box.innerHTML = holList.length ? `<table class="hol-t"><thead><tr><th>${esc(t('wHolName'))}</th><th>${esc(t('wHolFrom'))}</th><th>${esc(t('wHolTo'))}</th><th>${esc(t('wHolDays'))}</th><th></th></tr></thead><tbody>${holList.map((h, k) => `<tr class="${h.to < today ? 'past' : ''}${k === holEdit ? ' editing' : ''}"><td>${esc(h.name || '—')}</td><td dir="ltr">${esc(hDate(h.from))}</td><td dir="ltr">${esc(hDate(h.to))}</td><td dir="ltr">${hDays(h)}</td>
+    box.innerHTML = holList.length ? `<table class="hol-t"><thead><tr><th>${esc(t('wHolName'))}</th><th>${esc(t('wHolFrom'))}</th><th>${esc(t('wHolTo'))}</th><th>${esc(t('wHolDays'))}</th><th></th></tr></thead><tbody>${holList.map((h, k) => `<tr class="${h.to < today ? 'past' : ''}${k === holEdit ? ' editing' : ''}"><td>${esc(h.name || '—')}</td><td>${hCell(h.from)}</td><td>${hCell(h.to)}</td><td dir="ltr">${hDays(h)}</td>
       <td class="act"><button type="button" class="icon-btn" data-hol-edit="${k}" title="${esc(t('wHolEdit'))}" aria-label="${esc(t('wHolEdit'))}">✎</button><button type="button" class="icon-btn" data-hol-del="${k}" title="${esc(t('wHolDel'))}" aria-label="${esc(t('wHolDel'))}">✕</button></td></tr>`).join('')}</tbody></table>` : `<p class="muted" style="margin:0;font-size:13px">${esc(t('wHolNone'))}</p>`;
   };
   async function viewControl() {
