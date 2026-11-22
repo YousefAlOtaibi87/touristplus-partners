@@ -11,6 +11,7 @@ import { installEsim } from './esim.js?v=3';
 import { installControl } from './control.js?v=15';
 import { installInsights } from './insights.js?v=1';
 import { installEvents } from './events.js?v=5';
+import { installAddons } from './addons.js?v=1';
 import { installFlags } from './flags.js?v=2';
 import { installSupport } from './support.js?v=2';
 import { installIssue } from './issue.js?v=4';
@@ -198,6 +199,7 @@ const TM = installTerms({ sb, state, t, esc, fmtDate, shell, toast, STR });
 const ES = installEsim({ sb, state, t, esc, fmtDate, shell, toast, STR });
 const IN = installInsights({ sb, state, t, esc, money, place, fmtDate, shell, STR });
 const EV = installEvents({ sb, t, esc, shell, toast, place, STR });
+const AD = installAddons({ sb, t, esc, shell, toast, STR });
 const FL = installFlags({ sb, state, t, esc, shell, toast, fmtDate, STR });
 const IS = installIssue({ sb, state, t, esc, shell, toast, place, STR });
 setupSuggest({ sb, esc, lang: () => state.lang });
@@ -291,6 +293,7 @@ async function route() {
     if (view === 'photos') return X.viewPhotos();
     if (view === 'hotels') return X.viewHotels();
     if (view === 'events') return EV.viewEvents();
+    if (view === 'addons') return AD.viewAddons();
     if (view === 'flags') return FL.viewFlags();
     if (view === 'issue' && id) return IS.viewIssue(id);
     if (view === 'strengths') return X.viewStrengths();
@@ -405,6 +408,7 @@ function shell(active, inner) {
         ${link('notices', '#/notices', t('navNoticesAdmin'), state.supportUnread)}
         ${link('hotels', '#/hotels', t('navHotels'))}
         ${link('events', '#/events', t('navEvents'))}
+        ${link('addons', '#/addons', t('navAddons'))}
         ${link('photos', '#/photos', t('navPhotos'))}
         ${link('push', '#/push', t('navPush'))}
         ${link('esim', '#/esim', t('navEsim'))}
