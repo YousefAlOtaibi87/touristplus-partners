@@ -170,6 +170,12 @@ input[type="date"],input[type="time"],input[type="datetime-local"],input[type="m
 .nt-reply{margin-top:8px}.nt-reply>summary{cursor:pointer;color:var(--deep);font-weight:700;font-size:13px;list-style:none}.nt-reply>summary::-webkit-details-marker{display:none}
 
 .ad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.ad-list{display:flex;flex-direction:column;gap:16px}
+.ad-provs{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.ad-prov{display:flex;flex-direction:column;gap:10px;border:1px solid var(--line,#E3E8E8);border-radius:14px;padding:14px;background:#fff}
+.ad-prov.live{border-color:var(--good);box-shadow:0 0 0 1px var(--good) inset}
+.ad-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+@media (max-width:520px){.ad-3{grid-template-columns:1fr}}
 .ad-card{display:flex;flex-direction:column;gap:10px}
 .ad-stats{display:flex;gap:14px;font-size:13px}
 .ad-switch{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;cursor:pointer}
